@@ -25,7 +25,10 @@ import hudson.plugins.git.GitTool;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import jenkins.plugins.git.AbstractGitSCMSource;
@@ -57,11 +60,6 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   }
 
   public AbstractGerritSCMSource() {}
-
-  @Deprecated
-  public AbstractGerritSCMSource(String id) {
-    setId(id);
-  }
 
   /** {@inheritDoc} */
   @Override

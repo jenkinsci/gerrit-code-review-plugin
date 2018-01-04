@@ -18,11 +18,7 @@ import jenkins.scm.api.metadata.AvatarMetadataAction;
 import org.jenkins.ui.icon.Icon;
 import org.jenkins.ui.icon.IconSet;
 
-/**
- * Link to GitHub
- *
- * @author Kohsuke Kawaguchi
- */
+/** Gerrit Code Review Logo */
 public class GerritLogo extends AvatarMetadataAction {
 
   static {

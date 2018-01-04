@@ -22,7 +22,6 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import hudson.Extension;
-import hudson.RestrictedSince;
 import hudson.Util;
 import hudson.model.Descriptor;
 import hudson.model.Item;
@@ -39,7 +38,6 @@ import hudson.scm.SCM;
 import hudson.security.ACL;
 import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
-import java.io.ObjectStreamException;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.util.*;
@@ -60,7 +58,6 @@ import jenkins.scm.api.trait.SCMTrait;
 import jenkins.scm.impl.form.NamedArrayList;
 import jenkins.scm.impl.trait.Discovery;
 import jenkins.scm.impl.trait.Selection;
-import jenkins.scm.impl.trait.WildcardSCMHeadFilterTrait;
 import org.acegisecurity.context.SecurityContext;
 import org.acegisecurity.context.SecurityContextHolder;
 import org.apache.commons.lang.StringUtils;
@@ -86,27 +83,6 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
 
   @CheckForNull private String credentialsId;
 
-  @Deprecated private transient String remoteName;
-
-  @Deprecated private transient String rawRefSpecs;
-
-  @Deprecated private transient String includes;
-
-  @Deprecated private transient String excludes;
-
-  @Deprecated private transient boolean ignoreOnPushNotifications;
-
-  @Deprecated private transient GitRepositoryBrowser browser;
-
-  @Deprecated private transient String gitTool;
-
-  @Deprecated private transient List<GitSCMExtension> extensions;
-
-  /**
-   * Holds all the behavioural traits of this source.
-   *
-   * @since 3.4.0
-   */
   private List<SCMSourceTrait> traits = new ArrayList<>();
 
   @DataBoundConstructor
@@ -122,66 +98,6 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
   @DataBoundSetter
   public void setTraits(List<SCMSourceTrait> traits) {
     this.traits = SCMTrait.asSetList(traits);
-  }
-
-  private Object readResolve() throws ObjectStreamException {
-    if (traits == null) {
-      List<SCMSourceTrait> traits = new ArrayList<>();
-      traits.add(new ChangeDiscoveryTrait());
-      if ((includes != null && !DEFAULT_INCLUDES.equals(includes))
-          || (excludes != null && !DEFAULT_EXCLUDES.equals(excludes))) {
-        traits.add(new WildcardSCMHeadFilterTrait(includes, excludes));
-      }
-      if (extensions != null) {
-        EXTENSIONS:
-        for (GitSCMExtension extension : extensions) {
-          for (SCMSourceTraitDescriptor d : SCMSourceTrait.all()) {
-            if (d instanceof GitSCMExtensionTraitDescriptor) {
-              GitSCMExtensionTraitDescriptor descriptor = (GitSCMExtensionTraitDescriptor) d;
-              if (descriptor.getExtensionClass().isInstance(extension)) {
-                try {
-                  SCMSourceTrait trait = descriptor.convertToTrait(extension);
-                  if (trait != null) {
-                    traits.add(trait);
-                    continue EXTENSIONS;
-                  }
-                } catch (UnsupportedOperationException e) {
-                  LOGGER.log(
-                      Level.WARNING,
-                      "Could not convert " + extension.getClass().getName() + " to a trait",
-                      e);
-                }
-              }
-            }
-            LOGGER.log(
-                Level.FINE,
-                "Could not convert {0} to a trait (likely because this option does not "
-                    + "make sense for a GitSCMSource)",
-                getClass().getName());
-          }
-        }
-      }
-      if (remoteName != null
-          && !DEFAULT_REMOTE_NAME.equals(remoteName)
-          && StringUtils.isNotBlank(remoteName)) {
-        traits.add(new RemoteNameSCMSourceTrait(remoteName));
-      }
-      if (StringUtils.isNotBlank(gitTool)) {
-        traits.add(new GitToolSCMSourceTrait(gitTool));
-      }
-      if (browser != null) {
-        traits.add(new GitBrowserSCMSourceTrait(browser));
-      }
-      if (ignoreOnPushNotifications) {
-        traits.add(new IgnoreOnPushNotificationTrait());
-      }
-      RefSpecsSCMSourceTrait trait = asRefSpecsSCMSourceTrait(rawRefSpecs, remoteName);
-      if (trait != null) {
-        traits.add(trait);
-      }
-      setTraits(traits);
-    }
-    return this;
   }
 
   private RefSpecsSCMSourceTrait asRefSpecsSCMSourceTrait(String rawRefSpecs, String remoteName) {
@@ -211,9 +127,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
     return null;
   }
 
-  @Deprecated
   @Restricted(DoNotUse.class)
-  @RestrictedSince("3.4.0")
   public boolean isIgnoreOnPushNotifications() {
     return SCMTrait.find(traits, IgnoreOnPushNotificationTrait.class) != null;
   }
@@ -254,7 +168,6 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
   // For Stapler only
   @Restricted(DoNotUse.class)
   @DataBoundSetter
-  @Deprecated
   public void setExtensions(@CheckForNull List<GitSCMExtension> extensions) {
     List<SCMSourceTrait> traits = new ArrayList<>(this.traits);
     for (Iterator<SCMSourceTrait> iterator = traits.iterator(); iterator.hasNext(); ) {
@@ -301,9 +214,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
     return remote;
   }
 
-  @Deprecated
   @Restricted(DoNotUse.class)
-  @RestrictedSince("3.4.0")
   public String getRawRefSpecs() {
     String remoteName = null;
     RefSpecsSCMSourceTrait refSpecs = null;
@@ -338,10 +249,8 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
     return result.toString();
   }
 
-  @Deprecated
   @Override
   @Restricted(DoNotUse.class)
-  @RestrictedSince("3.4.0")
   protected List<RefSpec> getRefSpecs() {
     return new GitSCMSourceContext<>(null, SCMHeadObserver.none()).withTraits(traits).asRefSpecs();
   }
@@ -422,37 +331,27 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
       return FormValidation.warning("Cannot find any credentials with id " + value);
     }
 
-    @Deprecated
     @Restricted(NoExternalUse.class)
-    @RestrictedSince("3.4.0")
     public GitSCM.DescriptorImpl getSCMDescriptor() {
       return (GitSCM.DescriptorImpl) Jenkins.getActiveInstance().getDescriptor(GitSCM.class);
     }
 
-    @Deprecated
     @Restricted(DoNotUse.class)
-    @RestrictedSince("3.4.0")
     public List<GitSCMExtensionDescriptor> getExtensionDescriptors() {
       return getSCMDescriptor().getExtensionDescriptors();
     }
 
-    @Deprecated
     @Restricted(DoNotUse.class)
-    @RestrictedSince("3.4.0")
     public List<Descriptor<RepositoryBrowser<?>>> getBrowserDescriptors() {
       return getSCMDescriptor().getBrowserDescriptors();
     }
 
-    @Deprecated
     @Restricted(DoNotUse.class)
-    @RestrictedSince("3.4.0")
     public boolean showGitToolOptions() {
       return getSCMDescriptor().showGitToolOptions();
     }
 
-    @Deprecated
     @Restricted(DoNotUse.class)
-    @RestrictedSince("3.4.0")
     public ListBoxModel doFillGitToolItems() {
       return getSCMDescriptor().doFillGitToolItems();
     }

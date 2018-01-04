@@ -25,11 +25,7 @@ import jenkins.scm.api.trait.*;
 import jenkins.scm.impl.trait.Discovery;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-/**
- * A {@link Discovery} trait for Git that will discover branches on the repository.
- *
- * @since 3.4.0
- */
+/** A {@link Discovery} trait that would discover all the Gerrit Changes */
 public class ChangeDiscoveryTrait extends SCMSourceTrait {
   /** Constructor for stapler. */
   @DataBoundConstructor

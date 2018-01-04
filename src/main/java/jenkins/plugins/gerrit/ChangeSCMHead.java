@@ -15,7 +15,6 @@
 package jenkins.plugins.gerrit;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Map;
 import java.util.logging.Logger;
 import jenkins.scm.api.SCMHead;
