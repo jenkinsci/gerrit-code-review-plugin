@@ -389,12 +389,16 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     for (Map.Entry<String, ObjectId> gitRef : gitRefs.entrySet()) {
       if (gitRef.getKey().startsWith(R_CHANGES)) {
         String[] changeParts = gitRef.getKey().split("/");
-        Integer changeNum = new Integer(changeParts[3]);
-        Integer patchSet = new Integer(changeParts[4]);
+        try {
+          Integer changeNum = new Integer(changeParts[3]);
+          Integer patchSet = new Integer(changeParts[4]);
 
-        Integer latestPatchSet = changes.get(changeNum);
-        if (latestPatchSet == null || latestPatchSet < patchSet) {
-          changes.put(changeNum, patchSet);
+          Integer latestPatchSet = changes.get(changeNum);
+          if (latestPatchSet == null || latestPatchSet < patchSet) {
+            changes.put(changeNum, patchSet);
+          }
+        } catch (NumberFormatException e) {
+          // change or patch-set are not numbers => ignore refs
         }
       } else {
         filteredRefs.put(gitRef.getKey(), gitRef.getValue());
