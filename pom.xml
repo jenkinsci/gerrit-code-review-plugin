@@ -18,7 +18,7 @@
   <artifactId>gerrit</artifactId>
   <version>0.1.1</version>
   <packaging>hpi</packaging>
-  <name>Gerrit Code Review plugin for Jenkins</name>
+  <name>Gerrit Code Review plugin</name>
   <description>Integrates Jenkins with Gerrit Code Review</description>
   <url>https://wiki.jenkins.io/display/JENKINS/Gerrit+Code+Review+Plugin</url>
   <inceptionYear>2018</inceptionYear>
