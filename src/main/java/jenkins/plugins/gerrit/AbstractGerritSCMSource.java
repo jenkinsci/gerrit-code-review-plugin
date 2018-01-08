@@ -508,7 +508,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       GerritAuthData.Basic authData =
           new GerritAuthData.Basic(
               remoteUri.setRawPath("/").toString(), credentials.username, credentials.password);
-      return new GerritRestApiFactory().create(authData);
+      return new GerritRestApiFactory().create(authData, SSLNoVerifyCertificateManagerClientBuilderExtension.INSTANCE);
     } catch (URISyntaxException e) {
       throw new IOException(e);
     }
