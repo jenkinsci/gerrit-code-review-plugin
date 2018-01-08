@@ -14,6 +14,12 @@
 
 package jenkins.plugins.gerrit;
 
+import com.google.gerrit.extensions.api.changes.Changes;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.urswolfer.gerrit.client.rest.GerritAuthData;
+import com.urswolfer.gerrit.client.rest.GerritRestApi;
+import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
@@ -24,11 +30,10 @@ import hudson.model.TaskListener;
 import hudson.plugins.git.GitTool;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.net.URLEncoder;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import jenkins.plugins.git.AbstractGitSCMSource;
@@ -56,7 +61,8 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   public static final String REF_SPEC_CHANGES = "+refs/changes/*:refs/remotes/@{remote}/*";
 
   public interface Retriever<T> {
-    T run(GitClient client, String remoteName) throws IOException, InterruptedException;
+    T run(GitClient client, String remoteName, Changes.QueryRequest changeQuery)
+        throws IOException, InterruptedException;
   }
 
   public AbstractGerritSCMSource() {}
@@ -75,7 +81,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     doRetrieve(
         new Retriever<Void>() {
           @Override
-          public Void run(GitClient client, String remoteName)
+          public Void run(GitClient client, String remoteName, Changes.QueryRequest changeQuery)
               throws IOException, InterruptedException {
             final Repository repository = client.getRepository();
             try (RevWalk walk = new RevWalk(repository);
@@ -89,7 +95,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                         client.getRemoteUrl(remoteName), null, false, context.wantTags());
               }
               if (context.wantBranches()) {
-                discoverBranches(repository, walk, request, remoteReferences);
+                discoverBranches(repository, walk, request, remoteReferences, changeQuery);
               }
               if (context.wantTags()) {
                 // TODO
@@ -102,50 +108,75 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
               final Repository repository,
               final RevWalk walk,
               GitSCMSourceRequest request,
-              final Map<String, ObjectId> remoteReferences)
+              final Map<String, ObjectId> remoteReferences,
+              Changes.QueryRequest changeQuery)
               throws IOException, InterruptedException {
-            listener.getLogger().println("Checking branches ...");
-            listener.getLogger().println(remoteReferences);
-            Map<String, ObjectId> filteredRefs = filterRemoteReferences(remoteReferences);
-            listener.getLogger().println("Filtered branches ...");
-            listener.getLogger().println(filteredRefs);
-            walk.setRetainBody(false);
-            int branchesCount = 0;
-            int changesCount = 0;
 
-            for (final Map.Entry<String, ObjectId> ref : filteredRefs.entrySet()) {
-              String refKey = ref.getKey();
-              if (!refKey.startsWith(Constants.R_HEADS) && !refKey.startsWith(R_CHANGES)) {
-                listener.getLogger().println("Skipping branches " + refKey);
-                continue;
-              }
+            try {
+              listener.getLogger().println("Checking branches ...");
+              listener.getLogger().println(remoteReferences);
+              Map<String, ObjectId> filteredRefs = filterRemoteReferences(remoteReferences);
+              listener.getLogger().println("Filtered branches ...");
+              listener.getLogger().println(filteredRefs);
+              walk.setRetainBody(false);
+              int branchesCount = 0;
+              int changesCount = 0;
+              HashSet<Integer> openChanges = getOpenChanges(changeQuery);
 
-              String refName = ref.getKey();
-              if (refName.startsWith(R_CHANGES)) {
-                if (processChangeRequest(repository, walk, request, ref, listener)) {
-                  listener
-                      .getLogger()
-                      .format("Processed %d changes (query complete)%n", changesCount);
-                  changesCount++;
-                  return;
+              for (final Map.Entry<String, ObjectId> ref : filteredRefs.entrySet()) {
+                String refKey = ref.getKey();
+                if (!refKey.startsWith(Constants.R_HEADS) && !refKey.startsWith(R_CHANGES)) {
+                  listener.getLogger().println("Skipping branches " + refKey);
+                  continue;
                 }
-              } else {
-                if (processBranchRequest(repository, walk, request, ref, listener)) {
-                  listener
-                      .getLogger()
-                      .format("Processed %d branches (query complete)%n", branchesCount);
-                  branchesCount++;
-                  return;
+
+                String refName = ref.getKey();
+                if (refName.startsWith(R_CHANGES)) {
+                  if (isOpenChange(refName, openChanges)
+                      && processChangeRequest(repository, walk, request, ref, listener)) {
+                    listener
+                        .getLogger()
+                        .format("Processed %d changes (query complete)%n", changesCount);
+                    changesCount++;
+                    return;
+                  }
+                } else {
+                  if (processBranchRequest(repository, walk, request, ref, listener)) {
+                    listener
+                        .getLogger()
+                        .format("Processed %d branches (query complete)%n", branchesCount);
+                    branchesCount++;
+                    return;
+                  }
                 }
               }
+              listener.getLogger().format("Processed %d branches%n", branchesCount);
+              listener.getLogger().format("Processed %d changes%n", changesCount);
+            } catch (RestApiException e) {
+              throw new IOException(e);
             }
-            listener.getLogger().format("Processed %d branches%n", branchesCount);
-            listener.getLogger().format("Processed %d changes%n", changesCount);
           }
         },
         context,
         listener,
         true);
+  }
+
+  private boolean isOpenChange(String refName, HashSet<Integer> openChanges) {
+    String[] changeParts = refName.substring(R_CHANGES.length()).split("/");
+    Integer changeNumber = new Integer(changeParts[1]);
+    return openChanges.contains(changeNumber);
+  }
+
+  private HashSet<Integer> getOpenChanges(Changes.QueryRequest changeQuery)
+      throws RestApiException {
+    HashSet<Integer> openChanges = new HashSet<>();
+
+    for (ChangeInfo change : changeQuery.get()) {
+      openChanges.add(new Integer(change._number));
+    }
+
+    return openChanges;
   }
 
   /** {@inheritDoc} */
@@ -157,7 +188,8 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     return doRetrieve(
         new Retriever<List<Action>>() {
           @Override
-          public List<Action> run(GitClient client, String remoteName)
+          public List<Action> run(
+              GitClient client, String remoteName, Changes.QueryRequest queryRequest)
               throws IOException, InterruptedException {
             Map<String, String> symrefs = client.getRemoteSymbolicReferences(getRemote(), null);
             if (symrefs.containsKey(Constants.HEAD)) {
@@ -421,6 +453,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   protected <T, C extends GitSCMSourceContext<C, R>, R extends GitSCMSourceRequest> T doRetrieve(
       Retriever<T> retriever, @NonNull C context, @NonNull TaskListener listener, boolean prune)
       throws IOException, InterruptedException {
+
     String cacheEntry = getCacheEntry();
     Lock cacheLock = getCacheLock(cacheEntry);
     cacheLock.lock();
@@ -431,6 +464,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       if (tool != null) {
         git.using(tool.getGitExe());
       }
+
       GitClient client = git.getClient();
       client.addDefaultCredentials(getCredentials());
       if (!client.hasGitRepo()) {
@@ -443,6 +477,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       listener
           .getLogger()
           .println((prune ? "Fetching & pruning " : "Fetching ") + remoteName + "...");
+
       FetchCommand fetch = client.fetch_();
       if (prune) {
         fetch = fetch.prune();
@@ -453,10 +488,43 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       } catch (URISyntaxException ex) {
         listener.getLogger().println("URI syntax exception for '" + remoteName + "' " + ex);
       }
+
+      URIish remoteURIish = getRemoteURIish();
+      GerritRestApi gerritApi = getGerritClient(remoteURIish);
+      Changes.QueryRequest changeQuery = getOpenChanges(gerritApi, remoteURIish);
+
       fetch.from(remoteURI, context.asRefSpecs()).execute();
-      return retriever.run(client, remoteName);
+      return retriever.run(client, remoteName, changeQuery);
     } finally {
       cacheLock.unlock();
+    }
+  }
+
+  private GerritRestApi getGerritClient(URIish remoteUri) throws IOException {
+    try {
+      UsernamePasswordCredentialsProvider.UsernamePassword credentials =
+          new UsernamePasswordCredentialsProvider(getCredentials()).getUsernamePassword(remoteUri);
+
+      GerritAuthData.Basic authData =
+          new GerritAuthData.Basic(
+              remoteUri.setRawPath("/").toString(), credentials.username, credentials.password);
+      return new GerritRestApiFactory().create(authData);
+    } catch (URISyntaxException e) {
+      throw new IOException(e);
+    }
+  }
+
+  private Changes.QueryRequest getOpenChanges(GerritRestApi restApi, URIish remoteUri)
+      throws UnsupportedEncodingException {
+    String query = "p:" + remoteUri.getPath().substring(1) + " status:open";
+    return restApi.changes().query(URLEncoder.encode(query, "UTF-8"));
+  }
+
+  private URIish getRemoteURIish() throws IOException {
+    try {
+      return new URIish(getRemote());
+    } catch (URISyntaxException e) {
+      throw new IOException(e);
     }
   }
 }
