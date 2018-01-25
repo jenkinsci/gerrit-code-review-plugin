@@ -18,6 +18,7 @@ import com.google.gson.JsonElement
 import com.urswolfer.gerrit.client.rest.GerritAuthData
 import com.urswolfer.gerrit.client.rest.GerritRestApi
 import com.urswolfer.gerrit.client.rest.GerritRestApiFactory
+import jenkins.plugins.gerrit.SSLNoVerifyCertificateManagerClientBuilderExtension
 import org.eclipse.jgit.transport.URIish
 
 class Gerrit implements Serializable {
@@ -75,7 +76,7 @@ class Gerrit implements Serializable {
     private def gerritApiPost(URIish uri, String path, String username, String password, String jsonPayload) {
         script.echo "Posting Gerrit Review ${jsonPayload} to ${uri}/${path}"
         GerritAuthData.Basic authData = new GerritAuthData.Basic(uri.setRawPath("/").toString(), script.USERNAME, script.PASSWORD);
-        GerritRestApi gerritApi = new GerritRestApiFactory().create(authData)
+        GerritRestApi gerritApi = new GerritRestApiFactory().create(authData, SSLNoVerifyCertificateManagerClientBuilderExtension.INSTANCE)
         JsonElement result = gerritApi.restClient().postRequest(path, jsonPayload)
         script.echo "Result: ${result}"
         return result
