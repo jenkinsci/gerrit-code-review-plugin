@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84547d3d_c550195d",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-04T22:29:09Z",
+      "side": 1,
+      "message": "This should be changed as well to 2.54\nSee https://jenkins.io/blog/2017/04/10/jenkins-has-upgraded-to-java-8/\n\nThis plugin was designed for the Jenkins Pipeline anyway, which is a Jenkins 2.0 feature.",
+      "range": {
+        "startLine": 27,
+        "startChar": 21,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "61c5e1540f6d487474c017045b361343029aa7c6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
