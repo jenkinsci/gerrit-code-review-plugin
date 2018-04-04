@@ -1,7 +1,7 @@
 Contributing to the Gerrit Code Review Plugin
 ==============================
 
-Plugin source code is hosted on [GitHub](https://github.com/jenkinsci/gerrit-plugin).
+Plugin source code is hosted on [GitHub](https://github.com/jenkinsci/gerrit-code-review-plugin).
 New feature proposals and bug fix proposals should be submitted as
 [GitHub pull requests](https://help.github.com/articles/creating-a-pull-request)
 or can be submitted directly if you have commit permission to the
@@ -10,7 +10,7 @@ git-plugin repository.
 If you're using a pull request, fork the repository on GitHub, prepare
 your change on your forked copy, and submit a pull request.  Your pull
 request will be evaluated by the
-[Cloudbees Jenkins job](https://ci.jenkins.io/job/Plugins/job/gerrit-plugin/).
+[Cloudbees Jenkins job](https://ci.jenkins.io/job/Plugins/job/gerrit-code-review-plugin/).
 
 Before submitting your change, please assure that you've added tests
 which verify your change.  There have been many developers involved in
