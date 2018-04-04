@@ -16,7 +16,7 @@
   </licenses>
 
   <artifactId>gerrit-code-review</artifactId>
-  <version>0.1.1-SNAPSHOT</version>
+  <version>0.2-SNAPSHOT</version>
   <packaging>hpi</packaging>
   <name>Gerrit Code Review plugin</name>
   <description>Integrates Jenkins with Gerrit Code Review</description>
