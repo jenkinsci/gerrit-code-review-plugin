@@ -489,9 +489,9 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
         listener.getLogger().println("URI syntax exception for '" + remoteName + "' " + ex);
       }
 
-      URIish remoteURIish = getRemoteURIish();
-      GerritRestApi gerritApi = getGerritClient(remoteURIish);
-      Changes.QueryRequest changeQuery = getOpenChanges(gerritApi, remoteURIish);
+      GerritURI gerritURI = getGerritURI();
+      GerritRestApi gerritApi = getGerritClient(gerritURI);
+      Changes.QueryRequest changeQuery = getOpenChanges(gerritApi, gerritURI.getProject());
 
       fetch.from(remoteURI, context.asRefSpecs()).execute();
       return retriever.run(client, remoteName, changeQuery);
@@ -500,31 +500,32 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     }
   }
 
-  private GerritRestApi getGerritClient(URIish remoteUri) throws IOException {
+  private GerritRestApi getGerritClient(GerritURI remoteUri) throws IOException {
     try {
       UsernamePasswordCredentialsProvider.UsernamePassword credentials =
-          new UsernamePasswordCredentialsProvider(getCredentials()).getUsernamePassword(remoteUri);
+          new UsernamePasswordCredentialsProvider(getCredentials()).getUsernamePassword(remoteUri.getRemoteURI());
 
       GerritAuthData.Basic authData =
           new GerritAuthData.Basic(
-              remoteUri.setRawPath("/").toString(), credentials.username, credentials.password);
+              remoteUri.getRemoteURI().setRawPath(remoteUri.getPrefix()).toString(), credentials.username, credentials.password);
       return new GerritRestApiFactory().create(authData, SSLNoVerifyCertificateManagerClientBuilderExtension.INSTANCE);
     } catch (URISyntaxException e) {
       throw new IOException(e);
     }
   }
 
-  private Changes.QueryRequest getOpenChanges(GerritRestApi restApi, URIish remoteUri)
+  private Changes.QueryRequest getOpenChanges(GerritRestApi restApi, String project)
       throws UnsupportedEncodingException {
-    String query = "p:" + remoteUri.getPath().substring(1) + " status:open";
+    String query = "p:" + project + " status:open";
     return restApi.changes().query(URLEncoder.encode(query, "UTF-8"));
   }
 
-  private URIish getRemoteURIish() throws IOException {
+  private GerritURI getGerritURI() throws IOException {
     try {
-      return new URIish(getRemote());
+      return new GerritURI(new URIish(getRemote()));
     } catch (URISyntaxException e) {
       throw new IOException(e);
     }
   }
+
 }
