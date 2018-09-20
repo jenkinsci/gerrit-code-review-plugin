@@ -261,7 +261,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
     return traits;
   }
 
-  @Symbol("git")
+  @Symbol({"gerrit","git"})
   @Extension
   public static class DescriptorImpl extends SCMSourceDescriptor {
 
