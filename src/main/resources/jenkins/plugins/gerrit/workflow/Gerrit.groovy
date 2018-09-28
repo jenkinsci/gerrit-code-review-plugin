@@ -77,7 +77,7 @@ class Gerrit implements Serializable {
         script.echo "Posting Gerrit Review ${jsonPayload} to ${uri}/${path}"
         GerritAuthData.Basic authData = new GerritAuthData.Basic(uri.setRawPath("/").toString(), script.USERNAME, script.PASSWORD);
         GerritRestApi gerritApi = new GerritRestApiFactory().create(authData, SSLNoVerifyCertificateManagerClientBuilderExtension.INSTANCE)
-        JsonElement result = gerritApi.restClient().postRequest(path, jsonPayload)
+        def result = gerritApi.restClient().postRequest(path, jsonPayload)
         script.echo "Result: ${result}"
         return result
     }
