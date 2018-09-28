@@ -31,7 +31,7 @@ class Gerrit implements Serializable {
     public void review(String label = 'Verified', int score = 0, String message = "") {
         node {
             if (script.env.BRANCH_NAME ==~ /[0-9][0-9]\/[0-9]+\/[0-9]+/) {
-                def sha1 = script.checkout(script.scm).GIT_COMMIT
+                def sha1 = script.scm.buildChooser.revision.getSha1String()
                 def changeId = script.env.BRANCH_NAME.split("/")[1]
                 def notify = score < 0 ? ', "notify" : "OWNER"' : ''
                 def jsonPayload = '{"labels":{"' + label + '":' + score + '},' +
