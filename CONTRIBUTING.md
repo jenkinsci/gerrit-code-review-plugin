@@ -27,8 +27,8 @@ assure that you haven't introduced new findbugs warnings.
 - `mvn findbugs:check` to analyze project using [Findbugs](http://findbugs.sourceforge.net/)
 - `mvn findbugs:gui` to check Findbugs report using GUI
 
+## Formatting
 
-Code formatting in the git plugin varies between files.  Try to
-maintain reasonable consistency with the existing files where
-feasible.  Please don't perform wholesale reformatting of a file
-without discussing with the current maintainers.
+Code formatting in this plugin follows the Google Java Format guidelines.
+Please install the [google-java-format](https://github.com/google/google-java-format) tool
+and make sure that your changes keep the overall code formatting style.
