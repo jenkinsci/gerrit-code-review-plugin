@@ -320,9 +320,12 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
               URIRequirementBuilder.fromUri(remote).build(),
               GitClient.CREDENTIALS_MATCHER)) {
         if (StringUtils.equals(value, o.value)) {
-          // TODO check if this type of credential is acceptable to the Git client or does it merit warning
-          // NOTE: we would need to actually lookup the credential to do the check, which may require
-          // fetching the actual credential instance from a remote credentials store. Perhaps this is
+          // TODO check if this type of credential is acceptable to the Git client or does it merit
+          // warning
+          // NOTE: we would need to actually lookup the credential to do the check, which may
+          // require
+          // fetching the actual credential instance from a remote credentials store. Perhaps this
+          // is
           // not required
           return FormValidation.ok();
         }

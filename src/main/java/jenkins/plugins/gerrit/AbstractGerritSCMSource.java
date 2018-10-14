@@ -264,11 +264,10 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
               @Override
               @NonNull
               @SuppressFBWarnings(
-                value = "NP_LOAD_OF_KNOWN_NULL_VALUE",
-                justification =
-                    "TreeWalk.forPath can return null, compiler "
-                        + "generated code for try with resources handles it"
-              )
+                  value = "NP_LOAD_OF_KNOWN_NULL_VALUE",
+                  justification =
+                      "TreeWalk.forPath can return null, compiler "
+                          + "generated code for try with resources handles it")
               public SCMProbeStat stat(@NonNull String path) throws IOException {
                 try (TreeWalk tw = TreeWalk.forPath(repository, path, tree)) {
                   if (tw == null) {
@@ -362,11 +361,10 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
               @Override
               @NonNull
               @SuppressFBWarnings(
-                value = "NP_LOAD_OF_KNOWN_NULL_VALUE",
-                justification =
-                    "TreeWalk.forPath can return null, compiler "
-                        + "generated code for try with resources handles it"
-              )
+                  value = "NP_LOAD_OF_KNOWN_NULL_VALUE",
+                  justification =
+                      "TreeWalk.forPath can return null, compiler "
+                          + "generated code for try with resources handles it")
               public SCMProbeStat stat(@NonNull String path) throws IOException {
                 try (TreeWalk tw = TreeWalk.forPath(repository, path, tree)) {
                   if (tw == null) {
@@ -503,12 +501,16 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   private GerritRestApi getGerritClient(GerritURI remoteUri) throws IOException {
     try {
       UsernamePasswordCredentialsProvider.UsernamePassword credentials =
-          new UsernamePasswordCredentialsProvider(getCredentials()).getUsernamePassword(remoteUri.getRemoteURI());
+          new UsernamePasswordCredentialsProvider(getCredentials())
+              .getUsernamePassword(remoteUri.getRemoteURI());
 
       GerritAuthData.Basic authData =
           new GerritAuthData.Basic(
-              remoteUri.getRemoteURI().setRawPath(remoteUri.getPrefix()).toString(), credentials.username, credentials.password);
-      return new GerritRestApiFactory().create(authData, SSLNoVerifyCertificateManagerClientBuilderExtension.INSTANCE);
+              remoteUri.getRemoteURI().setRawPath(remoteUri.getPrefix()).toString(),
+              credentials.username,
+              credentials.password);
+      return new GerritRestApiFactory()
+          .create(authData, SSLNoVerifyCertificateManagerClientBuilderExtension.INSTANCE);
     } catch (URISyntaxException e) {
       throw new IOException(e);
     }
@@ -527,5 +529,4 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       throw new IOException(e);
     }
   }
-
 }

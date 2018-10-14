@@ -31,21 +31,29 @@ import org.jenkinsci.plugins.workflow.cps.GlobalVariable;
 @Extension
 public class GerritDSL extends GlobalVariable {
 
-    @Override public String getName() {
-        return "gerrit";
-    }
+  @Override
+  public String getName() {
+    return "gerrit";
+  }
 
-    @Override public Object getValue(CpsScript script) throws Exception {
-        Binding binding = script.getBinding();
-        Object gerrit;
-        if (binding.hasVariable(getName())) {
-            gerrit = binding.getVariable(getName());
-        } else {
-            // Note that if this were a method rather than a constructor, we would need to mark it @NonCPS lest it throw CpsCallableInvocation.
-            gerrit = script.getClass().getClassLoader().loadClass("jenkins.plugins.gerrit.workflow.Gerrit").getConstructor(CpsScript.class).newInstance(script);
-            binding.setVariable(getName(), gerrit);
-        }
-        return gerrit;
+  @Override
+  public Object getValue(CpsScript script) throws Exception {
+    Binding binding = script.getBinding();
+    Object gerrit;
+    if (binding.hasVariable(getName())) {
+      gerrit = binding.getVariable(getName());
+    } else {
+      // Note that if this were a method rather than a constructor, we would need to mark it @NonCPS
+      // lest it throw CpsCallableInvocation.
+      gerrit =
+          script
+              .getClass()
+              .getClassLoader()
+              .loadClass("jenkins.plugins.gerrit.workflow.Gerrit")
+              .getConstructor(CpsScript.class)
+              .newInstance(script);
+      binding.setVariable(getName(), gerrit);
     }
-
+    return gerrit;
+  }
 }
