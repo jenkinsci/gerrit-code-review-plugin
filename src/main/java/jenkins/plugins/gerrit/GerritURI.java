@@ -2,12 +2,11 @@ package jenkins.plugins.gerrit;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.eclipse.jgit.transport.URIish;
 
 /**
- * A GerritURI encapsulates a Gerrit remote URI and is able to extract certain properties like the project name and URI
- * prefix.
+ * A GerritURI encapsulates a Gerrit remote URI and is able to extract certain properties like the
+ * project name and URI prefix.
  */
 public class GerritURI {
 
@@ -17,10 +16,9 @@ public class GerritURI {
     SSH
   }
 
-  /**
-   * Pattern which matches the URI prefix and the project name of a Gerrit HTTP URI.
-   */
-  private static final Pattern GERRIT_HTTP_URI_PATTERN = Pattern.compile("(.*?)/a/(.*)");
+  /** Pattern which matches the URI prefix and the project name of a Gerrit HTTP URI. */
+  private static final Pattern GERRIT_AUTH_HTTP_URI_PATTERN = Pattern.compile("(.*?)/a/(.*)");
+  private static final Pattern GERRIT_ANON_HTTP_URI_PATTERN = Pattern.compile("(.*?)/([^/]+)");
 
   private final URIish remoteURI;
 
@@ -52,7 +50,7 @@ public class GerritURI {
     switch (scheme) {
       case HTTP:
       case HTTPS:
-        Matcher matcher = GERRIT_HTTP_URI_PATTERN.matcher(remoteURI.getRawPath());
+        Matcher matcher = getMatcher();
         if (!matcher.matches()) {
           throw new IllegalArgumentException("Unable to determine Gerrit project from remote " + remoteURI);
         }
@@ -76,9 +74,10 @@ public class GerritURI {
     switch (scheme) {
       case HTTP:
       case HTTPS:
-        Matcher matcher = GERRIT_HTTP_URI_PATTERN.matcher(remoteURI.getRawPath());
+        Matcher matcher = getMatcher();
         if (!matcher.matches()) {
-          throw new IllegalArgumentException("Unable to determine Gerrit prefix from remote " + remoteURI);
+          throw new IllegalArgumentException(
+              "Unable to determine Gerrit prefix from remote " + remoteURI);
         }
 
         return matcher.group(1);
@@ -89,6 +88,14 @@ public class GerritURI {
     }
   }
 
+  private Matcher getMatcher() {
+    Matcher authMatcher = GERRIT_AUTH_HTTP_URI_PATTERN.matcher(remoteURI.getRawPath());
+    if(authMatcher.matches()) {
+      return authMatcher;
+    }
+    return GERRIT_ANON_HTTP_URI_PATTERN.matcher(remoteURI.getRawPath());
+  }
+
   private Scheme getScheme(String value) {
     for (Scheme scheme : Scheme.values()) {
       if (scheme.name().equalsIgnoreCase(value)) {
@@ -97,5 +104,4 @@ public class GerritURI {
     }
     throw new IllegalArgumentException("Unknown scheme " + value);
   }
-
 }
