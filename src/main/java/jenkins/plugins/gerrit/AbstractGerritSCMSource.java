@@ -522,7 +522,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     return restApi.changes().query(URLEncoder.encode(query, "UTF-8"));
   }
 
-  private GerritURI getGerritURI() throws IOException {
+  public GerritURI getGerritURI() throws IOException {
     try {
       return new GerritURI(new URIish(getRemote()));
     } catch (URISyntaxException e) {
