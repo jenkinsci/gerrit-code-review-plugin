@@ -17,9 +17,11 @@ public class GerritURI {
   }
 
   /** Pattern which matches the URI prefix and the project name of a Gerrit HTTP URI. */
-  private static final Pattern GERRIT_AUTH_HTTP_URI_PATTERN = Pattern.compile("(.*?)/a/(.*)");
+  private static final Pattern GERRIT_AUTH_HTTP_URI_PATTERN =
+      Pattern.compile("(.*?)/a/(.*)(\\.git)?");
 
-  private static final Pattern GERRIT_ANON_HTTP_URI_PATTERN = Pattern.compile("(.*?)/([^/]+)");
+  private static final Pattern GERRIT_ANON_HTTP_URI_PATTERN =
+      Pattern.compile("(.*?)/([^/\\.]+)(\\.git)?");
 
   private final URIish remoteURI;
 
