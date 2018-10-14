@@ -17,7 +17,6 @@ package jenkins.plugins.gerrit;
 import static org.junit.Assert.*;
 
 import java.net.URISyntaxException;
-
 import org.eclipse.jgit.transport.URIish;
 import org.junit.Test;
 
@@ -54,7 +53,8 @@ public class GerritURITest {
 
   @Test
   public void projectNameWithSlashesIsExtractedFromSSHURI() throws URISyntaxException {
-    GerritURI gerritURI = new GerritURI(new URIish("ssh://username@host:29418/project/with/slashes"));
+    GerritURI gerritURI =
+        new GerritURI(new URIish("ssh://username@host:29418/project/with/slashes"));
 
     assertEquals("project/with/slashes", gerritURI.getProject());
   }
@@ -75,9 +75,9 @@ public class GerritURITest {
 
   @Test
   public void prefixOfSSHURIIsAlwaysEmpty() throws URISyntaxException {
-    GerritURI gerritURI = new GerritURI(new URIish("ssh://username@host:29418/project/with/slashes"));
+    GerritURI gerritURI =
+        new GerritURI(new URIish("ssh://username@host:29418/project/with/slashes"));
 
     assertEquals("", gerritURI.getPrefix());
   }
-
 }

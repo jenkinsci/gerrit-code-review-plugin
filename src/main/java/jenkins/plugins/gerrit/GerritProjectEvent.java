@@ -14,8 +14,7 @@
 
 package jenkins.plugins.gerrit;
 
-public class
-GerritProjectEvent {
+public class GerritProjectEvent {
   public final GerritProjectName project;
   public final String type;
 

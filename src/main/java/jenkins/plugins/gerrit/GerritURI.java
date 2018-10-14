@@ -18,6 +18,7 @@ public class GerritURI {
 
   /** Pattern which matches the URI prefix and the project name of a Gerrit HTTP URI. */
   private static final Pattern GERRIT_AUTH_HTTP_URI_PATTERN = Pattern.compile("(.*?)/a/(.*)");
+
   private static final Pattern GERRIT_ANON_HTTP_URI_PATTERN = Pattern.compile("(.*?)/([^/]+)");
 
   private final URIish remoteURI;
@@ -52,7 +53,8 @@ public class GerritURI {
       case HTTPS:
         Matcher matcher = getMatcher();
         if (!matcher.matches()) {
-          throw new IllegalArgumentException("Unable to determine Gerrit project from remote " + remoteURI);
+          throw new IllegalArgumentException(
+              "Unable to determine Gerrit project from remote " + remoteURI);
         }
 
         return matcher.group(2);
@@ -90,7 +92,7 @@ public class GerritURI {
 
   private Matcher getMatcher() {
     Matcher authMatcher = GERRIT_AUTH_HTTP_URI_PATTERN.matcher(remoteURI.getRawPath());
-    if(authMatcher.matches()) {
+    if (authMatcher.matches()) {
       return authMatcher;
     }
     return GERRIT_ANON_HTTP_URI_PATTERN.matcher(remoteURI.getRawPath());
