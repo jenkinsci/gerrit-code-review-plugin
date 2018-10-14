@@ -58,17 +58,21 @@ class Gerrit implements Serializable {
     private def post(path, jsonPayload) {
         script.scm.getUserRemoteConfigs().each {
             String cid = it.getCredentialsId()
-            String rname = it.getName()
-            script.withCredentials([[$class          : 'UsernamePasswordMultiBinding',
-                                     credentialsId   : cid,
-                                     usernameVariable: 'USERNAME',
-                                     passwordVariable: 'PASSWORD']]) {
-                script.scm.getRepositories().each {
-                    String name = it.getName()
-                    if (it.getName() == rname) {
-                        gerritApiPost(it.getURIs()[0], path, script.USERNAME, script.PASSWORD, jsonPayload)
+            if(cid) {
+                String rname = it.getName()
+                script.withCredentials([[$class          : 'UsernamePasswordMultiBinding',
+                                         credentialsId   : cid,
+                                         usernameVariable: 'USERNAME',
+                                         passwordVariable: 'PASSWORD']]) {
+                    script.scm.getRepositories().each {
+                        String name = it.getName()
+                        if (it.getName() == rname) {
+                            gerritApiPost(it.getURIs()[0], path, script.USERNAME, script.PASSWORD, jsonPayload)
+                        }
                     }
                 }
+            } else {
+                script.echo("*WARNING* NO feedback sent to Gerrit because of missing credentials for ${it.getUrl()}")
             }
         }
     }
