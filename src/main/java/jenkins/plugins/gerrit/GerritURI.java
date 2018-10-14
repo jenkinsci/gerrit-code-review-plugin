@@ -1,5 +1,6 @@
 package jenkins.plugins.gerrit;
 
+import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.transport.URIish;
@@ -88,6 +89,15 @@ public class GerritURI {
       default:
         throw new IllegalStateException("Unknown scheme " + scheme);
     }
+  }
+
+  /**
+   * Get the Gerrit REST-API base URL, using the correct prefix.
+   *
+   * @return Gerrit base URL for calling REST-API
+   */
+  public URIish getApiURI() throws URISyntaxException {
+    return remoteURI.setRawPath(getPrefix());
   }
 
   private Matcher getMatcher() {
