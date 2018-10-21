@@ -32,10 +32,14 @@ a test which verifies your change.
 
 ## Jenkinsfile Steps
 
-Gerrit Code Review plugin provides one extra step for allowing to post the
-review feedback back to the originating change.
+Gerrit Code Review plugin provides steps for allowing to post the
+review feedback back to the originating change and adding extra comments
+to the code that has been built.
 
-### ```gerritReview``` step
+### ```gerritReview```
+
+Add a review label to the change/patchset that has triggered the
+multi-branch pipeline job execution.
 
 Parameters:
 
@@ -51,6 +55,24 @@ Parameters:
   Additional message provided as explanation of the the review feedback.
   Default: ''
 
+### ```gerritComment```
+
+Add a review comment to the entire file or a single line.
+All the comments added during the pipeline execution are going to be
+published upon the execution of the ```gerritReview``` step.
+
+Parameters:
+
+- ```path```
+  Relative path of the file to comment. Mandatory.
+
+- ```line```
+  Line number of where the comment should be added. When not specified
+  the comment apply to the entire file.
+
+- ```message```
+  Comment message body. Mandatory.
+
 ### Declarative pipeline example
 
 ```groovy
@@ -61,6 +83,7 @@ pipeline {
         stage('Example') {
             steps {
                 echo 'Hello World'
+                gerritComment path:'path/to/file', line: 10, message: 'invalid syntax'
             }
         }
     }
@@ -80,6 +103,7 @@ node {
   try {
     stage('Hello') {
       echo 'Hello World'
+      gerritComment path:'path/to/file', line: 10, message: 'invalid syntax'
     }
     gerritReview score:1
   } catch (e) {
