@@ -20,27 +20,28 @@ import org.jenkins.ui.icon.IconSet;
 
 /** Gerrit Code Review Logo */
 public class GerritLogo extends AvatarMetadataAction {
+  public static final String ICONS_PREFIX = "plugin/gerrit-code-review/icons/";
 
   static {
     IconSet.icons.addIcon(
         new Icon(
             "icon-gerrit-logo icon-sm",
-            "plugin/gerrit/icons/gerrit-logo-16x16.png",
+            ICONS_PREFIX + "gerrit-logo-16x16.png",
             Icon.ICON_SMALL_STYLE));
     IconSet.icons.addIcon(
         new Icon(
             "icon-gerrit-logo icon-md",
-            "plugin/gerrit/icons/gerrit-logo-24x24.png",
+            ICONS_PREFIX + "gerrit-logo-24x24.png",
             Icon.ICON_MEDIUM_STYLE));
     IconSet.icons.addIcon(
         new Icon(
             "icon-gerrit-logo icon-lg",
-            "plugin/gerrit/icons/gerrit-logo-32x32.png",
+            ICONS_PREFIX + "/gerrit-logo-32x32.png",
             Icon.ICON_LARGE_STYLE));
     IconSet.icons.addIcon(
         new Icon(
             "icon-gerrit-logo icon-xlg",
-            "plugin/gerrit/icons/gerrit-logo-48x48.png",
+            ICONS_PREFIX + "/gerrit-logo-48x48.png",
             Icon.ICON_XLARGE_STYLE));
   }
 
