@@ -132,13 +132,14 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
 
                 String refName = ref.getKey();
                 if (refName.startsWith(R_CHANGES)) {
-                  if (isOpenChange(refName, openChanges)
-                      && processChangeRequest(repository, walk, request, ref, listener)) {
-                    listener
-                        .getLogger()
-                        .format("Processed %d changes (query complete)%n", changesCount);
-                    changesCount++;
-                    return;
+                  if (isOpenChange(refName, openChanges)) {
+                    if (processChangeRequest(repository, walk, request, ref, listener)) {
+                      listener
+                              .getLogger()
+                              .format("Processed %d changes (query complete)%n", changesCount);
+                      changesCount++;
+                      return;
+                    }
                   }
                 } else {
                   if (processBranchRequest(repository, walk, request, ref, listener)) {
@@ -397,7 +398,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
           @Override
           public SCMRevision create(@NonNull ChangeSCMHead head, @Nullable ObjectId intermediate)
               throws IOException, InterruptedException {
-            return new SCMRevisionImpl(head, ref.getValue().name());
+            return new ChangeSCMRevision(head, ref.getValue().toObjectId().name());
           }
         },
         new SCMSourceRequest.Witness<ChangeSCMHead, SCMRevision>() {
@@ -528,5 +529,10 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     } catch (URISyntaxException e) {
       throw new IOException(e);
     }
+  }
+
+  @Override
+  protected boolean isCategoryEnabled(@NonNull SCMHeadCategory category) {
+    return true;
   }
 }
