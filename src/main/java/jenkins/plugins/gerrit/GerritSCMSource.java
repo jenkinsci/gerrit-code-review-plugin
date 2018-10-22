@@ -55,6 +55,9 @@ import jenkins.scm.api.trait.SCMHeadPrefilter;
 import jenkins.scm.api.trait.SCMSourceTrait;
 import jenkins.scm.api.trait.SCMSourceTraitDescriptor;
 import jenkins.scm.api.trait.SCMTrait;
+import jenkins.scm.impl.ChangeRequestSCMHeadCategory;
+import jenkins.scm.impl.TagSCMHeadCategory;
+import jenkins.scm.impl.UncategorizedSCMHeadCategory;
 import jenkins.scm.impl.form.NamedArrayList;
 import jenkins.scm.impl.trait.Discovery;
 import jenkins.scm.impl.trait.Selection;
@@ -379,6 +382,15 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
       return Arrays.<SCMSourceTrait>asList(
           new ChangeDiscoveryTrait(),
           new RefSpecsSCMSourceTrait(REF_SPEC_DEFAULT, REF_SPEC_CHANGES));
+    }
+
+    @NonNull
+    @Override
+    protected SCMHeadCategory[] createCategories() {
+      return new SCMHeadCategory[]{
+      UncategorizedSCMHeadCategory.DEFAULT,
+              new ChangeRequestSCMHeadCategory(Messages._GerritSCMSource_ChangeRequestCategory())
+      };
     }
   }
 
