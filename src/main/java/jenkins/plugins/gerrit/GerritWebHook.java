@@ -18,7 +18,6 @@ import static hudson.model.Computer.threadPoolForRemoting;
 
 import com.google.gson.Gson;
 import hudson.Extension;
-import hudson.model.Item;
 import hudson.model.RootAction;
 import hudson.model.UnprotectedRootAction;
 import hudson.util.SequentialExecutionQueue;
@@ -31,6 +30,7 @@ import jenkins.model.Jenkins;
 import jenkins.scm.api.SCMSource;
 import jenkins.scm.api.SCMSourceOwner;
 import org.apache.commons.io.IOUtils;
+import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
 import org.kohsuke.stapler.Stapler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,20 +67,18 @@ public class GerritWebHook implements UnprotectedRootAction {
 
     log.info("GerritWebHook invoked for event " + projectEvent);
 
-    List<Item> jenkinsItems = Jenkins.getActiveInstance().getAllItems();
-    for (Item item : jenkinsItems) {
-      if (item instanceof SCMSourceOwner) {
-        SCMSourceOwner scmJob = (SCMSourceOwner) item;
-        log.info("Found SCM job " + scmJob);
-        List<SCMSource> scmSources = scmJob.getSCMSources();
-        for (SCMSource scmSource : scmSources) {
-          if (scmSource instanceof GerritSCMSource) {
-            GerritSCMSource gerritSCMSource = (GerritSCMSource) scmSource;
-            if (projectEvent.matches(gerritSCMSource.getRemote())) {
-              log.info(
-                  "Triggering SCM event for source " + scmSources.get(0) + " on job " + scmJob);
-              scmJob.onSCMSourceUpdated(scmSource);
-            }
+    List<WorkflowMultiBranchProject> jenkinsItems =
+        getJenkinsInstance().getItems(WorkflowMultiBranchProject.class);
+    log.info("Scanning {} Jenkins items", jenkinsItems.size());
+    for (SCMSourceOwner scmJob : jenkinsItems) {
+      log.info("Scanning job " + scmJob);
+      List<SCMSource> scmSources = scmJob.getSCMSources();
+      for (SCMSource scmSource : scmSources) {
+        if (scmSource instanceof GerritSCMSource) {
+          GerritSCMSource gerritSCMSource = (GerritSCMSource) scmSource;
+          if (projectEvent.matches(gerritSCMSource.getRemote())) {
+            log.info("Triggering SCM event for source " + scmSources.get(0) + " on job " + scmJob);
+            scmJob.onSCMSourceUpdated(scmSource);
           }
         }
       }

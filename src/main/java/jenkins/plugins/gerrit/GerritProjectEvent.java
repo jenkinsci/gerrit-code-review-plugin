@@ -16,19 +16,34 @@ package jenkins.plugins.gerrit;
 
 public class GerritProjectEvent {
   public final GerritProjectName project;
+  public final RefUpdateProjectName refUpdate;
   public final String type;
 
-  public GerritProjectEvent(GerritProjectName project, String type) {
+  public GerritProjectEvent(
+      GerritProjectName project, RefUpdateProjectName refUpdate, String type) {
     this.project = project;
+    this.refUpdate = refUpdate;
     this.type = type;
+  }
+
+  public String getProjectName() {
+    if (project != null) {
+      return project.name;
+    }
+    if (refUpdate != null) {
+      return refUpdate.project;
+    }
+    return null;
   }
 
   @Override
   public String toString() {
-    return "Gerrit event " + type + project != null ? (" on project " + project) : "";
+    return "Gerrit event "
+        + type
+        + (getProjectName() != null ? (" on project " + getProjectName()) : "");
   }
 
   public boolean matches(String remoteUrl) {
-    return project != null && remoteUrl.endsWith(project.name);
+    return getProjectName() != null && remoteUrl.endsWith(getProjectName());
   }
 }
