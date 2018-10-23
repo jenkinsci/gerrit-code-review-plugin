@@ -28,6 +28,7 @@ import hudson.model.TaskListener;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -107,7 +108,7 @@ public class GerritReviewStep extends Step {
 
     private void post(String credentialsId, String remoteUrl, String path, String jsonPayload)
         throws URISyntaxException, RestApiException {
-      if (credentialsId != null) {
+      if (!Objects.toString(credentialsId, "").trim().isEmpty()) {
         StandardUsernamePasswordCredentials credentials =
             CredentialsProvider.findCredentialById(
                 credentialsId, StandardUsernamePasswordCredentials.class, run);
