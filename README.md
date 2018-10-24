@@ -44,7 +44,7 @@ multi-branch pipeline job execution.
 Parameters:
 
 - ```label```
-  The review label to add to the Gerrit change.
+  If non-null, the review label to add to the Gerrit change.
   Default: 'Verified'.
 
 - ```score```
