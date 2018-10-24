@@ -132,7 +132,7 @@ public class GerritCommentStep extends Step {
         throws URISyntaxException, RestApiException {
       echo("PUT Gerrit Review %s to %s%s", jsonPayload, uri, path);
       GerritAuthData.Basic authData =
-          new GerritAuthData.Basic(uri.setRawPath("/").toString(), username, password);
+          new GerritAuthData.Basic(uri.toString(), username, password);
       GerritRestApi gerritApi =
           new GerritRestApiFactory()
               .create(authData, SSLNoVerifyCertificateManagerClientBuilderExtension.INSTANCE);
