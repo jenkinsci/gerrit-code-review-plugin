@@ -73,7 +73,15 @@ public class GerritCommentStep extends Step {
 
     @Override
     protected Void run() throws Exception {
+      String gerritApiUrl = envVars.get("GERRIT_API_URL");
+      String credentialsId = envVars.get("GERRIT_CREDENTIALS_ID");
       String branch = envVars.get("BRANCH_NAME");
+
+      if (gerritApiUrl == null) {
+        echo("GERRIT_API_URL is not available, disabling Gerrit integration");
+        return null;
+      }
+
       Pattern changeBranchPattern = Pattern.compile("([0-9][0-9])/([0-9]+)/([0-9]+)");
       Matcher matcher = changeBranchPattern.matcher(branch);
       if (matcher.matches()) {
@@ -81,8 +89,6 @@ public class GerritCommentStep extends Step {
         int patchsetId = Integer.parseInt(matcher.group(3));
         echo("Gerrit comment on change %d %s:%d (%s)", changeId, path, line, message);
 
-        String credentialsId = envVars.get("GERRIT_CREDENTIALS_ID");
-        String gerritApiUrl = envVars.get("GERRIT_API_URL");
         String jsonPayload =
             "{\"path\": \""
                 + path

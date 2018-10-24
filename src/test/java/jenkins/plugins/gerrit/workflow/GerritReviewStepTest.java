@@ -28,12 +28,27 @@ public class GerritReviewStepTest {
   @Rule public JenkinsRule j = new JenkinsRule();
 
   @Test
+  public void gerritReviewStepInvokeNoEnvTest() throws Exception {
+    WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "p");
+    p.setDefinition(
+        new CpsFlowDefinition(
+            "node {\n"
+                + "  gerritReview label: 'Verified', score: -1, message: 'Does not work'\n"
+                + "}",
+            true));
+    WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
+    String log = JenkinsRule.getLog(run);
+    System.out.println(log);
+    assertTrue(log.contains("GERRIT_API_URL is not available"));
+  }
+
+  @Test
   public void gerritReviewStepInvokeTest() throws Exception {
     WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "p");
     p.setDefinition(
         new CpsFlowDefinition(
             "node {\n"
-                + "  withEnv(['BRANCH_NAME=21/4321/1']) {\n"
+                + "  withEnv(['GERRIT_API_URL=https://host/a/project', 'BRANCH_NAME=21/4321/1']) {\n"
                 + "    gerritReview label: 'Verified', score: -1, message: 'Does not work'\n"
                 + "  }\n"
                 + "}",

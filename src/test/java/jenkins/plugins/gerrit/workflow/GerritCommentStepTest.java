@@ -28,12 +28,27 @@ public class GerritCommentStepTest {
   @Rule public JenkinsRule j = new JenkinsRule();
 
   @Test
+  public void gerritCommentStepInvokeNoEnvTest() throws Exception {
+    WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "p");
+    p.setDefinition(
+        new CpsFlowDefinition(
+            "node {\n"
+                + "  gerritComment path: '/path/to/file', line: 1, message: 'Invalid spacing'\n"
+                + "}",
+            true));
+    WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
+    String log = JenkinsRule.getLog(run);
+    System.out.println(log);
+    assertTrue(log.contains("GERRIT_API_URL is not available"));
+  }
+
+  @Test
   public void gerritCommentStepInvokeTest() throws Exception {
     WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "p");
     p.setDefinition(
         new CpsFlowDefinition(
             "node {\n"
-                + "  withEnv(['BRANCH_NAME=21/5621/1']) {\n"
+                + "  withEnv(['GERRIT_API_URL=https://host/a/project', 'BRANCH_NAME=21/5621/1']) {\n"
                 + "    gerritComment path: '/path/to/file', line: 1, message: 'Invalid spacing'\n"
                 + "  }\n"
                 + "}",
