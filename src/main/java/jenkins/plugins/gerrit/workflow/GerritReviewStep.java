@@ -71,13 +71,16 @@ public class GerritReviewStep extends Step {
 
         String credentialsId = envVars.get("GERRIT_CREDENTIALS_ID");
         String gerritApiUrl = envVars.get("GERRIT_API_URL");
-        String notify = score < 0 ? ", \"notify\" : \"OWNER\"" : "";
-        String jsonPayload =
-            "{\"labels\":{\""
+        String labels = label == null ? "" :
+            "\"labels\":{\""
                 + label
                 + "\":"
                 + score
-                + "},"
+                + "},";
+        String notify = score < 0 ? ", \"notify\" : \"OWNER\"" : "";
+        String jsonPayload =
+                "{"
+                + labels
                 + " \"message\": \""
                 + message
                 + "\""
