@@ -67,7 +67,7 @@ class Gerrit implements Serializable {
                     script.scm.getRepositories().each {
                         String name = it.getName()
                         if (it.getName() == rname) {
-                            gerritApiPost(it.getURIs()[0], path, script.USERNAME, script.PASSWORD, jsonPayload)
+                            gerritApiPost(new GerritURI(it.getURIs()[0]).getApiURL(), path, script.USERNAME, script.PASSWORD, jsonPayload)
                         }
                     }
                 }
@@ -79,7 +79,7 @@ class Gerrit implements Serializable {
 
     private def gerritApiPost(URIish uri, String path, String username, String password, String jsonPayload) {
         script.echo "Posting Gerrit Review ${jsonPayload} to ${uri}/${path}"
-        GerritAuthData.Basic authData = new GerritAuthData.Basic(uri.setRawPath("/").toString(), script.USERNAME, script.PASSWORD);
+        GerritAuthData.Basic authData = new GerritAuthData.Basic(uri.toString(), script.USERNAME, script.PASSWORD);
         GerritRestApi gerritApi = new GerritRestApiFactory().create(authData, SSLNoVerifyCertificateManagerClientBuilderExtension.INSTANCE)
         def result = gerritApi.restClient().postRequest(path, jsonPayload)
         script.echo "Result: ${result}"
