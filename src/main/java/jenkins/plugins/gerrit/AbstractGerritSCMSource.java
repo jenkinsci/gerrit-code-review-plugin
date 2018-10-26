@@ -17,9 +17,6 @@ package jenkins.plugins.gerrit;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.urswolfer.gerrit.client.rest.GerritAuthData;
-import com.urswolfer.gerrit.client.rest.GerritRestApi;
-import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
@@ -33,6 +30,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -66,6 +64,10 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   }
 
   public AbstractGerritSCMSource() {}
+
+  public Boolean getInsecureHttps() {
+    return null;
+  }
 
   /** {@inheritDoc} */
   @Override
@@ -489,8 +491,12 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       }
 
       GerritURI gerritURI = getGerritURI();
-      GerritRestApi gerritApi = getGerritClient(gerritURI);
-      Changes.QueryRequest changeQuery = getOpenChanges(gerritApi, gerritURI.getProject());
+      GerritRestApiWrapper gerritApiWrapper = createGerritRestApiWrapper(listener, gerritURI);
+      if (gerritApiWrapper == null) {
+        throw new IllegalStateException("Invalid gerrit configuration");
+      }
+
+      Changes.QueryRequest changeQuery = getOpenChanges(gerritApiWrapper, gerritURI.getProject());
 
       fetch.from(remoteURI, context.asRefSpecs()).execute();
       return retriever.run(client, remoteName, changeQuery);
@@ -499,28 +505,27 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     }
   }
 
-  private GerritRestApi getGerritClient(GerritURI remoteUri) throws IOException {
+  private GerritRestApiWrapper createGerritRestApiWrapper(@NonNull TaskListener listener, GerritURI remoteUri) throws IOException {
     try {
       UsernamePasswordCredentialsProvider.UsernamePassword credentials =
           new UsernamePasswordCredentialsProvider(getCredentials())
               .getUsernamePassword(remoteUri.getRemoteURI());
 
-      GerritAuthData.Basic authData =
-          new GerritAuthData.Basic(
-              remoteUri.getRemoteURI().setRawPath(remoteUri.getPrefix()).toString(),
-              credentials.username,
-              credentials.password);
-      return new GerritRestApiFactory()
-          .create(authData, SSLNoVerifyCertificateManagerClientBuilderExtension.INSTANCE);
+      return GerritRestApiWrapper.builder()
+          .logger(listener.getLogger())
+          .gerritApiUrl(remoteUri.getApiURI())
+          .insecureHttps(getInsecureHttps())
+          .credentials(credentials.username, credentials.password)
+          .build();
     } catch (URISyntaxException e) {
       throw new IOException(e);
     }
   }
 
-  private Changes.QueryRequest getOpenChanges(GerritRestApi restApi, String project)
+  private Changes.QueryRequest getOpenChanges(GerritRestApiWrapper gerritApiWrapper, String project)
       throws UnsupportedEncodingException {
     String query = "p:" + project + " status:open";
-    return restApi.changes().query(URLEncoder.encode(query, "UTF-8"));
+    return gerritApiWrapper.getGerritRestApi().changes().query(URLEncoder.encode(query, StandardCharsets.UTF_8.name()));
   }
 
   public GerritURI getGerritURI() throws IOException {

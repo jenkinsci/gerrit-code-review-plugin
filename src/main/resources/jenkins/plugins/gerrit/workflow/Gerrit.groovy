@@ -14,12 +14,8 @@
 
 package jenkins.plugins.gerrit.workflow
 
-import com.google.gson.JsonElement
-import com.urswolfer.gerrit.client.rest.GerritAuthData
-import com.urswolfer.gerrit.client.rest.GerritRestApi
-import com.urswolfer.gerrit.client.rest.GerritRestApiFactory
-import jenkins.plugins.gerrit.SSLNoVerifyCertificateManagerClientBuilderExtension
-import org.eclipse.jgit.transport.URIish
+import jenkins.plugins.gerrit.GerritRestApiWrapper;
+import jenkins.plugins.gerrit.GerritURI;
 
 class Gerrit implements Serializable {
     private org.jenkinsci.plugins.workflow.cps.CpsScript script
@@ -67,7 +63,15 @@ class Gerrit implements Serializable {
                     script.scm.getRepositories().each {
                         String name = it.getName()
                         if (it.getName() == rname) {
-                            gerritApiPost(new GerritURI(it.getURIs()[0]).getApiURL(), path, script.USERNAME, script.PASSWORD, jsonPayload)
+                            GerritRestApiWrapper gerritRestApiWrapper = GerritRestApiWrapper.builder()
+                                    .logger(getBinding().out)
+                                    .gerritAPIUrl(new GerritURI(it.getURIs()[0]).getApiURL())
+                                    .insecureHttps(script.env.GERRIT_API_INSECURE_HTTPS)
+                                    .credentials(script.USERNAME, script.PASSWORD)
+                                    .build();
+                            if (gerritRestApiWrapper != null) {
+                                gerritRestApiWrapper.postRequest(path, jsonPayload);
+                            }
                         }
                     }
                 }
@@ -75,15 +79,6 @@ class Gerrit implements Serializable {
                 script.echo("*WARNING* NO feedback sent to Gerrit because of missing credentials for ${it.getUrl()}")
             }
         }
-    }
-
-    private def gerritApiPost(URIish uri, String path, String username, String password, String jsonPayload) {
-        script.echo "Posting Gerrit Review ${jsonPayload} to ${uri}/${path}"
-        GerritAuthData.Basic authData = new GerritAuthData.Basic(uri.toString(), script.USERNAME, script.PASSWORD);
-        GerritRestApi gerritApi = new GerritRestApiFactory().create(authData, SSLNoVerifyCertificateManagerClientBuilderExtension.INSTANCE)
-        def result = gerritApi.restClient().postRequest(path, jsonPayload)
-        script.echo "Result: ${result}"
-        return result
     }
 
     private def ciTag(String operation) {
