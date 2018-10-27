@@ -84,6 +84,8 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
 
   private final String remote;
 
+  private Boolean insecureHttps;
+
   @CheckForNull private String credentialsId;
 
   private List<SCMSourceTrait> traits = new ArrayList<>();
@@ -91,6 +93,11 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
   @DataBoundConstructor
   public GerritSCMSource(String remote) {
     this.remote = remote;
+  }
+
+  @DataBoundSetter
+  public void setInsecureHttps(Boolean insecureHttps) {
+    this.insecureHttps = insecureHttps;
   }
 
   @DataBoundSetter
@@ -215,6 +222,11 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
 
   public String getRemote() {
     return remote;
+  }
+
+  @Override
+  public Boolean getInsecureHttps() {
+    return insecureHttps;
   }
 
   @Restricted(DoNotUse.class)

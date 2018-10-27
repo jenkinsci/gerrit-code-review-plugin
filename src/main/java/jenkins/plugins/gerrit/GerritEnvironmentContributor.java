@@ -53,5 +53,8 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
     } catch (URISyntaxException e) {
       throw new IOException("Unable to get Gerrit API URL from " + gerritURI, e);
     }
+    if (Boolean.TRUE.equals(gerritSCMSource.getInsecureHttps())) {
+      envs.put("GERRIT_API_INSECURE_HTTPS", "true");
+    }
   }
 }

@@ -14,37 +14,75 @@
 
 package jenkins.plugins.gerrit.workflow;
 
-import static org.junit.Assert.assertTrue;
-
+import com.cloudbees.plugins.credentials.CredentialsProvider;
+import com.cloudbees.plugins.credentials.CredentialsScope;
+import com.cloudbees.plugins.credentials.domains.Domain;
+import com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl;
+import com.google.gerrit.extensions.api.changes.DraftInput;
+import java.util.Collections;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.mockserver.junit.MockServerRule;
+import org.mockserver.model.HttpRequest;
+import org.mockserver.model.HttpResponse;
+import org.mockserver.model.JsonBody;
+import org.mockserver.verify.VerificationTimes;
 
 public class GerritCommentStepTest {
 
+  @Rule public MockServerRule g = new MockServerRule(this);
   @Rule public JenkinsRule j = new JenkinsRule();
 
   @Test
   public void gerritCommentStepInvokeTest() throws Exception {
+    int changeId = 4321;
+    int revision = 1;
+    String path = "/path/to/file";
+    int line = 1;
+    String message = "Invalid spacing";
+    String branch = String.format("%02d/%d/%d", changeId % 100, changeId, revision);
+
+    UsernamePasswordCredentialsImpl c = new UsernamePasswordCredentialsImpl(CredentialsScope.GLOBAL, "cid", "cid", "USERNAME", "PASSWORD");
+    CredentialsProvider.lookupStores(j.jenkins).iterator().next().addCredentials(Domain.global(), c);
     WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "p");
     p.setDefinition(
         new CpsFlowDefinition(
-            "node {\n"
-                + "  withEnv(['BRANCH_NAME=21/5621/1']) {\n"
-                + "    gerritComment path: '/path/to/file', line: 1, message: 'Invalid spacing'\n"
+            String.format(
+                  ""
+                + "node {\n"
+                + "  withEnv([\n"
+                + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
+                + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
+                + "    'GERRIT_CREDENTIALS_ID=cid',\n"
+                + "    'BRANCH_NAME=%s',\n"
+                + "  ]) {\n"
+                + "    gerritComment path: '%s', line: %s, message: '%s'\n"
                 + "  }\n"
                 + "}",
+                g.getClient().remoteAddress().getHostString(), g.getClient().remoteAddress().getPort(),
+                branch, path, line, message),
             true));
+
+    g.getClient().when(HttpRequest.request("/a/project/login/").withMethod("POST"))
+        .respond(HttpResponse.response().withStatusCode(200));
+    DraftInput draftInput = new DraftInput();
+    draftInput.path = path;
+    draftInput.line = line;
+    draftInput.message = message;
+    g.getClient().when(
+        HttpRequest.request(String.format("/a/project/a/changes/%s/revisions/%s/drafts", changeId, revision))
+            .withMethod("PUT")
+            .withBody(JsonBody.json(draftInput)))
+        .respond(HttpResponse.response().withStatusCode(200).withBody(JsonBody.json(Collections.emptyMap())));
+
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
     System.out.println(log);
-    assertTrue(log.contains("gerritComment"));
-    assertTrue(log.contains("/path/to/file"));
-    assertTrue(log.contains("1"));
-    assertTrue(log.contains("Invalid spacing"));
-    assertTrue(log.contains("5621"));
+    g.getClient().verify(HttpRequest.request("/a/project/login/").withMethod("POST"), VerificationTimes.once());
+    g.getClient().verify(HttpRequest.request(String.format("/a/project/a/changes/%s/revisions/%s/drafts", changeId, revision)), VerificationTimes.once());
   }
 }

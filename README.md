@@ -49,12 +49,13 @@ be created.
 
 ### Using Environment Variables
 
-|Key                  |Description                                                     |
-|---------------------|----------------------------------------------------------------|
-|GERRIT_API_URL       |Gerrit API URL, onlhy `http` and `https` protocols are supported|
-|GERRIT_CREDENTIALS_ID|Jenkins credentials object id                                   |
-|GERRIT_PROJECT       |Gerrit project name                                             |
-|BRANCH_NAME          |Gerrit reference name nn/nnnn/n                                 |
+|Key                      |Description                                                     |
+|-------------------------|----------------------------------------------------------------|
+|GERRIT_API_URL           |Gerrit API URL, onlhy `http` and `https` protocols are supported|
+|GERRIT_API_INSECURE_HTTPS|If set to `true` certificate validation will be disabled        |
+|GERRIT_CREDENTIALS_ID    |Jenkins credentials object id                                   |
+|GERRIT_PROJECT           |Gerrit project name                                             |
+|BRANCH_NAME              |Gerrit reference name nn/nnnn/n                                 |
 
 ## Jenkinsfile Steps
 
