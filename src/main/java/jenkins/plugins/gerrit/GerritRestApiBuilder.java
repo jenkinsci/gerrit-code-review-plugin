@@ -71,7 +71,12 @@ public class GerritRestApiBuilder {
   public GerritRestApiBuilder stepContext(StepContext context) throws URISyntaxException, IOException, InterruptedException {
     EnvVars envVars = context.get(EnvVars.class);
     logger(context.get(TaskListener.class).getLogger());
-    gerritApiUrl(envVars.get("GERRIT_API_URL"));
+    if (envVars.containsKey("GERRIT_API_URL")) {
+      gerritApiUrl(envVars.get("GERRIT_API_URL"));
+    }
+    else if (envVars.containsKey("GERRIT_CHANGE_URL")) {
+      gerritApiUrl(new GerritURI(new URIish(envVars.get("GERRIT_CHANGE_URL"))).getApiURI());
+    }
     insecureHttps(Boolean.parseBoolean(envVars.get("GERRIT_API_INSECURE_HTTPS")));
     String credentialsId = envVars.get("GERRIT_CREDENTIALS_ID");
     if (credentialsId != null) {

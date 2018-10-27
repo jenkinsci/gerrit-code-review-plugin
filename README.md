@@ -70,14 +70,25 @@ $ curl -X POST -d '{"project":{"name":"project1"}}' 'https://jenkins/prefix/gerr
 
 When using RBAC, make sure anonymous can `READ` jobs.
 
+### Using Gerrit Trigger Plugin
+
+Configure Gerrit Trigger Plugin normally.
+
+At the job that being triggered, add a parameter with the name of
+`GERRIT_CREDENTIALS_ID` with default value of a credentials id that can access
+Gerrit using RestAPI.
+
 ### Using Environment Variables
 
 |Key                      |Description                                                     |
 |-------------------------|----------------------------------------------------------------|
 |GERRIT_API_URL           |Gerrit API URL, onlhy `http` and `https` protocols are supported|
+|GERRIT_CHANGE_URL        |Gerrit change URL to parse GERRIT_API_URL out if missing        |
 |GERRIT_API_INSECURE_HTTPS|If set to `true` certificate validation will be disabled        |
 |GERRIT_CREDENTIALS_ID    |Jenkins credentials object id                                   |
 |GERRIT_PROJECT           |Gerrit project name                                             |
+|GERRIT_CHANGE_NUMBER     |Gerrit change number                                            |
+|GERRIT_PATCHSET_NUMBER   |Gerrit revision                                                 |
 |BRANCH_NAME              |Gerrit reference name nn/nnnn/n                                 |
 
 ## Jenkinsfile Steps

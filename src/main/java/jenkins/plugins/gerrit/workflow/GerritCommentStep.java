@@ -22,15 +22,15 @@ import hudson.model.TaskListener;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
+import jenkins.plugins.gerrit.GerritChange;
 import jenkins.plugins.gerrit.GerritRestApiBuilder;
 import org.jenkinsci.plugins.workflow.steps.*;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 
 public class GerritCommentStep extends Step {
+
   private String path;
   private int line;
   private String message;
@@ -66,21 +66,14 @@ public class GerritCommentStep extends Step {
 
       GerritRestApi gerritRestApi = new GerritRestApiBuilder().stepContext(getContext()).build();
       if (gerritRestApi != null) {
-        String branch = envVars.get("BRANCH_NAME");
-        Pattern changeBranchPattern = Pattern.compile("[0-9][0-9]/(?<changeId>[0-9]+)/(?<revision>[0-9]+)");
-        Matcher matcher = changeBranchPattern.matcher(branch);
-        if (!matcher.matches()) {
-          listener.getLogger().format("Gerrit Review is disabled, invalid reference %s%n", branch);
-        }
-        else {
-          int changeId = Integer.parseInt(matcher.group("changeId"));
-          int revision = Integer.parseInt(matcher.group("revision"));
-          listener.getLogger().format("Gerrit review change %d/%d %s=%d (%s)%n", changeId, revision, path, line, message);
+        GerritChange change = new GerritChange(getContext());
+        if (change.valid()) {
+          listener.getLogger().format("Gerrit review change %d/%d %s=%d (%s)%n", change.getChangeId(), change.getRevision(), path, line, message);
           DraftInput draftInput = new DraftInput();
           draftInput.path = path;
           draftInput.line = line;
           draftInput.message = message;
-          gerritRestApi.changes().id(changeId).revision(revision).createDraft(draftInput);
+          gerritRestApi.changes().id(change.getChangeId()).revision(change.getRevision()).createDraft(draftInput);
         }
       }
       return null;
