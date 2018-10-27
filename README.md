@@ -104,13 +104,8 @@ multi-branch pipeline job execution.
 
 Parameters:
 
-- ```label```
-  If non-null, the review label to add to the Gerrit change.
-  Default: 'Verified'.
-
-- ```score```
-  The score value (positive, negative or zero) associated to the review.
-  Default: 0.
+- ```labels``` The labels associated to the review, a dictionary, key is label
+  name and value is the score.
 
 - ```message```
   Additional message provided as explanation of the the review feedback.
@@ -144,15 +139,16 @@ pipeline {
     stages {
         stage('Example') {
             steps {
+                gerritReview labels: [Verified: 0]
                 echo 'Hello World'
                 gerritComment path:'path/to/file', line: 10, message: 'invalid syntax'
             }
         }
     }
     post {
-        success { gerritReview score:1 }
-        unstable { gerritReview message:'Build is unstable' }
-        failure { gerritReview score:-1 }
+        success { gerritReview labels: [Verified: 1] }
+        unstable { gerritReview labels: [Verified: 0], message: 'Build is unstable' }
+        failure { gerritReview labels: [Verified: -1] }
     }
 }
 ```
@@ -163,13 +159,14 @@ pipeline {
 node {
   checkout scm
   try {
+    gerritReview labels: [Verified: 0]
     stage('Hello') {
       echo 'Hello World'
       gerritComment path:'path/to/file', line: 10, message: 'invalid syntax'
     }
-    gerritReview score:1
+    gerritReview labels: [Verified: 1]
   } catch (e) {
-    gerritReview score:-1
+    gerritReview labels: [Verified: -1]
     throw e
   }
 }
