@@ -18,6 +18,8 @@ import com.cloudbees.plugins.credentials.CredentialsProvider;
 import com.cloudbees.plugins.credentials.CredentialsScope;
 import com.cloudbees.plugins.credentials.domains.Domain;
 import com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl;
+import com.google.gerrit.extensions.api.changes.DraftInput;
+import java.util.Collections;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
@@ -27,7 +29,7 @@ import org.jvnet.hudson.test.JenkinsRule;
 import org.mockserver.junit.MockServerRule;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
-import org.mockserver.model.JsonSchemaBody;
+import org.mockserver.model.JsonBody;
 import org.mockserver.verify.VerificationTimes;
 
 public class GerritCommentStepTest {
@@ -67,20 +69,15 @@ public class GerritCommentStepTest {
 
     g.getClient().when(HttpRequest.request("/a/project/login/").withMethod("POST"))
         .respond(HttpResponse.response().withStatusCode(200));
+    DraftInput draftInput = new DraftInput();
+    draftInput.path = path;
+    draftInput.line = line;
+    draftInput.message = message;
     g.getClient().when(
         HttpRequest.request(String.format("/a/project/a/changes/%s/revisions/%s/drafts", changeId, revision))
             .withMethod("PUT")
-            .withBody(JsonSchemaBody.jsonSchema(
-                String.format(
-                    ""
-                    + "{"
-                    + "  \"path\": \"%s\","
-                    + "  \"line\": %s,"
-                    + "  \"message\": \"%s\""
-                    + "}",
-                    path, line, message
-                ))))
-        .respond(HttpResponse.response().withStatusCode(200).withBody("{}"));
+            .withBody(JsonBody.json(draftInput)))
+        .respond(HttpResponse.response().withStatusCode(200).withBody(JsonBody.json(Collections.emptyMap())));
 
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);

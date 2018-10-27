@@ -14,6 +14,8 @@
 
 package jenkins.plugins.gerrit.workflow;
 
+import com.google.gerrit.extensions.api.changes.DraftInput;
+import com.urswolfer.gerrit.client.rest.GerritRestApi;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.model.TaskListener;
@@ -23,7 +25,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
-import jenkins.plugins.gerrit.GerritRestApiWrapper;
+import jenkins.plugins.gerrit.GerritRestApiBuilder;
 import org.jenkinsci.plugins.workflow.steps.*;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
@@ -62,9 +64,8 @@ public class GerritCommentStep extends Step {
     @Override
     protected Void run() throws Exception {
 
-      GerritRestApiWrapper gerritRestApiWrapper = GerritRestApiWrapper.builder()
-          .stepContext(getContext()).build();
-      if (gerritRestApiWrapper != null) {
+      GerritRestApi gerritRestApi = new GerritRestApiBuilder().stepContext(getContext()).build();
+      if (gerritRestApi != null) {
         String branch = envVars.get("BRANCH_NAME");
         Pattern changeBranchPattern = Pattern.compile("[0-9][0-9]/(?<changeId>[0-9]+)/(?<revision>[0-9]+)");
         Matcher matcher = changeBranchPattern.matcher(branch);
@@ -75,19 +76,11 @@ public class GerritCommentStep extends Step {
           int changeId = Integer.parseInt(matcher.group("changeId"));
           int revision = Integer.parseInt(matcher.group("revision"));
           listener.getLogger().format("Gerrit review change %d/%d %s=%d (%s)%n", changeId, revision, path, line, message);
-
-          String jsonPayload =
-              "{\"path\": \""
-                  + path
-                  + "\", "
-                  + " \"line\": "
-                  + line
-                  + ", "
-                  + "\"message\": \""
-                  + message
-                  + "\" }";
-
-          gerritRestApiWrapper.putRequest("/changes/" + changeId + "/revisions/" + revision + "/drafts", jsonPayload);
+          DraftInput draftInput = new DraftInput();
+          draftInput.path = path;
+          draftInput.line = line;
+          draftInput.message = message;
+          gerritRestApi.changes().id(changeId).revision(revision).createDraft(draftInput);
         }
       }
       return null;
