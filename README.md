@@ -103,7 +103,6 @@ Parameters:
 ### Declarative pipeline example
 
 ```groovy
-
 pipeline {
     agent any
     stages {
