@@ -47,6 +47,29 @@ trigger.
 Notice the `Changes` tab at the job information, per each review an entry will
 be created.
 
+#### Remote Trigger
+
+Remote trigger is possible using webhook, URL is
+`https://jenkins/prefix/gerrit-webhook/`.
+
+Content:
+
+```json
+{
+  "project": {
+    "name": "project1"
+  }
+}
+```
+
+Example:
+
+```sh
+$ curl -X POST -d '{"project":{"name":"project1"}}' 'https://jenkins/prefix/gerrit-webhook/'
+```
+
+When using RBAC, make sure anonymous can `READ` jobs.
+
 ### Using Environment Variables
 
 |Key                      |Description                                                     |
