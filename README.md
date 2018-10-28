@@ -102,6 +102,8 @@ Parameters:
 
 ### Declarative pipeline example
 
+> Note: the gerrit DSL helper was removed in 0.3, please use the following.
+
 ```groovy
 pipeline {
     agent any
