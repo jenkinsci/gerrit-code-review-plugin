@@ -124,11 +124,16 @@
   </repositories>
 
     <developers>
-        <developer>
-          <id>lucamilanesio</id>
-          <name>Luca Milanesio</name>
-          <email>luca.milanesio@gmail.com</email>
-        </developer>
+      <developer>
+        <id>lucamilanesio</id>
+        <name>Luca Milanesio</name>
+        <email>luca.milanesio@gmail.com</email>
+      </developer>
+      <developer>
+        <id>alonbl</id>
+        <name>Alon Bar-Lev</name>
+        <email>alon.barlev@gmail.com</email>
+      </developer>
     </developers>
 
 
