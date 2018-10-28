@@ -14,8 +14,8 @@ request will be evaluated by the
 
 Before submitting your change, please assure that you've added tests
 which verify your change.  There have been many developers involved in
-the git plugin and there are many, many users who depend on the git
-plugin.  Tests help us assure that we're delivering a reliable plugin,
+this plugin and there are many, many users who depend on it.
+Tests help us assure that we're delivering a reliable plugin,
 and that we've communicated our intent to other developers in a way
 that they can detect when they run tests.
 
@@ -32,3 +32,13 @@ assure that you haven't introduced new findbugs warnings.
 Code formatting in this plugin follows the Google Java Format guidelines.
 Please install the [google-java-format](https://github.com/google/google-java-format) tool
 and make sure that your changes keep the overall code formatting style.
+
+## Code Reviews
+
+Every pull request needs to satisfy the following conditions before being merged:
+
+1. Reviewed and approved by at least one contributor
+2. Verified by the [Cloudbees Jenkins job](https://ci.jenkins.io/job/Plugins/job/gerrit-code-review-plugin/)
+
+As guideline for the common etiquette and guideline for submitting and reviewing pull-requests,
+please refer to [Effective Code Reviews](https://nyu-cds.github.io/effective-code-reviews/) paper by the [NYU](https://www.nyu.edu/).
