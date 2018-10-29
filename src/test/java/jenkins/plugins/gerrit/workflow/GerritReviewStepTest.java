@@ -49,7 +49,7 @@ public class GerritReviewStepTest {
             "node {\n"
                 + "  withEnv([\n"
                 + "  ]) {\n"
-                + "    gerritReview label: 'Verified', score: -1, message: 'Does not work'\n"
+                + "    gerritReview labels: ['Verified': -1], message: 'Does not work'\n"
                 + "  }\n"
                 + "}",
             true));
@@ -68,7 +68,7 @@ public class GerritReviewStepTest {
                 + "  withEnv([\n"
                 + "    'GERRIT_API_URL=http://host/a/project',\n"
                 + "  ]) {\n"
-                + "    gerritReview label: 'Verified', score: -1, message: 'Does not work'\n"
+                + "    gerritReview labels: ['Verified': -1], message: 'Does not work'\n"
                 + "  }\n"
                 + "}",
             true));
@@ -88,7 +88,7 @@ public class GerritReviewStepTest {
                 + "    'GERRIT_API_URL=http://host/a/project',\n"
                 + "    'GERRIT_CREDENTIALS_ID=cid',\n"
                 + "  ]) {\n"
-                + "    gerritReview label: 'Verified', score: -1, message: 'Does not work'\n"
+                + "    gerritReview labels: ['Verified': -1], message: 'Does not work'\n"
                 + "  }\n"
                 + "}",
             true));
@@ -125,7 +125,7 @@ public class GerritReviewStepTest {
                     + "    'GERRIT_CREDENTIALS_ID=cid',\n"
                     + "    'BRANCH_NAME=%s',\n"
                     + "  ]) {\n"
-                    + "    gerritReview label: '%s', score: %s, message: '%s'\n"
+                    + "    gerritReview labels: ['%s': %s], message: '%s'\n"
                     + "  }\n"
                     + "}",
                 g.getClient().remoteAddress().getHostString(),
