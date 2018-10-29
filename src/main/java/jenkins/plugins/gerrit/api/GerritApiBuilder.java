@@ -1,10 +1,10 @@
-package jenkins.plugins.gerrit.client;
+package jenkins.plugins.gerrit.api;
 
 import com.cloudbees.plugins.credentials.common.StandardUsernamePasswordCredentials;
+import com.google.gerrit.extensions.api.GerritApi;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Logger;
 import com.urswolfer.gerrit.client.rest.GerritAuthData;
-import com.urswolfer.gerrit.client.rest.GerritRestApi;
 import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
 import com.urswolfer.gerrit.client.rest.http.HttpClientBuilderExtension;
 import hudson.EnvVars;
@@ -13,8 +13,7 @@ import hudson.model.TaskListener;
 import jenkins.plugins.gerrit.GerritURI;
 import jenkins.plugins.gerrit.SSLNoVerifyCertificateManagerClientBuilderExtension;
 import jenkins.plugins.gerrit.UsernamePasswordCredentialsProvider;
-import jenkins.plugins.gerrit.client.rest.GerritClientRest;
-import jenkins.plugins.gerrit.client.ssh.GerritClientSSH;
+import jenkins.plugins.gerrit.api.ssh.GerritApiSSH;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.transport.RemoteSession;
 import org.eclipse.jgit.transport.URIish;
@@ -33,7 +32,7 @@ import java.util.logging.Level;
  * A wrapper on top of GerritRestApi.
  * Enables common functionality.
  */
-public class GerritClientBuilder {
+public class GerritApiBuilder {
 
   private PrintStream logger;
   private Boolean insecureHttps;
@@ -42,17 +41,17 @@ public class GerritClientBuilder {
   private static final int SSH_TIMEOUT_MS = 30000;
 
 
-  public GerritClientBuilder logger(PrintStream logger) {
+  public GerritApiBuilder logger(PrintStream logger) {
     this.logger = logger;
     return this;
   }
 
-  public GerritClientBuilder gerritApiUrl(URIish gerritApiUrl) {
+  public GerritApiBuilder gerritApiUrl(URIish gerritApiUrl) {
     this.gerritApiUrl = gerritApiUrl;
     return this;
   }
 
-  private GerritClientBuilder gerritApiUrl(String gerritApiUrl) throws URISyntaxException {
+  private GerritApiBuilder gerritApiUrl(String gerritApiUrl) throws URISyntaxException {
     if (gerritApiUrl == null) {
       this.gerritApiUrl = null;
     }
@@ -62,17 +61,17 @@ public class GerritClientBuilder {
     return this;
   }
 
-  public GerritClientBuilder insecureHttps(Boolean insecureHttps) {
+  public GerritApiBuilder insecureHttps(Boolean insecureHttps) {
     this.insecureHttps = insecureHttps;
     return this;
   }
 
-  public GerritClientBuilder credentialsProvider(UsernamePasswordCredentialsProvider credentialsProvider) {
+  public GerritApiBuilder credentialsProvider(UsernamePasswordCredentialsProvider credentialsProvider) {
     this.credentialsProvider = credentialsProvider;
     return this;
   }
 
-  public GerritClientBuilder stepContext(StepContext context) throws URISyntaxException, IOException, InterruptedException {
+  public GerritApiBuilder stepContext(StepContext context) throws URISyntaxException, IOException, InterruptedException {
     EnvVars envVars = context.get(EnvVars.class);
     logger(context.get(TaskListener.class).getLogger());
     if (envVars.containsKey("GERRIT_API_URL")) {
@@ -91,7 +90,7 @@ public class GerritClientBuilder {
     return this;
   }
 
-  public GerritClient build() throws IOException {
+  public GerritApi build() throws IOException {
     if (gerritApiUrl == null) {
       logger.println("Gerrit Review is disabled no API URL");
       return null;
@@ -124,9 +123,8 @@ public class GerritClientBuilder {
       if (Boolean.TRUE.equals(insecureHttps)) {
         extensions.add(SSLNoVerifyCertificateManagerClientBuilderExtension.INSTANCE);
       }
-      GerritRestApi gerritRestApi = new GerritRestApiFactory()
+      return new GerritRestApiFactory()
               .create(authData, extensions.toArray(new HttpClientBuilderExtension[0]));
-      return new GerritClientRest(gerritRestApi, gerritApiUrl.getScheme());
     } else {
       RemoteSession remoteSession;
       try {
@@ -134,6 +132,8 @@ public class GerritClientBuilder {
         //todo: JSch.setConfig //Strict Auth should be optional
         //todo: Prettier logging
         //todo: SSHCredentialsPlugin
+
+
 
         java.util.logging.Logger sshLogger = java.util.logging.Logger.getLogger("SSH");
         sshLogger.setLevel(Level.ALL);
@@ -171,7 +171,7 @@ public class GerritClientBuilder {
       } catch (TransportException e) {
         throw new IOException(e);
       }
-      return new GerritClientSSH(remoteSession, SSH_TIMEOUT_MS);
+      return new GerritApiSSH(remoteSession, SSH_TIMEOUT_MS);
     }
   }
 }
