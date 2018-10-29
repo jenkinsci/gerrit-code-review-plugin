@@ -15,18 +15,23 @@ import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import jenkins.plugins.gerrit.api.ssh.GerritApiSSH;
 import org.apache.commons.lang.StringUtils;
+import org.apache.sshd.client.SshClient;
 import org.eclipse.jgit.transport.URIish;
 import org.jenkinsci.plugins.workflow.steps.StepContext;
 
 /** A wrapper on top of GerritApi. Enables common functionality. */
 public class GerritApiBuilder {
+
   private PrintStream logger = System.out;
   private URIish gerritApiUrl;
   private Boolean insecureHttps;
   private boolean requireAuthentication;
   private String username;
   private String password;
+
+  private static final int SSH_TIMEOUT_MS = 30000;
 
   public GerritApiBuilder logger(PrintStream logger) {
     this.logger = logger;
@@ -38,7 +43,7 @@ public class GerritApiBuilder {
     return this;
   }
 
-  public GerritApiBuilder gerritApiUrl(String gerritApiUrl) throws URISyntaxException {
+  private GerritApiBuilder gerritApiUrl(String gerritApiUrl) throws URISyntaxException {
     if (gerritApiUrl == null) {
       this.gerritApiUrl = null;
     } else {
@@ -107,8 +112,29 @@ public class GerritApiBuilder {
               .create(
                   new GerritAuthData.Basic(gerritApiUrl.toString(), username, password),
                   extensions.toArray(new HttpClientBuilderExtension[0]));
+
+      boolean useRest;
+      switch (gerritApiUrl.getScheme()) {
+        case "http":
+        case "https":
+          useRest = true;
+          break;
+        case "ssh":
+          useRest = false;
+          break;
+        default:
+          throw new IllegalStateException(
+              String.format("Unknown scheme %s", gerritApiUrl.getScheme()));
+      }
+      if (useRest) {
+        return gerritApi;
+      } else {
+        // todo: handle credentials, including SSHCredentialsPlugin
+        return new GerritApiSSH(SshClient.setUpDefaultClient(), gerritApiUrl, SSH_TIMEOUT_MS);
+      }
     }
-    return gerritApi;
+
+    return null;
   }
 
   @Override
