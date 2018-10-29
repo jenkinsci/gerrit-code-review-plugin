@@ -7,10 +7,12 @@ import com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 
+@Ignore
 public class GerritSSHTest {
 
     @Rule
