@@ -59,12 +59,12 @@ public class GerritReviewStep extends Step {
       if (gerritRestApi != null) {
         GerritChange change = new GerritChange(getContext());
         if (change.valid()) {
-          listener.getLogger().format("Gerrit review change %d/%d label %s=%d (%s)%n", change.getChangeId(), change.getRevision(), label, score, message);
           ReviewInput reviewInput = new ReviewInput().message(message);
           boolean notifyOwner = false;
           if (labels == null && label != null) {
             labels = Collections.singletonMap(label, score);
           }
+          listener.getLogger().format("Gerrit review change %d/%d labels %s (%s)%n", change.getChangeId(), change.getRevision(), labels, message);
           if (labels != null) {
             for (Map.Entry<String, Integer> l : labels.entrySet()) {
               reviewInput.label(l.getKey(), l.getValue());

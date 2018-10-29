@@ -16,7 +16,7 @@
   </licenses>
 
   <artifactId>gerrit-code-review</artifactId>
-  <version>0.3-SNAPSHOT</version>
+  <version>0.4-SNAPSHOT</version>
   <packaging>hpi</packaging>
   <name>Gerrit Code Review plugin</name>
   <description>Integrates Jenkins with Gerrit Code Review</description>
@@ -124,11 +124,16 @@
   </repositories>
 
     <developers>
-        <developer>
-          <id>lucamilanesio</id>
-          <name>Luca Milanesio</name>
-          <email>luca.milanesio@gmail.com</email>
-        </developer>
+      <developer>
+        <id>lucamilanesio</id>
+        <name>Luca Milanesio</name>
+        <email>luca.milanesio@gmail.com</email>
+      </developer>
+      <developer>
+        <id>alonbl</id>
+        <name>Alon Bar-Lev</name>
+        <email>alon.barlev@gmail.com</email>
+      </developer>
     </developers>
 
 
