@@ -25,7 +25,7 @@
 
   <properties>
     <java.level>8</java.level>
-    <jenkins.version>2.54</jenkins.version>
+    <jenkins.version>2.143</jenkins.version>
     <no-test-jar>false</no-test-jar>
     <concurrency>1C</concurrency>
     <workflow.version>1.14.2</workflow.version>
@@ -57,6 +57,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.2</version>
         <executions>
           <execution>
             <goals>
@@ -114,6 +115,17 @@
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>animal-sniffer-maven-plugin</artifactId>
+        <version>1.15</version>
+        <configuration>
+          <signature>
+            <groupId>org.codehaus.mojo.signature</groupId>
+            <artifactId>java18</artifactId>
+          </signature>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>com.coveo</groupId>
         <artifactId>fmt-maven-plugin</artifactId>
         <version>2.6.0</version>
@@ -124,6 +136,14 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -164,7 +184,7 @@
     <dependency>
       <groupId>org.jenkins-ci</groupId>
       <artifactId>annotation-indexer</artifactId>
-      <version>1.11</version>
+      <version>1.12</version>
     </dependency>
     <dependency>
       <groupId>com.infradna.tool</groupId>
@@ -211,6 +231,11 @@
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>mailer</artifactId>
       <version>1.18</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.sshd</groupId>
+      <artifactId>sshd-core</artifactId>
+      <version>2.1.0</version>
     </dependency>
 
     <dependency>

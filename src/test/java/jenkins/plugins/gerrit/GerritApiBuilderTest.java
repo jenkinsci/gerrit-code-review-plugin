@@ -14,12 +14,12 @@
 
 package jenkins.plugins.gerrit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import com.google.gerrit.extensions.api.GerritApi;
 import java.net.URISyntaxException;
-import org.junit.*;
 import org.junit.Rule;
+import org.junit.Test;
 import org.mockserver.junit.MockServerRule;
 
 public class GerritApiBuilderTest {
