@@ -18,6 +18,7 @@ import static org.junit.Assert.*;
 
 import com.google.gerrit.extensions.api.GerritApi;
 import java.net.URISyntaxException;
+import org.eclipse.jgit.transport.URIish;
 import org.junit.*;
 import org.junit.Rule;
 import org.mockserver.junit.MockServerRule;
@@ -33,7 +34,7 @@ public class GerritApiBuilderTest {
   }
 
   private GerritApiBuilder getGerritApiBuilderWithUri() throws URISyntaxException {
-    return new GerritApiBuilder().gerritApiUrl("http://gerrit.mycompany.com/a/project");
+    return new GerritApiBuilder().gerritApiUrl(new URIish("http://gerrit.mycompany.com/a/project"));
   }
 
   @Test
