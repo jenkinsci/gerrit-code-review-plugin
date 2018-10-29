@@ -158,7 +158,7 @@ public class GerritReviewStepTest {
                 + "    'GERRIT_CREDENTIALS_ID=cid',\n"
                 + "    'BRANCH_NAME=%s',\n"
                 + "  ]) {\n"
-                + "    gerritReview label: '%s', score: %s, message: '%s'\n"
+                + "    gerritReview labels: ['%s': %s], message: '%s'\n"
                 + "  }\n"
                 + "}",
                 g.getClient().remoteAddress().getHostString(), g.getClient().remoteAddress().getPort(),
