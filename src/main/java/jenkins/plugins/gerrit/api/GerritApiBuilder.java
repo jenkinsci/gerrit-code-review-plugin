@@ -2,8 +2,6 @@ package jenkins.plugins.gerrit.api;
 
 import com.cloudbees.plugins.credentials.common.StandardUsernamePasswordCredentials;
 import com.google.gerrit.extensions.api.GerritApi;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Logger;
 import com.urswolfer.gerrit.client.rest.GerritAuthData;
 import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
 import com.urswolfer.gerrit.client.rest.http.HttpClientBuilderExtension;
@@ -14,11 +12,8 @@ import jenkins.plugins.gerrit.GerritURI;
 import jenkins.plugins.gerrit.SSLNoVerifyCertificateManagerClientBuilderExtension;
 import jenkins.plugins.gerrit.UsernamePasswordCredentialsProvider;
 import jenkins.plugins.gerrit.api.ssh.GerritApiSSH;
-import org.eclipse.jgit.errors.TransportException;
-import org.eclipse.jgit.transport.RemoteSession;
+import org.apache.sshd.client.SshClient;
 import org.eclipse.jgit.transport.URIish;
-import org.eclipse.jgit.util.FS;
-import org.jenkinsci.plugins.gitclient.trilead.TrileadSessionFactory;
 import org.jenkinsci.plugins.workflow.steps.StepContext;
 
 import java.io.IOException;
@@ -26,7 +21,6 @@ import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * A wrapper on top of GerritRestApi.
@@ -90,7 +84,7 @@ public class GerritApiBuilder {
     return this;
   }
 
-  public GerritApi build() throws IOException {
+  public GerritApi build() {
     if (gerritApiUrl == null) {
       logger.println("Gerrit Review is disabled no API URL");
       return null;
@@ -126,52 +120,8 @@ public class GerritApiBuilder {
       return new GerritRestApiFactory()
               .create(authData, extensions.toArray(new HttpClientBuilderExtension[0]));
     } else {
-      RemoteSession remoteSession;
-      try {
-
-        //todo: JSch.setConfig //Strict Auth should be optional
-        //todo: Prettier logging
-        //todo: SSHCredentialsPlugin
-
-
-
-        java.util.logging.Logger sshLogger = java.util.logging.Logger.getLogger("SSH");
-        sshLogger.setLevel(Level.ALL);
-        JSch.setLogger(new Logger() {
-          @Override
-          public boolean isEnabled(int level) {
-            Level l = getLevel(level);
-            return sshLogger.isLoggable(l);
-          }
-
-          @Override
-          public void log(int level, String message) {
-            Level l = getLevel(level);
-            sshLogger.log(l, message);
-          }
-
-          private Level getLevel(int level) {
-            switch (level) {
-              case 0:
-                return Level.FINE;
-              case 1:
-                return Level.INFO;
-              case 2:
-                return Level.WARNING;
-              case 3:
-                return Level.SEVERE;
-              case 4:
-                return Level.SEVERE;
-              default:
-                return Level.INFO;
-            }
-          }
-        });
-        remoteSession = TrileadSessionFactory.getInstance().getSession(gerritApiUrl, credentialsProvider, FS.DETECTED, SSH_TIMEOUT_MS);
-      } catch (TransportException e) {
-        throw new IOException(e);
-      }
-      return new GerritApiSSH(remoteSession, SSH_TIMEOUT_MS);
+      //todo: SSHCredentialsPlugin
+      return new GerritApiSSH(SshClient.setUpDefaultClient(), gerritApiUrl, SSH_TIMEOUT_MS);
     }
   }
 }

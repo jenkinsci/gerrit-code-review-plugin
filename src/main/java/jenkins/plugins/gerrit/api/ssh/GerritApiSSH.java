@@ -9,26 +9,32 @@ import com.google.gson.JsonElement;
 import com.urswolfer.gerrit.client.rest.http.changes.ChangesParser;
 import com.urswolfer.gerrit.client.rest.http.changes.ReviewResultParser;
 import org.apache.commons.io.IOUtils;
-import org.eclipse.jgit.transport.RemoteSession;
+import org.apache.sshd.client.SshClient;
+import org.apache.sshd.client.channel.ChannelExec;
+import org.apache.sshd.client.future.ConnectFuture;
+import org.apache.sshd.client.session.ClientSession;
+import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class GerritApiSSH extends GerritApi.NotImplemented {
 
+    private URIish gerritApiUrl;
     private final int timeout;
     private final Logger logger = LoggerFactory.getLogger(GerritApiSSH.class);
-    private RemoteSession delegate;
+    private SshClient sshClient;
     private Gson gson = new Gson();
     private ChangesParser changesParser = new ChangesParser(gson);
     private ReviewResultParser reviewResultParser = new ReviewResultParser(gson);
 
-    public GerritApiSSH(RemoteSession remoteSession, int timeout) {
-        this.delegate = remoteSession;
+    public GerritApiSSH(SshClient sshClient, URIish gerritApiUrl, int timeout) {
+        this.sshClient = sshClient;
+        this.gerritApiUrl = gerritApiUrl;
         this.timeout = timeout;
     }
 
@@ -43,73 +49,39 @@ public class GerritApiSSH extends GerritApi.NotImplemented {
 
     private JsonElement request(String request, String stdin) throws IOException {
         logger.debug("Initiating request '{}'", request);
-        Process process = delegate.exec(request, timeout);
-        if (stdin != null) {
-            if (!isAlive(process)) {
-                throw new IOException("Failed to initiate request '" + request + "'. Socket closed before we could send data");
+        sshClient.start();
+        ConnectFuture connectFuture = sshClient.connect(gerritApiUrl.getUser(), gerritApiUrl.getHost(), gerritApiUrl.getPort());
+        connectFuture.await(timeout, TimeUnit.MILLISECONDS);
+        if (!connectFuture.isConnected()) {
+            throw new IOException(String.format("Failed to connect to %s:%s", gerritApiUrl.getHost(), gerritApiUrl.getPort()));
+        }
+        try (ClientSession session = connectFuture.getSession()) {
+            session.auth().await(timeout, TimeUnit.MILLISECONDS);
+            if (!session.isAuthenticated()) {
+                throw new IOException(String.format("Failed to authenticate to %s:%s", gerritApiUrl.getHost(), gerritApiUrl.getPort()));
             }
-            logger.debug("Writing to stdin: '{}'", stdin);
-            IOUtils.write(stdin, process.getOutputStream(), Charset.defaultCharset());
-            process.getOutputStream().flush();
-            logger.debug("Finished writing to stdin. Closing channel");
-            process.getOutputStream().close();
-        }
-        boolean finished = false;
-        try {
-            finished = waitFor(process, timeout, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException e) {
-            throw new IOException("Interrupted while waiting for SSH process to finish", e);
-        }
-        if (!finished) {
-            throw new IOException("Process did not finish in " + TimeUnit.MILLISECONDS.toSeconds(timeout) + " seconds");
-        }
-        if (isAlive(process)) { //Should hopefully not happen, but we'll destroy just in case.
-            process.destroy();
-        }
-        if (process.exitValue() != 0) {
-            String errorStream = IOUtils.toString(process.getErrorStream(), Charset.defaultCharset());
-            throw new IOException("Failed to send request. Process exitValue was '" + process.exitValue() + "' Error stream: " + errorStream);
-        }
-        String json = IOUtils.toString(process.getInputStream(), Charset.defaultCharset());
-        logger.debug("Got response: '{}'", json);
-        return gson.fromJson(json, JsonElement.class);
-    }
-
-    //Workaround for bug in JschProcess where an IllegalStateException is thrown instead of IllegalThreadStateException
-    private static boolean isAlive(Process process) {
-        try {
-            process.exitValue();
-            return false;
-        } catch (IllegalStateException ignore) {
-            return true;
-        }
-    }
-
-    //Workaround for bug in JschProcess where an IllegalStateException is thrown instead of IllegalThreadStateException
-    private static boolean waitFor(Process process, long timeout, TimeUnit unit)
-            throws InterruptedException
-    {
-        long startTime = System.nanoTime();
-        long rem = unit.toNanos(timeout);
-
-        do {
-            try {
-                process.exitValue();
-                return true;
-            } catch(IllegalStateException ex) {
-                if (rem > 0)
-                    Thread.sleep(
-                            Math.min(TimeUnit.NANOSECONDS.toMillis(rem) + 1, 100));
+            String json;
+            if (stdin != null) {
+                try (ChannelExec channel = session.createExecChannel(request)) {
+                    channel.open().await(timeout, TimeUnit.MILLISECONDS);
+                    logger.debug("Writing to stdin: '{}'", stdin);
+                    IOUtils.write(stdin, channel.getInvertedIn(),  StandardCharsets.UTF_8);
+                    logger.debug("Finished writing to stdin. Closing");
+                    channel.getInvertedIn().close();
+                    json = IOUtils.toString(channel.getInvertedOut(),  StandardCharsets.UTF_8);
+                }
+            } else {
+                json = session.executeRemoteCommand(request);
             }
-            rem = unit.toNanos(timeout) - (System.nanoTime() - startTime);
-        } while (rem > 0);
-        return false;
+            logger.debug("Got response: '{}'", json);
+            return gson.fromJson(json, JsonElement.class);
+        }
     }
 
     private class ChangesSSH extends Changes.NotImplemented {
 
         @Override
-        public ChangeApi id(int id) throws RestApiException {
+        public ChangeApi id(int id) {
             return new ChangeApiSSH(id);
         }
 
@@ -118,13 +90,11 @@ public class GerritApiSSH extends GerritApi.NotImplemented {
             return new QueryRequest() {
                 @Override
                 public List<ChangeInfo> get() throws RestApiException {
-                    JsonElement jsonElement = null;
                     try {
-                        jsonElement = request("gerrit query --format=json" + query);
+                        return changesParser.parseChangeInfos(request("gerrit query --format=json" + query));
                     } catch (IOException e) {
                         throw new RestApiException("Failed to process query", e);
                     }
-                    return changesParser.parseChangeInfos(jsonElement);
                 }
             };
         }
@@ -138,12 +108,12 @@ public class GerritApiSSH extends GerritApi.NotImplemented {
         }
 
         @Override
-        public RevisionApi revision(int id) throws RestApiException {
+        public RevisionApi revision(int id) {
             return revision(Integer.toString(id));
         }
 
         @Override
-        public RevisionApi revision(String id) throws RestApiException {
+        public RevisionApi revision(String id) {
             return new RevisionApiSSH(changeId, id);
         }
     }
