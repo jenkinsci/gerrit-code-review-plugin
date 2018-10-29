@@ -168,7 +168,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
 
   private boolean isOpenChange(String refName, HashSet<Integer> openChanges) {
     String[] changeParts = refName.substring(R_CHANGES.length()).split("/");
-    Integer changeNumber = new Integer(changeParts[1]);
+    Integer changeNumber = Integer.valueOf(changeParts[1]);
     return openChanges.contains(changeNumber);
   }
 
@@ -177,7 +177,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     HashSet<Integer> openChanges = new HashSet<>();
 
     for (ChangeInfo change : changeQuery.get()) {
-      openChanges.add(new Integer(change._number));
+      openChanges.add(change._number);
     }
 
     return openChanges;
@@ -194,7 +194,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
           @Override
           public List<Action> run(
               GitClient client, String remoteName, Changes.QueryRequest queryRequest)
-              throws IOException, InterruptedException {
+              throws InterruptedException {
             Map<String, String> symrefs = client.getRemoteSymbolicReferences(getRemote(), null);
             if (symrefs.containsKey(Constants.HEAD)) {
               // Hurrah! The Server is Git 1.8.5 or newer and our client has symref reporting
@@ -485,8 +485,10 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
         fetch = fetch.prune();
       }
       URIish remoteURI = null;
+      URIish apiURI = null;
       try {
         remoteURI = new URIish(remoteName);
+        apiURI = getGerritURI().getApiURI();
       } catch (URISyntaxException ex) {
         listener.getLogger().println("URI syntax exception for '" + remoteName + "' " + ex);
       }
@@ -508,10 +510,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
 
   private GerritApi createGerritApi(@NonNull TaskListener listener, GerritURI remoteUri)
       throws IOException {
-    try {
-      UsernamePasswordCredentialsProvider.UsernamePassword credentials =
-          new UsernamePasswordCredentialsProvider(getCredentials())
-              .getUsernamePassword(remoteUri.getRemoteURI());
+    UsernamePasswordCredentialsProvider credentialsProvider = new UsernamePasswordCredentialsProvider(getCredentials());
 
       return new GerritApiBuilder()
           .logger(listener.getLogger())
