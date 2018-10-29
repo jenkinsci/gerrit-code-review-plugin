@@ -111,6 +111,8 @@ Parameters:
   Additional message provided as explanation of the the review feedback.
   Default: ''
 
+> Note: The label/score attributes were removed in 0.4, please use labels.
+
 ### ```gerritComment```
 
 Add a review comment to the entire file or a single line.

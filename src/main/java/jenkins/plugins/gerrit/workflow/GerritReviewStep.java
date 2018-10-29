@@ -32,8 +32,6 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 
 public class GerritReviewStep extends Step {
-  @Deprecated private String label = "Verified";
-  @Deprecated private int score;
   private Map<String, Integer> labels;
   private String message = "";
 
@@ -63,9 +61,6 @@ public class GerritReviewStep extends Step {
       if (change.valid()) {
         ReviewInput reviewInput = new ReviewInput().message(message);
         boolean notifyOwner = false;
-        if (labels == null && label != null) {
-          labels = Collections.singletonMap(label, score);
-        }
         listener
             .getLogger()
             .format(
@@ -94,17 +89,6 @@ public class GerritReviewStep extends Step {
     }
   }
 
-  @Deprecated
-  public int getScore() {
-    return score;
-  }
-
-  @Deprecated
-  @DataBoundSetter
-  public void setScore(int score) {
-    this.score = score;
-  }
-
   public Map<String, Integer> getLabels() {
     return labels;
   }
@@ -121,17 +105,6 @@ public class GerritReviewStep extends Step {
   @DataBoundSetter
   public void setMessage(String message) {
     this.message = message;
-  }
-
-  @Deprecated
-  public String getLabel() {
-    return label;
-  }
-
-  @Deprecated
-  @DataBoundSetter
-  public void setLabel(String label) {
-    this.label = label;
   }
 
   @Override
