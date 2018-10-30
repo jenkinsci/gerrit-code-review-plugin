@@ -108,7 +108,7 @@ public class GerritApiBuilder {
         useRest = false;
         break;
       default:
-        throw new IllegalStateException("Unknown scheme " + gerritApiUrl.getScheme());
+        throw new IllegalStateException(String.format("Unknown scheme %s", gerritApiUrl.getScheme()));
     }
     if (useRest) {
       GerritAuthData.Basic authData =
@@ -120,7 +120,7 @@ public class GerritApiBuilder {
       return new GerritRestApiFactory()
               .create(authData, extensions.toArray(new HttpClientBuilderExtension[0]));
     } else {
-      //todo: SSHCredentialsPlugin
+      //todo: handle credentials, including SSHCredentialsPlugin
       return new GerritApiSSH(SshClient.setUpDefaultClient(), gerritApiUrl, SSH_TIMEOUT_MS);
     }
   }

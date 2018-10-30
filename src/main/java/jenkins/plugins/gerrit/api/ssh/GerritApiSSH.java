@@ -14,8 +14,6 @@ import org.apache.sshd.client.channel.ChannelExec;
 import org.apache.sshd.client.future.ConnectFuture;
 import org.apache.sshd.client.session.ClientSession;
 import org.eclipse.jgit.transport.URIish;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -26,7 +24,6 @@ public class GerritApiSSH extends GerritApi.NotImplemented {
 
     private URIish gerritApiUrl;
     private final int timeout;
-    private final Logger logger = LoggerFactory.getLogger(GerritApiSSH.class);
     private SshClient sshClient;
     private Gson gson = new Gson();
     private ChangesParser changesParser = new ChangesParser(gson);
@@ -48,7 +45,6 @@ public class GerritApiSSH extends GerritApi.NotImplemented {
     }
 
     private JsonElement request(String request, String stdin) throws IOException {
-        logger.debug("Initiating request '{}'", request);
         sshClient.start();
         ConnectFuture connectFuture = sshClient.connect(gerritApiUrl.getUser(), gerritApiUrl.getHost(), gerritApiUrl.getPort());
         connectFuture.await(timeout, TimeUnit.MILLISECONDS);
@@ -60,21 +56,16 @@ public class GerritApiSSH extends GerritApi.NotImplemented {
             if (!session.isAuthenticated()) {
                 throw new IOException(String.format("Failed to authenticate to %s:%s", gerritApiUrl.getHost(), gerritApiUrl.getPort()));
             }
-            String json;
             if (stdin != null) {
                 try (ChannelExec channel = session.createExecChannel(request)) {
                     channel.open().await(timeout, TimeUnit.MILLISECONDS);
-                    logger.debug("Writing to stdin: '{}'", stdin);
                     IOUtils.write(stdin, channel.getInvertedIn(),  StandardCharsets.UTF_8);
-                    logger.debug("Finished writing to stdin. Closing");
                     channel.getInvertedIn().close();
-                    json = IOUtils.toString(channel.getInvertedOut(),  StandardCharsets.UTF_8);
+                    return gson.fromJson(IOUtils.toString(channel.getInvertedOut(),  StandardCharsets.UTF_8), JsonElement.class);
                 }
             } else {
-                json = session.executeRemoteCommand(request);
+                return gson.fromJson(session.executeRemoteCommand(request), JsonElement.class);
             }
-            logger.debug("Got response: '{}'", json);
-            return gson.fromJson(json, JsonElement.class);
         }
     }
 
