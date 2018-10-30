@@ -15,7 +15,7 @@
 package jenkins.plugins.gerrit.workflow;
 
 import com.google.gerrit.extensions.api.changes.DraftInput;
-import com.urswolfer.gerrit.client.rest.GerritRestApi;
+import com.google.gerrit.extensions.api.GerritApi;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.model.TaskListener;
@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.Set;
 import javax.annotation.Nonnull;
 import jenkins.plugins.gerrit.GerritChange;
-import jenkins.plugins.gerrit.GerritRestApiBuilder;
+import jenkins.plugins.gerrit.GerritApiBuilder;
 import org.jenkinsci.plugins.workflow.steps.*;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
@@ -64,8 +64,8 @@ public class GerritCommentStep extends Step {
     @Override
     protected Void run() throws Exception {
 
-      GerritRestApi gerritRestApi = new GerritRestApiBuilder().stepContext(getContext()).build();
-      if (gerritRestApi != null) {
+      GerritApi gerritApi = new GerritApiBuilder().stepContext(getContext()).build();
+      if (gerritApi != null) {
         GerritChange change = new GerritChange(getContext());
         if (change.valid()) {
           listener.getLogger().format("Gerrit review change %d/%d %s=%d (%s)%n", change.getChangeId(), change.getRevision(), path, line, message);
@@ -73,7 +73,7 @@ public class GerritCommentStep extends Step {
           draftInput.path = path;
           draftInput.line = line;
           draftInput.message = message;
-          gerritRestApi.changes().id(change.getChangeId()).revision(change.getRevision()).createDraft(draftInput);
+          gerritApi.changes().id(change.getChangeId()).revision(change.getRevision()).createDraft(draftInput);
         }
       }
       return null;

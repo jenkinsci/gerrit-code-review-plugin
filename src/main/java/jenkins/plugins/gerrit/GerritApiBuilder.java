@@ -2,9 +2,9 @@ package jenkins.plugins.gerrit;
 
 import com.cloudbees.plugins.credentials.CredentialsProvider;
 import com.cloudbees.plugins.credentials.common.StandardUsernamePasswordCredentials;
-import com.urswolfer.gerrit.client.rest.GerritAuthData;
-import com.urswolfer.gerrit.client.rest.GerritRestApi;
+import com.google.gerrit.extensions.api.GerritApi;
 import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
+import com.urswolfer.gerrit.client.rest.GerritAuthData;
 import com.urswolfer.gerrit.client.rest.http.HttpClientBuilderExtension;
 import hudson.EnvVars;
 import hudson.model.Run;
@@ -18,10 +18,10 @@ import org.eclipse.jgit.transport.URIish;
 import org.jenkinsci.plugins.workflow.steps.StepContext;
 
 /**
- * A wrapper on top of GerritRestApi.
+ * A wrapper on top of GerritApi.
  * Enables common functionality.
  */
-public class GerritRestApiBuilder {
+public class GerritApiBuilder {
 
   private PrintStream logger;
   private URIish gerritApiUrl;
@@ -29,17 +29,17 @@ public class GerritRestApiBuilder {
   private String username;
   private String password;
 
-  public GerritRestApiBuilder logger(PrintStream logger) {
+  public GerritApiBuilder logger(PrintStream logger) {
     this.logger = logger;
     return this;
   }
 
-  public GerritRestApiBuilder gerritApiUrl(URIish gerritApiUrl) {
+  public GerritApiBuilder gerritApiUrl(URIish gerritApiUrl) {
     this.gerritApiUrl = gerritApiUrl;
     return this;
   }
 
-  public GerritRestApiBuilder gerritApiUrl(String gerritApiUrl) throws URISyntaxException {
+  public GerritApiBuilder gerritApiUrl(String gerritApiUrl) throws URISyntaxException {
     if (gerritApiUrl == null) {
       this.gerritApiUrl = null;
     }
@@ -49,18 +49,18 @@ public class GerritRestApiBuilder {
     return this;
   }
 
-  public GerritRestApiBuilder insecureHttps(Boolean insecureHttps) {
+  public GerritApiBuilder insecureHttps(Boolean insecureHttps) {
     this.insecureHttps = insecureHttps;
     return this;
   }
 
-  public GerritRestApiBuilder credentials(String username, String password) {
+  public GerritApiBuilder credentials(String username, String password) {
     this.username = username;
     this.password = password;
     return this;
   }
 
-  public GerritRestApiBuilder credentials(StandardUsernamePasswordCredentials credentials) {
+  public GerritApiBuilder credentials(StandardUsernamePasswordCredentials credentials) {
     if (credentials != null) {
       username = credentials.getUsername();
       password = credentials.getPassword().getPlainText();
@@ -68,7 +68,7 @@ public class GerritRestApiBuilder {
     return this;
   }
 
-  public GerritRestApiBuilder stepContext(StepContext context) throws URISyntaxException, IOException, InterruptedException {
+  public GerritApiBuilder stepContext(StepContext context) throws URISyntaxException, IOException, InterruptedException {
     EnvVars envVars = context.get(EnvVars.class);
     logger(context.get(TaskListener.class).getLogger());
     if (envVars.containsKey("GERRIT_API_URL")) {
@@ -86,8 +86,8 @@ public class GerritRestApiBuilder {
     return this;
   }
 
-  public GerritRestApi build() {
-    GerritRestApi gerritRestApi = null;
+  public GerritApi build() {
+    GerritApi gerritApi = null;
     if (gerritApiUrl == null) {
       logger.println("Gerrit Review is disabled no API URL");
     }
@@ -101,9 +101,9 @@ public class GerritRestApiBuilder {
       if (Boolean.TRUE.equals(insecureHttps)) {
         extensions.add(SSLNoVerifyCertificateManagerClientBuilderExtension.INSTANCE);
       }
-      gerritRestApi = new GerritRestApiFactory()
+      gerritApi = new GerritRestApiFactory()
               .create(authData, extensions.toArray(new HttpClientBuilderExtension[0]));
     }
-    return gerritRestApi;
+    return gerritApi;
   }
 }

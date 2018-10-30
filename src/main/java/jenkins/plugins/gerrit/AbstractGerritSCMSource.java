@@ -17,7 +17,7 @@ package jenkins.plugins.gerrit;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.urswolfer.gerrit.client.rest.GerritRestApi;
+import com.google.gerrit.extensions.api.GerritApi;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
@@ -492,12 +492,12 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       }
 
       GerritURI gerritURI = getGerritURI();
-      GerritRestApi gerritRestApi = createGerritRestApi(listener, gerritURI);
-      if (gerritRestApi == null) {
+      GerritApi gerritApi = createGerritApi(listener, gerritURI);
+      if (gerritApi == null) {
         throw new IllegalStateException("Invalid gerrit configuration");
       }
 
-      Changes.QueryRequest changeQuery = getOpenChanges(gerritRestApi, gerritURI.getProject());
+      Changes.QueryRequest changeQuery = getOpenChanges(gerritApi, gerritURI.getProject());
 
       fetch.from(remoteURI, context.asRefSpecs()).execute();
       return retriever.run(client, remoteName, changeQuery);
@@ -506,13 +506,13 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     }
   }
 
-  private GerritRestApi createGerritRestApi(@NonNull TaskListener listener, GerritURI remoteUri) throws IOException {
+  private GerritApi createGerritApi(@NonNull TaskListener listener, GerritURI remoteUri) throws IOException {
     try {
       UsernamePasswordCredentialsProvider.UsernamePassword credentials =
           new UsernamePasswordCredentialsProvider(getCredentials())
               .getUsernamePassword(remoteUri.getRemoteURI());
 
-      return new GerritRestApiBuilder()
+      return new GerritApiBuilder()
           .logger(listener.getLogger())
           .gerritApiUrl(remoteUri.getApiURI())
           .insecureHttps(getInsecureHttps())
@@ -523,10 +523,10 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     }
   }
 
-  private Changes.QueryRequest getOpenChanges(GerritRestApi gerritRestApi, String project)
+  private Changes.QueryRequest getOpenChanges(GerritApi gerritApi, String project)
       throws UnsupportedEncodingException {
     String query = "p:" + project + " status:open";
-    return gerritRestApi.changes().query(URLEncoder.encode(query, StandardCharsets.UTF_8.name()));
+    return gerritApi.changes().query(URLEncoder.encode(query, StandardCharsets.UTF_8.name()));
   }
 
   public GerritURI getGerritURI() throws IOException {
