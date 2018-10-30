@@ -61,7 +61,12 @@ public class GerritApiSSH extends GerritApi.NotImplemented {
                     channel.open().await(timeout, TimeUnit.MILLISECONDS);
                     IOUtils.write(stdin, channel.getInvertedIn(),  StandardCharsets.UTF_8);
                     channel.getInvertedIn().close();
-                    return gson.fromJson(IOUtils.toString(channel.getInvertedOut(),  StandardCharsets.UTF_8), JsonElement.class);
+                    channel.close(false).await(timeout, TimeUnit.MILLISECONDS);
+                    if (channel.getExitStatus() != null && channel.getExitStatus() != 0) {
+                        String errorMessage = IOUtils.toString(channel.getInvertedErr(), StandardCharsets.UTF_8);
+                        throw new IOException(String.format("SSH exited with status %s, message: '%s'", channel.getExitStatus(), errorMessage));
+                    }
+                    return gson.fromJson(IOUtils.toString(channel.getInvertedOut(), StandardCharsets.UTF_8), JsonElement.class);
                 }
             } else {
                 return gson.fromJson(session.executeRemoteCommand(request), JsonElement.class);
