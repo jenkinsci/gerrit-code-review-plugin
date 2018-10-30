@@ -61,7 +61,7 @@ public class GerritWebHook implements UnprotectedRootAction {
     return URLNAME;
   }
 
-  @SuppressWarnings("unused")
+  @SuppressWarnings({"unused", "deprecation"})
   public void doIndex() throws IOException {
     HttpServletRequest req = Stapler.getCurrentRequest();
     GerritProjectEvent projectEvent = getBody(req);
