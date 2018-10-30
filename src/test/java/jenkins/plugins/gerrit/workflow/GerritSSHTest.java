@@ -66,4 +66,52 @@ public class GerritSSHTest {
 //        g.getClient().verify(HttpRequest.request("/a/project/login/").withMethod("POST"), VerificationTimes.once());
 //        g.getClient().verify(HttpRequest.request(String.format("/a/project/a/changes/%s/revisions/%s/review", changeId, revision)), VerificationTimes.once());
     }
+
+    @Test
+    public void gerritCommentStepInvokeTest() throws Exception {
+        int changeId = 1004;
+        int revision = 1;
+        String path = "lala";
+        int line = 1;
+        String message = "Invalid spacing";
+        String branch = String.format("%02d/%d/%d", changeId % 100, changeId, revision);
+
+        UsernamePasswordCredentialsImpl c = new UsernamePasswordCredentialsImpl(CredentialsScope.GLOBAL, "cid", "cid", "USERNAME", "PASSWORD");
+        CredentialsProvider.lookupStores(j.jenkins).iterator().next().addCredentials(Domain.global(), c);
+        WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "p");
+        p.setDefinition(
+                new CpsFlowDefinition(
+                        String.format(
+                                ""
+                                        + "node {\n"
+                                        + "  withEnv([\n"
+                                        + "    'GERRIT_API_URL=ssh://admin@localhost:29418/test',\n"
+                                        + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
+                                        + "    'GERRIT_CREDENTIALS_ID=cid',\n"
+                                        + "    'BRANCH_NAME=%s',\n"
+                                        + "  ]) {\n"
+                                        + "    gerritComment path: '%s', line: %s, message: '%s'\n"
+                                        + "  }\n"
+                                        + "}",
+                                branch, path, line, message),
+                        true));
+
+//        g.getClient().when(HttpRequest.request("/a/project/login/").withMethod("POST"))
+//                .respond(HttpResponse.response().withStatusCode(200));
+//        DraftInput draftInput = new DraftInput();
+//        draftInput.path = path;
+//        draftInput.line = line;
+//        draftInput.message = message;
+//        g.getClient().when(
+//                HttpRequest.request(String.format("/a/project/a/changes/%s/revisions/%s/drafts", changeId, revision))
+//                        .withMethod("PUT")
+//                        .withBody(JsonBody.json(draftInput)))
+//                .respond(HttpResponse.response().withStatusCode(200).withBody(JsonBody.json(Collections.emptyMap())));
+
+        WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
+        String log = JenkinsRule.getLog(run);
+        System.out.println(log);
+//        g.getClient().verify(HttpRequest.request("/a/project/login/").withMethod("POST"), VerificationTimes.once());
+//        g.getClient().verify(HttpRequest.request(String.format("/a/project/a/changes/%s/revisions/%s/drafts", changeId, revision)), VerificationTimes.once());
+    }
 }
