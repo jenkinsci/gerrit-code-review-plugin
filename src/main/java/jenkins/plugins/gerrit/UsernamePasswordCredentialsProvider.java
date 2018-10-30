@@ -22,7 +22,7 @@ import org.jenkinsci.plugins.gitclient.trilead.SmartCredentialsProvider;
 public class UsernamePasswordCredentialsProvider extends SmartCredentialsProvider {
   private final StandardUsernameCredentials credentials;
 
-  public class UsernamePassword {
+  public static class UsernamePassword {
     public final String username;
     public final String password;
 

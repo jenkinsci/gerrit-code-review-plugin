@@ -23,6 +23,7 @@ import hudson.model.UnprotectedRootAction;
 import hudson.util.SequentialExecutionQueue;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.servlet.http.HttpServletRequest;
@@ -87,7 +88,8 @@ public class GerritWebHook implements UnprotectedRootAction {
 
   private GerritProjectEvent getBody(HttpServletRequest req) throws IOException {
     char[] body = new char[req.getContentLength()];
-    try (InputStreamReader is = new InputStreamReader(req.getInputStream())) {
+    try (InputStreamReader is =
+        new InputStreamReader(req.getInputStream(), StandardCharsets.UTF_8)) {
       IOUtils.readFully(is, body);
       String bodyString = new String(body);
       log.info("Received body: " + bodyString);
