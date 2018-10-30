@@ -18,9 +18,6 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.NonNull;
-import edu.umd.cs.findbugs.annotations.Nullable;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.EnvVars;
 import hudson.model.Action;
@@ -35,6 +32,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import jenkins.plugins.git.AbstractGitSCMSource;
 import jenkins.plugins.git.GitRemoteHeadRefAction;
 import jenkins.plugins.git.GitSCMSourceContext;
@@ -76,14 +76,15 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   @SuppressFBWarnings(value = "SE_BAD_FIELD", justification = "Known non-serializable this")
   protected void retrieve(
       @CheckForNull SCMSourceCriteria criteria,
-      @NonNull SCMHeadObserver observer,
+      @Nonnull SCMHeadObserver observer,
       @CheckForNull SCMHeadEvent<?> event,
-      @NonNull final TaskListener listener)
+      @Nonnull final TaskListener listener)
       throws IOException, InterruptedException {
     final GitSCMSourceContext context =
         new GitSCMSourceContext<>(criteria, observer).withTraits(getTraits());
     doRetrieve(
-        new Retriever<Void>() {
+        new Retriever<Object>() {
+          @SuppressWarnings("deprecation")
           @Override
           public Void run(GitClient client, String remoteName, Changes.QueryRequest changeQuery)
               throws IOException, InterruptedException {
@@ -183,10 +184,10 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   }
 
   /** {@inheritDoc} */
-  @NonNull
+  @Nonnull
   @Override
   protected List<Action> retrieveActions(
-      @CheckForNull SCMSourceEvent event, @NonNull TaskListener listener)
+      @CheckForNull SCMSourceEvent event, @Nonnull TaskListener listener)
       throws IOException, InterruptedException {
     return doRetrieve(
         new Retriever<List<Action>>() {
@@ -240,10 +241,10 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
           }
         },
         new SCMSourceRequest.ProbeLambda<SCMHead, ObjectId>() {
-          @NonNull
+          @Nonnull
           @Override
           public SCMSourceCriteria.Probe create(
-              @NonNull SCMHead head, @Nullable ObjectId revisionInfo)
+              @Nonnull SCMHead head, @Nullable ObjectId revisionInfo)
               throws IOException, InterruptedException {
             RevCommit commit = walk.parseCommit(revisionInfo);
             final long lastModified = TimeUnit.SECONDS.toMillis(commit.getCommitTime());
@@ -265,13 +266,13 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
               }
 
               @Override
-              @NonNull
+              @Nonnull
               @SuppressFBWarnings(
                   value = "NP_LOAD_OF_KNOWN_NULL_VALUE",
                   justification =
                       "TreeWalk.forPath can return null, compiler "
                           + "generated code for try with resources handles it")
-              public SCMProbeStat stat(@NonNull String path) throws IOException {
+              public SCMProbeStat stat(@Nonnull String path) throws IOException {
                 try (TreeWalk tw = TreeWalk.forPath(repository, path, tree)) {
                   if (tw == null) {
                     return SCMProbeStat.fromType(SCMFile.Type.NONEXISTENT);
@@ -299,16 +300,16 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
           }
         },
         new SCMSourceRequest.LazyRevisionLambda<SCMHead, SCMRevision, ObjectId>() {
-          @NonNull
+          @Nonnull
           @Override
-          public SCMRevision create(@NonNull SCMHead head, @Nullable ObjectId intermediate)
+          public SCMRevision create(@Nonnull SCMHead head, @Nullable ObjectId intermediate)
               throws IOException, InterruptedException {
             return new SCMRevisionImpl(head, ref.getValue().name());
           }
         },
         new SCMSourceRequest.Witness() {
           @Override
-          public void record(@NonNull SCMHead head, SCMRevision revision, boolean isMatch) {
+          public void record(@Nonnull SCMHead head, SCMRevision revision, boolean isMatch) {
             if (isMatch) {
               listener.getLogger().println("    Met criteria");
             } else {
@@ -337,10 +338,10 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
           }
         },
         new SCMSourceRequest.ProbeLambda<ChangeSCMHead, ObjectId>() {
-          @NonNull
+          @Nonnull
           @Override
           public SCMSourceCriteria.Probe create(
-              @NonNull ChangeSCMHead head, @Nullable ObjectId revisionInfo)
+              @Nonnull ChangeSCMHead head, @Nullable ObjectId revisionInfo)
               throws IOException, InterruptedException {
             RevCommit commit = walk.parseCommit(revisionInfo);
             final long lastModified = TimeUnit.SECONDS.toMillis(commit.getCommitTime());
@@ -362,13 +363,13 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
               }
 
               @Override
-              @NonNull
+              @Nonnull
               @SuppressFBWarnings(
                   value = "NP_LOAD_OF_KNOWN_NULL_VALUE",
                   justification =
                       "TreeWalk.forPath can return null, compiler "
                           + "generated code for try with resources handles it")
-              public SCMProbeStat stat(@NonNull String path) throws IOException {
+              public SCMProbeStat stat(@Nonnull String path) throws IOException {
                 try (TreeWalk tw = TreeWalk.forPath(repository, path, tree)) {
                   if (tw == null) {
                     return SCMProbeStat.fromType(SCMFile.Type.NONEXISTENT);
@@ -396,16 +397,16 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
           }
         },
         new SCMSourceRequest.LazyRevisionLambda<ChangeSCMHead, SCMRevision, ObjectId>() {
-          @NonNull
+          @Nonnull
           @Override
-          public SCMRevision create(@NonNull ChangeSCMHead head, @Nullable ObjectId intermediate)
+          public SCMRevision create(@Nonnull ChangeSCMHead head, @Nullable ObjectId intermediate)
               throws IOException, InterruptedException {
             return new ChangeSCMRevision(head, ref.getValue().toObjectId().name());
           }
         },
         new SCMSourceRequest.Witness<ChangeSCMHead, SCMRevision>() {
           @Override
-          public void record(@NonNull ChangeSCMHead head, SCMRevision revision, boolean isMatch) {
+          public void record(@Nonnull ChangeSCMHead head, SCMRevision revision, boolean isMatch) {
             if (isMatch) {
               listener.getLogger().println("    Met criteria");
             } else {
@@ -450,9 +451,10 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     return filteredRefs;
   }
 
-  @NonNull
+  @Nonnull
+  @SuppressWarnings("deprecation")
   protected <T, C extends GitSCMSourceContext<C, R>, R extends GitSCMSourceRequest> T doRetrieve(
-      Retriever<T> retriever, @NonNull C context, @NonNull TaskListener listener, boolean prune)
+      Retriever<T> retriever, @Nonnull C context, @Nonnull TaskListener listener, boolean prune)
       throws IOException, InterruptedException {
 
     String cacheEntry = getCacheEntry();
@@ -505,7 +507,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     }
   }
 
-  private GerritApi createGerritApi(@NonNull TaskListener listener, GerritURI remoteUri)
+  private GerritApi createGerritApi(@Nonnull TaskListener listener, GerritURI remoteUri)
       throws IOException {
     try {
       UsernamePasswordCredentialsProvider.UsernamePassword credentials =
@@ -538,7 +540,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   }
 
   @Override
-  protected boolean isCategoryEnabled(@NonNull SCMHeadCategory category) {
+  protected boolean isCategoryEnabled(@Nonnull SCMHeadCategory category) {
     return true;
   }
 }

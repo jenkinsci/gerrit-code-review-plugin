@@ -97,6 +97,7 @@ public class GerritURI {
    * Get the Gerrit REST-API base URL, using the correct prefix.
    *
    * @return Gerrit base URL for calling REST-API
+   * @throws URISyntaxException if URL is invalid.
    */
   public URIish getApiURI() throws URISyntaxException {
     return remoteURI.setRawPath(getPrefix());
