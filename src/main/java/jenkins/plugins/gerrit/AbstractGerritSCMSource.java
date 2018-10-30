@@ -66,6 +66,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
 
   public AbstractGerritSCMSource() {}
 
+  @SuppressFBWarnings(value = "NP_BOOLEAN_RETURN_NULL", justification = "Overridden")
   public Boolean getInsecureHttps() {
     return null;
   }
@@ -140,7 +141,6 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                       listener
                           .getLogger()
                           .format("Processed %d changes (query complete)%n", changesCount);
-                      changesCount++;
                       return;
                     }
                   }
@@ -149,7 +149,6 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                     listener
                         .getLogger()
                         .format("Processed %d branches (query complete)%n", branchesCount);
-                    branchesCount++;
                     return;
                   }
                 }
@@ -168,7 +167,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
 
   private boolean isOpenChange(String refName, HashSet<Integer> openChanges) {
     String[] changeParts = refName.substring(R_CHANGES.length()).split("/");
-    Integer changeNumber = new Integer(changeParts[1]);
+    Integer changeNumber = Integer.valueOf(changeParts[1]);
     return openChanges.contains(changeNumber);
   }
 
@@ -177,7 +176,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     HashSet<Integer> openChanges = new HashSet<>();
 
     for (ChangeInfo change : changeQuery.get()) {
-      openChanges.add(new Integer(change._number));
+      openChanges.add(Integer.valueOf(change._number));
     }
 
     return openChanges;
@@ -424,8 +423,8 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       if (gitRef.getKey().startsWith(R_CHANGES)) {
         String[] changeParts = gitRef.getKey().split("/");
         try {
-          Integer changeNum = new Integer(changeParts[3]);
-          Integer patchSet = new Integer(changeParts[4]);
+          Integer changeNum = Integer.valueOf(changeParts[3]);
+          Integer patchSet = Integer.valueOf(changeParts[4]);
 
           Integer latestPatchSet = changes.get(changeNum);
           if (latestPatchSet == null || latestPatchSet < patchSet) {
