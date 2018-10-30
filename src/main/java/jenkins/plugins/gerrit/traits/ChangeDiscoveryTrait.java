@@ -14,8 +14,8 @@
 
 package jenkins.plugins.gerrit.traits;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
+import javax.annotation.Nonnull;
 import jenkins.plugins.gerrit.GerritSCMSource;
 import jenkins.plugins.git.GitSCMBuilder;
 import jenkins.plugins.git.GitSCMSourceContext;
@@ -41,7 +41,7 @@ public class ChangeDiscoveryTrait extends SCMSourceTrait {
 
   /** {@inheritDoc} */
   @Override
-  public boolean includeCategory(@NonNull SCMHeadCategory category) {
+  public boolean includeCategory(@Nonnull SCMHeadCategory category) {
     return category.isUncategorized();
   }
 
@@ -80,7 +80,7 @@ public class ChangeDiscoveryTrait extends SCMSourceTrait {
       extends SCMHeadAuthority<SCMSourceRequest, SCMHead, SCMRevision> {
     /** {@inheritDoc} */
     @Override
-    protected boolean checkTrusted(@NonNull SCMSourceRequest request, @NonNull SCMHead head) {
+    protected boolean checkTrusted(@Nonnull SCMSourceRequest request, @Nonnull SCMHead head) {
       return true;
     }
 
@@ -95,7 +95,7 @@ public class ChangeDiscoveryTrait extends SCMSourceTrait {
 
       /** {@inheritDoc} */
       @Override
-      public boolean isApplicableToOrigin(@NonNull Class<? extends SCMHeadOrigin> originClass) {
+      public boolean isApplicableToOrigin(@Nonnull Class<? extends SCMHeadOrigin> originClass) {
         return SCMHeadOrigin.Default.class.isAssignableFrom(originClass);
       }
     }
