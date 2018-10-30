@@ -16,7 +16,7 @@ package jenkins.plugins.gerrit.workflow;
 
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.urswolfer.gerrit.client.rest.GerritRestApi;
+import com.google.gerrit.extensions.api.GerritApi;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.model.TaskListener;
@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Set;
 import javax.annotation.Nonnull;
 import jenkins.plugins.gerrit.GerritChange;
-import jenkins.plugins.gerrit.GerritRestApiBuilder;
+import jenkins.plugins.gerrit.GerritApiBuilder;
 import org.jenkinsci.plugins.workflow.steps.*;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
@@ -55,8 +55,8 @@ public class GerritReviewStep extends Step {
     @Override
     protected Void run() throws Exception {
 
-      GerritRestApi gerritRestApi = new GerritRestApiBuilder().stepContext(getContext()).build();
-      if (gerritRestApi != null) {
+      GerritApi gerritApi = new GerritApiBuilder().stepContext(getContext()).build();
+      if (gerritApi != null) {
         GerritChange change = new GerritChange(getContext());
         if (change.valid()) {
           ReviewInput reviewInput = new ReviewInput().message(message);
@@ -78,7 +78,7 @@ public class GerritReviewStep extends Step {
           if (notifyOwner) {
             reviewInput.notify = NotifyHandling.OWNER;
           }
-          gerritRestApi.changes().id(change.getChangeId()).revision(change.getRevision()).review(reviewInput);
+          gerritApi.changes().id(change.getChangeId()).revision(change.getRevision()).review(reviewInput);
         }
       }
       return null;
