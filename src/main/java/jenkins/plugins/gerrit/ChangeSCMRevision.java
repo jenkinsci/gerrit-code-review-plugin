@@ -1,15 +1,15 @@
 package jenkins.plugins.gerrit;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 import jenkins.plugins.git.AbstractGitSCMSource;
 import jenkins.scm.api.mixin.ChangeRequestSCMRevision;
 
 public class ChangeSCMRevision extends ChangeRequestSCMRevision<ChangeSCMHead> {
 
   private static final long serialVersionUID = 1L;
-  private final @NonNull String patchsetHash;
+  private final @Nonnull String patchsetHash;
 
-  ChangeSCMRevision(@NonNull ChangeSCMHead head, @NonNull String patchsetHash) {
+  ChangeSCMRevision(@Nonnull ChangeSCMHead head, @Nonnull String patchsetHash) {
     super(head, new AbstractGitSCMSource.SCMRevisionImpl(head.getTarget(), patchsetHash));
     this.patchsetHash = patchsetHash;
   }
@@ -19,7 +19,7 @@ public class ChangeSCMRevision extends ChangeRequestSCMRevision<ChangeSCMHead> {
    *
    * @return The commit hash of the head of the pull request branch
    */
-  @NonNull
+  @Nonnull
   public String getPatchsetHash() {
     return patchsetHash;
   }
