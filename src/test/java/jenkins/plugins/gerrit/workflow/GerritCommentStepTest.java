@@ -97,7 +97,7 @@ public class GerritCommentStepTest {
 
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
-    System.out.println(log);
+
     g.getClient()
         .verify(
             HttpRequest.request("/a/project/login/").withMethod("POST"), VerificationTimes.once());

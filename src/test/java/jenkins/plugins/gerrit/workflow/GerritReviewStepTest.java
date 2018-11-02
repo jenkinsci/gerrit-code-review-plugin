@@ -55,7 +55,7 @@ public class GerritReviewStepTest {
             true));
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
-    System.out.println(log);
+
     j.assertLogContains("Gerrit Review is disabled no API URL", run);
   }
 
@@ -74,7 +74,7 @@ public class GerritReviewStepTest {
             true));
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
-    System.out.println(log);
+
     j.assertLogContains("Gerrit Review is disabled no credentials", run);
   }
 
@@ -94,7 +94,7 @@ public class GerritReviewStepTest {
             true));
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
-    System.out.println(log);
+
     j.assertLogContains("Gerrit Review is disabled no credentials", run);
   }
 
@@ -138,7 +138,7 @@ public class GerritReviewStepTest {
 
     WorkflowRun run = j.assertBuildStatus(Result.FAILURE, p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
-    System.out.println(log);
+
     j.assertLogContains("javax.net.ssl.SSLHandshakeException", run);
   }
 
@@ -202,7 +202,7 @@ public class GerritReviewStepTest {
 
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
-    System.out.println(log);
+
     g.getClient()
         .verify(
             HttpRequest.request("/a/project/login/").withMethod("POST"), VerificationTimes.once());
@@ -281,7 +281,7 @@ public class GerritReviewStepTest {
 
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
-    System.out.println(log);
+
     g.getClient()
         .verify(
             HttpRequest.request("/a/project/login/").withMethod("POST"), VerificationTimes.once());
