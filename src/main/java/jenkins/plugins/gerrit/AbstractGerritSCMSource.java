@@ -60,7 +60,11 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   public static final String REF_SPEC_CHANGES = "+refs/changes/*:refs/remotes/@{remote}/*";
 
   public interface Retriever<T> {
-    T run(GitClient client, String remoteName, Changes.QueryRequest changeQuery)
+    T run(
+        GitClient client,
+        GitSCMSourceContext context,
+        String remoteName,
+        Changes.QueryRequest changeQuery)
         throws IOException, InterruptedException;
   }
 
@@ -80,13 +84,15 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       @CheckForNull SCMHeadEvent<?> event,
       @Nonnull final TaskListener listener)
       throws IOException, InterruptedException {
-    final GitSCMSourceContext context =
-        new GitSCMSourceContext<>(criteria, observer).withTraits(getTraits());
     doRetrieve(
         new Retriever<Object>() {
           @SuppressWarnings("deprecation")
           @Override
-          public Void run(GitClient client, String remoteName, Changes.QueryRequest changeQuery)
+          public Object run(
+              GitClient client,
+              GitSCMSourceContext context,
+              String remoteName,
+              Changes.QueryRequest changeQuery)
               throws IOException, InterruptedException {
             final Repository repository = client.getRepository();
             try (RevWalk walk = new RevWalk(repository);
@@ -161,7 +167,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
             }
           }
         },
-        context,
+        new GitSCMSourceContext<>(criteria, observer).withTraits(getTraits()),
         listener,
         true);
   }
@@ -193,7 +199,10 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
         new Retriever<List<Action>>() {
           @Override
           public List<Action> run(
-              GitClient client, String remoteName, Changes.QueryRequest queryRequest)
+              GitClient client,
+              GitSCMSourceContext context,
+              String remoteName,
+              Changes.QueryRequest queryRequest)
               throws IOException, InterruptedException {
             Map<String, String> symrefs = client.getRemoteSymbolicReferences(getRemote(), null);
             if (symrefs.containsKey(Constants.HEAD)) {
@@ -501,7 +510,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       Changes.QueryRequest changeQuery = getOpenChanges(gerritApi, gerritURI.getProject());
 
       fetch.from(remoteURI, context.asRefSpecs()).execute();
-      return retriever.run(client, remoteName, changeQuery);
+      return retriever.run(client, context, remoteName, changeQuery);
     } finally {
       cacheLock.unlock();
     }
