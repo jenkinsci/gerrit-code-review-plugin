@@ -19,16 +19,36 @@ import static org.junit.Assert.*;
 import com.google.gerrit.extensions.api.GerritApi;
 import java.net.URISyntaxException;
 import org.junit.*;
+import org.junit.Rule;
+import org.mockserver.junit.MockServerRule;
 
 public class GerritApiBuilderTest {
 
+  @Rule public MockServerRule g = new MockServerRule(this);
+
   @Test
-  public void testShouldWorkWithoutCredentials() throws URISyntaxException {
-    GerritApi restApi =
-        new GerritApiBuilder()
-            .gerritApiUrl("http://gerrit.mycompany.com")
-            .credentials(null, null)
-            .build();
+  public void testShouldReturnValidGerritApiWithoutCredentials() throws URISyntaxException {
+    GerritApi restApi = getGerritApiBuilderWithUri().credentials(null, null).build();
     assertNotNull(restApi);
+  }
+
+  private GerritApiBuilder getGerritApiBuilderWithUri() throws URISyntaxException {
+    return new GerritApiBuilder().gerritApiUrl("http://gerrit.mycompany.com/a/project");
+  }
+
+  @Test
+  public void testShouldReturnNullGerritApiWithoutCredentials() throws URISyntaxException {
+    assertNull(getGerritApiBuilderWithUri().requireAuthentication().build());
+  }
+
+  @Test
+  public void testShouldReturnNullGerritApiWithNullCredentials() throws URISyntaxException {
+    assertNull(
+        getGerritApiBuilderWithUri().credentials(null, null).requireAuthentication().build());
+  }
+
+  @Test
+  public void testShouldReturnNullGerritApiWithEmptyCredentials() throws URISyntaxException {
+    assertNull(getGerritApiBuilderWithUri().credentials("", "").requireAuthentication().build());
   }
 }
