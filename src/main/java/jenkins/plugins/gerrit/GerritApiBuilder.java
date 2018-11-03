@@ -113,9 +113,6 @@ public class GerritApiBuilder {
             String.format("Unknown scheme %s", gerritApiUrl.getScheme()));
     }
     if (useRest) {
-      if (Boolean.TRUE.equals(insecureHttps)) {
-        extensions.add(SSLNoVerifyCertificateManagerClientBuilderExtension.INSTANCE);
-      }
       return new GerritRestApiFactory()
           .create(authData, extensions.toArray(new HttpClientBuilderExtension[0]));
     } else {
