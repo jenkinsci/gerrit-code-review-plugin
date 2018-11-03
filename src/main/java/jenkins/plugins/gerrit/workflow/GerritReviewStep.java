@@ -52,10 +52,9 @@ public class GerritReviewStep extends Step {
 
     @Override
     protected Void run() throws Exception {
-      GerritApiBuilder apiBuilder = new GerritApiBuilder().stepContext(getContext());
-      GerritApi gerritApi = apiBuilder.build();
-
-      if (apiBuilder.isAnonymous()) {
+      GerritApi gerritApi =
+          new GerritApiBuilder().stepContext(getContext()).requireAuthentication().build();
+      if (gerritApi == null) {
         return null;
       }
 
