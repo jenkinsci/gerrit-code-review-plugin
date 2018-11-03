@@ -31,4 +31,15 @@ public class GerritApiBuilderTest {
             .build();
     assertNotNull(restApi);
   }
+
+  @Test
+  public void testShouldNotWorkWithoutCredentials() throws URISyntaxException {
+    GerritApi restApi =
+        new GerritApiBuilder()
+            .gerritApiUrl("http://gerrit.mycompany.com")
+            .credentials(null, null)
+            .allowAnonymous(false)
+            .build();
+    assertNull(restApi);
+  }
 }
