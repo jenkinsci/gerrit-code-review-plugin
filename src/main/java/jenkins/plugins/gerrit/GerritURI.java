@@ -11,7 +11,7 @@ import org.eclipse.jgit.transport.URIish;
  */
 public class GerritURI {
 
-  private enum Scheme {
+  private static enum Scheme {
     HTTP,
     HTTPS,
     SSH
@@ -110,7 +110,7 @@ public class GerritURI {
     return GERRIT_ANON_HTTP_URI_PATTERN.matcher(remoteURI.getRawPath());
   }
 
-  private static Scheme getScheme(String value) {
+  private Scheme getScheme(String value) {
     for (Scheme scheme : Scheme.values()) {
       if (scheme.name().equalsIgnoreCase(value)) {
         return scheme;
