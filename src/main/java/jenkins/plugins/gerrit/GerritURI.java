@@ -22,7 +22,7 @@ public class GerritURI {
       Pattern.compile("(.*?)/a/(.*)(\\.git)?");
 
   private static final Pattern GERRIT_ANON_HTTP_URI_PATTERN =
-      Pattern.compile("(.*?)/([^/\\.]+)(\\.git)?");
+      Pattern.compile("(/)([^\\.]+)(\\.git)?");
 
   private final URIish remoteURI;
 

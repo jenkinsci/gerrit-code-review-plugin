@@ -31,9 +31,9 @@ public class GerritURITest {
 
   @Test
   public void anonymousAccessProjectNameIsExtractedFromHTTPURI() throws URISyntaxException {
-    GerritURI gerritURI = new GerritURI(new URIish("http://host/project"));
+    GerritURI gerritURI = new GerritURI(new URIish("http://host/organisation/project"));
 
-    assertEquals("project", gerritURI.getProject());
+    assertEquals("organisation/project", gerritURI.getProject());
   }
 
   @Test

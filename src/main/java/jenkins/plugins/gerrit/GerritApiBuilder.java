@@ -3,8 +3,8 @@ package jenkins.plugins.gerrit;
 import com.cloudbees.plugins.credentials.CredentialsProvider;
 import com.cloudbees.plugins.credentials.common.StandardUsernamePasswordCredentials;
 import com.google.gerrit.extensions.api.GerritApi;
-import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
 import com.urswolfer.gerrit.client.rest.GerritAuthData;
+import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
 import com.urswolfer.gerrit.client.rest.http.HttpClientBuilderExtension;
 import hudson.EnvVars;
 import hudson.model.Run;
@@ -17,17 +17,46 @@ import java.util.List;
 import org.eclipse.jgit.transport.URIish;
 import org.jenkinsci.plugins.workflow.steps.StepContext;
 
-/**
- * A wrapper on top of GerritApi.
- * Enables common functionality.
- */
+/** A wrapper on top of GerritApi. Enables common functionality. */
 public class GerritApiBuilder {
-
-  private PrintStream logger;
+  private PrintStream logger = System.out;
   private URIish gerritApiUrl;
   private Boolean insecureHttps;
   private String username;
   private String password;
+
+  public static class AnonymousAuth implements GerritAuthData {
+    private final String gerritApiUrl;
+
+    public AnonymousAuth(String gerritApiUrl) {
+      this.gerritApiUrl = gerritApiUrl;
+    }
+
+    @Override
+    public String getLogin() {
+      return null;
+    }
+
+    @Override
+    public String getPassword() {
+      return null;
+    }
+
+    @Override
+    public boolean isHttpPassword() {
+      return false;
+    }
+
+    @Override
+    public String getHost() {
+      return gerritApiUrl;
+    }
+
+    @Override
+    public boolean isLoginAndPasswordAvailable() {
+      return false;
+    }
+  }
 
   public GerritApiBuilder logger(PrintStream logger) {
     this.logger = logger;
@@ -42,8 +71,7 @@ public class GerritApiBuilder {
   public GerritApiBuilder gerritApiUrl(String gerritApiUrl) throws URISyntaxException {
     if (gerritApiUrl == null) {
       this.gerritApiUrl = null;
-    }
-    else {
+    } else {
       gerritApiUrl(new URIish(gerritApiUrl));
     }
     return this;
@@ -68,42 +96,47 @@ public class GerritApiBuilder {
     return this;
   }
 
-  public GerritApiBuilder stepContext(StepContext context) throws URISyntaxException, IOException, InterruptedException {
+  public GerritApiBuilder stepContext(StepContext context)
+      throws URISyntaxException, IOException, InterruptedException {
     EnvVars envVars = context.get(EnvVars.class);
     logger(context.get(TaskListener.class).getLogger());
     if (envVars.containsKey("GERRIT_API_URL")) {
       gerritApiUrl(envVars.get("GERRIT_API_URL"));
-    }
-    else if (envVars.containsKey("GERRIT_CHANGE_URL")) {
+    } else if (envVars.containsKey("GERRIT_CHANGE_URL")) {
       gerritApiUrl(new GerritURI(new URIish(envVars.get("GERRIT_CHANGE_URL"))).getApiURI());
     }
     insecureHttps(Boolean.parseBoolean(envVars.get("GERRIT_API_INSECURE_HTTPS")));
     String credentialsId = envVars.get("GERRIT_CREDENTIALS_ID");
     if (credentialsId != null) {
-      credentials(CredentialsProvider.findCredentialById(credentialsId,
-        StandardUsernamePasswordCredentials.class, context.get(Run.class)));
+      credentials(
+          CredentialsProvider.findCredentialById(
+              credentialsId, StandardUsernamePasswordCredentials.class, context.get(Run.class)));
     }
     return this;
   }
 
   public GerritApi build() {
     GerritApi gerritApi = null;
+    List<HttpClientBuilderExtension> extensions = new ArrayList<>();
+    GerritAuthData authData = null;
     if (gerritApiUrl == null) {
       logger.println("Gerrit Review is disabled no API URL");
-    }
-    else if (username == null) {
+    } else if (username == null) {
       logger.println("Gerrit Review is disabled no credentials");
-    }
-    else {
-      GerritAuthData.Basic authData =
-          new GerritAuthData.Basic(gerritApiUrl.toString(), username, password);
-      List<HttpClientBuilderExtension> extensions = new ArrayList<>();
+      authData = new AnonymousAuth(gerritApiUrl.toString());
+    } else {
+      authData = new GerritAuthData.Basic(gerritApiUrl.toString(), username, password);
       if (Boolean.TRUE.equals(insecureHttps)) {
         extensions.add(SSLNoVerifyCertificateManagerClientBuilderExtension.INSTANCE);
       }
-      gerritApi = new GerritRestApiFactory()
-              .create(authData, extensions.toArray(new HttpClientBuilderExtension[0]));
     }
+    gerritApi =
+        new GerritRestApiFactory()
+            .create(authData, extensions.toArray(new HttpClientBuilderExtension[0]));
     return gerritApi;
+  }
+
+  public boolean isAnonymous() {
+    return gerritApiUrl == null || username == null;
   }
 }
