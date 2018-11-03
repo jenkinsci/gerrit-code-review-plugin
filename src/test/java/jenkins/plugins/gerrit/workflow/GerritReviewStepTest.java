@@ -22,10 +22,8 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import hudson.model.Result;
 import java.util.Collections;
-import javax.net.ssl.SSLHandshakeException;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
@@ -109,24 +107,33 @@ public class GerritReviewStepTest {
     String message = "Does not work";
     String branch = String.format("%02d/%d/%d", changeId % 100, changeId, revision);
 
-    UsernamePasswordCredentialsImpl c = new UsernamePasswordCredentialsImpl(CredentialsScope.GLOBAL, "cid", "cid", "USERNAME", "PASSWORD");
-    CredentialsProvider.lookupStores(j.jenkins).iterator().next().addCredentials(Domain.global(), c);
+    UsernamePasswordCredentialsImpl c =
+        new UsernamePasswordCredentialsImpl(
+            CredentialsScope.GLOBAL, "cid", "cid", "USERNAME", "PASSWORD");
+    CredentialsProvider.lookupStores(j.jenkins)
+        .iterator()
+        .next()
+        .addCredentials(Domain.global(), c);
     WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "p");
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                  ""
-                + "node {\n"
-                + "  withEnv([\n"
-                + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
-                + "    'GERRIT_CREDENTIALS_ID=cid',\n"
-                + "    'BRANCH_NAME=%s',\n"
-                + "  ]) {\n"
-                + "    gerritReview label: '%s', score: %s, message: '%s'\n"
-                + "  }\n"
-                + "}",
-                g.getClient().remoteAddress().getHostString(), g.getClient().remoteAddress().getPort(),
-                branch, label, score, message),
+                ""
+                    + "node {\n"
+                    + "  withEnv([\n"
+                    + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
+                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
+                    + "    'BRANCH_NAME=%s',\n"
+                    + "  ]) {\n"
+                    + "    gerritReview label: '%s', score: %s, message: '%s'\n"
+                    + "  }\n"
+                    + "}",
+                g.getClient().remoteAddress().getHostString(),
+                g.getClient().remoteAddress().getPort(),
+                branch,
+                label,
+                score,
+                message),
             true));
 
     WorkflowRun run = j.assertBuildStatus(Result.FAILURE, p.scheduleBuild2(0));
@@ -144,44 +151,66 @@ public class GerritReviewStepTest {
     String message = "Does not work";
     String branch = String.format("%02d/%d/%d", changeId % 100, changeId, revision);
 
-    UsernamePasswordCredentialsImpl c = new UsernamePasswordCredentialsImpl(CredentialsScope.GLOBAL, "cid", "cid", "USERNAME", "PASSWORD");
-    CredentialsProvider.lookupStores(j.jenkins).iterator().next().addCredentials(Domain.global(), c);
+    UsernamePasswordCredentialsImpl c =
+        new UsernamePasswordCredentialsImpl(
+            CredentialsScope.GLOBAL, "cid", "cid", "USERNAME", "PASSWORD");
+    CredentialsProvider.lookupStores(j.jenkins)
+        .iterator()
+        .next()
+        .addCredentials(Domain.global(), c);
     WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "p");
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                  ""
-                + "node {\n"
-                + "  withEnv([\n"
-                + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
-                + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
-                + "    'GERRIT_CREDENTIALS_ID=cid',\n"
-                + "    'BRANCH_NAME=%s',\n"
-                + "  ]) {\n"
-                + "    gerritReview labels: ['%s': %s], message: '%s'\n"
-                + "  }\n"
-                + "}",
-                g.getClient().remoteAddress().getHostString(), g.getClient().remoteAddress().getPort(),
-                branch, label, score, message),
+                ""
+                    + "node {\n"
+                    + "  withEnv([\n"
+                    + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
+                    + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
+                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
+                    + "    'BRANCH_NAME=%s',\n"
+                    + "  ]) {\n"
+                    + "    gerritReview labels: ['%s': %s], message: '%s'\n"
+                    + "  }\n"
+                    + "}",
+                g.getClient().remoteAddress().getHostString(),
+                g.getClient().remoteAddress().getPort(),
+                branch,
+                label,
+                score,
+                message),
             true));
 
-    g.getClient().when(HttpRequest.request("/a/project/login/").withMethod("POST"))
+    g.getClient()
+        .when(HttpRequest.request("/a/project/login/").withMethod("POST"))
         .respond(HttpResponse.response().withStatusCode(200));
     ReviewInput reviewInput = new ReviewInputForObjectMapper().label(label, score).message(message);
     reviewInput.drafts = ReviewInput.DraftHandling.PUBLISH;
     reviewInput.tag = "autogenerated:jenkins";
     reviewInput.notify = NotifyHandling.OWNER;
-    g.getClient().when(
-        HttpRequest.request(String.format("/a/project/a/changes/%s/revisions/%s/review", changeId, revision))
-            .withMethod("POST")
-            .withBody(JsonBody.json(reviewInput)))
-        .respond(HttpResponse.response().withStatusCode(200).withBody(JsonBody.json(Collections.emptyMap())));
+    g.getClient()
+        .when(
+            HttpRequest.request(
+                    String.format(
+                        "/a/project/a/changes/%s/revisions/%s/review", changeId, revision))
+                .withMethod("POST")
+                .withBody(JsonBody.json(reviewInput)))
+        .respond(
+            HttpResponse.response()
+                .withStatusCode(200)
+                .withBody(JsonBody.json(Collections.emptyMap())));
 
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
     System.out.println(log);
-    g.getClient().verify(HttpRequest.request("/a/project/login/").withMethod("POST"), VerificationTimes.once());
-    g.getClient().verify(HttpRequest.request(String.format("/a/project/a/changes/%s/revisions/%s/review", changeId, revision)), VerificationTimes.once());
+    g.getClient()
+        .verify(
+            HttpRequest.request("/a/project/login/").withMethod("POST"), VerificationTimes.once());
+    g.getClient()
+        .verify(
+            HttpRequest.request(
+                String.format("/a/project/a/changes/%s/revisions/%s/review", changeId, revision)),
+            VerificationTimes.once());
   }
 
   @Test
@@ -195,47 +224,74 @@ public class GerritReviewStepTest {
     String message = "Does not work";
     String branch = String.format("%02d/%d/%d", changeId % 100, changeId, revision);
 
-    UsernamePasswordCredentialsImpl c = new UsernamePasswordCredentialsImpl(CredentialsScope.GLOBAL, "cid", "cid", "USERNAME", "PASSWORD");
-    CredentialsProvider.lookupStores(j.jenkins).iterator().next().addCredentials(Domain.global(), c);
+    UsernamePasswordCredentialsImpl c =
+        new UsernamePasswordCredentialsImpl(
+            CredentialsScope.GLOBAL, "cid", "cid", "USERNAME", "PASSWORD");
+    CredentialsProvider.lookupStores(j.jenkins)
+        .iterator()
+        .next()
+        .addCredentials(Domain.global(), c);
     WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "p");
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                  ""
-                + "node {\n"
-                + "  withEnv([\n"
-                + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
-                + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
-                + "    'GERRIT_CREDENTIALS_ID=cid',\n"
-                + "    'BRANCH_NAME=%s',\n"
-                + "  ]) {\n"
-                + "    gerritReview labels: ['%s': %s, '%s': %s], message: '%s'\n"
-                + "  }\n"
-                + "}",
-                g.getClient().remoteAddress().getHostString(), g.getClient().remoteAddress().getPort(),
-                branch, label1, score1, label2, score2, message),
+                ""
+                    + "node {\n"
+                    + "  withEnv([\n"
+                    + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
+                    + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
+                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
+                    + "    'BRANCH_NAME=%s',\n"
+                    + "  ]) {\n"
+                    + "    gerritReview labels: ['%s': %s, '%s': %s], message: '%s'\n"
+                    + "  }\n"
+                    + "}",
+                g.getClient().remoteAddress().getHostString(),
+                g.getClient().remoteAddress().getPort(),
+                branch,
+                label1,
+                score1,
+                label2,
+                score2,
+                message),
             true));
 
-    g.getClient().when(HttpRequest.request("/a/project/login/").withMethod("POST"))
+    g.getClient()
+        .when(HttpRequest.request("/a/project/login/").withMethod("POST"))
         .respond(HttpResponse.response().withStatusCode(200));
-    ReviewInput reviewInput = new ReviewInputForObjectMapper().label(label1, score1).label(label2, score2).message(message);
+    ReviewInput reviewInput =
+        new ReviewInputForObjectMapper()
+            .label(label1, score1)
+            .label(label2, score2)
+            .message(message);
     reviewInput.drafts = ReviewInput.DraftHandling.PUBLISH;
     reviewInput.tag = "autogenerated:jenkins";
     reviewInput.notify = NotifyHandling.OWNER;
-    g.getClient().when(
-        HttpRequest.request(String.format("/a/project/a/changes/%s/revisions/%s/review", changeId, revision))
-            .withMethod("POST")
-            .withBody(JsonBody.json(reviewInput)))
-        .respond(HttpResponse.response().withStatusCode(200).withBody(JsonBody.json(Collections.emptyMap())));
+    g.getClient()
+        .when(
+            HttpRequest.request(
+                    String.format(
+                        "/a/project/a/changes/%s/revisions/%s/review", changeId, revision))
+                .withMethod("POST")
+                .withBody(JsonBody.json(reviewInput)))
+        .respond(
+            HttpResponse.response()
+                .withStatusCode(200)
+                .withBody(JsonBody.json(Collections.emptyMap())));
 
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
     System.out.println(log);
-    g.getClient().verify(HttpRequest.request("/a/project/login/").withMethod("POST"), VerificationTimes.once());
-    g.getClient().verify(HttpRequest.request(String.format("/a/project/a/changes/%s/revisions/%s/review", changeId, revision)), VerificationTimes.once());
+    g.getClient()
+        .verify(
+            HttpRequest.request("/a/project/login/").withMethod("POST"), VerificationTimes.once());
+    g.getClient()
+        .verify(
+            HttpRequest.request(
+                String.format("/a/project/a/changes/%s/revisions/%s/review", changeId, revision)),
+            VerificationTimes.once());
   }
 
   @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-  private static class ReviewInputForObjectMapper extends ReviewInput {
-  }
+  private static class ReviewInputForObjectMapper extends ReviewInput {}
 }

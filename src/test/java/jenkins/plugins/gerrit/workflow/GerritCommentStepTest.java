@@ -46,43 +46,65 @@ public class GerritCommentStepTest {
     String message = "Invalid spacing";
     String branch = String.format("%02d/%d/%d", changeId % 100, changeId, revision);
 
-    UsernamePasswordCredentialsImpl c = new UsernamePasswordCredentialsImpl(CredentialsScope.GLOBAL, "cid", "cid", "USERNAME", "PASSWORD");
-    CredentialsProvider.lookupStores(j.jenkins).iterator().next().addCredentials(Domain.global(), c);
+    UsernamePasswordCredentialsImpl c =
+        new UsernamePasswordCredentialsImpl(
+            CredentialsScope.GLOBAL, "cid", "cid", "USERNAME", "PASSWORD");
+    CredentialsProvider.lookupStores(j.jenkins)
+        .iterator()
+        .next()
+        .addCredentials(Domain.global(), c);
     WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "p");
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                  ""
-                + "node {\n"
-                + "  withEnv([\n"
-                + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
-                + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
-                + "    'GERRIT_CREDENTIALS_ID=cid',\n"
-                + "    'BRANCH_NAME=%s',\n"
-                + "  ]) {\n"
-                + "    gerritComment path: '%s', line: %s, message: '%s'\n"
-                + "  }\n"
-                + "}",
-                g.getClient().remoteAddress().getHostString(), g.getClient().remoteAddress().getPort(),
-                branch, path, line, message),
+                ""
+                    + "node {\n"
+                    + "  withEnv([\n"
+                    + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
+                    + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
+                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
+                    + "    'BRANCH_NAME=%s',\n"
+                    + "  ]) {\n"
+                    + "    gerritComment path: '%s', line: %s, message: '%s'\n"
+                    + "  }\n"
+                    + "}",
+                g.getClient().remoteAddress().getHostString(),
+                g.getClient().remoteAddress().getPort(),
+                branch,
+                path,
+                line,
+                message),
             true));
 
-    g.getClient().when(HttpRequest.request("/a/project/login/").withMethod("POST"))
+    g.getClient()
+        .when(HttpRequest.request("/a/project/login/").withMethod("POST"))
         .respond(HttpResponse.response().withStatusCode(200));
     DraftInput draftInput = new DraftInput();
     draftInput.path = path;
     draftInput.line = line;
     draftInput.message = message;
-    g.getClient().when(
-        HttpRequest.request(String.format("/a/project/a/changes/%s/revisions/%s/drafts", changeId, revision))
-            .withMethod("PUT")
-            .withBody(JsonBody.json(draftInput)))
-        .respond(HttpResponse.response().withStatusCode(200).withBody(JsonBody.json(Collections.emptyMap())));
+    g.getClient()
+        .when(
+            HttpRequest.request(
+                    String.format(
+                        "/a/project/a/changes/%s/revisions/%s/drafts", changeId, revision))
+                .withMethod("PUT")
+                .withBody(JsonBody.json(draftInput)))
+        .respond(
+            HttpResponse.response()
+                .withStatusCode(200)
+                .withBody(JsonBody.json(Collections.emptyMap())));
 
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
     System.out.println(log);
-    g.getClient().verify(HttpRequest.request("/a/project/login/").withMethod("POST"), VerificationTimes.once());
-    g.getClient().verify(HttpRequest.request(String.format("/a/project/a/changes/%s/revisions/%s/drafts", changeId, revision)), VerificationTimes.once());
+    g.getClient()
+        .verify(
+            HttpRequest.request("/a/project/login/").withMethod("POST"), VerificationTimes.once());
+    g.getClient()
+        .verify(
+            HttpRequest.request(
+                String.format("/a/project/a/changes/%s/revisions/%s/drafts", changeId, revision)),
+            VerificationTimes.once());
   }
 }

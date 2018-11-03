@@ -56,7 +56,6 @@ import jenkins.scm.api.trait.SCMSourceTrait;
 import jenkins.scm.api.trait.SCMSourceTraitDescriptor;
 import jenkins.scm.api.trait.SCMTrait;
 import jenkins.scm.impl.ChangeRequestSCMHeadCategory;
-import jenkins.scm.impl.TagSCMHeadCategory;
 import jenkins.scm.impl.UncategorizedSCMHeadCategory;
 import jenkins.scm.impl.form.NamedArrayList;
 import jenkins.scm.impl.trait.Discovery;
@@ -276,7 +275,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
     return traits;
   }
 
-  @Symbol({"gerrit","git"})
+  @Symbol({"gerrit", "git"})
   @Extension
   public static class DescriptorImpl extends SCMSourceDescriptor {
 
@@ -399,9 +398,9 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
     @NonNull
     @Override
     protected SCMHeadCategory[] createCategories() {
-      return new SCMHeadCategory[]{
-      UncategorizedSCMHeadCategory.DEFAULT,
-              new ChangeRequestSCMHeadCategory(Messages._GerritSCMSource_ChangeRequestCategory())
+      return new SCMHeadCategory[] {
+        UncategorizedSCMHeadCategory.DEFAULT,
+        new ChangeRequestSCMHeadCategory(Messages._GerritSCMSource_ChangeRequestCategory())
       };
     }
   }

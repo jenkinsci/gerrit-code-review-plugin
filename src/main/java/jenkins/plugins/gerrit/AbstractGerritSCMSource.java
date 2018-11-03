@@ -14,10 +14,10 @@
 
 package jenkins.plugins.gerrit;
 
+import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.api.GerritApi;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
@@ -138,8 +138,8 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                   if (isOpenChange(refName, openChanges)) {
                     if (processChangeRequest(repository, walk, request, ref, listener)) {
                       listener
-                              .getLogger()
-                              .format("Processed %d changes (query complete)%n", changesCount);
+                          .getLogger()
+                          .format("Processed %d changes (query complete)%n", changesCount);
                       changesCount++;
                       return;
                     }
@@ -506,7 +506,8 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     }
   }
 
-  private GerritApi createGerritApi(@NonNull TaskListener listener, GerritURI remoteUri) throws IOException {
+  private GerritApi createGerritApi(@NonNull TaskListener listener, GerritURI remoteUri)
+      throws IOException {
     try {
       UsernamePasswordCredentialsProvider.UsernamePassword credentials =
           new UsernamePasswordCredentialsProvider(getCredentials())
