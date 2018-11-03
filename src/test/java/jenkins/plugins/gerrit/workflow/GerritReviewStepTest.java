@@ -75,7 +75,7 @@ public class GerritReviewStepTest {
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
 
-    j.assertLogContains("Gerrit Review is disabled no credentials", run);
+    j.assertLogContains("Gerrit Review requires authentication", run);
   }
 
   @Test
@@ -95,7 +95,7 @@ public class GerritReviewStepTest {
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
 
-    j.assertLogContains("Gerrit Review is disabled no credentials", run);
+    j.assertLogContains("Gerrit Review requires authentication", run);
   }
 
   @Test
