@@ -14,11 +14,12 @@
 
 package jenkins.plugins.gerrit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import com.google.gerrit.extensions.api.GerritApi;
 import java.net.URISyntaxException;
-import org.junit.*;
+import org.eclipse.jgit.transport.URIish;
+import org.junit.Test;
 
 public class GerritApiBuilderTest {
 
@@ -26,8 +27,8 @@ public class GerritApiBuilderTest {
   public void testShouldWorkWithoutCredentials() throws URISyntaxException {
     GerritApi restApi =
         new GerritApiBuilder()
-            .gerritApiUrl("http://gerrit.mycompany.com")
-            .credentials(null, null)
+            .gerritApiUrl(new URIish("http://gerrit.mycompany.com"))
+            .credentialsProvider(null)
             .build();
     assertNotNull(restApi);
   }

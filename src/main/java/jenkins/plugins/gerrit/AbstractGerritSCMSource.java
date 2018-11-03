@@ -32,14 +32,27 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import jenkins.plugins.git.AbstractGitSCMSource;
 import jenkins.plugins.git.GitRemoteHeadRefAction;
 import jenkins.plugins.git.GitSCMSourceContext;
 import jenkins.plugins.git.GitSCMSourceRequest;
-import jenkins.scm.api.*;
+import jenkins.scm.api.SCMFile;
+import jenkins.scm.api.SCMHead;
+import jenkins.scm.api.SCMHeadCategory;
+import jenkins.scm.api.SCMHeadEvent;
+import jenkins.scm.api.SCMHeadObserver;
+import jenkins.scm.api.SCMProbe;
+import jenkins.scm.api.SCMProbeStat;
+import jenkins.scm.api.SCMRevision;
+import jenkins.scm.api.SCMSourceCriteria;
+import jenkins.scm.api.SCMSourceEvent;
 import jenkins.scm.api.trait.SCMSourceRequest;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.lib.Constants;
@@ -64,7 +77,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
         throws IOException, InterruptedException;
   }
 
-  public AbstractGerritSCMSource() {}
+  public AbstractGerritSCMSource() throws IOException {}
 
   public Boolean getInsecureHttps() {
     return null;
@@ -494,7 +507,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       }
 
       GerritURI gerritURI = getGerritURI();
-      GerritApi gerritApi = createGerritApi(listener, gerritURI);
+      GerritApi gerritApi = createGerritApi(listener, apiURI);
       if (gerritApi == null) {
         throw new IllegalStateException("Invalid gerrit configuration");
       }
@@ -508,19 +521,17 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     }
   }
 
-  private GerritApi createGerritApi(@NonNull TaskListener listener, GerritURI remoteUri)
-      throws IOException {
-    UsernamePasswordCredentialsProvider credentialsProvider = new UsernamePasswordCredentialsProvider(getCredentials());
+  private GerritApi createGerritApi(@NonNull TaskListener listener, URIish apiURI) {
 
-      return new GerritApiBuilder()
-          .logger(listener.getLogger())
-          .gerritApiUrl(remoteUri.getApiURI())
-          .insecureHttps(getInsecureHttps())
-          .credentials(credentials.username, credentials.password)
-          .build();
-    } catch (URISyntaxException e) {
-      throw new IOException(e);
-    }
+    UsernamePasswordCredentialsProvider credentialsProvider =
+        new UsernamePasswordCredentialsProvider(getCredentials());
+
+    return new GerritApiBuilder()
+        .logger(listener.getLogger())
+        .gerritApiUrl(apiURI)
+        .insecureHttps(getInsecureHttps())
+        .credentialsProvider(credentialsProvider)
+        .build();
   }
 
   private Changes.QueryRequest getOpenChanges(GerritApi gerritApi, String project)
