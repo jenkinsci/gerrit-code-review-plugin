@@ -63,26 +63,28 @@ public class GerritCommentStep extends Step {
 
     @Override
     protected Void run() throws Exception {
+      GerritApi gerritApi =
+          new GerritApiBuilder().stepContext(getContext()).allowAnonymous(false).build();
+      if (gerritApi == null) {
+        return null;
+      }
 
-      GerritApi gerritApi = new GerritApiBuilder().stepContext(getContext()).build();
-      if (gerritApi != null) {
-        GerritChange change = new GerritChange(getContext());
-        if (change.valid()) {
-          listener
-              .getLogger()
-              .format(
-                  "Gerrit review change %d/%d %s=%d (%s)%n",
-                  change.getChangeId(), change.getRevision(), path, line, message);
-          DraftInput draftInput = new DraftInput();
-          draftInput.path = path;
-          draftInput.line = line;
-          draftInput.message = message;
-          gerritApi
-              .changes()
-              .id(change.getChangeId())
-              .revision(change.getRevision())
-              .createDraft(draftInput);
-        }
+      GerritChange change = new GerritChange(getContext());
+      if (change.valid()) {
+        listener
+            .getLogger()
+            .format(
+                "Gerrit review change %d/%d %s=%d (%s)%n",
+                change.getChangeId(), change.getRevision(), path, line, message);
+        DraftInput draftInput = new DraftInput();
+        draftInput.path = path;
+        draftInput.line = line;
+        draftInput.message = message;
+        gerritApi
+            .changes()
+            .id(change.getChangeId())
+            .revision(change.getRevision())
+            .createDraft(draftInput);
       }
       return null;
     }

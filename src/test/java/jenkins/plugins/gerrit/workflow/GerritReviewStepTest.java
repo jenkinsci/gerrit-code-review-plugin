@@ -23,6 +23,8 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import hudson.model.Result;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Collections;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
@@ -31,6 +33,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.mockserver.junit.MockServerRule;
+import org.mockserver.model.Header;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 import org.mockserver.model.JsonBody;
@@ -222,11 +225,12 @@ public class GerritReviewStepTest {
     String label2 = "CI-Review";
     int score2 = -1;
     String message = "Does not work";
+    String user = "USERNAME";
+    String password = "PASSWORD";
     String branch = String.format("%02d/%d/%d", changeId % 100, changeId, revision);
 
     UsernamePasswordCredentialsImpl c =
-        new UsernamePasswordCredentialsImpl(
-            CredentialsScope.GLOBAL, "cid", "cid", "USERNAME", "PASSWORD");
+        new UsernamePasswordCredentialsImpl(CredentialsScope.GLOBAL, "cid", "cid", user, password);
     CredentialsProvider.lookupStores(j.jenkins)
         .iterator()
         .next()
@@ -288,7 +292,17 @@ public class GerritReviewStepTest {
     g.getClient()
         .verify(
             HttpRequest.request(
-                String.format("/a/project/a/changes/%s/revisions/%s/review", changeId, revision)),
+                    String.format(
+                        "/a/project/a/changes/%s/revisions/%s/review", changeId, revision))
+                .withHeader(
+                    Header.header(
+                        "Authorization",
+                        String.format(
+                            "Basic %s",
+                            Base64.getEncoder()
+                                .encodeToString(
+                                    String.format("%s:%s", user, password)
+                                        .getBytes(StandardCharsets.UTF_8))))),
             VerificationTimes.once());
   }
 
