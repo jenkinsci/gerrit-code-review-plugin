@@ -16,6 +16,24 @@
       "revId": "d1b17da542cfc02b239d2cfc146ba1dc77bd3315",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1b69bd3_242a54e9",
+        "filename": "Jenkinsfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1015386
+      },
+      "writtenOn": "2018-11-06T14:04:19Z",
+      "side": 1,
+      "message": "Maybe you will prefer:\n\n gerritReview labels: [], message: \"Build started ${env.BUILD_URL}\"\n\nas we still have the backward compatibility of having verified, so we must specify the labels for now.",
+      "parentUuid": "93b7927a_7699aeda",
+      "revId": "d1b17da542cfc02b239d2cfc146ba1dc77bd3315",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
