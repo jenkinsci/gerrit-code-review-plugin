@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8bed600_c988dedf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1015386
+      },
+      "writtenOn": "2018-11-06T12:10:02Z",
+      "side": 1,
+      "message": "I suggest module name as prefix, for example:\n\n ci: Eat our-own dog-food and use our plugin for builds",
+      "revId": "3745c1589cc364b08706ec21e1d8e319819b9443",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00b5cdd5_e4077ba3",
+        "filename": "Jenkinsfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1015386
+      },
+      "writtenOn": "2018-11-06T12:10:02Z",
+      "side": 1,
+      "message": "I suggest to zero verified when triggered for visibility and avoid mistakes.\n\n gerritReview labels: [Verified: 0], message: \"Build started${env.BUILD_URL}\"",
+      "revId": "3745c1589cc364b08706ec21e1d8e319819b9443",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
