@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4bf52cee_6466c23c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-11-06T12:42:47Z",
+      "side": 1,
+      "message": "For \u0027ci\u0027 is fine, but when you start using it with longer words like \u0027workflow\u0027 it eats up a lot of space for the headline, which is typically recommended to be within 50 chars :-(",
+      "parentUuid": "c8bed600_c988dedf",
+      "revId": "3745c1589cc364b08706ec21e1d8e319819b9443",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "00b5cdd5_e4077ba3",
         "filename": "Jenkinsfile",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2018-11-06T12:10:02Z",
       "side": 1,
       "message": "I suggest to zero verified when triggered for visibility and avoid mistakes.\n\n gerritReview labels: [Verified: 0], message: \"Build started${env.BUILD_URL}\"",
+      "revId": "3745c1589cc364b08706ec21e1d8e319819b9443",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f37a5610_a9e7f7e7",
+        "filename": "Jenkinsfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-11-06T12:42:47Z",
+      "side": 1,
+      "message": "Yes, makes sense.",
+      "parentUuid": "00b5cdd5_e4077ba3",
       "revId": "3745c1589cc364b08706ec21e1d8e319819b9443",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
