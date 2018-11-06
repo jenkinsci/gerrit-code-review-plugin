@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42ac2322_9cfabe5e",
+        "filename": "Jenkinsfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1015386
+      },
+      "writtenOn": "2018-11-06T22:03:32Z",
+      "side": 1,
+      "message": "working for me:\n\n if (env.GERRIT_API_URL \u003d\u003d null) {\n\tthis.gerritComment \u003d { dict -\u003e }\n\tthis.gerritReview \u003d { dict -\u003e }\n }\n\ncan you please check?\n\njust add this here and use gerritComment/gerritReview as usual.",
+      "revId": "86d8103192691ca326ea5ed899e3b7934aaab6c6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
