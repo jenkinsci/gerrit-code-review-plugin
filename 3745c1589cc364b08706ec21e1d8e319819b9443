@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "d16785cf_75407f6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-11-06T14:47:49Z",
+      "side": 1,
+      "message": "I believe I\u0027ll switch back the sender e-mail identity on GerritHub: GMail filters out many of the e-mails when sees that the subject changes :-(",
+      "parentUuid": "8450cc1b_5b114986",
+      "revId": "3745c1589cc364b08706ec21e1d8e319819b9443",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "00b5cdd5_e4077ba3",
         "filename": "Jenkinsfile",
         "patchSetId": 3

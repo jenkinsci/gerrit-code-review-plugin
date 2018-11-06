@@ -34,6 +34,42 @@
       "revId": "d1b17da542cfc02b239d2cfc146ba1dc77bd3315",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9504a166_cd80d62e",
+        "filename": "Jenkinsfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-11-06T14:47:49Z",
+      "side": 1,
+      "message": "Makes sense.",
+      "parentUuid": "93b7927a_7699aeda",
+      "revId": "d1b17da542cfc02b239d2cfc146ba1dc77bd3315",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e888d5d9_06b61550",
+        "filename": "Jenkinsfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-11-06T14:47:49Z",
+      "side": 1,
+      "message": "Good catch.",
+      "parentUuid": "e1b69bd3_242a54e9",
+      "revId": "d1b17da542cfc02b239d2cfc146ba1dc77bd3315",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
