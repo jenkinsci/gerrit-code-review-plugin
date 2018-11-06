@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93b7927a_7699aeda",
+        "filename": "Jenkinsfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1015386
+      },
+      "writtenOn": "2018-11-06T12:53:12Z",
+      "side": 1,
+      "message": "here before build starts it should clear the verifeid flag.\n\n gerritReview labels: [Verified: 0], message: \"Build started ${env.BUILD_URL}\"",
+      "revId": "d1b17da542cfc02b239d2cfc146ba1dc77bd3315",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
