@@ -272,6 +272,12 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
   @NonNull
   @Override
   public List<SCMSourceTrait> getTraits() {
+    /* TODO: Workaround to get default traits with Jenkins Configuration-as-Code
+       It seems that the way the GerritSCMSource is instantiated by the job-dsl plugin
+       creates a null list of traits. It works fine instead if created form the Jenkins GUI */
+    if(traits == null) {
+      traits = new DescriptorImpl().getTraitsDefaults();
+    }
     return traits;
   }
 
