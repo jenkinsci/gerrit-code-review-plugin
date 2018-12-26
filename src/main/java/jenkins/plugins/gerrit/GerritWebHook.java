@@ -16,6 +16,7 @@ package jenkins.plugins.gerrit;
 
 import static hudson.model.Computer.threadPoolForRemoting;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.Gson;
 import hudson.Extension;
 import hudson.model.RootAction;
@@ -30,7 +31,6 @@ import javax.servlet.http.HttpServletRequest;
 import jenkins.model.Jenkins;
 import jenkins.scm.api.SCMSource;
 import jenkins.scm.api.SCMSourceOwner;
-import org.apache.commons.io.IOUtils;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
 import org.kohsuke.stapler.Stapler;
 import org.slf4j.Logger;
@@ -86,14 +86,11 @@ public class GerritWebHook implements UnprotectedRootAction {
     }
   }
 
-  private GerritProjectEvent getBody(HttpServletRequest req) throws IOException {
-    char[] body = new char[req.getContentLength()];
+  @VisibleForTesting
+  GerritProjectEvent getBody(HttpServletRequest req) throws IOException {
     try (InputStreamReader is =
         new InputStreamReader(req.getInputStream(), StandardCharsets.UTF_8)) {
-      IOUtils.readFully(is, body);
-      String bodyString = new String(body);
-      log.info("Received body: " + bodyString);
-      return gson.fromJson(bodyString, GerritProjectEvent.class);
+      return gson.fromJson(is, GerritProjectEvent.class);
     }
   }
 
