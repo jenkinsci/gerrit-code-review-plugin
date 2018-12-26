@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import jenkins.model.Jenkins;
 import jenkins.scm.api.SCMSource;
 import jenkins.scm.api.SCMSourceOwner;
+import org.acegisecurity.Authentication;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
 import org.kohsuke.stapler.Stapler;
 import org.slf4j.Logger;
@@ -66,7 +67,13 @@ public class GerritWebHook implements UnprotectedRootAction {
     HttpServletRequest req = Stapler.getCurrentRequest();
     GerritProjectEvent projectEvent = getBody(req);
 
-    log.info("GerritWebHook invoked for event " + projectEvent);
+    String username = "anonymous";
+    Authentication authentication = getJenkinsInstance().getAuthentication();
+    if (authentication != null) {
+      username = authentication.getName();
+    }
+
+    log.info("GerritWebHook invoked by user '{}' for event: {}", username, projectEvent);
 
     List<WorkflowMultiBranchProject> jenkinsItems =
         getJenkinsInstance().getAllItems(WorkflowMultiBranchProject.class);
