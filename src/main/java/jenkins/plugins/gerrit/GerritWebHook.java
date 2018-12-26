@@ -21,6 +21,7 @@ import hudson.Extension;
 import hudson.model.RootAction;
 import hudson.model.UnprotectedRootAction;
 import hudson.util.SequentialExecutionQueue;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -29,7 +30,6 @@ import javax.servlet.http.HttpServletRequest;
 import jenkins.model.Jenkins;
 import jenkins.scm.api.SCMSource;
 import jenkins.scm.api.SCMSourceOwner;
-import org.apache.commons.io.IOUtils;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
 import org.kohsuke.stapler.Stapler;
 import org.slf4j.Logger;
@@ -86,12 +86,17 @@ public class GerritWebHook implements UnprotectedRootAction {
   }
 
   private GerritProjectEvent getBody(HttpServletRequest req) throws IOException {
-    char[] body = new char[req.getContentLength()];
     try (InputStreamReader is = new InputStreamReader(req.getInputStream())) {
-      IOUtils.readFully(is, body);
-      String bodyString = new String(body);
-      log.info("Received body: " + bodyString);
-      return gson.fromJson(bodyString, GerritProjectEvent.class);
+      StringBuilder stringBuilder = new StringBuilder();
+      String line = null;
+      try (BufferedReader br = new BufferedReader(is)) {
+        while ((line = br.readLine()) != null) {
+          stringBuilder.append(line);
+        }
+        String bodyString = stringBuilder.toString();
+        log.info("Received body: " + bodyString);
+        return gson.fromJson(bodyString, GerritProjectEvent.class);
+      }
     }
   }
 
