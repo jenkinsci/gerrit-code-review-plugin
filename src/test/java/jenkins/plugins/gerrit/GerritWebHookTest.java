@@ -15,12 +15,16 @@
 package jenkins.plugins.gerrit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.google.gson.JsonParseException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -28,20 +32,36 @@ import org.junit.Test;
 
 public class GerritWebHookTest {
   String testRepoName = "testrepo";
-  byte[] gerritEventBody = "{\"project\":{\"name\":\"testrepo\"}}".getBytes(StandardCharsets.UTF_8);
-  ByteArrayInputStream bodyInputStream = new ByteArrayInputStream(gerritEventBody);
+  GerritWebHook webHook = new GerritWebHook();
 
   @Test
   public void shouldExtractHttpPostBodyWhenLengthIsUnknown() throws Exception {
-    GerritWebHook webHook = new GerritWebHook();
+    byte[] gerritEventBody =
+        "{\"project\":{\"name\":\"testrepo\"}, \"type\":\"ref-updated\"}"
+            .getBytes(StandardCharsets.UTF_8);
+    Optional<GerritProjectEvent> projectEvent =
+        webHook.getBody(getInMemoryServletRequest(gerritEventBody));
 
-    GerritProjectEvent projectEvent = webHook.getBody(getInMemoryServletRequest(gerritEventBody));
+    assertTrue(projectEvent.isPresent());
+    assertEquals(testRepoName, projectEvent.get().project.name);
+  }
 
-    assertEquals(testRepoName, projectEvent.project.name);
+  @Test
+  public void shouldIngoreNotInterestingEvents() throws Exception {
+    assertFalse(
+        webHook
+            .getBody(getInMemoryServletRequest("{\"type\": \"dont-care\"}".getBytes()))
+            .isPresent());
+  }
+
+  @Test(expected = JsonParseException.class)
+  public void shouldThrowExceptionForInvalidJsonEvents() throws Exception {
+    webHook.getBody(getInMemoryServletRequest("this-is-invalid-JSON".getBytes()));
   }
 
   private HttpServletRequest getInMemoryServletRequest(byte[] body) throws IOException {
     int gerritEventBodySize = body.length;
+    ByteArrayInputStream bodyInputStream = new ByteArrayInputStream(body);
     HttpServletRequest mockedServletRequest = mock(HttpServletRequest.class);
     when(mockedServletRequest.getContentLength()).thenReturn(-1);
     when(mockedServletRequest.getInputStream())

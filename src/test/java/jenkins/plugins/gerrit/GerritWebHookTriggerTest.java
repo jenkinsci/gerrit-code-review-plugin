@@ -38,7 +38,8 @@ public class GerritWebHookTriggerTest {
   @Rule public GitSampleRepoRule g = new GitSampleRepoRule();
 
   String repoName = "somerepo";
-  String gerritEventBody = String.format("{\"project\":{\"name\":\"%s\"}}", repoName);
+  String gerritEventBody =
+      String.format("{\"project\":{\"name\":\"%s\"}, \"type\":\"ref-updated\"}", repoName);
   private String projectName = "someproject";
 
   @Test

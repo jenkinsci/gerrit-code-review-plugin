@@ -17,7 +17,10 @@ package jenkins.plugins.gerrit;
 import static hudson.model.Computer.threadPoolForRemoting;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.Sets;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import hudson.Extension;
 import hudson.model.RootAction;
 import hudson.model.UnprotectedRootAction;
@@ -26,6 +29,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.servlet.http.HttpServletRequest;
 import jenkins.model.Jenkins;
@@ -43,6 +48,16 @@ public class GerritWebHook implements UnprotectedRootAction {
   private static final Gson gson = new Gson();
 
   public static final String URLNAME = "gerrit-webhook";
+  private static final Set<String> ALLOWED_TYPES =
+      Sets.newHashSet(
+          "ref-updated",
+          "change-deleted",
+          "change-abandoned",
+          "change-merged",
+          "change-restored",
+          "patchset-created",
+          "private-state-changed",
+          "wip-state-changed");
 
   private final transient SequentialExecutionQueue queue =
       new SequentialExecutionQueue(threadPoolForRemoting);
@@ -65,39 +80,52 @@ public class GerritWebHook implements UnprotectedRootAction {
   @SuppressWarnings({"unused", "deprecation"})
   public void doIndex() throws IOException {
     HttpServletRequest req = Stapler.getCurrentRequest();
-    GerritProjectEvent projectEvent = getBody(req);
+    getBody(req)
+        .ifPresent(
+            projectEvent -> {
+              String username = "anonymous";
+              Authentication authentication = getJenkinsInstance().getAuthentication();
+              if (authentication != null) {
+                username = authentication.getName();
+              }
 
-    String username = "anonymous";
-    Authentication authentication = getJenkinsInstance().getAuthentication();
-    if (authentication != null) {
-      username = authentication.getName();
-    }
+              log.info("GerritWebHook invoked by user '{}' for event: {}", username, projectEvent);
 
-    log.info("GerritWebHook invoked by user '{}' for event: {}", username, projectEvent);
-
-    List<WorkflowMultiBranchProject> jenkinsItems =
-        getJenkinsInstance().getAllItems(WorkflowMultiBranchProject.class);
-    log.info("Scanning {} Jenkins items", jenkinsItems.size());
-    for (SCMSourceOwner scmJob : jenkinsItems) {
-      log.info("Scanning job " + scmJob);
-      List<SCMSource> scmSources = scmJob.getSCMSources();
-      for (SCMSource scmSource : scmSources) {
-        if (scmSource instanceof GerritSCMSource) {
-          GerritSCMSource gerritSCMSource = (GerritSCMSource) scmSource;
-          if (projectEvent.matches(gerritSCMSource.getRemote())) {
-            log.info("Triggering SCM event for source " + scmSources.get(0) + " on job " + scmJob);
-            scmJob.onSCMSourceUpdated(scmSource);
-          }
-        }
-      }
-    }
+              List<WorkflowMultiBranchProject> jenkinsItems =
+                  getJenkinsInstance().getAllItems(WorkflowMultiBranchProject.class);
+              log.info("Scanning {} Jenkins items", jenkinsItems.size());
+              for (SCMSourceOwner scmJob : jenkinsItems) {
+                log.info("Scanning job " + scmJob);
+                List<SCMSource> scmSources = scmJob.getSCMSources();
+                for (SCMSource scmSource : scmSources) {
+                  if (scmSource instanceof GerritSCMSource) {
+                    GerritSCMSource gerritSCMSource = (GerritSCMSource) scmSource;
+                    log.debug("Checking match for SCM source: " + gerritSCMSource.getRemote());
+                    if (projectEvent.matches(gerritSCMSource.getRemote())) {
+                      log.info(
+                          "Triggering SCM event for source "
+                              + scmSources.get(0)
+                              + " on job "
+                              + scmJob);
+                      scmJob.onSCMSourceUpdated(scmSource);
+                    }
+                  }
+                }
+              }
+            });
   }
 
   @VisibleForTesting
-  GerritProjectEvent getBody(HttpServletRequest req) throws IOException {
+  Optional<GerritProjectEvent> getBody(HttpServletRequest req) throws IOException {
     try (InputStreamReader is =
         new InputStreamReader(req.getInputStream(), StandardCharsets.UTF_8)) {
-      return gson.fromJson(is, GerritProjectEvent.class);
+      JsonObject eventJson = gson.fromJson(is, JsonObject.class);
+      JsonPrimitive eventType = eventJson.getAsJsonPrimitive("type");
+      if (eventType != null && ALLOWED_TYPES.contains(eventType.getAsString())) {
+        return Optional.of(gson.fromJson(eventJson, GerritProjectEvent.class));
+      }
+
+      return Optional.empty();
     }
   }
 
