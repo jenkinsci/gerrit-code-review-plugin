@@ -18,6 +18,7 @@ import static hudson.model.Computer.threadPoolForRemoting;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import hudson.Extension;
 import hudson.model.RootAction;
 import hudson.model.UnprotectedRootAction;
@@ -66,6 +67,10 @@ public class GerritWebHook implements UnprotectedRootAction {
     HttpServletRequest req = Stapler.getCurrentRequest();
     GerritProjectEvent projectEvent = getBody(req);
 
+    if (projectEvent == null) {
+      return;
+    }
+
     log.info("GerritWebHook invoked for event " + projectEvent);
 
     List<WorkflowMultiBranchProject> jenkinsItems =
@@ -77,6 +82,7 @@ public class GerritWebHook implements UnprotectedRootAction {
       for (SCMSource scmSource : scmSources) {
         if (scmSource instanceof GerritSCMSource) {
           GerritSCMSource gerritSCMSource = (GerritSCMSource) scmSource;
+          log.debug("Checking match for SCM source: " + gerritSCMSource.getRemote());
           if (projectEvent.matches(gerritSCMSource.getRemote())) {
             log.info("Triggering SCM event for source " + scmSources.get(0) + " on job " + scmJob);
             scmJob.onSCMSourceUpdated(scmSource);
@@ -91,6 +97,9 @@ public class GerritWebHook implements UnprotectedRootAction {
     try (InputStreamReader is =
         new InputStreamReader(req.getInputStream(), StandardCharsets.UTF_8)) {
       return gson.fromJson(is, GerritProjectEvent.class);
+    } catch (JsonSyntaxException e) {
+      log.debug("Not a Gerrit 'Project' Event, ignoring: " + bodyString);
+      return null;
     }
   }
 
