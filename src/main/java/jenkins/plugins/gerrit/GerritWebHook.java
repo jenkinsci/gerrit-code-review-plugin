@@ -69,7 +69,7 @@ public class GerritWebHook implements UnprotectedRootAction {
     log.info("GerritWebHook invoked for event " + projectEvent);
 
     List<WorkflowMultiBranchProject> jenkinsItems =
-        getJenkinsInstance().getItems(WorkflowMultiBranchProject.class);
+        getJenkinsInstance().getAllItems(WorkflowMultiBranchProject.class);
     log.info("Scanning {} Jenkins items", jenkinsItems.size());
     for (SCMSourceOwner scmJob : jenkinsItems) {
       log.info("Scanning job " + scmJob);
