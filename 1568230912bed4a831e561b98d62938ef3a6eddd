@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8b6b890c_e30f4f4f",
+        "filename": "pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1015386
+      },
+      "writtenOn": "2019-01-16T11:54:35Z",
+      "side": 1,
+      "message": "Among others it solves:\n\n[WARNING] /home/alonbl/tmp/Development/gerrit-code-review-plugin/target/generated-test-sources/injected/InjectedTest.java:[11,19] unchecked call to put(K,V) as a member of the raw type java.util.Map\n[WARNING] /home/alonbl/tmp/Development/gerrit-code-review-plugin/target/generated-test-sources/injected/InjectedTest.java:[12,19] unchecked call to put(K,V) as a member of the raw type java.util.Map\n[WARNING] /home/alonbl/tmp/Development/gerrit-code-review-plugin/target/generated-test-sources/injected/InjectedTest.java:[13,19] unchecked call to put(K,V) as a member of the raw type java.util.Map\n[WARNING] /home/alonbl/tmp/Development/gerrit-code-review-plugin/target/generated-test-sources/injected/InjectedTest.java:[14,19] unchecked call to put(K,V) as a member of the raw type java.util.Map\n[WARNING] /home/alonbl/tmp/Development/gerrit-code-review-plugin/target/generated-test-sources/injected/InjectedTest.java:[15,19] unchecked call to put(K,V) as a member of the raw type java.util.Map\n[WARNING] /home/alonbl/tmp/Development/gerrit-code-review-plugin/target/generated-test-sources/injected/InjectedTest.java:[16,19] unchecked call to put(K,V) as a member of the raw type java.util.Map\n[WARNING] /home/alonbl/tmp/Development/gerrit-code-review-plugin/target/generated-test-sources/injected/InjectedTest.java:[17,66] unchecked method invocation: method build in class org.jvnet.hudson.test.PluginAutomaticTestBuilder is applied to given types\n  required: java.util.Map\u003cjava.lang.String,?\u003e\n  found: java.util.Map\n[WARNING] /home/alonbl/tmp/Development/gerrit-code-review-plugin/target/generated-test-sources/injected/InjectedTest.java:[17,67] unchecked conversion\n  required: java.util.Map\u003cjava.lang.String,?\u003e\n  found:    java.util.Map",
+      "parentUuid": "d62aea94_a47e4e33",
+      "range": {
+        "startLine": 6,
+        "startChar": 16,
+        "endLine": 6,
+        "endChar": 17
+      },
+      "revId": "1568230912bed4a831e561b98d62938ef3a6eddd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b88380c8_187e77f4",
         "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
         "patchSetId": 4
