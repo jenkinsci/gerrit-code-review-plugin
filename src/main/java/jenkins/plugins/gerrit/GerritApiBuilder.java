@@ -14,6 +14,7 @@ import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.transport.URIish;
 import org.jenkinsci.plugins.workflow.steps.StepContext;
 
@@ -100,13 +101,13 @@ public class GerritApiBuilder {
       throws URISyntaxException, IOException, InterruptedException {
     EnvVars envVars = context.get(EnvVars.class);
     logger(context.get(TaskListener.class).getLogger());
-    if (envVars.containsKey("GERRIT_API_URL")) {
+    if (StringUtils.isNotEmpty(envVars.get("GERRIT_API_URL"))) {
       gerritApiUrl(envVars.get("GERRIT_API_URL"));
-    } else if (envVars.containsKey("GERRIT_CHANGE_URL")) {
+    } else if (StringUtils.isNotEmpty(envVars.get("GERRIT_CHANGE_URL"))) {
       gerritApiUrl(new GerritURI(new URIish(envVars.get("GERRIT_CHANGE_URL"))).getApiURI());
     }
     insecureHttps(Boolean.parseBoolean(envVars.get("GERRIT_API_INSECURE_HTTPS")));
-    String credentialsId = envVars.get("GERRIT_CREDENTIALS_ID");
+    String credentialsId = StringUtils.defaultIfEmpty(envVars.get("GERRIT_CREDENTIALS_ID"), null);
     if (credentialsId != null) {
       credentials(
           CredentialsProvider.findCredentialById(

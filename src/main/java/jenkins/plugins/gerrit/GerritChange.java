@@ -7,6 +7,7 @@ import java.io.PrintStream;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang.StringUtils;
 import org.jenkinsci.plugins.workflow.steps.StepContext;
 
 public class GerritChange {
@@ -20,11 +21,11 @@ public class GerritChange {
   public GerritChange(Map<String, String> env, PrintStream logger)
       throws IOException, InterruptedException {
 
-    if (env.containsKey("GERRIT_CHANGE_NUMBER")) {
+    if (StringUtils.isNotEmpty(env.get("GERRIT_CHANGE_NUMBER"))) {
       changeId = Integer.parseInt(env.get("GERRIT_CHANGE_NUMBER"));
       revision = Integer.parseInt(env.get("GERRIT_PATCHSET_NUMBER"));
     } else {
-      if (env.containsKey("BRANCH_NAME")) {
+      if (StringUtils.isNotEmpty(env.get("BRANCH_NAME"))) {
         Matcher matcher = BRANCH_PATTERN.matcher(env.get("BRANCH_NAME"));
         if (matcher.matches()) {
           changeId = Integer.parseInt(matcher.group("changeId"));
