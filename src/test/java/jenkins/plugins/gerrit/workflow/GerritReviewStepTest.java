@@ -56,6 +56,7 @@ public class GerritReviewStepTest {
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
 
+    System.out.println("Jenkins log: '" + log + "'");
     j.assertLogContains("Gerrit Review is disabled no API URL", run);
   }
 
