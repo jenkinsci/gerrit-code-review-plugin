@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1cecae2_3e215592",
+        "filename": "src/test/java/jenkins/plugins/gerrit/workflow/GerritReviewStepTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1015386
+      },
+      "writtenOn": "2019-01-16T14:16:13Z",
+      "side": 1,
+      "message": "it should work without any url... an empty url is invalid as far as I understand.",
+      "revId": "b96fa092ab74d73969826b83347442ea8895dde1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
