@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d62aea94_a47e4e33",
+        "filename": "pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1015386
+      },
+      "writtenOn": "2019-01-16T11:52:35Z",
+      "side": 1,
+      "message": "as far as I remember, this allows to move to source compatibility of java 1.8",
+      "parentUuid": "15152714_8bfb2c51",
+      "range": {
+        "startLine": 6,
+        "startChar": 16,
+        "endLine": 6,
+        "endChar": 17
+      },
+      "revId": "1568230912bed4a831e561b98d62938ef3a6eddd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b88380c8_187e77f4",
         "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2019-01-16T11:17:25Z",
       "side": 1,
       "message": "What\u0027s the reason of suppressing deprecation? Can we narrow this to the line? Or was it throughout the method?",
+      "range": {
+        "startLine": 455,
+        "startChar": 2,
+        "endLine": 455,
+        "endChar": 34
+      },
+      "revId": "1568230912bed4a831e561b98d62938ef3a6eddd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb5f91b8_a6532855",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1015386
+      },
+      "writtenOn": "2019-01-16T11:52:35Z",
+      "side": 1,
+      "message": "[WARNING] /home/alonbl/tmp/Development/gerrit-code-review-plugin/src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java:[486,22] prune() in org.jenkinsci.plugins.gitclient.FetchCommand has been deprecated\n\nthis is used intentionally, I guess the proper solution is to remove this entire class, as I do not see it in other implementations.",
+      "parentUuid": "b88380c8_187e77f4",
       "range": {
         "startLine": 455,
         "startChar": 2,
