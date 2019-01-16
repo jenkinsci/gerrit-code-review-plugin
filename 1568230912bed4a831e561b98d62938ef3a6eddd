@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15152714_8bfb2c51",
+        "filename": "pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-01-16T11:17:25Z",
+      "side": 1,
+      "message": "What was the warning about this change?",
+      "range": {
+        "startLine": 6,
+        "startChar": 16,
+        "endLine": 6,
+        "endChar": 17
+      },
+      "revId": "1568230912bed4a831e561b98d62938ef3a6eddd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b88380c8_187e77f4",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-01-16T11:17:25Z",
+      "side": 1,
+      "message": "What\u0027s the reason of suppressing deprecation? Can we narrow this to the line? Or was it throughout the method?",
+      "range": {
+        "startLine": 455,
+        "startChar": 2,
+        "endLine": 455,
+        "endChar": 34
+      },
+      "revId": "1568230912bed4a831e561b98d62938ef3a6eddd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
