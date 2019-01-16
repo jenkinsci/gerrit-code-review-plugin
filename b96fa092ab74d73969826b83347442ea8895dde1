@@ -16,6 +16,24 @@
       "revId": "b96fa092ab74d73969826b83347442ea8895dde1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b638bc25_bdc6560b",
+        "filename": "src/test/java/jenkins/plugins/gerrit/workflow/GerritReviewStepTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-01-16T14:25:45Z",
+      "side": 1,
+      "message": "When Jenkins is running this, inherits the OS environment variables by default. That means that when this test is run inside our Gerrit-driven pipeline on jenkins.gerritcentral.com, the GERRIT_API_URL is there unless we blank inside the withEnv().\n\nMystery solved :-) ... it was working on the CloudBees\u0027 Jenkins because they use instead the GitHub PR integration, which doesn\u0027t use Gerrit at all and has no GERRIT_API_URL variable defined by default.",
+      "parentUuid": "b1cecae2_3e215592",
+      "revId": "b96fa092ab74d73969826b83347442ea8895dde1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
