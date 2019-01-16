@@ -48,6 +48,7 @@ public class GerritReviewStepTest {
         new CpsFlowDefinition(
             "node {\n"
                 + "  withEnv([\n"
+                + "    'GERRIT_API_URL='"
                 + "  ]) {\n"
                 + "    gerritReview label: 'Verified', score: -1, message: 'Does not work'\n"
                 + "  }\n"
