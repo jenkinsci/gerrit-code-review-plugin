@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f79ba1ce_93265706",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritApiBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-01-18T14:25:44Z",
+      "side": 1,
+      "message": "If you allow anonymous access, you end up here ... but instead of passing an anonymous auth data you give null username and password. How did you verify that this is working?",
+      "range": {
+        "startLine": 106,
+        "startChar": 18,
+        "endLine": 106,
+        "endChar": 87
+      },
+      "revId": "9a4d4a197f030b33b72385cb6278323cf9ffd63c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
