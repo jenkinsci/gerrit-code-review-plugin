@@ -32,7 +32,7 @@ a test which verifies your change.
 
 ## Jenkins Setup
 
-### Using Multibranch Pipeline`
+### Using Multibranch Pipeline
 
 Create a new `Multibranch Pipeline` item.
 
