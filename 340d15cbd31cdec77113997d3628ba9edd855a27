@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5053374f_0b687236",
+        "filename": "pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-01-20T21:46:14Z",
+      "side": 1,
+      "message": "This should be mentioned in the commit message also.",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 17
+      },
+      "revId": "340d15cbd31cdec77113997d3628ba9edd855a27",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
