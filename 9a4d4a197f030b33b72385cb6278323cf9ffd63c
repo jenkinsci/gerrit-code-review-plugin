@@ -46,6 +46,30 @@
       "revId": "9a4d4a197f030b33b72385cb6278323cf9ffd63c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "598200b7_8cb41995",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritApiBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-01-20T20:49:33Z",
+      "side": 1,
+      "message": "I saw it, however, I don\u0027t like the fact of using a side-effect of the BasicAuth implementation.\nWhen writing code, we should rely on interfaces (contract) rather than implementations.\n\nWhy not making a subclass of BasicAuth which returns `true` on isLoginAndPasswordAvailable() method? Let me add a PS with that.",
+      "parentUuid": "20d44b0e_ae4c5f01",
+      "range": {
+        "startLine": 106,
+        "startChar": 18,
+        "endLine": 106,
+        "endChar": 87
+      },
+      "revId": "9a4d4a197f030b33b72385cb6278323cf9ffd63c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
