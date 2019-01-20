@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "745558d7_35a1f593",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-01-20T21:44:44Z",
+      "side": 1,
+      "message": "This seems more the oneliners of the commits of a PR.\n\nThe commit message is there to explain WHY you are doing something, and that something must be one thing. Prefer more descriptive language to explain why you are changing the code and what is the intended behavior.\n\nBy reading the code, my understanding is that the focus of this change is to display a warning when authentication is required but the credentials are empty, correct?\n\nThe fact of avoiding one extra class, seems more a refactoring which, as I explained in the review, it isn\u0027t good because is relying on a side-effect of the Basic Auth implementation, not its specification. I\u0027ll try to push another PS by keeping the extra class but possibly minimizing its size.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 60
+      },
+      "revId": "9a4d4a197f030b33b72385cb6278323cf9ffd63c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e09049d7_787e3203",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritApiBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-01-20T21:44:44Z",
+      "side": 1,
+      "message": "It seems that this flag is always used in negative form:\n- defaulted to true (the natural default for a boolean is false)\n- checked in negative (!allowAnonymous)\n\nWould be best to name is \u0027requireAuthentication\u0027 because this is what it does.\n\nCan I propose a change in the next PS?",
+      "range": {
+        "startLine": 96,
+        "startChar": 35,
+        "endLine": 96,
+        "endChar": 50
+      },
+      "revId": "9a4d4a197f030b33b72385cb6278323cf9ffd63c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f79ba1ce_93265706",
         "filename": "src/main/java/jenkins/plugins/gerrit/GerritApiBuilder.java",
         "patchSetId": 4
@@ -61,6 +107,30 @@
       "side": 1,
       "message": "I saw it, however, I don\u0027t like the fact of using a side-effect of the BasicAuth implementation.\nWhen writing code, we should rely on interfaces (contract) rather than implementations.\n\nWhy not making a subclass of BasicAuth which returns `true` on isLoginAndPasswordAvailable() method? Let me add a PS with that.",
       "parentUuid": "20d44b0e_ae4c5f01",
+      "range": {
+        "startLine": 106,
+        "startChar": 18,
+        "endLine": 106,
+        "endChar": 87
+      },
+      "revId": "9a4d4a197f030b33b72385cb6278323cf9ffd63c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b25ab7ed_3a04cfc0",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritApiBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-01-20T21:44:44Z",
+      "side": 1,
+      "message": "Let\u0027s leave as-is for the time being as it works. If that becomes a problem in the future, we\u0027ll then introduce an ad-hoc class.",
+      "parentUuid": "598200b7_8cb41995",
       "range": {
         "startLine": 106,
         "startChar": 18,
