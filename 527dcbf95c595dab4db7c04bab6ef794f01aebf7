@@ -189,6 +189,30 @@
       "revId": "527dcbf95c595dab4db7c04bab6ef794f01aebf7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "740afc41_9c21ae50",
+        "filename": "src/test/java/jenkins/plugins/gerrit/GerritApiBuilderTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1015386
+      },
+      "writtenOn": "2019-01-21T11:06:04Z",
+      "side": 1,
+      "message": "I am not sure that with the quality that this project shows you can enlighten me...\n\nAnyway, removed, just merge this already and review the comments so I put this project aside.\n\nThanks.",
+      "parentUuid": "650c03e1_5e6d0348",
+      "range": {
+        "startLine": 107,
+        "startChar": 14,
+        "endLine": 107,
+        "endChar": 37
+      },
+      "revId": "527dcbf95c595dab4db7c04bab6ef794f01aebf7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
