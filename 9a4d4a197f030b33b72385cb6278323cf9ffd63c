@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "845f763d_7fdd41e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1015386
+      },
+      "writtenOn": "2019-01-21T06:43:51Z",
+      "side": 1,
+      "message": "I disagree, the design of the library is explicitly allowing this and it makes sense to implement this way.\n\nThe main motivation is the introduction of dependency with anonymous and ssl, as this is the 1st paragraph.\n\nThen a cleanup to reduce complexity and code duplication as I outlined in the 2nd paragraph and on.\n\nIf you have better phrasing, I will be happy to copy/paste.",
+      "parentUuid": "745558d7_35a1f593",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 60
+      },
+      "revId": "9a4d4a197f030b33b72385cb6278323cf9ffd63c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e09049d7_787e3203",
         "filename": "src/main/java/jenkins/plugins/gerrit/GerritApiBuilder.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2019-01-20T21:44:44Z",
       "side": 1,
       "message": "It seems that this flag is always used in negative form:\n- defaulted to true (the natural default for a boolean is false)\n- checked in negative (!allowAnonymous)\n\nWould be best to name is \u0027requireAuthentication\u0027 because this is what it does.\n\nCan I propose a change in the next PS?",
+      "range": {
+        "startLine": 96,
+        "startChar": 35,
+        "endLine": 96,
+        "endChar": 50
+      },
+      "revId": "9a4d4a197f030b33b72385cb6278323cf9ffd63c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "107d68b8_1f982fca",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritApiBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1015386
+      },
+      "writtenOn": "2019-01-21T06:43:51Z",
+      "side": 1,
+      "message": "I will switch the meaning.",
+      "parentUuid": "e09049d7_787e3203",
       "range": {
         "startLine": 96,
         "startChar": 35,
@@ -131,6 +179,30 @@
       "side": 1,
       "message": "Let\u0027s leave as-is for the time being as it works. If that becomes a problem in the future, we\u0027ll then introduce an ad-hoc class.",
       "parentUuid": "598200b7_8cb41995",
+      "range": {
+        "startLine": 106,
+        "startChar": 18,
+        "endLine": 106,
+        "endChar": 87
+      },
+      "revId": "9a4d4a197f030b33b72385cb6278323cf9ffd63c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d32494c_1dda5a23",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritApiBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1015386
+      },
+      "writtenOn": "2019-01-21T06:43:51Z",
+      "side": 1,
+      "message": "thanks, anyway, this is how the design of the library works, it reduces conditionals and make interface nicer. if have credentials use them or switch to anonymous. I would have designed it in similar manner.",
+      "parentUuid": "b25ab7ed_3a04cfc0",
       "range": {
         "startLine": 106,
         "startChar": 18,
