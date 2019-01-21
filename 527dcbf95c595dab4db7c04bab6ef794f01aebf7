@@ -141,6 +141,30 @@
       "revId": "527dcbf95c595dab4db7c04bab6ef794f01aebf7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b65283dc_56ad7914",
+        "filename": "src/test/java/jenkins/plugins/gerrit/GerritApiBuilderTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1015386
+      },
+      "writtenOn": "2019-01-21T10:31:58Z",
+      "side": 1,
+      "message": "you wanted to see that the credentials with basic is working correctly so I added this, it is a completely mocked as you can see. it is the same mock that I used in the other tests.\n\nwhat do you want? remove these tests? ok, I do not care.\n\nI cannot decipher what you want from your comment.",
+      "parentUuid": "af0ee2da_f4f460f0",
+      "range": {
+        "startLine": 107,
+        "startChar": 14,
+        "endLine": 107,
+        "endChar": 37
+      },
+      "revId": "527dcbf95c595dab4db7c04bab6ef794f01aebf7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
