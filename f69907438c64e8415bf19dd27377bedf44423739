@@ -33,6 +33,24 @@
       "revId": "f69907438c64e8415bf19dd27377bedf44423739",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf9b8a98_c5fa8906",
+        "filename": "pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-01-21T09:59:00Z",
+      "side": 1,
+      "message": "IntelliJ did it I believe: not exactly sure why but let me check.",
+      "parentUuid": "23506168_dc920970",
+      "revId": "f69907438c64e8415bf19dd27377bedf44423739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
