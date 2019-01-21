@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4767fda3_e99e29ce",
+        "filename": "pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-01-21T10:19:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "64a19878_1300a81e",
+      "revId": "f69907438c64e8415bf19dd27377bedf44423739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23506168_dc920970",
         "filename": "pom.xml",
         "patchSetId": 7
@@ -69,6 +87,24 @@
       "revId": "f69907438c64e8415bf19dd27377bedf44423739",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a805ac1_352e7b9a",
+        "filename": "pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-01-21T10:19:28Z",
+      "side": 1,
+      "message": "Let\u0027s see if the IDE gets in the middle of it again. It\u0027s fine for now.",
+      "parentUuid": "e50fbf25_f7e8cd98",
+      "revId": "f69907438c64e8415bf19dd27377bedf44423739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
