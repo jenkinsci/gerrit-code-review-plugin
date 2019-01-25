@@ -22,6 +22,30 @@
       "revId": "ae439c92b1729e878a5701e4a6e705b3ee94d8b5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44c5104e_96dcc855",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1015661
+      },
+      "writtenOn": "2019-01-25T21:34:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2c299cd8_6b313834",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 49
+      },
+      "revId": "ae439c92b1729e878a5701e4a6e705b3ee94d8b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
