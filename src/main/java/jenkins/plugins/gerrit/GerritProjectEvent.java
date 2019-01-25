@@ -44,6 +44,7 @@ public class GerritProjectEvent {
   }
 
   public boolean matches(String remoteUrl) {
-    return getProjectName() != null && remoteUrl.endsWith(getProjectName());
+    return getProjectName() != null
+        && remoteUrl.replaceFirst("\\.git$", "").endsWith(getProjectName());
   }
 }
