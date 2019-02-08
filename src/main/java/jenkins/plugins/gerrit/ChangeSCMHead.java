@@ -78,6 +78,10 @@ public class ChangeSCMHead extends SCMHead implements ChangeRequestSCMHead2 {
     return "C-" + changeNumber + "/" + patchset;
   }
 
+  public int getChangeNumber() {
+    return changeNumber;
+  }
+
   @Nonnull
   @Override
   public SCMHead getTarget() {
