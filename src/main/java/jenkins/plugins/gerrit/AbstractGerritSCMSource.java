@@ -14,13 +14,16 @@
 
 package jenkins.plugins.gerrit;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.EnvVars;
 import hudson.model.Action;
+import hudson.model.Actionable;
 import hudson.model.TaskListener;
 import hudson.plugins.git.GitTool;
 import java.io.File;
@@ -32,6 +35,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
+import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,6 +44,7 @@ import jenkins.plugins.git.GitRemoteHeadRefAction;
 import jenkins.plugins.git.GitSCMSourceContext;
 import jenkins.plugins.git.GitSCMSourceRequest;
 import jenkins.scm.api.*;
+import jenkins.scm.api.metadata.ObjectMetadataAction;
 import jenkins.scm.api.trait.SCMSourceRequest;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.lib.Constants;
@@ -227,6 +232,48 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
         new GitSCMSourceContext<>(null, SCMHeadObserver.none()).withTraits(getTraits()),
         listener,
         false);
+  }
+
+  /** {@inheritDoc} */
+  @NonNull
+  @Override
+  protected List<Action> retrieveActions(
+      @NonNull SCMHead head, @CheckForNull SCMHeadEvent event, @NonNull TaskListener listener)
+      throws IOException, InterruptedException {
+    final List<Action> actions =
+        doRetrieve(
+            (GitClient client,
+                GitSCMSourceContext context,
+                String remoteName,
+                Changes.QueryRequest changeQuery) -> {
+              SCMSourceOwner owner = getOwner();
+              if (owner instanceof Actionable && head instanceof ChangeSCMHead) {
+                final Actionable actionableOwner = (Actionable) owner;
+                final ChangeSCMHead change = (ChangeSCMHead) head;
+
+                return actionableOwner
+                    .getActions(GitRemoteHeadRefAction.class)
+                    .stream()
+                    .filter(action -> action.getRemote().equals(getRemote()))
+                    .map(
+                        action ->
+                            new ObjectMetadataAction(
+                                change.getName(),
+                                change.getId(),
+                                String.format("%s/%d", getRemote(), change.getChangeNumber())))
+                    .collect(Collectors.toList());
+              } else {
+                return Collections.emptyList();
+              }
+            },
+            new GitSCMSourceContext<>(null, SCMHeadObserver.none()).withTraits(getTraits()),
+            listener,
+            false);
+
+    final ImmutableList.Builder<Action> resultBuilder = new ImmutableList.Builder<>();
+    resultBuilder.addAll(super.retrieveActions(head, event, listener));
+    resultBuilder.addAll(actions);
+    return resultBuilder.build();
   }
 
   private boolean processBranchRequest(
