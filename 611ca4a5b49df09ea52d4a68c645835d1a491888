@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ca8b144_45166579",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-02-14T22:09:35Z",
+      "side": 1,
+      "message": "Look at the other formats in Jenkins:\n[JENKINS-NNN] (with squared brackets)\n\nExample:\nhttps://github.com/jenkinsci/gerrit-code-review-plugin/commit/c73d321102a2c8f5e18d92a125cf0eab88149110\n\nFirst line should be shorter also (max 50 chars)",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "611ca4a5b49df09ea52d4a68c645835d1a491888",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3361a5f3_706e5052",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-02-14T22:09:35Z",
+      "side": 1,
+      "message": "The body of the commit message should explain why you are doing this.",
+      "revId": "611ca4a5b49df09ea52d4a68c645835d1a491888",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
