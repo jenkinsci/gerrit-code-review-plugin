@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b03a98cf_5c93dcaf",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1015661
+      },
+      "writtenOn": "2019-03-08T15:07:42Z",
+      "side": 1,
+      "message": "This patch looks nice.\nI wonder about one thing though: what if a plugin to Gerrit provides a new event type, then it would not pass this list, even while it may be a valid event. Would it be possible to do this without hardcoded event names?",
+      "revId": "37a2135c3212f0c88a4b2885bbe644274881beda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
