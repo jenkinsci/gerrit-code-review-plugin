@@ -16,6 +16,24 @@
       "revId": "37a2135c3212f0c88a4b2885bbe644274881beda",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e376348_d0f26c8e",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-03-08T15:30:51Z",
+      "side": 1,
+      "message": "\u003e This patch looks nice.\n\u003e I wonder about one thing though: what if a plugin to Gerrit provides a new event type, then it would not pass this list, even while it may be a valid event. Would it be possible to do this without hardcoded event names?\n\nThe problem isn\u0027t really to configure the list of event types, but rather understanding the underlying structure, parse it and know what to do.\nI don\u0027t see the way how to make *that* part configurable or, even, if that makes sense or not.\n\nIgnoring new events is done on purpose, to avoid to trigger builds for things that are not related to the change at all.",
+      "parentUuid": "b03a98cf_5c93dcaf",
+      "revId": "37a2135c3212f0c88a4b2885bbe644274881beda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
