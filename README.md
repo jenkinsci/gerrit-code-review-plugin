@@ -68,8 +68,6 @@ Example:
 $ curl -X POST -d '{"project":{"name":"project1"}}' 'https://jenkins/prefix/gerrit-webhook/'
 ```
 
-When using RBAC, make sure anonymous can `READ` jobs.
-
 ### Using Gerrit Trigger Plugin
 
 Configure Gerrit Trigger Plugin normally.
