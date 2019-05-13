@@ -24,6 +24,8 @@ import com.google.gson.JsonPrimitive;
 import hudson.Extension;
 import hudson.model.RootAction;
 import hudson.model.UnprotectedRootAction;
+import hudson.security.ACL;
+import hudson.security.ACLContext;
 import hudson.util.SequentialExecutionQueue;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -37,6 +39,7 @@ import jenkins.model.Jenkins;
 import jenkins.scm.api.SCMSource;
 import jenkins.scm.api.SCMSourceOwner;
 import org.acegisecurity.Authentication;
+import org.acegisecurity.context.SecurityContext;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
 import org.kohsuke.stapler.Stapler;
 import org.slf4j.Logger;
@@ -91,23 +94,25 @@ public class GerritWebHook implements UnprotectedRootAction {
 
               log.info("GerritWebHook invoked by user '{}' for event: {}", username, projectEvent);
 
-              List<WorkflowMultiBranchProject> jenkinsItems =
-                  getJenkinsInstance().getAllItems(WorkflowMultiBranchProject.class);
-              log.info("Scanning {} Jenkins items", jenkinsItems.size());
-              for (SCMSourceOwner scmJob : jenkinsItems) {
-                log.info("Scanning job " + scmJob);
-                List<SCMSource> scmSources = scmJob.getSCMSources();
-                for (SCMSource scmSource : scmSources) {
-                  if (scmSource instanceof GerritSCMSource) {
-                    GerritSCMSource gerritSCMSource = (GerritSCMSource) scmSource;
-                    log.debug("Checking match for SCM source: " + gerritSCMSource.getRemote());
-                    if (projectEvent.matches(gerritSCMSource.getRemote())) {
-                      log.info(
-                          "Triggering SCM event for source "
-                              + scmSources.get(0)
-                              + " on job "
-                              + scmJob);
-                      scmJob.onSCMSourceUpdated(scmSource);
+              try (ACLContext acl = ACL.as(ACL.SYSTEM)) {
+                List<WorkflowMultiBranchProject> jenkinsItems =
+                    getJenkinsInstance().getAllItems(WorkflowMultiBranchProject.class);
+                log.info("Scanning {} Jenkins items", jenkinsItems.size());
+                for (SCMSourceOwner scmJob : jenkinsItems) {
+                  log.info("Scanning job " + scmJob);
+                  List<SCMSource> scmSources = scmJob.getSCMSources();
+                  for (SCMSource scmSource : scmSources) {
+                    if (scmSource instanceof GerritSCMSource) {
+                      GerritSCMSource gerritSCMSource = (GerritSCMSource) scmSource;
+                      log.debug("Checking match for SCM source: " + gerritSCMSource.getRemote());
+                      if (projectEvent.matches(gerritSCMSource.getRemote())) {
+                        log.info(
+                            "Triggering SCM event for source "
+                                + scmSources.get(0)
+                                + " on job "
+                                + scmJob);
+                        scmJob.onSCMSourceUpdated(scmSource);
+                      }
                     }
                   }
                 }
