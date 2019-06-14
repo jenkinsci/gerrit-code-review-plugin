@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a234af75_b2e20359",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-06-14T06:37:25Z",
+      "side": 1,
+      "message": "You should pass the Gerrit remote root URL, whilst getRemote() is the remote Git SCM source URL, which is incorrect.",
+      "range": {
+        "startLine": 263,
+        "startChar": 55,
+        "endLine": 263,
+        "endChar": 66
+      },
+      "revId": "5f54e874525f84c9b9d05109145742e6498e8930",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
