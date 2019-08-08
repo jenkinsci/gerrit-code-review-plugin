@@ -1,0 +1,273 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd9f97a4_289cb3c3",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-08T15:47:32Z",
+      "side": 1,
+      "message": "Is this related to the SSH API support? If yes, why?",
+      "range": {
+        "startLine": 28,
+        "startChar": 23,
+        "endLine": 28,
+        "endChar": 26
+      },
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c906379_f6bd8129",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-08T15:47:32Z",
+      "side": 1,
+      "message": "this is never thrown and can be removed",
+      "range": {
+        "startLine": 91,
+        "startChar": 35,
+        "endLine": 91,
+        "endChar": 53
+      },
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfdccc8c_0262f6f2",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-08T15:47:32Z",
+      "side": 1,
+      "message": "Is this change relevant to the SSH API?",
+      "range": {
+        "startLine": 589,
+        "startChar": 0,
+        "endLine": 600,
+        "endChar": 17
+      },
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc4a41dd_511e329a",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritApiBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-08T15:47:32Z",
+      "side": 1,
+      "message": "nit: empty line",
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c02a998_fb3ff270",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritApiBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-08T15:47:32Z",
+      "side": 1,
+      "message": "This should be configurable. The default of 30s is fine.",
+      "range": {
+        "startLine": 35,
+        "startChar": 27,
+        "endLine": 35,
+        "endChar": 49
+      },
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20cdefb0_ba90615e",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritApiBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-08T15:47:32Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem to be related to the SSH use-case.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 51
+      },
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd9495e1_af760e4f",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritApiBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-08T15:47:32Z",
+      "side": 1,
+      "message": "Not related to the SSH use-case.",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 7
+      },
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e081fe1_7d70d969",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritApiBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-08T15:47:32Z",
+      "side": 1,
+      "message": "How are credentials going to be managed then? Just relying on the local SSH configuration on the Jenkins slave? If yes, needs to be documented in the current limitations.",
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e1d4843_bbf17f13",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-08T15:47:32Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 122,
+        "startChar": 40,
+        "endLine": 122,
+        "endChar": 58
+      },
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d66c0eb2_e7717b76",
+        "filename": "src/main/java/jenkins/plugins/gerrit/api/ssh/GerritApiSSH.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-08T15:47:32Z",
+      "side": 1,
+      "message": "Would be useful to include the timeout here.\nExample \"Failed to connect to %s:%s after %d millisecs\"",
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f35c7ee4_b6dbd1ea",
+        "filename": "src/main/java/jenkins/plugins/gerrit/api/ssh/GerritApiSSH.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-08T15:47:32Z",
+      "side": 1,
+      "message": "Same as at L76",
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "059e4134_e95241cc",
+        "filename": "src/main/java/jenkins/plugins/gerrit/api/ssh/GerritApiSSH.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-08T15:47:32Z",
+      "side": 1,
+      "message": "Include the timeout also as suggested at L76",
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59cbec5f_16f41e5e",
+        "filename": "src/main/java/jenkins/plugins/gerrit/api/ssh/GerritApiSSH.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-08T15:47:32Z",
+      "side": 1,
+      "message": "Leftover?",
+      "range": {
+        "startLine": 210,
+        "startChar": 0,
+        "endLine": 214,
+        "endChar": 3
+      },
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
