@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5c7a2838_d641339b",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1015387
+      },
+      "writtenOn": "2019-08-13T16:15:32Z",
+      "side": 1,
+      "message": "I can\u0027t remember unfortunately, but you could try downgrading again and see what happens.",
+      "parentUuid": "13ed98e5_2a7ba612",
+      "range": {
+        "startLine": 28,
+        "startChar": 23,
+        "endLine": 28,
+        "endChar": 26
+      },
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6cd64a5a_1095afdb",
         "filename": "pom.xml",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "writtenOn": "2019-08-08T21:49:49Z",
       "side": 1,
       "message": "This isn\u0027t quite right: we can\u0027t use the SSHD version we want in Jenkins. We need to use the one officially included in the SSHD module.",
+      "range": {
+        "startLine": 236,
+        "startChar": 15,
+        "endLine": 236,
+        "endChar": 30
+      },
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79678c74_bd7911a6",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1015387
+      },
+      "writtenOn": "2019-08-13T16:15:32Z",
+      "side": 1,
+      "message": "Agreed",
+      "parentUuid": "6cd64a5a_1095afdb",
       "range": {
         "startLine": 236,
         "startChar": 15,
@@ -154,6 +202,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "cfdccc8c_0262f6f2",
+      "range": {
+        "startLine": 589,
+        "startChar": 0,
+        "endLine": 600,
+        "endChar": 17
+      },
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc9bf5a4_611f14a5",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1015387
+      },
+      "writtenOn": "2019-08-13T16:15:32Z",
+      "side": 1,
+      "message": "I can\u0027t remember exactly but as I recall I needed to use the credentialsProvider instead of just the username and password in preparation for using proper ssh keys (which was intended as a later commit)",
+      "parentUuid": "553823a7_3c5acda3",
       "range": {
         "startLine": 589,
         "startChar": 0,
@@ -311,6 +383,24 @@
       "writtenOn": "2019-08-08T15:47:32Z",
       "side": 1,
       "message": "How are credentials going to be managed then? Just relying on the local SSH configuration on the Jenkins slave? If yes, needs to be documented in the current limitations.",
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07e35ca1_5550c745",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritApiBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1015387
+      },
+      "writtenOn": "2019-08-13T16:15:32Z",
+      "side": 1,
+      "message": "Same as the git plugin, i.e. multiple implementations. SSH Credentials being the most common. That in turn supports username/password, a key stored in Jenkins settings and a key stored on the slave.",
+      "parentUuid": "4e081fe1_7d70d969",
       "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
