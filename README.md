@@ -78,16 +78,36 @@ Gerrit using RestAPI.
 
 ### Using Environment Variables
 
-|Key                      |Description                                                     |
-|-------------------------|----------------------------------------------------------------|
-|GERRIT_API_URL           |Gerrit API URL, onlhy `http` and `https` protocols are supported|
-|GERRIT_CHANGE_URL        |Gerrit change URL to parse GERRIT_API_URL out if missing        |
-|GERRIT_API_INSECURE_HTTPS|If set to `true` certificate validation will be disabled        |
-|GERRIT_CREDENTIALS_ID    |Jenkins credentials object id                                   |
-|GERRIT_PROJECT           |Gerrit project name                                             |
-|GERRIT_CHANGE_NUMBER     |Gerrit change number                                            |
-|GERRIT_PATCHSET_NUMBER   |Gerrit revision                                                 |
-|BRANCH_NAME              |Gerrit reference name nn/nnnn/n                                 |
+|Key                             |Description                                                     |
+|--------------------------------|----------------------------------------------------------------|
+|GERRIT_API_URL                  |Gerrit API URL, onlhy `http` and `https` protocols are supported|
+|GERRIT_CHANGE_URL               |Gerrit change URL to parse GERRIT_API_URL out if missing        |
+|GERRIT_API_INSECURE_HTTPS       |If set to `true` certificate validation will be disabled        |
+|GERRIT_CREDENTIALS_ID           |Jenkins credentials object id                                   |
+|GERRIT_PROJECT                  |Gerrit project name                                             |
+|BRANCH_NAME                     |Gerrit reference name nn/nnnn/n                                 |
+|GERRIT_CHANGE_NUMBER            |Gerrit change number                                            |
+|GERRIT_PATCHSET_NUMBER          |Gerrit revision                                                 |
+|GERRIT_CHANGE_PRIVATE_STATE     |true if the Gerrit change is private                            |
+|GERRIT_CHANGE_WIP_STATE         |true if the Gerrit change is WIP                                |
+|GERRIT_CHANGE_SUBJECT           |Gerrit change headline                                          |
+|GERRIT_BRANCH                   |target branch of the Gerrit change                              |
+|GERRIT_TOPIC                    |topic name (if any) of the Gerrit change                        |
+|GERRIT_CHANGE_ID                |Gerrit change id                                                |
+|GERRIT_PATCHSET_REVISION        |SHA1 of the Gerrit patch-set                                    |
+|GERRIT_CHANGE_OWNER             |Owner (name <email>) of the Gerrit change                       |
+|GERRIT_CHANGE_OWNER_NAME        |Owner name of the Gerrit change                                 |
+|GERRIT_CHANGE_OWNER_EMAIL       |Owner e-mail of the Gerrit change                               |
+|GERRIT_PATCHSET_UPLOADER        |Uploader (name <email>) of the Gerrit patch-set                 |
+|GERRIT_PATCHSET_UPLOADER_NAME   |Uploader name of the Gerrit patch-set                           |
+|GERRIT_PATCHSET_UPLOADER_EMAIL  |Uploader e-mail of the Gerrit patch-set                         |
+
+When the Jenkinsfile is discovered through a multi-branch pipeline, the above environment
+variables related to Gerrit and the associated change/patch-set would be automatically
+discovered and made available to the pipeline steps.
+
+For the pipeline projects (non-multibranch) the variables would need to be set through
+an external triggering job (e.g. Gerrit Trigger Plugin).
 
 ## Jenkinsfile Steps
 
