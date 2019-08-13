@@ -14,12 +14,15 @@
 
 package jenkins.plugins.gerrit;
 
+import static jenkins.plugins.gerrit.GerritChange.BRANCH_PATTERN;
+
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.model.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.regex.Matcher;
 import javax.annotation.Nonnull;
 import jenkins.branch.BranchSource;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
@@ -55,6 +58,16 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
     }
     if (Boolean.TRUE.equals(gerritSCMSource.getInsecureHttps())) {
       envs.put("GERRIT_API_INSECURE_HTTPS", "true");
+    }
+
+    String branchName = j.getDisplayName();
+    Matcher matcher = BRANCH_PATTERN.matcher(branchName);
+    if (matcher.matches()) {
+      String changeId = matcher.group("changeId");
+      envs.put("GERRIT_CHANGE_NUMBER", changeId);
+
+      String revision = matcher.group("revision");
+      envs.put("GERRIT_PATCHSET_NUMBER", revision);
     }
   }
 }
