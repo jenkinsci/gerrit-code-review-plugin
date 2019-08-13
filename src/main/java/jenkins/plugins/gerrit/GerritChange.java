@@ -12,7 +12,7 @@ import org.jenkinsci.plugins.workflow.steps.StepContext;
 
 public class GerritChange {
 
-  private static final Pattern BRANCH_PATTERN =
+  public static final Pattern BRANCH_PATTERN =
       Pattern.compile("[0-9][0-9]/(?<changeId>[0-9]+)/(?<revision>[0-9]+)");
 
   private Integer changeId = null;
