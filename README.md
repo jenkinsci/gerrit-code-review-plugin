@@ -89,6 +89,13 @@ Gerrit using RestAPI.
 |GERRIT_PATCHSET_NUMBER   |Gerrit revision                                                 |
 |BRANCH_NAME              |Gerrit reference name nn/nnnn/n                                 |
 
+When the Jenkinsfile is discovered through a multi-branch pipeline, the above environment
+variables related to Gerrit and the associated change/patch-set would be automatically
+discovered and made available to the pipeline steps.
+
+For the pipeline projects (non-multibranch) the variables would need to be set through
+an external triggering job (e.g. Gerrit Trigger Plugin).
+
 ## Jenkinsfile Steps
 
 Gerrit Code Review plugin provides steps for allowing to post the
