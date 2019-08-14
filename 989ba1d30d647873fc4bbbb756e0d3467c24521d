@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84510655_102c0cc1",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-14T14:30:14Z",
+      "side": 1,
+      "message": "This isn\u0027t needed",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 3
+      },
+      "revId": "989ba1d30d647873fc4bbbb756e0d3467c24521d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79a2a1c0_06f23f26",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-14T14:30:14Z",
+      "side": 1,
+      "message": "change num",
+      "range": {
+        "startLine": 90,
+        "startChar": 60,
+        "endLine": 90,
+        "endChar": 78
+      },
+      "revId": "989ba1d30d647873fc4bbbb756e0d3467c24521d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fb93355_4fde5f81",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritEnvironmentContributor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-14T14:30:14Z",
+      "side": 1,
+      "message": "Reformat with spaces",
+      "revId": "989ba1d30d647873fc4bbbb756e0d3467c24521d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7f9904e_6cbe0cd1",
+        "filename": "src/main/java/jenkins/plugins/gerrit/NullPrintStream.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-14T14:30:14Z",
+      "side": 1,
+      "message": "Reformat with spaces",
+      "revId": "989ba1d30d647873fc4bbbb756e0d3467c24521d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81fd658c_dc0755dd",
+        "filename": "src/main/java/jenkins/plugins/gerrit/NullPrintStream.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-14T14:30:14Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "989ba1d30d647873fc4bbbb756e0d3467c24521d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d258c9b_8804350c",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectOpenChanges.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-14T14:30:14Z",
+      "side": 1,
+      "message": "Reformat with spaces",
+      "revId": "989ba1d30d647873fc4bbbb756e0d3467c24521d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
