@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d72c5277_b3a60630",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2019-08-14T16:54:43Z",
+      "side": 1,
+      "message": "nit: You could return an Optional.of here",
+      "range": {
+        "startLine": 189,
+        "startChar": 10,
+        "endLine": 189,
+        "endChar": 20
+      },
+      "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45015a4c_1bcd2864",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritEnvironmentContributor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2019-08-14T16:54:43Z",
+      "side": 1,
+      "message": "Shall we call it firstBranchName ?",
+      "range": {
+        "startLine": 77,
+        "startChar": 11,
+        "endLine": 77,
+        "endChar": 21
+      },
+      "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "713f8020_93cfeda2",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritEnvironmentContributor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2019-08-14T16:54:43Z",
+      "side": 1,
+      "message": "This is done just to extract the change and revision at line 79, right?",
+      "range": {
+        "startLine": 77,
+        "startChar": 61,
+        "endLine": 77,
+        "endChar": 67
+      },
+      "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35652a17_ba0c4bf2",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectOpenChanges.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2019-08-14T16:54:43Z",
+      "side": 1,
+      "message": "2018 as well? Is the copyright date supposed to be the year the project or the file was created?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4982879a_22f153be",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectOpenChanges.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2019-08-14T16:54:43Z",
+      "side": 1,
+      "message": "Can we extract this in a constant?",
+      "range": {
+        "startLine": 38,
+        "startChar": 25,
+        "endLine": 38,
+        "endChar": 29
+      },
+      "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9021277a_fe0622e6",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectOpenChanges.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2019-08-14T16:54:43Z",
+      "side": 1,
+      "message": "Can we extract this into a constant?",
+      "range": {
+        "startLine": 39,
+        "startChar": 30,
+        "endLine": 39,
+        "endChar": 32
+      },
+      "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e71b97c8_12de42db",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectOpenChanges.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2019-08-14T16:54:43Z",
+      "side": 1,
+      "message": "If the change is not in cache, will the \"get\" hit the API to retrieve it?",
+      "range": {
+        "startLine": 54,
+        "startChar": 45,
+        "endLine": 54,
+        "endChar": 48
+      },
+      "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
