@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "741bccbc_49be3807",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-15T07:12:24Z",
+      "side": 1,
+      "message": "Good catch, as it was not nullable before.",
+      "parentUuid": "d72c5277_b3a60630",
+      "range": {
+        "startLine": 189,
+        "startChar": 10,
+        "endLine": 189,
+        "endChar": 20
+      },
+      "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "45015a4c_1bcd2864",
         "filename": "src/main/java/jenkins/plugins/gerrit/GerritEnvironmentContributor.java",
         "patchSetId": 6
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "f2961b2b_b2e6a576",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritEnvironmentContributor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-15T07:12:24Z",
+      "side": 1,
+      "message": "There should be only 1 branch anyway, so the name is accurate.",
+      "parentUuid": "45015a4c_1bcd2864",
+      "range": {
+        "startLine": 77,
+        "startChar": 11,
+        "endLine": 77,
+        "endChar": 21
+      },
+      "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0b08de2_3cae5bd7",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritEnvironmentContributor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-15T07:12:24Z",
+      "side": 1,
+      "message": "Yes, exactly.",
+      "parentUuid": "713f8020_93cfeda2",
+      "range": {
+        "startLine": 77,
+        "startChar": 61,
+        "endLine": 77,
+        "endChar": 67
+      },
+      "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "35652a17_ba0c4bf2",
         "filename": "src/main/java/jenkins/plugins/gerrit/ProjectOpenChanges.java",
         "patchSetId": 6
@@ -82,6 +154,30 @@
       "writtenOn": "2019-08-14T16:54:43Z",
       "side": 1,
       "message": "2018 as well? Is the copyright date supposed to be the year the project or the file was created?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cd42fbf_b52a0c03",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectOpenChanges.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-15T07:12:24Z",
+      "side": 1,
+      "message": "Nope, that\u0027s the year when the contribution was created, so 2019 is appropriate.",
+      "parentUuid": "35652a17_ba0c4bf2",
       "range": {
         "startLine": 1,
         "startChar": 17,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "53324b14_68f68123",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectOpenChanges.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-15T07:12:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4982879a_22f153be",
+      "range": {
+        "startLine": 38,
+        "startChar": 25,
+        "endLine": 38,
+        "endChar": 29
+      },
+      "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9021277a_fe0622e6",
         "filename": "src/main/java/jenkins/plugins/gerrit/ProjectOpenChanges.java",
         "patchSetId": 6
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "bb289801_45c6dd70",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectOpenChanges.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-15T07:12:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9021277a_fe0622e6",
+      "range": {
+        "startLine": 39,
+        "startChar": 30,
+        "endLine": 39,
+        "endChar": 32
+      },
+      "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e71b97c8_12de42db",
         "filename": "src/main/java/jenkins/plugins/gerrit/ProjectOpenChanges.java",
         "patchSetId": 6
@@ -151,6 +295,30 @@
       "writtenOn": "2019-08-14T16:54:43Z",
       "side": 1,
       "message": "If the change is not in cache, will the \"get\" hit the API to retrieve it?",
+      "range": {
+        "startLine": 54,
+        "startChar": 45,
+        "endLine": 54,
+        "endChar": 48
+      },
+      "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "847cb81a_27069c9d",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectOpenChanges.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-15T07:12:24Z",
+      "side": 1,
+      "message": "Exactly",
+      "parentUuid": "e71b97c8_12de42db",
       "range": {
         "startLine": 54,
         "startChar": 45,
