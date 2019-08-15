@@ -213,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "f6712ca9_d4962c6e",
+        "filename": "src/main/java/jenkins/plugins/gerrit/NullPrintStream.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-15T07:13:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8856fa7_1ce67be4",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "989ba1d30d647873fc4bbbb756e0d3467c24521d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d258c9b_8804350c",
         "filename": "src/main/java/jenkins/plugins/gerrit/ProjectOpenChanges.java",
         "patchSetId": 4

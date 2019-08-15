@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7ff497ae_143c1484",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-15T07:13:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "741bccbc_49be3807",
+      "range": {
+        "startLine": 189,
+        "startChar": 10,
+        "endLine": 189,
+        "endChar": 20
+      },
+      "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45015a4c_1bcd2864",
         "filename": "src/main/java/jenkins/plugins/gerrit/GerritEnvironmentContributor.java",
         "patchSetId": 6
@@ -143,6 +167,54 @@
     },
     {
       "key": {
+        "uuid": "6f1338d6_b5b355a1",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritEnvironmentContributor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-15T07:13:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0b08de2_3cae5bd7",
+      "range": {
+        "startLine": 77,
+        "startChar": 61,
+        "endLine": 77,
+        "endChar": 67
+      },
+      "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2045cb44_8e48b4ca",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritEnvironmentContributor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-15T07:13:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2961b2b_b2e6a576",
+      "range": {
+        "startLine": 77,
+        "startChar": 11,
+        "endLine": 77,
+        "endChar": 21
+      },
+      "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35652a17_ba0c4bf2",
         "filename": "src/main/java/jenkins/plugins/gerrit/ProjectOpenChanges.java",
         "patchSetId": 6
@@ -187,6 +259,30 @@
       "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c66abc1_ce03ff40",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectOpenChanges.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-15T07:13:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cd42fbf_b52a0c03",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -328,6 +424,30 @@
       "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b8850d5_df8bdb01",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectOpenChanges.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-15T07:13:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "847cb81a_27069c9d",
+      "range": {
+        "startLine": 54,
+        "startChar": 45,
+        "endLine": 54,
+        "endChar": 48
+      },
+      "revId": "d87b5e62f92e44eee09a8525b529d73cc77193f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
