@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "fd408663_15506838",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-22T14:46:54Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "5c7a2838_d641339b",
+      "range": {
+        "startLine": 28,
+        "startChar": 23,
+        "endLine": 28,
+        "endChar": 26
+      },
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6cd64a5a_1095afdb",
         "filename": "pom.xml",
         "patchSetId": 2
@@ -117,6 +141,30 @@
       "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93eb6b65_2cfdb543",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-22T14:46:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79678c74_bd7911a6",
+      "range": {
+        "startLine": 236,
+        "startChar": 15,
+        "endLine": 236,
+        "endChar": 30
+      },
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -226,6 +274,30 @@
       "side": 1,
       "message": "I can\u0027t remember exactly but as I recall I needed to use the credentialsProvider instead of just the username and password in preparation for using proper ssh keys (which was intended as a later commit)",
       "parentUuid": "553823a7_3c5acda3",
+      "range": {
+        "startLine": 589,
+        "startChar": 0,
+        "endLine": 600,
+        "endChar": 17
+      },
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92b2ae21_d9e7e892",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-22T14:46:54Z",
+      "side": 1,
+      "message": "Gotcha: I would postpone to a follow-up change were do focus only on the support for the embedded SSH key credentials provider.\n\nFor this change, we could just assume that the SSH endpoint is already authorized by the $HOME/.ssh/config as initial MVP.",
+      "parentUuid": "dc9bf5a4_611f14a5",
       "range": {
         "startLine": 589,
         "startChar": 0,
@@ -404,6 +476,24 @@
       "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c89e71f3_876cc7e2",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritApiBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-08-22T14:46:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "07e35ca1_5550c745",
+      "revId": "e031ad54c5af5f9c37afadf2ee7e37b12fb681d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
