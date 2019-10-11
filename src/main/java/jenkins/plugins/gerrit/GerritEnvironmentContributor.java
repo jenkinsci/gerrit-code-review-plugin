@@ -74,6 +74,10 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
     }
 
     Collection<GitSCM> scms = (Collection<GitSCM>) workflowJob.getSCMs();
+    if (scms.isEmpty()) {
+      return;
+    }
+
     String branchName = scms.iterator().next().getBranches().get(0).getName();
     Matcher matcher = BRANCH_PATTERN.matcher(branchName);
     if (matcher.matches()) {
