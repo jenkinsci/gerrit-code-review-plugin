@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d4191c1_962aea89",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritEnvironmentContributor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-10-23T17:20:19Z",
+      "side": 1,
+      "message": "You can use a Pattern and define two groups associated with the change and patch-set number.\nBTW, brilliant idea, well done :-)",
+      "range": {
+        "startLine": 72,
+        "startChar": 19,
+        "endLine": 72,
+        "endChar": 51
+      },
+      "revId": "743da17a59230716b62d37028ab6046b9e76f736",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
