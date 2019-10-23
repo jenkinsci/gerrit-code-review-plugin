@@ -14,8 +14,6 @@
 
 package jenkins.plugins.gerrit;
 
-import static jenkins.plugins.gerrit.GerritChange.BRANCH_PATTERN;
-
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -25,14 +23,13 @@ import hudson.model.EnvironmentContributor;
 import hudson.model.ItemGroup;
 import hudson.model.Job;
 import hudson.model.TaskListener;
-import hudson.plugins.git.GitSCM;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
 import jenkins.branch.BranchSource;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
@@ -40,6 +37,9 @@ import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
 
 @Extension
 public class GerritEnvironmentContributor extends EnvironmentContributor {
+
+  private static final Pattern REF_PATTERN =
+      Pattern.compile("^\\d+\\/(?<changeNum>\\d+)\\/(?<patchSet>\\d+)$");
 
   @Override
   public void buildEnvironmentFor(
@@ -73,18 +73,17 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
       envs.put("GERRIT_API_INSECURE_HTTPS", "true");
     }
 
-    Collection<GitSCM> scms = (Collection<GitSCM>) workflowJob.getSCMs();
-    String branchName = scms.iterator().next().getBranches().get(0).getName();
-    Matcher matcher = BRANCH_PATTERN.matcher(branchName);
-    if (matcher.matches()) {
-      String changeNum = matcher.group("changeId");
-      String patchSet = matcher.group("revision");
-      int patchSetNum = Integer.parseInt(patchSet);
+    String displayName = workflowJob.getDisplayName();
+    Matcher matcher = REF_PATTERN.matcher(displayName);
+    if (matcher.find()) {
+      int patchSetNum = Integer.parseInt(matcher.group("patchSet"));
 
-      Optional<ChangeInfo> changeInfo = gerritSCMSource.getChangeInfo(Integer.parseInt(changeNum));
+      Optional<ChangeInfo> changeInfo =
+          gerritSCMSource.getChangeInfo(Integer.parseInt(matcher.group("changeNum")));
       changeInfo.ifPresent(
           (change) -> {
-            publishChangeDetails(envs, changeNum, patchSet, patchSetNum, change);
+            publishChangeDetails(
+                envs, matcher.group("changeNum"), matcher.group("patchSet"), patchSetNum, change);
           });
     }
   }
