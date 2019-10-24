@@ -22,6 +22,30 @@
       "revId": "743da17a59230716b62d37028ab6046b9e76f736",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c22e1d23_e1ac4bed",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritEnvironmentContributor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-10-24T08:24:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d4191c1_962aea89",
+      "range": {
+        "startLine": 72,
+        "startChar": 19,
+        "endLine": 72,
+        "endChar": 51
+      },
+      "revId": "743da17a59230716b62d37028ab6046b9e76f736",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
