@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f4be71e_b1ac47d5",
+        "filename": "src/main/java/jenkins/plugins/gerrit/traits/ChangeDiscoveryTrait.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-14T16:55:13Z",
+      "side": 1,
+      "message": "Can it be java enum?",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 14
+      },
+      "revId": "84a25a8e7325d008faa095ea7e6998becc718d9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
