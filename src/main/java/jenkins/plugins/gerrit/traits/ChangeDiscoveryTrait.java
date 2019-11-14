@@ -14,7 +14,9 @@
 
 package jenkins.plugins.gerrit.traits;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
+import hudson.util.ListBoxModel;
 import javax.annotation.Nonnull;
 import jenkins.plugins.gerrit.GerritSCMSource;
 import jenkins.plugins.git.GitSCMBuilder;
@@ -23,13 +25,34 @@ import jenkins.plugins.git.traits.Messages;
 import jenkins.scm.api.*;
 import jenkins.scm.api.trait.*;
 import jenkins.scm.impl.trait.Discovery;
+import org.kohsuke.accmod.Restricted;
+import org.kohsuke.accmod.restrictions.NoExternalUse;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 /** A {@link Discovery} trait that would discover all the Gerrit Changes */
 public class ChangeDiscoveryTrait extends SCMSourceTrait {
+
+  public enum Strategy {
+    OPEN_CHANGES,
+    PENDING_CHECKS
+  }
+
+  private Strategy strategyId;
+
   /** Constructor for stapler. */
   @DataBoundConstructor
-  public ChangeDiscoveryTrait() {}
+  public ChangeDiscoveryTrait(Strategy strategyId) {
+    this.strategyId = strategyId;
+  }
+
+  /**
+   * Returns the strategy id.
+   *
+   * @return the strategy id.
+   */
+  public Strategy getStrategyId() {
+    return strategyId;
+  }
 
   /** {@inheritDoc} */
   @Override
@@ -54,6 +77,24 @@ public class ChangeDiscoveryTrait extends SCMSourceTrait {
     @Override
     public String getDisplayName() {
       return jenkins.plugins.gerrit.traits.Messages.ChangeDiscoveryTrait_displayName();
+    }
+
+    /**
+     * Populates the strategy options.
+     *
+     * @return the stategy options.
+     */
+    @NonNull
+    @Restricted(NoExternalUse.class) // stapler
+    public ListBoxModel doFillStrategyIdItems() {
+      ListBoxModel result = new ListBoxModel();
+      result.add(
+          jenkins.plugins.gerrit.traits.Messages.ChangeDiscoveryTrait_openChanges(),
+          Strategy.OPEN_CHANGES.toString());
+      result.add(
+          jenkins.plugins.gerrit.traits.Messages.ChangeDiscoveryTrait_pendingChecks(),
+          Strategy.PENDING_CHECKS.toString());
+      return result;
     }
 
     /** {@inheritDoc} */
