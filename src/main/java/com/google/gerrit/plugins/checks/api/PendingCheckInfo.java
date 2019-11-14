@@ -15,6 +15,7 @@
 package com.google.gerrit.plugins.checks.api;
 
 import com.google.common.base.MoreObjects;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Objects;
 
 /**
@@ -24,6 +25,7 @@ import java.util.Objects;
  * post further updates on them. Which states these are depends on the external checker system, by
  * default we only consider checks in state {@link CheckState#NOT_STARTED} as pending.
  */
+@SuppressFBWarnings("UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD")
 public class PendingCheckInfo {
   /** State of the check. */
   public CheckState state;
