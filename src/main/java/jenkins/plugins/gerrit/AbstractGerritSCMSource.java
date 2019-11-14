@@ -39,9 +39,12 @@ import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import jenkins.plugins.gerrit.checks.CheckablePatchSetInfo;
+import jenkins.plugins.gerrit.checks.GerritChecksApi;
+import jenkins.plugins.gerrit.checks.PendingChecksInfo;
+import jenkins.plugins.gerrit.traits.FilterChecksTrait.ChecksQueryOperator;
 import jenkins.plugins.git.AbstractGitSCMSource;
 import jenkins.plugins.git.GitRemoteHeadRefAction;
-import jenkins.plugins.git.GitSCMSourceContext;
 import jenkins.plugins.git.GitSCMSourceRequest;
 import jenkins.scm.api.*;
 import jenkins.scm.api.metadata.ObjectMetadataAction;
@@ -69,7 +72,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   public interface Retriever<T> {
     T run(
         GitClient client,
-        GitSCMSourceContext context,
+        GerritSCMSourceContext context,
         String remoteName,
         Changes.QueryRequest changeQuery)
         throws IOException, InterruptedException;
@@ -102,7 +105,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
           @Override
           public Object run(
               GitClient client,
-              GitSCMSourceContext context,
+              GerritSCMSourceContext context,
               String remoteName,
               Changes.QueryRequest changeQuery)
               throws IOException, InterruptedException {
@@ -118,7 +121,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                         client.getRemoteUrl(remoteName), null, false, context.wantTags());
               }
               if (context.wantBranches()) {
-                discoverBranches(repository, walk, request, remoteReferences, changeQuery);
+                discoverBranches(repository, walk, context, request, remoteReferences, changeQuery);
               }
               if (context.wantTags()) {
                 // TODO
@@ -130,6 +133,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
           private void discoverBranches(
               final Repository repository,
               final RevWalk walk,
+              GerritSCMSourceContext context,
               GitSCMSourceRequest request,
               final Map<String, ObjectId> remoteReferences,
               Changes.QueryRequest changeQuery)
@@ -145,6 +149,19 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
               int branchesCount = 0;
               int changesCount = 0;
               HashMap<Integer, ChangeInfo> openChanges = getOpenChanges(changeQuery);
+
+              if (context.filterForPendingChecks()) {
+                HashMap<Integer, CheckablePatchSetInfo> pendingChecks =
+                    getChangesWithPendingChecks(
+                        context.checksQueryOperator(), context.checksQueryString());
+                openChanges =
+                    (HashMap<Integer, ChangeInfo>)
+                        openChanges
+                            .entrySet()
+                            .stream()
+                            .filter(change -> pendingChecks.containsKey(change.getKey()))
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+              }
 
               for (final Map.Entry<String, ObjectId> ref : filteredRefs.entrySet()) {
                 String refKey = ref.getKey();
@@ -189,7 +206,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
             }
           }
         },
-        new GitSCMSourceContext<>(criteria, observer).withTraits(getTraits()),
+        new GerritSCMSourceContext(criteria, observer).withTraits(getTraits()),
         listener,
         true);
   }
@@ -212,6 +229,36 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     return openChanges;
   }
 
+  @SuppressFBWarnings(value = "NP_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD")
+  private HashMap<Integer, CheckablePatchSetInfo> getChangesWithPendingChecks(
+      ChecksQueryOperator queryOperator, String queryString) throws IOException {
+    HashMap<Integer, CheckablePatchSetInfo> patchsetWithPendingChecks = new HashMap<>();
+    GerritChecksApi checksApi;
+    try {
+      checksApi = new GerritChecksApi(getGerritURI().getApiURI());
+    } catch (URISyntaxException e) {
+      throw new IOException(e);
+    }
+
+    Optional<List<PendingChecksInfo>> pendingChecks;
+    if (queryOperator == ChecksQueryOperator.ID) {
+      pendingChecks = Optional.of(checksApi.getChangesWithPendingChecksByCheckerId(queryString));
+    } else if (queryOperator == ChecksQueryOperator.SCHEME) {
+      pendingChecks =
+          Optional.of(checksApi.getChangesWithPendingChecksByCheckerScheme(queryString));
+    } else {
+      throw new IOException("Unknown query operator for querying pending checks.");
+    }
+
+    if (pendingChecks.isPresent()) {
+      for (PendingChecksInfo check : pendingChecks.get()) {
+        patchsetWithPendingChecks.put(check.patchSet.changeNumber, check.patchSet);
+      }
+    }
+
+    return patchsetWithPendingChecks;
+  }
+
   /** {@inheritDoc} */
   @Nonnull
   @Override
@@ -223,7 +270,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
           @Override
           public List<Action> run(
               GitClient client,
-              GitSCMSourceContext context,
+              GerritSCMSourceContext context,
               String remoteName,
               Changes.QueryRequest queryRequest)
               throws IOException, InterruptedException {
@@ -247,7 +294,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
             return new ArrayList<>();
           }
         },
-        new GitSCMSourceContext<>(null, SCMHeadObserver.none()).withTraits(getTraits()),
+        new GerritSCMSourceContext(null, SCMHeadObserver.none()).withTraits(getTraits()),
         listener,
         false);
   }
@@ -261,7 +308,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     final List<Action> actions =
         doRetrieve(
             (GitClient client,
-                GitSCMSourceContext context,
+                GerritSCMSourceContext context,
                 String remoteName,
                 Changes.QueryRequest changeQuery) -> {
               SCMSourceOwner owner = getOwner();
@@ -285,7 +332,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                 return Collections.emptyList();
               }
             },
-            new GitSCMSourceContext<>(null, SCMHeadObserver.none()).withTraits(getTraits()),
+            new GerritSCMSourceContext(null, SCMHeadObserver.none()).withTraits(getTraits()),
             listener,
             false);
 
@@ -545,7 +592,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
 
   @Nonnull
   @SuppressWarnings("deprecation")
-  protected <T, C extends GitSCMSourceContext<C, R>, R extends GitSCMSourceRequest> T doRetrieve(
+  protected <T, C extends GerritSCMSourceContext, R extends GitSCMSourceRequest> T doRetrieve(
       Retriever<T> retriever, @Nonnull C context, @Nonnull TaskListener listener, boolean prune)
       throws IOException, InterruptedException {
 
