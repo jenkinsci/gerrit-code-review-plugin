@@ -48,7 +48,6 @@ import jenkins.model.Jenkins;
 import jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait;
 import jenkins.plugins.git.AbstractGitSCMSource;
 import jenkins.plugins.git.GitSCMBuilder;
-import jenkins.plugins.git.GitSCMSourceContext;
 import jenkins.plugins.git.traits.*;
 import jenkins.scm.api.*;
 import jenkins.scm.api.trait.SCMHeadPrefilter;
@@ -267,7 +266,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
   @Restricted(DoNotUse.class)
   @SuppressWarnings("deprecation")
   protected List<RefSpec> getRefSpecs() {
-    return new GitSCMSourceContext<>(null, SCMHeadObserver.none()).withTraits(traits).asRefSpecs();
+    return new GerritSCMSourceContext(null, SCMHeadObserver.none()).withTraits(traits).asRefSpecs();
   }
 
   @Nonnull
@@ -381,7 +380,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
     public List<NamedArrayList<? extends SCMSourceTraitDescriptor>> getTraitsDescriptorLists() {
       List<NamedArrayList<? extends SCMSourceTraitDescriptor>> result = new ArrayList<>();
       List<SCMSourceTraitDescriptor> descriptors =
-          SCMSourceTrait._for(this, GitSCMSourceContext.class, GitSCMBuilder.class);
+          SCMSourceTrait._for(this, GerritSCMSourceContext.class, GitSCMBuilder.class);
       NamedArrayList.select(
           descriptors,
           "Within Repository",
@@ -448,8 +447,8 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
                   public boolean isMatch(SCMSource source) {
                     if (source instanceof GerritSCMSource) {
                       GerritSCMSource git = (GerritSCMSource) source;
-                      GitSCMSourceContext ctx =
-                          new GitSCMSourceContext<>(null, SCMHeadObserver.none())
+                      GerritSCMSourceContext ctx =
+                          new GerritSCMSourceContext(null, SCMHeadObserver.none())
                               .withTraits(git.getTraits());
                       if (ctx.ignoreOnPushNotifications()) {
                         return false;
@@ -475,8 +474,8 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
                   public Map<SCMHead, SCMRevision> heads(@Nonnull SCMSource source) {
                     if (source instanceof GerritSCMSource) {
                       GerritSCMSource git = (GerritSCMSource) source;
-                      GitSCMSourceContext<?, ?> ctx =
-                          new GitSCMSourceContext<>(null, SCMHeadObserver.none())
+                      GerritSCMSourceContext ctx =
+                          new GerritSCMSourceContext(null, SCMHeadObserver.none())
                               .withTraits(git.getTraits());
                       if (ctx.ignoreOnPushNotifications()) {
                         return Collections.emptyMap();
@@ -513,8 +512,8 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
             for (SCMSource source : owner.getSCMSources()) {
               if (source instanceof GerritSCMSource) {
                 GerritSCMSource git = (GerritSCMSource) source;
-                GitSCMSourceContext<?, ?> ctx =
-                    new GitSCMSourceContext<>(null, SCMHeadObserver.none())
+                GerritSCMSourceContext ctx =
+                    new GerritSCMSourceContext(null, SCMHeadObserver.none())
                         .withTraits(git.getTraits());
                 if (ctx.ignoreOnPushNotifications()) {
                   continue;

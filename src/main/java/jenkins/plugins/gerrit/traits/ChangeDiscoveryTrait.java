@@ -17,8 +17,8 @@ package jenkins.plugins.gerrit.traits;
 import hudson.Extension;
 import javax.annotation.Nonnull;
 import jenkins.plugins.gerrit.GerritSCMSource;
+import jenkins.plugins.gerrit.GerritSCMSourceContext;
 import jenkins.plugins.git.GitSCMBuilder;
-import jenkins.plugins.git.GitSCMSourceContext;
 import jenkins.plugins.git.traits.Messages;
 import jenkins.scm.api.*;
 import jenkins.scm.api.trait.*;
@@ -34,7 +34,7 @@ public class ChangeDiscoveryTrait extends SCMSourceTrait {
   /** {@inheritDoc} */
   @Override
   protected void decorateContext(SCMSourceContext<?, ?> context) {
-    GitSCMSourceContext<?, ?> ctx = (GitSCMSourceContext<?, ?>) context;
+    GerritSCMSourceContext ctx = (GerritSCMSourceContext) context;
     ctx.wantBranches(true);
     ctx.withAuthority(new BranchSCMHeadAuthority());
   }
@@ -65,7 +65,7 @@ public class ChangeDiscoveryTrait extends SCMSourceTrait {
     /** {@inheritDoc} */
     @Override
     public Class<? extends SCMSourceContext> getContextClass() {
-      return GitSCMSourceContext.class;
+      return GerritSCMSourceContext.class;
     }
 
     /** {@inheritDoc} */
