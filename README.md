@@ -47,6 +47,27 @@ trigger.
 Notice the `Changes` tab at the job information, per each review an entry will
 be created.
 
+#### Integrating with the Gerrit Checks plugin
+
+The [Gerrit Checks plugin](https://gerrit-review.googlesource.com/Documentation/config-plugins.html#checks)
+provides a different approach to integrate CI systems with Gerrit.
+
+To build changes with pending checks, create a new `Multibranch Pipeline` item
+and select `Branch Source` of type `Gerrit` as described above. Then add the
+`Filter by Pending Checks`-behaviour to the `Gerrit Branch Source`. To select
+checkers, which should be checked for whether their checks are pending, under
+`Query Operator` either select to query pending checks by checker scheme to
+select a whole group of checkers or by a specific checker UUID, to only query
+by a specific checker. In the `Query String`-field enter the scheme name or checker
+UUID respectively.
+
+Jenkins will then only start builds for changes that have pending checks handled
+by the configured checkers and will set the status of the check to `SCHEDULED`.
+
+So far the GerritCodeReview-plugin does not provide a pipeline step to change the
+check status, e.g. to `RUNNING` or `SUCCESSFUL`. This has to be done manually via
+the checks plugin'S REST API endpoint.
+
 #### Remote Trigger
 
 Remote trigger is possible using webhook, URL is
