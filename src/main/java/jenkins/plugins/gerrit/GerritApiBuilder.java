@@ -4,6 +4,7 @@ import com.cloudbees.plugins.credentials.CredentialsProvider;
 import com.cloudbees.plugins.credentials.common.StandardUsernamePasswordCredentials;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.plugins.checks.client.GerritChecksApi;
 import com.urswolfer.gerrit.client.rest.GerritAuthData;
 import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
 import com.urswolfer.gerrit.client.rest.http.HttpClientBuilderExtension;
@@ -92,12 +93,7 @@ public class GerritApiBuilder {
 
   public GerritApi build() {
     GerritApi gerritApi = null;
-    if (gerritApiUrl == null) {
-      logger.println("Gerrit Review is disabled no API URL");
-    } else if (requireAuthentication && Strings.isNullOrEmpty(username)) {
-      logger.println(
-          "Gerrit Review requires authentication, however there are no credentials defined or are empty.");
-    } else {
+    if (verifyParameters()) {
       List<HttpClientBuilderExtension> extensions = new ArrayList<>();
       if (Boolean.TRUE.equals(insecureHttps)) {
         extensions.add(SSLNoVerifyCertificateManagerClientBuilderExtension.INSTANCE);
@@ -111,8 +107,31 @@ public class GerritApiBuilder {
     return gerritApi;
   }
 
+  public GerritChecksApi buildChecksApi() {
+    if (verifyParameters()) {
+      GerritChecksApi gerritChecksApi = new GerritChecksApi(gerritApiUrl);
+      if (username != null) {
+        gerritChecksApi.setBasicAuthCredentials(username, password);
+      }
+      return gerritChecksApi.build();
+    }
+    return null;
+  }
+
   @Override
   public String toString() {
     return gerritApiUrl == null ? "null" : gerritApiUrl.toString();
+  }
+
+  private boolean verifyParameters() {
+    if (gerritApiUrl == null) {
+      logger.println("Gerrit Review is disabled no API URL");
+      return false;
+    } else if (requireAuthentication && Strings.isNullOrEmpty(username)) {
+      logger.println(
+          "Gerrit Review requires authentication, however there are no credentials defined or are empty.");
+      return false;
+    }
+    return true;
   }
 }

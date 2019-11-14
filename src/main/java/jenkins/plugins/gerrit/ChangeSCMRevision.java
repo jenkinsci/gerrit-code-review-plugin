@@ -8,10 +8,12 @@ public class ChangeSCMRevision extends ChangeRequestSCMRevision<ChangeSCMHead> {
 
   private static final long serialVersionUID = 1L;
   private final @Nonnull String patchsetHash;
+  private final boolean isFilteredByPendingChecks;
 
   ChangeSCMRevision(@Nonnull ChangeSCMHead head, @Nonnull String patchsetHash) {
     super(head, new AbstractGitSCMSource.SCMRevisionImpl(head.getTarget(), patchsetHash));
     this.patchsetHash = patchsetHash;
+    this.isFilteredByPendingChecks = !head.getPendingCheckerUuids().isEmpty();
   }
 
   /**
@@ -30,6 +32,13 @@ public class ChangeSCMRevision extends ChangeRequestSCMRevision<ChangeSCMHead> {
       return false;
     }
     ChangeSCMRevision other = (ChangeSCMRevision) o;
+
+    // Force a rebuild, if the job building this change already exists, but has a pending checks.
+    // Only used, if the FilterChecksTrait is used.
+    if (isFilteredByPendingChecks) {
+      return false;
+    }
+
     return getHead().equals(other.getHead()) && patchsetHash.equals(other.patchsetHash);
   }
 
