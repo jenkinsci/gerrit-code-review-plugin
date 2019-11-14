@@ -97,6 +97,29 @@ have their own Gerrit integration defined and working out-of-the-box.
 No more people asking "how do I configure the Gerrit integration"? it
 will just work.
 
+### Integrating with the Gerrit Checks plugin
+
+The [Gerrit Checks plugin](https://gerrit-review.googlesource.com/Documentation/config-plugins.html#checks)
+provides a different approach to integrate CI systems with Gerrit. The
+GerritCodeReview-plugin supports the usage of the checks plugin, making it even
+more convenient to integrate automated verification into the code review.
+
+To build changes with pending checks, create a new `Multibranch Pipeline` item
+and select `Branch Source` of type `Gerrit` as described above. Then add the
+`Filter by Pending Checks`-behaviour to the `Gerrit Branch Source`. To select
+checkers, which should be checked for whether their checks are pending, under
+`Query Operator` either select to query pending checks by checker scheme to
+select a whole group of checkers or by a specific checker UUID, to only query
+by a specific checker. In the `Query String`-field enter the scheme name or checker
+UUID respectively.
+
+Jenkins will then only start builds for changes that have pending checks handled
+by the configured checkers and will set the status of the check to `SCHEDULED`.
+
+So far, the GerritCodeReview-plugin does not provide a pipeline step to change the
+check status, e.g. to `RUNNING` or `SUCCESSFUL`. This has to be done manually via
+the checks plugin's REST API endpoint.
+
 # Plugin Releases
 
 I have presented the first prototype of this new plugin at the Jenkins
