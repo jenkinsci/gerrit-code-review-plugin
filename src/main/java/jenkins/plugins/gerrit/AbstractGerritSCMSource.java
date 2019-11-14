@@ -51,10 +51,12 @@ import java.util.stream.Stream;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import jenkins.plugins.gerrit.checks.api.CheckInput;
+import jenkins.plugins.gerrit.checks.api.CheckState;
+import jenkins.plugins.gerrit.checks.api.PendingChecksInfo;
+import jenkins.plugins.gerrit.checks.client.GerritChecksApi;
 import jenkins.plugins.git.AbstractGitSCMSource;
 import jenkins.plugins.git.GitRemoteHeadRefAction;
-import jenkins.plugins.git.GitSCMSourceContext;
-import jenkins.plugins.git.GitSCMSourceRequest;
 import jenkins.scm.api.*;
 import jenkins.scm.api.metadata.ObjectMetadataAction;
 import jenkins.scm.api.trait.SCMSourceRequest;
@@ -84,7 +86,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   public interface Retriever<T> {
     T run(
         GitClient client,
-        GitSCMSourceContext context,
+        GerritSCMSourceContext context,
         String remoteName,
         Changes.QueryRequest changeQuery)
         throws IOException, InterruptedException;
@@ -118,18 +120,19 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
           @Override
           public Object run(
               GitClient client,
-              GitSCMSourceContext context,
+              GerritSCMSourceContext context,
               String remoteName,
               Changes.QueryRequest changeQuery)
               throws IOException, InterruptedException {
             final Repository repository = client.getRepository();
             try (RevWalk walk = new RevWalk(repository);
-                GitSCMSourceRequest request =
+                GerritSCMSourceRequest request =
                     context.newRequest(AbstractGerritSCMSource.this, listener)) {
               if (context.wantBranches()) {
                 discoverBranches(
                     repository,
                     walk,
+                    context,
                     request,
                     client
                         .getRemoteBranches()
@@ -149,7 +152,8 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
           private void discoverBranches(
               final Repository repository,
               final RevWalk walk,
-              GitSCMSourceRequest request,
+              GerritSCMSourceContext context,
+              GerritSCMSourceRequest request,
               final Map<String, ObjectId> remoteReferences)
               throws IOException, InterruptedException {
 
@@ -191,9 +195,36 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
             listener.getLogger().format("Processed %d changes%n", changesCount);
           }
         },
-        new GitSCMSourceContext<>(criteria, observer).withTraits(getTraits()),
+        new GerritSCMSourceContext(criteria, observer).withTraits(getTraits()),
         listener,
         true);
+  }
+
+  private void updateChecksToPending(
+      @NonNull TaskListener listener, int changeNumber, int patchSetNumber, String checkerUUID) {
+    try {
+      CheckInput input = new CheckInput();
+      input.checkerUuid = checkerUUID;
+      input.state = CheckState.SCHEDULED;
+      createGerritChecksApi(listener, getGerritURI())
+          .checks()
+          .change(changeNumber)
+          .patchSet(patchSetNumber)
+          .update(input);
+      listener
+          .getLogger()
+          .println(
+              String.format(
+                  "Updated the status of check %s for patchset %d/%d to SCHEDULED.",
+                  checkerUUID, changeNumber, patchSetNumber));
+    } catch (IOException | RestApiException | URISyntaxException e) {
+      listener
+          .getLogger()
+          .println(
+              String.format(
+                  "Could not update the status of check %s for patchset %d/%d",
+                  checkerUUID, changeNumber, patchSetNumber));
+    }
   }
 
   /** {@inheritDoc} */
@@ -208,7 +239,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
           @Override
           public List<Action> run(
               GitClient client,
-              GitSCMSourceContext context,
+              GerritSCMSourceContext context,
               String remoteName,
               Changes.QueryRequest queryRequest)
               throws IOException, InterruptedException {
@@ -232,7 +263,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
             return new ArrayList<>();
           }
         },
-        new GitSCMSourceContext<>(null, SCMHeadObserver.none()).withTraits(getTraits()),
+        new GerritSCMSourceContext(null, SCMHeadObserver.none()).withTraits(getTraits()),
         listener,
         false);
   }
@@ -247,7 +278,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
         doRetrieve(
             head,
             (GitClient client,
-                GitSCMSourceContext context,
+                GerritSCMSourceContext context,
                 String remoteName,
                 Changes.QueryRequest changeQuery) -> {
               SCMSourceOwner owner = getOwner();
@@ -271,7 +302,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                 return Collections.emptyList();
               }
             },
-            new GitSCMSourceContext<>(null, SCMHeadObserver.none()).withTraits(getTraits()),
+            new GerritSCMSourceContext(null, SCMHeadObserver.none()).withTraits(getTraits()),
             listener,
             false);
 
@@ -292,7 +323,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   private boolean processBranchRequest(
       final Repository repository,
       final RevWalk walk,
-      GitSCMSourceRequest request,
+      GerritSCMSourceRequest request,
       final Map.Entry<String, ObjectId> ref,
       final TaskListener listener)
       throws IOException, InterruptedException {
@@ -389,14 +420,15 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   private boolean processChangeRequest(
       final Repository repository,
       final RevWalk walk,
-      GitSCMSourceRequest request,
+      GerritSCMSourceRequest request,
       final Map.Entry<String, ObjectId> ref,
       final TaskListener listener)
       throws IOException, InterruptedException {
     final String branchName = StringUtils.removeStart(ref.getKey(), R_CHANGES);
+    Set<String> pendingCheckerUuids = getPendingCheckerUuids(request, ref);
     boolean succeeded =
         request.process(
-            new ChangeSCMHead(ref, branchName),
+            new ChangeSCMHead(ref, branchName, pendingCheckerUuids),
             new SCMSourceRequest.IntermediateLambda<ObjectId>() {
               @Nullable
               @Override
@@ -478,6 +510,10 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                   @Nonnull ChangeSCMHead head, SCMRevision revision, boolean isMatch) {
                 if (isMatch) {
                   listener.getLogger().println("    Met criteria");
+                  for (String checkerUuid : head.getPendingCheckerUuids()) {
+                    updateChecksToPending(
+                        listener, head.getChangeNumber(), head.getPatchSetNumber(), checkerUuid);
+                  }
                 } else {
                   listener.getLogger().println("    Does not meet criteria");
                 }
@@ -485,6 +521,28 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
             });
 
     return succeeded;
+  }
+
+  private Set<String> getPendingCheckerUuids(
+      GerritSCMSourceRequest request, final Map.Entry<String, ObjectId> ref) {
+    String[] refParts = ref.getKey().split("/");
+    HashSet<PendingChecksInfo> pendingChecksInfos =
+        request
+            .getPatchsetWithPendingChecks()
+            .get(
+                String.format(
+                    "%s/%s", refParts[refParts.length - 2], refParts[refParts.length - 1]));
+    if (pendingChecksInfos != null) {
+      Set<String> pendingCheckerUuids = new HashSet<String>();
+      for (PendingChecksInfo pendingChecksInfo : pendingChecksInfos) {
+        if (pendingChecksInfo.pendingChecks != null) {
+          pendingCheckerUuids.addAll(pendingChecksInfo.pendingChecks.keySet());
+        }
+      }
+      return pendingCheckerUuids;
+    }
+
+    return Collections.<String>emptySet();
   }
 
   private Map<String, ObjectId> filterRemoteReferences(Map<String, ObjectId> gitRefs) {
@@ -533,7 +591,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
 
   @Nonnull
   @SuppressWarnings("deprecation")
-  protected <T, C extends GitSCMSourceContext<C, R>, R extends GitSCMSourceRequest> T doRetrieve(
+  protected <T, C extends GerritSCMSourceContext, R extends GerritSCMSourceRequest> T doRetrieve(
       SCMHead head,
       Retriever<T> retriever,
       @Nonnull C context,
@@ -637,8 +695,8 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     return projectChanges;
   }
 
-  private GerritApi createGerritApi(@Nonnull TaskListener listener, GerritURI remoteUri)
-      throws IOException {
+  private GerritApiBuilder setupGerritApiBuilder(
+      @Nonnull TaskListener listener, GerritURI remoteUri) throws IOException {
     try {
       UsernamePasswordCredentialsProvider.UsernamePassword credentials =
           new UsernamePasswordCredentialsProvider(getCredentials())
@@ -648,11 +706,20 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
           .logger(listener.getLogger())
           .gerritApiUrl(remoteUri.getApiURI())
           .insecureHttps(getInsecureHttps())
-          .credentials(credentials.username, credentials.password)
-          .build();
+          .credentials(credentials.username, credentials.password);
     } catch (URISyntaxException e) {
       throw new IOException(e);
     }
+  }
+
+  private GerritApi createGerritApi(@Nonnull TaskListener listener, GerritURI remoteUri)
+      throws IOException {
+    return setupGerritApiBuilder(listener, remoteUri).build();
+  }
+
+  protected GerritChecksApi createGerritChecksApi(
+      @Nonnull TaskListener listener, GerritURI remoteUri) throws IOException {
+    return setupGerritApiBuilder(listener, remoteUri).buildChecksApi();
   }
 
   private Changes.QueryRequest getOpenChanges(GerritApi gerritApi, String project)
