@@ -15,28 +15,62 @@
 package jenkins.plugins.gerrit.traits;
 
 import hudson.Extension;
+import hudson.util.ListBoxModel;
 import javax.annotation.Nonnull;
 import jenkins.plugins.gerrit.GerritSCMSource;
 import jenkins.plugins.gerrit.GerritSCMSourceContext;
 import jenkins.plugins.git.GitSCMBuilder;
-import jenkins.plugins.git.traits.Messages;
-import jenkins.scm.api.*;
-import jenkins.scm.api.trait.*;
+import jenkins.scm.api.SCMHeadCategory;
+import jenkins.scm.api.SCMSource;
+import jenkins.scm.api.trait.SCMBuilder;
+import jenkins.scm.api.trait.SCMSourceContext;
+import jenkins.scm.api.trait.SCMSourceTrait;
+import jenkins.scm.api.trait.SCMSourceTraitDescriptor;
 import jenkins.scm.impl.trait.Discovery;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-/** A {@link Discovery} trait that would discover all the Gerrit Changes */
-public class ChangeDiscoveryTrait extends SCMSourceTrait {
+public class FilterChecksTrait extends SCMSourceTrait {
+
+  public enum ChecksQueryOperator {
+    ID,
+    SCHEME
+  }
+
+  private ChecksQueryOperator queryOperator;
+  private String queryString;
+
   /** Constructor for stapler. */
   @DataBoundConstructor
-  public ChangeDiscoveryTrait() {}
+  public FilterChecksTrait(ChecksQueryOperator queryOperator, String queryString) {
+    this.queryOperator = queryOperator;
+    this.queryString = queryString;
+  }
+
+  /**
+   * Returns the query operator.
+   *
+   * @return the query operator.
+   */
+  public ChecksQueryOperator getQueryOperator() {
+    return queryOperator;
+  }
+
+  /**
+   * Returns the query string.
+   *
+   * @return the query string.
+   */
+  public String getQueryString() {
+    return queryString;
+  }
 
   /** {@inheritDoc} */
   @Override
   protected void decorateContext(SCMSourceContext<?, ?> context) {
     GerritSCMSourceContext ctx = (GerritSCMSourceContext) context;
-    ctx.wantBranches(true);
-    ctx.withAuthority(new BranchSCMHeadAuthority());
+    ctx.wantFilterForPendingChecks(true);
+    ctx.withChecksQueryOperator(queryOperator);
+    ctx.withChecksQueryString(queryString);
   }
 
   /** {@inheritDoc} */
@@ -53,7 +87,20 @@ public class ChangeDiscoveryTrait extends SCMSourceTrait {
     /** {@inheritDoc} */
     @Override
     public String getDisplayName() {
-      return jenkins.plugins.gerrit.traits.Messages.ChangeDiscoveryTrait_displayName();
+      return jenkins.plugins.gerrit.traits.Messages.FilterChecksTrait_displayName();
+    }
+
+    public ListBoxModel doFillQueryOperatorItems() {
+      ListBoxModel items = new ListBoxModel();
+
+      items.add(
+          jenkins.plugins.gerrit.traits.Messages.FilterChecksTrait_checkerIdOperator(),
+          ChecksQueryOperator.ID.name());
+      items.add(
+          jenkins.plugins.gerrit.traits.Messages.FilterChecksTrait_schemeOperator(),
+          ChecksQueryOperator.SCHEME.name());
+
+      return items;
     }
 
     /** {@inheritDoc} */
@@ -72,32 +119,6 @@ public class ChangeDiscoveryTrait extends SCMSourceTrait {
     @Override
     public Class<? extends SCMSource> getSourceClass() {
       return GerritSCMSource.class;
-    }
-  }
-
-  /** Trusts branches from the repository. */
-  public static class BranchSCMHeadAuthority
-      extends SCMHeadAuthority<SCMSourceRequest, SCMHead, SCMRevision> {
-    /** {@inheritDoc} */
-    @Override
-    protected boolean checkTrusted(@Nonnull SCMSourceRequest request, @Nonnull SCMHead head) {
-      return true;
-    }
-
-    /** Out descriptor. */
-    @Extension
-    public static class DescriptorImpl extends SCMHeadAuthorityDescriptor {
-      /** {@inheritDoc} */
-      @Override
-      public String getDisplayName() {
-        return Messages.BranchDiscoveryTrait_authorityDisplayName();
-      }
-
-      /** {@inheritDoc} */
-      @Override
-      public boolean isApplicableToOrigin(@Nonnull Class<? extends SCMHeadOrigin> originClass) {
-        return SCMHeadOrigin.Default.class.isAssignableFrom(originClass);
-      }
     }
   }
 }
