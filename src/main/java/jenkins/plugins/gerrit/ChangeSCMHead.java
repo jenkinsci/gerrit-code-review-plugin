@@ -15,6 +15,7 @@
 package jenkins.plugins.gerrit;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 import jenkins.scm.api.SCMHead;
@@ -33,10 +34,14 @@ public class ChangeSCMHead extends SCMHead implements ChangeRequestSCMHead2 {
 
   private final int patchset;
 
-  ChangeSCMHead(Map.Entry<String, ObjectId> ref, String branchName) {
+  private final Set<String> pendingCheckerUuids;
+
+  ChangeSCMHead(
+      Map.Entry<String, ObjectId> ref, String branchName, Set<String> pendingCheckerUuids) {
     super(branchName);
     changeNumber = parseChangeNumber(ref);
     patchset = parsePatchset(ref);
+    this.pendingCheckerUuids = pendingCheckerUuids;
   }
 
   private static int parseChangeNumber(Map.Entry<String, ObjectId> ref) {
@@ -80,6 +85,14 @@ public class ChangeSCMHead extends SCMHead implements ChangeRequestSCMHead2 {
 
   public int getChangeNumber() {
     return changeNumber;
+  }
+
+  public int getPatchSetNumber() {
+    return patchset;
+  }
+
+  public Set<String> getPendingCheckerUuids() {
+    return pendingCheckerUuids;
   }
 
   @Nonnull
