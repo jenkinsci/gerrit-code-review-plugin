@@ -18,7 +18,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Map;
 
 /** REST API representation of pending checks on patch set. */
-@SuppressFBWarnings("UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD")
+@SuppressFBWarnings(
+    value = {"UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD", "UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD"})
 public class PendingChecksInfo {
   /** Patch set for which the checks are pending. */
   public CheckablePatchSetInfo patchSet;
