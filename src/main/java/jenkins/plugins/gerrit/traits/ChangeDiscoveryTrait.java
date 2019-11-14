@@ -14,29 +14,53 @@
 
 package jenkins.plugins.gerrit.traits;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
+import hudson.util.ListBoxModel;
 import javax.annotation.Nonnull;
 import jenkins.plugins.gerrit.GerritSCMSource;
+import jenkins.plugins.gerrit.GerritSCMSourceContext;
 import jenkins.plugins.git.GitSCMBuilder;
-import jenkins.plugins.git.GitSCMSourceContext;
 import jenkins.plugins.git.traits.Messages;
 import jenkins.scm.api.*;
 import jenkins.scm.api.trait.*;
 import jenkins.scm.impl.trait.Discovery;
+import org.kohsuke.accmod.Restricted;
+import org.kohsuke.accmod.restrictions.NoExternalUse;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 /** A {@link Discovery} trait that would discover all the Gerrit Changes */
 public class ChangeDiscoveryTrait extends SCMSourceTrait {
+
+  public enum ChangeDiscoveryStrategy {
+    OPEN_CHANGES,
+    PENDING_CHECKS
+  }
+
+  private ChangeDiscoveryStrategy strategyId;
+
   /** Constructor for stapler. */
   @DataBoundConstructor
-  public ChangeDiscoveryTrait() {}
+  public ChangeDiscoveryTrait(ChangeDiscoveryStrategy strategyId) {
+    this.strategyId = strategyId;
+  }
+
+  /**
+   * Returns the strategy id.
+   *
+   * @return the strategy id.
+   */
+  public ChangeDiscoveryStrategy getStrategyId() {
+    return strategyId;
+  }
 
   /** {@inheritDoc} */
   @Override
   protected void decorateContext(SCMSourceContext<?, ?> context) {
-    GitSCMSourceContext<?, ?> ctx = (GitSCMSourceContext<?, ?>) context;
+    GerritSCMSourceContext ctx = (GerritSCMSourceContext) context;
     ctx.wantBranches(true);
     ctx.withAuthority(new BranchSCMHeadAuthority());
+    ctx.withChangeDiscoveryStrategy(strategyId);
   }
 
   /** {@inheritDoc} */
@@ -56,6 +80,24 @@ public class ChangeDiscoveryTrait extends SCMSourceTrait {
       return jenkins.plugins.gerrit.traits.Messages.ChangeDiscoveryTrait_displayName();
     }
 
+    /**
+     * Populates the strategy options.
+     *
+     * @return the stategy options.
+     */
+    @NonNull
+    @Restricted(NoExternalUse.class) // stapler
+    public ListBoxModel doFillStrategyIdItems() {
+      ListBoxModel result = new ListBoxModel();
+      result.add(
+          jenkins.plugins.gerrit.traits.Messages.ChangeDiscoveryTrait_openChanges(),
+          ChangeDiscoveryStrategy.OPEN_CHANGES.name());
+      result.add(
+          jenkins.plugins.gerrit.traits.Messages.ChangeDiscoveryTrait_pendingChecks(),
+          ChangeDiscoveryStrategy.PENDING_CHECKS.name());
+      return result;
+    }
+
     /** {@inheritDoc} */
     @Override
     public Class<? extends SCMBuilder> getBuilderClass() {
@@ -65,7 +107,7 @@ public class ChangeDiscoveryTrait extends SCMSourceTrait {
     /** {@inheritDoc} */
     @Override
     public Class<? extends SCMSourceContext> getContextClass() {
-      return GitSCMSourceContext.class;
+      return GerritSCMSourceContext.class;
     }
 
     /** {@inheritDoc} */
