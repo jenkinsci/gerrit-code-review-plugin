@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e7fdb36_b93b7c51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-18T19:39:39Z",
+      "side": 1,
+      "message": "pending, to keep the same terms used in checks plugin.",
+      "range": {
+        "startLine": 9,
+        "startChar": 63,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e80c7e82_17d50c1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-18T19:39:39Z",
+      "side": 1,
+      "message": "Add another bullet, that the in progress notification is not sent for the started checks, so that on every check, the check creation endpoint is called:\n\n  POST /changes/1/revisions/1/checks/test:my-checker\n\nwith basically one attribute:\n\n  \"state\": \"RUNNING\",",
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40aee5ea_0dcbeaa0",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-18T19:39:39Z",
+      "side": 1,
+      "message": "This should be changed to the \"scheme:\" query, in our case the query would be:\n\n  \u003chost\u003e/plugins/checks/checks.pending/?query\u003dscheme:gerritforge\n\nBut even then, we should configure the scheme in pipeline configuration file, right?\n\nI think we should only integrate for now with the scheme query, and avoid the access with checkUUID for now. That way we would only have to configure one single \"scheme\" name and not multiple checker ids in the pipeline configuration file. This is also the preferable way to retrieve the pending checks from performance perspective, because otherwise you would have to spawn dedicated requests to query the pending checks for every checker.",
+      "range": {
+        "startLine": 163,
+        "startChar": 24,
+        "endLine": 163,
+        "endChar": 89
+      },
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd179eb1_389be93a",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-18T19:39:39Z",
+      "side": 1,
+      "message": "Why is this check needed?",
+      "range": {
+        "startLine": 249,
+        "startChar": 6,
+        "endLine": 251,
+        "endChar": 7
+      },
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f85feb3e_73d9964d",
+        "filename": "src/main/java/jenkins/plugins/gerrit/checks/CheckState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-18T19:39:39Z",
+      "side": 1,
+      "message": "Nit: new line between new enum instances, here and below.",
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ba78b75_4964998a",
+        "filename": "src/main/java/jenkins/plugins/gerrit/checks/CheckState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-18T19:39:39Z",
+      "side": 1,
+      "message": "Should this be rather false?",
+      "range": {
+        "startLine": 36,
+        "startChar": 14,
+        "endLine": 36,
+        "endChar": 18
+      },
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cad48e76_a27b18bf",
+        "filename": "src/main/java/jenkins/plugins/gerrit/checks/GerritChecksApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-18T19:39:39Z",
+      "side": 1,
+      "message": "This is fine to park the Checks Rest API in this repository, but in long term we should find a better place for it.\n\nThe request to add plugin specific APIs to the existing gerrit-rest-java-client: [1] project was rejected, see this issue: [2] and this PR: [3], where Khai tried to add plugin API for verify-status plugin.\n\nAnother option would be a new project on gerrit-review, or add the API in checks plugin project itself.\n\n* [1] https://github.com/uwolfer/gerrit-rest-java-client\n* [2] https://github.com/uwolfer/gerrit-rest-java-client/issues/59\n* [3] https://github.com/uwolfer/gerrit-rest-java-client/pull/60",
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12dfea42_dcec4b22",
+        "filename": "src/main/java/jenkins/plugins/gerrit/checks/GerritChecksApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-18T19:39:39Z",
+      "side": 1,
+      "message": "This is useful method, that accepts checker UUID, however, even more useful method to query for the checkers is to use scheme: - query, quoting rest-api-pending-checks.md, from the checks plugin:\n\n  * \u003ca id\u003d\"scheme-operator\"\u003e\u003c/a\u003e `scheme:\u0027SCHEME\u0027`:\n  Matches checks with the scheme \u0027SCHEME\u0027.\n\nSo my suggestion would be, to add yet another method to this class and rename this one:\n\n  getChangesWithPendingChecksForCheckerId(String id);\n  getChangesWithPendingChecksForCheckerScheme(String scheme);",
+      "range": {
+        "startLine": 38,
+        "startChar": 33,
+        "endLine": 38,
+        "endChar": 60
+      },
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
