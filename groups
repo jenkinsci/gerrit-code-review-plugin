@@ -1,5 +1,6 @@
 # UUID                                  	Group Name
 #
+58e7d832a5794281c028e38650aab0a7e0959665	gerrit-code-review-plugin
 7ada7ab8f710b700a36cb66db9f9951eba2adf6b	jenkinsci-gerrit-code-review-maintainers
 bf4abd7c92c23fdfe9323bb2b4dcf1548e970999	jenkinsci-gerrit-code-review-contributors
 global:Registered-Users                 	Registered Users
