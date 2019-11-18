@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "84ecf4d7_2470e50a",
+        "filename": "src/main/java/jenkins/plugins/gerrit/traits/ChangeDiscoveryTrait.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-18T16:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b978b91_c1598194",
+      "range": {
+        "startLine": 93,
+        "startChar": 32,
+        "endLine": 93,
+        "endChar": 40
+      },
+      "revId": "292226a6afa07a50681f99e80b5937b13b131c09",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c17f0c1a_a3566ea4",
         "filename": "src/main/java/jenkins/plugins/gerrit/traits/ChangeDiscoveryTrait.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "d224c1f8_f5920fac",
+        "filename": "src/main/java/jenkins/plugins/gerrit/traits/ChangeDiscoveryTrait.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-18T16:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c17f0c1a_a3566ea4",
+      "range": {
+        "startLine": 96,
+        "startChar": 34,
+        "endLine": 96,
+        "endChar": 42
+      },
+      "revId": "292226a6afa07a50681f99e80b5937b13b131c09",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "608d0a04_ec7a9635",
         "filename": "src/main/resources/jenkins/plugins/gerrit/traits/ChangeDiscoveryTrait/config.jelly",
         "patchSetId": 2
@@ -68,6 +116,30 @@
       "revId": "292226a6afa07a50681f99e80b5937b13b131c09",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1cceabd_1b43648b",
+        "filename": "src/main/resources/jenkins/plugins/gerrit/traits/ChangeDiscoveryTrait/config.jelly",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-18T16:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "608d0a04_ec7a9635",
+      "range": {
+        "startLine": 22,
+        "startChar": 22,
+        "endLine": 22,
+        "endChar": 25
+      },
+      "revId": "292226a6afa07a50681f99e80b5937b13b131c09",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
