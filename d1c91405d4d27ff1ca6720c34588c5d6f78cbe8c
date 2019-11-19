@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "0a863417_d526e963",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-19T14:30:41Z",
+      "side": 1,
+      "message": "After thinking about it more, there could be another issue: we could get too much pending checks results for other project that we might don\u0027t want here. Especially if we add pipeline for the plugins: [1]. The better question whether we could combine scheme:foo with project:bar query? That way, the pipeline per project would ask for scheme:gerritforge, but would restrict to the specific project.\n\nA different approach would be to filter the pending checks to the specific project in the pipeline.\n\nWhat probably wouldn\u0027t work with the multi-branch-pipeline is to have one single pipeline for gerrit and all 150 plugins, because Jenkinsfile has to be defined per project and that whz we would need 151 pipelines that all would query for pending changes periodically.\n\n* [1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d11949",
+      "parentUuid": "f904d58e_288148ed",
+      "range": {
+        "startLine": 163,
+        "startChar": 24,
+        "endLine": 163,
+        "endChar": 89
+      },
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd179eb1_389be93a",
         "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
         "patchSetId": 4
@@ -207,6 +231,24 @@
       "side": 1,
       "message": "We should definitely solve this differently. Lets see what the response on the mailing list will be. I will fix the formatting in the meantime. Copying from gitiles always screws empty lines for me.",
       "parentUuid": "74fa916e_02df95a7",
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "784ca272_cbc9afa0",
+        "filename": "src/main/java/jenkins/plugins/gerrit/checks/CheckState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-19T14:30:41Z",
+      "side": 1,
+      "message": "I went ahead and moved the REST API client to checks plugin in this change: [1]. The publishing to the Maven Central is still missing, but can you try to integrate this library with this change?\n\n* [1] https://gerrit-review.googlesource.com/c/plugins/checks/+/246172",
+      "parentUuid": "eb661900_d96f6094",
       "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
