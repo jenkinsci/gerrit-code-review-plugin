@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "573ec932_17e07fe7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-19T08:32:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e7fdb36_b93b7c51",
+      "range": {
+        "startLine": 9,
+        "startChar": 63,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e80c7e82_17d50c1d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "417f3cf5_12db151c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-19T08:32:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e80c7e82_17d50c1d",
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40aee5ea_0dcbeaa0",
         "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
         "patchSetId": 4
@@ -53,6 +95,30 @@
       "writtenOn": "2019-11-18T19:39:39Z",
       "side": 1,
       "message": "This should be changed to the \"scheme:\" query, in our case the query would be:\n\n  \u003chost\u003e/plugins/checks/checks.pending/?query\u003dscheme:gerritforge\n\nBut even then, we should configure the scheme in pipeline configuration file, right?\n\nI think we should only integrate for now with the scheme query, and avoid the access with checkUUID for now. That way we would only have to configure one single \"scheme\" name and not multiple checker ids in the pipeline configuration file. This is also the preferable way to retrieve the pending checks from performance perspective, because otherwise you would have to spawn dedicated requests to query the pending checks for every checker.",
+      "range": {
+        "startLine": 163,
+        "startChar": 24,
+        "endLine": 163,
+        "endChar": 89
+      },
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f904d58e_288148ed",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-19T08:32:03Z",
+      "side": 1,
+      "message": "Good idea. The documentation of the checks plugin still states that you have to use \"checker\" in the query [1], but let me try it.\n\n[1] https://gerrit.googlesource.com/plugins/checks/+/refs/heads/master/resources/Documentation/rest-api-pending-checks.md?autodive\u003d0%2F%2F#query-pending-checks",
+      "parentUuid": "40aee5ea_0dcbeaa0",
       "range": {
         "startLine": 163,
         "startChar": 24,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "bfa2d25b_ab1df9b1",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-19T08:32:03Z",
+      "side": 1,
+      "message": "FireBug was complaining. My guess is that there is a better solution, which I don\u0027t know yet with my limited Java-foo. Will change that.",
+      "parentUuid": "dd179eb1_389be93a",
+      "range": {
+        "startLine": 249,
+        "startChar": 6,
+        "endLine": 251,
+        "endChar": 7
+      },
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "74fa916e_02df95a7",
         "filename": "src/main/java/jenkins/plugins/gerrit/checks/CheckState.java",
         "patchSetId": 4
@@ -99,6 +189,24 @@
       "writtenOn": "2019-11-19T01:06:12Z",
       "side": 1,
       "message": "Now, I see, you copied/paste it from the checks plugin: [1], but it seems that the formatting screwed up during the copy operation.\n\nThinking about my post to the mailing list, may be it is a better idea to host the client library in the checks plugin, so that the code could be re-used in the plugin and in the checks-rest-client-library.\n\n* [1] https://gerrit.googlesource.com/plugins/checks/+/refs/heads/master/java/com/google/gerrit/plugins/checks/api/CheckState.java",
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb661900_d96f6094",
+        "filename": "src/main/java/jenkins/plugins/gerrit/checks/CheckState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-19T08:32:03Z",
+      "side": 1,
+      "message": "We should definitely solve this differently. Lets see what the response on the mailing list will be. I will fix the formatting in the meantime. Copying from gitiles always screws empty lines for me.",
+      "parentUuid": "74fa916e_02df95a7",
       "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
@@ -145,6 +253,30 @@
     },
     {
       "key": {
+        "uuid": "c9ceb752_6584089c",
+        "filename": "src/main/java/jenkins/plugins/gerrit/checks/CheckState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-19T08:32:03Z",
+      "side": 1,
+      "message": "Good question. Since I copy pasted, I didn\u0027t look closer. I would leave it as is for now. Hopefully, we can anyway get rid of the copy/pasted code here.",
+      "parentUuid": "7ba78b75_4964998a",
+      "range": {
+        "startLine": 36,
+        "startChar": 14,
+        "endLine": 36,
+        "endChar": 18
+      },
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cad48e76_a27b18bf",
         "filename": "src/main/java/jenkins/plugins/gerrit/checks/GerritChecksApi.java",
         "patchSetId": 4
@@ -162,6 +294,24 @@
     },
     {
       "key": {
+        "uuid": "46bdcc71_d56ba9ab",
+        "filename": "src/main/java/jenkins/plugins/gerrit/checks/GerritChecksApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-19T08:32:03Z",
+      "side": 1,
+      "message": "I think it putting plugin APIs would not be a good fit for the gerrit-rest-java-client. The way plugins are maintained right now (non-core plugins), could lead to issues. I liked your other suggestion on the mailing list more to let plugins provide a client in their project. Keeps everything closer together and IMHO easier to maintain.",
+      "parentUuid": "cad48e76_a27b18bf",
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "12dfea42_dcec4b22",
         "filename": "src/main/java/jenkins/plugins/gerrit/checks/GerritChecksApi.java",
         "patchSetId": 4
@@ -173,6 +323,30 @@
       "writtenOn": "2019-11-18T19:39:39Z",
       "side": 1,
       "message": "This is useful method, that accepts checker UUID, however, even more useful method to query for the checkers is to use scheme: - query, quoting rest-api-pending-checks.md, from the checks plugin:\n\n  * \u003ca id\u003d\"scheme-operator\"\u003e\u003c/a\u003e `scheme:\u0027SCHEME\u0027`:\n  Matches checks with the scheme \u0027SCHEME\u0027.\n\nSo my suggestion would be, to add yet another method to this class and rename this one:\n\n  getChangesWithPendingChecksForCheckerId(String id);\n  getChangesWithPendingChecksForCheckerScheme(String scheme);",
+      "range": {
+        "startLine": 38,
+        "startChar": 33,
+        "endLine": 38,
+        "endChar": 60
+      },
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ef3b1c7_a7277119",
+        "filename": "src/main/java/jenkins/plugins/gerrit/checks/GerritChecksApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-19T08:32:03Z",
+      "side": 1,
+      "message": "Good idea. I will work on that.",
+      "parentUuid": "12dfea42_dcec4b22",
       "range": {
         "startLine": 38,
         "startChar": 33,
