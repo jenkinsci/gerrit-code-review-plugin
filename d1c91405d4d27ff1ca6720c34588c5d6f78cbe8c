@@ -155,6 +155,30 @@
     },
     {
       "key": {
+        "uuid": "baa1adca_f6920f9c",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-19T16:05:12Z",
+      "side": 1,
+      "message": "Unfortunately there is no wildcard query or similar for pending checks. That would also help. Better yet would be to extend the checks plugin\u0027s rest API to support that.\nCombining should work. I anyway rewrote most of the change and put the filtering for pending checks in a separate trait, because the UI of Jenkins didn\u0027t allow stuff, which I would have needed as I did it before. Thus, we could just combine multiple filters.\nYes we would need one pipeline per project unfortunately :-(.",
+      "parentUuid": "0a863417_d526e963",
+      "range": {
+        "startLine": 163,
+        "startChar": 24,
+        "endLine": 163,
+        "endChar": 89
+      },
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd179eb1_389be93a",
         "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
         "patchSetId": 4
@@ -255,6 +279,24 @@
     },
     {
       "key": {
+        "uuid": "11d7ae97_b90c950a",
+        "filename": "src/main/java/jenkins/plugins/gerrit/checks/CheckState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-19T16:05:12Z",
+      "side": 1,
+      "message": "Thanks David. Will do!",
+      "parentUuid": "784ca272_cbc9afa0",
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f85feb3e_73d9964d",
         "filename": "src/main/java/jenkins/plugins/gerrit/checks/CheckState.java",
         "patchSetId": 4
@@ -269,6 +311,24 @@
       "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "baf6c7cd_6d32c993",
+        "filename": "src/main/java/jenkins/plugins/gerrit/checks/CheckState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-19T16:05:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f85feb3e_73d9964d",
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -398,6 +458,30 @@
       "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d4035d5_dfc74e3b",
+        "filename": "src/main/java/jenkins/plugins/gerrit/checks/GerritChecksApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-19T16:05:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ef3b1c7_a7277119",
+      "range": {
+        "startLine": 38,
+        "startChar": 33,
+        "endLine": 38,
+        "endChar": 60
+      },
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
