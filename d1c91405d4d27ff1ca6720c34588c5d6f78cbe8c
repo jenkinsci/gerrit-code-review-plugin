@@ -88,6 +88,23 @@
     },
     {
       "key": {
+        "uuid": "74fa916e_02df95a7",
+        "filename": "src/main/java/jenkins/plugins/gerrit/checks/CheckState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-19T01:06:12Z",
+      "side": 1,
+      "message": "Now, I see, you copied/paste it from the checks plugin: [1], but it seems that the formatting screwed up during the copy operation.\n\nThinking about my post to the mailing list, may be it is a better idea to host the client library in the checks plugin, so that the code could be re-used in the plugin and in the checks-rest-client-library.\n\n* [1] https://gerrit.googlesource.com/plugins/checks/+/refs/heads/master/java/com/google/gerrit/plugins/checks/api/CheckState.java",
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f85feb3e_73d9964d",
         "filename": "src/main/java/jenkins/plugins/gerrit/checks/CheckState.java",
         "patchSetId": 4
