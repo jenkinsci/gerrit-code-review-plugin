@@ -297,6 +297,24 @@
     },
     {
       "key": {
+        "uuid": "0c17bad7_daccd7f7",
+        "filename": "src/main/java/jenkins/plugins/gerrit/checks/CheckState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-20T21:18:04Z",
+      "side": 1,
+      "message": "So, I have added publishing to Maven in this change: [1]. For now you could already test it locally, as described in the commit message. Note, though, that you would also need this gerrit core change, otherwise it wouldn\u0027t work: [2].\n\nTo publish to Maven Central, we would have to register the new Maven Coordinates first:\n\n  com.google.gerrit.plugins.checks:rest-api-client:3.1.0\n\n* [1] https://gerrit-review.googlesource.com/c/plugins/checks/+/246354\n* [2] https://gerrit-review.googlesource.com/c/gerrit/+/246353",
+      "parentUuid": "11d7ae97_b90c950a",
+      "revId": "d1c91405d4d27ff1ca6720c34588c5d6f78cbe8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f85feb3e_73d9964d",
         "filename": "src/main/java/jenkins/plugins/gerrit/checks/CheckState.java",
         "patchSetId": 4
