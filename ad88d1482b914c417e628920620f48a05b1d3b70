@@ -45,6 +45,46 @@
       "revId": "ad88d1482b914c417e628920620f48a05b1d3b70",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36470d01_b861ee3d",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-20T21:27:18Z",
+      "side": 1,
+      "message": "Note, that after the switch to the rest api client from checks plugin, the package would change to:\n\n  import com.google.gerrit.plugins.checks.client.GerritChecksApi;\n  import com.google.gerrit.plugins.checks.api.CheckState;\n  import com.google.gerrit.plugins.checks.api.CheckablePatchSetInfo;\n  import com.google.gerrit.plugins.checks.api.PendingCheckInfo;\n  import com.google.gerrit.plugins.checks.api.PendingChecksInfo;",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 55
+      },
+      "revId": "ad88d1482b914c417e628920620f48a05b1d3b70",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4b81403_a1bd7e84",
+        "filename": "src/main/java/jenkins/plugins/gerrit/checks/GerritChecksApi.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-20T21:27:18Z",
+      "side": 1,
+      "message": "Remove this and all other copied files, after you switched to using rest-api-client from checks plugin.",
+      "revId": "ad88d1482b914c417e628920620f48a05b1d3b70",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
