@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5253fe74_d04fa694",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-20T21:21:41Z",
+      "side": 1,
+      "message": "IN_PROGRESS? Zuul already enabled this notification and this is the message I am getting:\n\n  The combined check state has been updated to IN_PROGRESS for patch set 1 of this change.",
+      "range": {
+        "startLine": 16,
+        "startChar": 24,
+        "endLine": 16,
+        "endChar": 33
+      },
+      "revId": "ad88d1482b914c417e628920620f48a05b1d3b70",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82c07e5f_170bc40b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-20T21:21:41Z",
+      "side": 1,
+      "message": "You can do that already now, see my other comment. Just publish checks Rst API client locally and add this dependency in pom.xml:\n\n        \u003cdependency\u003e\n            \u003cgroupId\u003ecom.google.gerrit.plugins.checks\u003c/groupId\u003e\n            \u003cartifactId\u003erest-api-client\u003c/artifactId\u003e\n            \u003cversion\u003e3.1.0\u003c/version\u003e\n        \u003c/dependency\u003e",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 37
+      },
+      "revId": "ad88d1482b914c417e628920620f48a05b1d3b70",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
