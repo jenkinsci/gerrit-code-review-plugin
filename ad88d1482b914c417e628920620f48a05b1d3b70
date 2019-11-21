@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f543c8c9_1c0e3e8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-21T09:43:09Z",
+      "side": 1,
+      "message": "This plugin works in a multi branch pipeline, which only create downstream jobs that then execute the pipeline described in the Jenkinsfile. Thus, the multi branch pipeline just schedules the real job, which depending on the config of the Jenkins instance and its current load could take a while to start. Setting the status to IN_PROGRESS would have to be done in the Jenkinsfile.",
+      "parentUuid": "5253fe74_d04fa694",
+      "range": {
+        "startLine": 16,
+        "startChar": 24,
+        "endLine": 16,
+        "endChar": 33
+      },
+      "revId": "ad88d1482b914c417e628920620f48a05b1d3b70",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "82c07e5f_170bc40b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2019-11-20T21:21:41Z",
       "side": 1,
       "message": "You can do that already now, see my other comment. Just publish checks Rst API client locally and add this dependency in pom.xml:\n\n        \u003cdependency\u003e\n            \u003cgroupId\u003ecom.google.gerrit.plugins.checks\u003c/groupId\u003e\n            \u003cartifactId\u003erest-api-client\u003c/artifactId\u003e\n            \u003cversion\u003e3.1.0\u003c/version\u003e\n        \u003c/dependency\u003e",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 37
+      },
+      "revId": "ad88d1482b914c417e628920620f48a05b1d3b70",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68122d3d_49442615",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-21T09:43:09Z",
+      "side": 1,
+      "message": "Is it OK for you to hijack your change adding the API client to checks? Because by now I need more methods.",
+      "parentUuid": "82c07e5f_170bc40b",
       "range": {
         "startLine": 23,
         "startChar": 0,
