@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "2e3f0307_f2824183",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-23T16:21:29Z",
+      "side": 1,
+      "message": "Yes and no. The check is updated, but there is the issue that even, if the child job already exist and it is not started, the status is updated. This issue is connected with allowing the job to rerun, if the check is again pending. I will try to solve that next, but that could become difficult, because the logic checking whether to rebuild a job or not is in a different plugin (branch api) and on a first glance is not configurable [1]. I will see, whether I can find a way around that without rewriting the stuff the branch api is doing for us. Maybe subclassing the observer the branch api plugin uses will already help.\n\n[1] https://github.com/jenkinsci/branch-api-plugin/blob/847348f6c741f9ac350c138d6267e41a081b89e4/src/main/java/jenkins/branch/MultiBranchProject.java#L2032",
+      "parentUuid": "d5d67760_de68598d",
+      "range": {
+        "startLine": 329,
+        "startChar": 4,
+        "endLine": 329,
+        "endChar": 63
+      },
+      "revId": "a2845c28bf1f1c8d7ceb5797761d9fe6e9ccc457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ea7bdd39_303cadda",
         "filename": "src/main/java/jenkins/plugins/gerrit/traits/FilterChecksTrait.java",
         "patchSetId": 9
@@ -68,6 +92,30 @@
       "revId": "a2845c28bf1f1c8d7ceb5797761d9fe6e9ccc457",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94d92a82_94b2120f",
+        "filename": "src/main/java/jenkins/plugins/gerrit/traits/FilterChecksTrait.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-23T16:21:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea7bdd39_303cadda",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "a2845c28bf1f1c8d7ceb5797761d9fe6e9ccc457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
