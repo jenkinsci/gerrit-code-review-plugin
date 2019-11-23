@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec13e12c_be7b8cdc",
+        "filename": "pom.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-23T10:29:23Z",
+      "side": 1,
+      "message": "Cool ;-)",
+      "range": {
+        "startLine": 426,
+        "startChar": 4,
+        "endLine": 430,
+        "endChar": 17
+      },
+      "revId": "a2845c28bf1f1c8d7ceb5797761d9fe6e9ccc457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5d67760_de68598d",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-23T10:29:23Z",
+      "side": 1,
+      "message": "Does it work already?",
+      "range": {
+        "startLine": 329,
+        "startChar": 4,
+        "endLine": 329,
+        "endChar": 63
+      },
+      "revId": "a2845c28bf1f1c8d7ceb5797761d9fe6e9ccc457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea7bdd39_303cadda",
+        "filename": "src/main/java/jenkins/plugins/gerrit/traits/FilterChecksTrait.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-23T10:29:23Z",
+      "side": 1,
+      "message": "Nit: 2019.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "a2845c28bf1f1c8d7ceb5797761d9fe6e9ccc457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
