@@ -17,6 +17,8 @@ package jenkins.plugins.gerrit;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.Changes;
+import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import edu.umd.cs.findbugs.annotations.NonNull;
@@ -36,6 +38,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -54,6 +57,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.jenkinsci.plugins.gitclient.FetchCommand;
@@ -62,7 +66,6 @@ import org.jenkinsci.plugins.gitclient.GitClient;
 
 public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   public static final String R_CHANGES = "refs/changes/";
-  public static final String REF_SPEC_CHANGES = "+refs/changes/*:refs/remotes/@{remote}/*";
 
   private ProjectOpenChanges projectOpenChanges;
 
@@ -97,6 +100,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       @Nonnull final TaskListener listener)
       throws IOException, InterruptedException {
     doRetrieve(
+        null,
         new Retriever<Object>() {
           @SuppressWarnings("deprecation")
           @Override
@@ -219,6 +223,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       @CheckForNull SCMSourceEvent event, @Nonnull TaskListener listener)
       throws IOException, InterruptedException {
     return doRetrieve(
+        null,
         new Retriever<List<Action>>() {
           @Override
           public List<Action> run(
@@ -260,6 +265,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       throws IOException, InterruptedException {
     final List<Action> actions =
         doRetrieve(
+            head,
             (GitClient client,
                 GitSCMSourceContext context,
                 String remoteName,
@@ -546,6 +552,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   @Nonnull
   @SuppressWarnings("deprecation")
   protected <T, C extends GitSCMSourceContext<C, R>, R extends GitSCMSourceRequest> T doRetrieve(
+      SCMHead head,
       Retriever<T> retriever, @Nonnull C context, @Nonnull TaskListener listener, boolean prune)
       throws IOException, InterruptedException {
 
@@ -592,11 +599,36 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
 
       Changes.QueryRequest changeQuery = getOpenChanges(gerritApi, gerritURI.getProject());
 
-      fetch.from(remoteURI, context.asRefSpecs()).execute();
+      List<RefSpec> fetchRefSpecs;
+      try {
+        if(head == null) {
+          Stream<RefSpec> refSpecs = context.asRefSpecs()
+              .stream().filter((RefSpec refSpec) -> !refSpec.getSource().contains(R_CHANGES));
+          Stream<RefSpec> openChangesRefSpecs = changeQueryToRefSpecs(changeQuery);
+          fetchRefSpecs = Stream.concat(refSpecs, openChangesRefSpecs).collect(Collectors.toList());
+        } else if(head instanceof ChangeSCMHead) {
+          fetchRefSpecs = Arrays.asList(new RefSpec(R_CHANGES + head.getName() +
+              ":refs/remotes/origin/" + head.getName()));
+        } else {
+          fetchRefSpecs = Collections.emptyList();
+        }
+      } catch(RestApiException e) {
+        throw new IOException("Unable to fetch Gerrit open changes", e);
+      }
+
+      fetch.from(remoteURI, fetchRefSpecs).execute();
       return retriever.run(client, context, remoteName, changeQuery);
     } finally {
       cacheLock.unlock();
     }
+  }
+
+  private Stream<RefSpec> changeQueryToRefSpecs(QueryRequest changeQuery) throws RestApiException {
+    return changeQuery.get().stream()
+        .map((ChangeInfo change) -> {
+          String patchRef = change.revisions.entrySet().iterator().next().getValue().ref;
+          return new RefSpec(patchRef + ":" + patchRef.replace("refs/changes", "refs/remotes/origin"));
+        });
   }
 
   private ProjectOpenChanges getProjectOpenChanges() throws IOException {
@@ -630,7 +662,9 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   private Changes.QueryRequest getOpenChanges(GerritApi gerritApi, String project)
       throws UnsupportedEncodingException {
     String query = "p:" + project + " status:open";
-    return gerritApi.changes().query(URLEncoder.encode(query, StandardCharsets.UTF_8.name()));
+    return gerritApi.changes()
+        .query(URLEncoder.encode(query, StandardCharsets.UTF_8.name()))
+        .withOption(ListChangesOption.CURRENT_REVISION);
   }
 
   public GerritURI getGerritURI() throws IOException {
