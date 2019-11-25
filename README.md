@@ -64,8 +64,10 @@ node {
       gerritComment path:'path/to/file', line: 10, message: 'invalid syntax'
     }
     gerritReview labels: [Verified: 1]
+    gerritCheck checks: ['example:checker': 'SUCCESSFUL']
   } catch (e) {
     gerritReview labels: [Verified: -1]
+    gerritCheck checks: ['example:checker': 'FAILED']
     throw e
   }
 }
@@ -87,9 +89,15 @@ pipeline {
         }
     }
     post {
-        success { gerritReview labels: [Verified: 1] }
+        success {
+            gerritReview labels: [Verified: 1]
+            gerritCheck checks: ['example:checker': 'SUCCESSFUL']
+        }
         unstable { gerritReview labels: [Verified: 0], message: 'Build is unstable' }
-        failure { gerritReview labels: [Verified: -1] }
+        failure {
+            gerritReview labels: [Verified: -1]
+            gerritCheck checks: ['example:checker': 'FAILED'], message: 'invalid syntax'
+        }
     }
 }
 ```
@@ -120,10 +128,6 @@ UUID respectively.
 
 Jenkins will then only start builds for changes that have pending checks handled
 by the configured checkers and will set the status of the check to `SCHEDULED`.
-
-So far, the GerritCodeReview-plugin does not provide a pipeline step to change the
-check status, e.g. to `RUNNING` or `SUCCESSFUL`. This has to be done manually via
-the checks plugin's REST API endpoint.
 
 # Plugin Releases
 
