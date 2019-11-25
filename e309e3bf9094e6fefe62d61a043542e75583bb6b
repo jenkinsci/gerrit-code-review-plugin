@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d61702c_1807a0b3",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritApiBuilder.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-25T16:42:09Z",
+      "side": 1,
+      "message": "Does not respect insecure https yet.",
+      "revId": "e309e3bf9094e6fefe62d61a043542e75583bb6b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
