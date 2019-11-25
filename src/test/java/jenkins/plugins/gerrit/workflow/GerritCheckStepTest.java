@@ -1,0 +1,208 @@
+// Copyright (C) 2019 SAP SE
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package jenkins.plugins.gerrit.workflow;
+
+import com.cloudbees.plugins.credentials.CredentialsProvider;
+import com.cloudbees.plugins.credentials.CredentialsScope;
+import com.cloudbees.plugins.credentials.domains.Domain;
+import com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import hudson.model.Result;
+import java.util.Collections;
+import jenkins.plugins.gerrit.checks.api.CheckInput;
+import jenkins.plugins.gerrit.checks.api.CheckState;
+import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
+import org.jenkinsci.plugins.workflow.job.WorkflowJob;
+import org.jenkinsci.plugins.workflow.job.WorkflowRun;
+import org.junit.Rule;
+import org.junit.Test;
+import org.jvnet.hudson.test.JenkinsRule;
+import org.mockserver.junit.MockServerRule;
+import org.mockserver.model.HttpRequest;
+import org.mockserver.model.HttpResponse;
+import org.mockserver.model.JsonBody;
+import org.mockserver.verify.VerificationTimes;
+
+public class GerritCheckStepTest {
+
+  @Rule public MockServerRule g = new MockServerRule(this);
+  @Rule public JenkinsRule j = new JenkinsRule();
+
+  @Test
+  public void gerritCheckStepInvokeFailSSLValidationTest() throws Exception {
+    int changeId = 4321;
+    int revision = 1;
+    String checkerUuid = "checker";
+    String checkStatus = "SUCCESSFUL";
+    String message = "Does not work";
+    String branch = String.format("%02d/%d/%d", changeId % 100, changeId, revision);
+
+    UsernamePasswordCredentialsImpl c =
+        new UsernamePasswordCredentialsImpl(
+            CredentialsScope.GLOBAL, "cid", "cid", "USERNAME", "PASSWORD");
+    CredentialsProvider.lookupStores(j.jenkins)
+        .iterator()
+        .next()
+        .addCredentials(Domain.global(), c);
+    WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "p");
+    p.setDefinition(
+        new CpsFlowDefinition(
+            String.format(
+                ""
+                    + "node {\n"
+                    + "  withEnv([\n"
+                    + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
+                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
+                    + "    'BRANCH_NAME=%s',\n"
+                    + "  ]) {\n"
+                    + "    gerritCheck checks: [%s: '%s'], message: '%s'\n"
+                    + "  }\n"
+                    + "}",
+                g.getClient().remoteAddress().getHostString(),
+                g.getClient().remoteAddress().getPort(),
+                branch,
+                checkerUuid,
+                checkStatus,
+                message),
+            true));
+
+    WorkflowRun run = j.assertBuildStatus(Result.FAILURE, p.scheduleBuild2(0));
+    String log = JenkinsRule.getLog(run);
+
+    j.assertLogContains("javax.net.ssl.SSLHandshakeException", run);
+  }
+
+  @Test
+  public void gerritCheckStepInvokeTest() throws Exception {
+    int changeId = 4321;
+    int revision = 1;
+    String checkerUuid = "checker";
+    String checkStatus = "SUCCESSFUL";
+    String message = "Does work";
+    String branch = String.format("%02d/%d/%d", changeId % 100, changeId, revision);
+
+    UsernamePasswordCredentialsImpl c =
+        new UsernamePasswordCredentialsImpl(
+            CredentialsScope.GLOBAL, "cid", "cid", "USERNAME", "PASSWORD");
+    CredentialsProvider.lookupStores(j.jenkins)
+        .iterator()
+        .next()
+        .addCredentials(Domain.global(), c);
+    WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "q");
+    p.setDefinition(
+        new CpsFlowDefinition(
+            String.format(
+                ""
+                    + "node {\n"
+                    + "  withEnv([\n"
+                    + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
+                    + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
+                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
+                    + "    'BRANCH_NAME=%s',\n"
+                    + "  ]) {\n"
+                    + "    gerritCheck checks: [%s: '%s'], message: '%s'\n"
+                    + "  }\n"
+                    + "}",
+                g.getClient().remoteAddress().getHostString(),
+                g.getClient().remoteAddress().getPort(),
+                branch,
+                checkerUuid,
+                checkStatus,
+                message),
+            true));
+
+    String expectedUrl = String.format("/a/changes/%s/revisions/%s/checks/", changeId, revision);
+
+    CheckInput checkInput = new CheckInputForObjectMapper();
+    checkInput.checkerUuid = checkerUuid;
+    checkInput.state = CheckState.valueOf(checkStatus);
+    checkInput.message = message;
+    checkInput.url = j.getURL().toString() + p.getUrl() + "1/";
+    g.getClient()
+        .when(
+            HttpRequest.request(expectedUrl).withMethod("POST").withBody(JsonBody.json(checkInput)))
+        .respond(
+            HttpResponse.response()
+                .withStatusCode(200)
+                .withBody(JsonBody.json(Collections.emptyMap())));
+
+    WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
+    String log = JenkinsRule.getLog(run);
+
+    g.getClient().verify(HttpRequest.request(expectedUrl), VerificationTimes.once());
+  }
+
+  @Test
+  public void gerritCheckStepTestWithUrlSet() throws Exception {
+    int changeId = 4321;
+    int revision = 1;
+    String checkerUuid = "checker";
+    String checkStatus = "SUCCESSFUL";
+    String url = "https://example.com/test";
+    String branch = String.format("%02d/%d/%d", changeId % 100, changeId, revision);
+    UsernamePasswordCredentialsImpl c =
+        new UsernamePasswordCredentialsImpl(
+            CredentialsScope.GLOBAL, "cid", "cid", "USERNAME", "PASSWORD");
+    CredentialsProvider.lookupStores(j.jenkins)
+        .iterator()
+        .next()
+        .addCredentials(Domain.global(), c);
+    WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "p");
+    p.setDefinition(
+        new CpsFlowDefinition(
+            String.format(
+                ""
+                    + "node {\n"
+                    + "  withEnv([\n"
+                    + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
+                    + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
+                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
+                    + "    'BRANCH_NAME=%s',\n"
+                    + "  ]) {\n"
+                    + "    gerritCheck checks: [%s: '%s'], url: '%s'\n"
+                    + "  }\n"
+                    + "}",
+                g.getClient().remoteAddress().getHostString(),
+                g.getClient().remoteAddress().getPort(),
+                branch,
+                checkerUuid,
+                checkStatus,
+                url),
+            true));
+
+    String expectedUrl = String.format("/a/changes/%s/revisions/%s/checks/", changeId, revision);
+
+    CheckInput checkInput = new CheckInputForObjectMapper();
+    checkInput.checkerUuid = checkerUuid;
+    checkInput.state = CheckState.valueOf(checkStatus);
+    checkInput.url = url;
+    g.getClient()
+        .when(
+            HttpRequest.request(expectedUrl).withMethod("POST").withBody(JsonBody.json(checkInput)))
+        .respond(
+            HttpResponse.response()
+                .withStatusCode(200)
+                .withBody(JsonBody.json(Collections.emptyMap())));
+
+    WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
+    String log = JenkinsRule.getLog(run);
+
+    g.getClient().verify(HttpRequest.request(expectedUrl), VerificationTimes.once());
+  }
+
+  @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+  private static class CheckInputForObjectMapper extends CheckInput {}
+}
