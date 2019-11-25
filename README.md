@@ -64,10 +64,6 @@ UUID respectively.
 Jenkins will then only start builds for changes that have pending checks handled
 by the configured checkers and will set the status of the check to `SCHEDULED`.
 
-So far the GerritCodeReview-plugin does not provide a pipeline step to change the
-check status, e.g. to `RUNNING` or `SUCCESSFUL`. This has to be done manually via
-the checks plugin'S REST API endpoint.
-
 #### Remote Trigger
 
 Remote trigger is possible using webhook, URL is
@@ -168,6 +164,24 @@ Parameters:
 - ```message```
   Comment message body. Mandatory.
 
+### ```gerritCheck```
+
+Update the status of checks configured for the change/patchset that has
+triggered the multi-branch pipeline job execution.
+
+Parameters:
+
+- ```checks```
+  The checks to update. A map, where the key is the unique checker id and the
+  value is the new status of the check.
+
+- ```message```
+  Optional message provided with the check.
+
+- ```url```
+  Optional URL pointing to the job performing the check. If not set the URL
+  pointing to the job in which the `gerritCheck`-step was called will be used.
+
 ### Declarative pipeline example
 
 > Note: the gerrit DSL helper was removed in 0.3, please use the following.
@@ -179,15 +193,25 @@ pipeline {
         stage('Example') {
             steps {
                 gerritReview labels: [Verified: 0]
+                gerritCheck checks: ['example:checker': 'RUNNING'], message: 'Starting', url: 'http://example.com/job'
                 echo 'Hello World'
                 gerritComment path:'path/to/file', line: 10, message: 'invalid syntax'
             }
         }
     }
     post {
-        success { gerritReview labels: [Verified: 1] }
-        unstable { gerritReview labels: [Verified: 0], message: 'Build is unstable' }
-        failure { gerritReview labels: [Verified: -1] }
+        success {
+            gerritReview labels: [Verified: 1]
+            gerritCheck checks: ['example:checker': 'SUCCESSFUL']
+        }
+        unstable {
+            gerritReview labels: [Verified: 0], message: 'Build is unstable'
+            gerritCheck checks: ['example:checker': 'NOT_RELEVANT']
+        }
+        failure {
+            gerritReview labels: [Verified: -1]
+            gerritCheck checks: ['example:checker': 'FAILED'], message: 'invalid syntax'
+        }
     }
 }
 ```
@@ -199,13 +223,16 @@ node {
   checkout scm
   try {
     gerritReview labels: [Verified: 0]
+    gerritCheck checks: ['example:checker': 'RUNNING'], message: 'Starting', url: 'http://example.com/job'
     stage('Hello') {
       echo 'Hello World'
       gerritComment path:'path/to/file', line: 10, message: 'invalid syntax'
     }
     gerritReview labels: [Verified: 1]
+    gerritCheck checks: ['example:checker': 'SUCCESSFUL']
   } catch (e) {
     gerritReview labels: [Verified: -1]
+    gerritCheck checks: ['example:checker': 'FAILED'], message: 'invalid syntax'
     throw e
   }
 }
