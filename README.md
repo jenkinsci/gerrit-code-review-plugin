@@ -64,10 +64,6 @@ UUID respectively.
 Jenkins will then only start builds for changes that have pending checks handled
 by the configured checkers and will set the status of the check to `SCHEDULED`.
 
-So far the GerritCodeReview-plugin does not provide a pipeline step to change the
-check status, e.g. to `RUNNING` or `SUCCESSFUL`. This has to be done manually via
-the checks plugin'S REST API endpoint.
-
 #### Remote Trigger
 
 Remote trigger is possible using webhook, URL is
@@ -167,6 +163,20 @@ Parameters:
 
 - ```message```
   Comment message body. Mandatory.
+
+### ```gerritCheck```
+
+Update the status of checks configured for the change/patchset that has
+triggered the multi-branch pipeline job execution.
+
+Parameters:
+
+- ```checks```
+  The checks to update. A map, where the key is the unique checker id and the
+  value is the new status of the check.
+
+- ```message```
+  Optional message provided with the check.
 
 ### Declarative pipeline example
 
