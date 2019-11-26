@@ -16,6 +16,24 @@
       "revId": "e309e3bf9094e6fefe62d61a043542e75583bb6b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84370834_d0c13ced",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritApiBuilder.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-26T12:24:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d61702c_1807a0b3",
+      "revId": "e309e3bf9094e6fefe62d61a043542e75583bb6b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
