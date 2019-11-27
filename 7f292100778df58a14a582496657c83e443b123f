@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a5c11c0_4c140cd8",
+        "filename": "README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-27T08:24:45Z",
+      "side": 1,
+      "message": "Passing the checker-uuid would not be an issue, I was anyway planning to somehow expose them to the child job (e.g. via an env variable), but using it to automate the voting does not make sense, if the job queries for a checker scheme and thereby possibly selecting multiple checkers, which might have different results. Just think on our verification pipeline, in which we handle 3-4 checkers. There would be no way to somehow determine how to vote on each from this plugin. Also as you say yourself, this is project specific and should thus also handled by the project itself IMHO. I can however add some way to set a default checker uuid, if the query was done against a specific checker uuid. I would however suggest to add that in a separate change, since this one is already quite complex and adds a complete feature.\n\nThe Jenkinsfile could still be the same, if you use a specific scheme for your checkers, which anyway as you say have to be configured for each project. You could use a checker-uuid template like `plugins:\u003cplugin-name\u003e-\u003ccheck-type\u003e` (\u003ccheck-type\u003e: something like \u0027codestyle\u0027). The project name is already accessible programatically in the pipeline, so the checker-uuid can be assembled the same way in each Jenkinsfile: `\"plugins:${env.GERRIT_PROJECT}-codestyle\"`. Thus, I don\u0027t see that as an issue to be honest. Only if we use hashes for checkers as it is done so far, this will be harder to do, but I don\u0027t see, why we would have to, if admins follow a strict scheme and verify beforehand, whether a checker already exist in Gerrit.",
+      "parentUuid": "6c32d531_563b78f5",
+      "range": {
+        "startLine": 196,
+        "startChar": 37,
+        "endLine": 196,
+        "endChar": 65
+      },
+      "revId": "7f292100778df58a14a582496657c83e443b123f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8f13bc12_3b260869",
         "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritCheckStep.java",
         "patchSetId": 3
