@@ -526,7 +526,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       @Nonnull TaskListener listener,
       boolean prune)
       throws IOException, InterruptedException {
-
+    boolean doPrune = prune && head == null;
     String cacheEntry = getCacheEntry();
     Lock cacheLock = getCacheLock(cacheEntry);
     cacheLock.lock();
@@ -549,10 +549,10 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       client.setRemoteUrl(remoteName, getRemote());
       listener
           .getLogger()
-          .println((prune ? "Fetching & pruning " : "Fetching ") + remoteName + "...");
+          .println((doPrune ? "Fetching & pruning " : "Fetching ") + remoteName + "...");
 
       FetchCommand fetch = client.fetch_();
-      if (prune) {
+      if (doPrune) {
         fetch = fetch.prune();
       }
       URIish remoteURI = null;
