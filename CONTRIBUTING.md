@@ -98,6 +98,15 @@ Now you should be all set!
 Code formatting in this plugin follows the Google Java Format guidelines.
 Please install the [google-java-format](https://github.com/google/google-java-format) tool
 and make sure that your changes keep the overall code formatting style.
+Code formatting can also be run with `mvn fmt:format`.
+
+## Executing automated tests
+
+The project contains a suite of automated tests. to execute those tests use
+`mvn test`. To execute a set of tests, the `-Dtest`-option may be used:
+`mvn -Dtest=jenkins.plugins.gerrit.workflow.GerritReviewStepTest test`. The tests
+can be debugged by adding the `-Dmaven.surefire.debug`-flag and connecting the
+debugger to port `5005`.
 
 ## Code Reviews
 
@@ -108,3 +117,59 @@ Every pull request needs to satisfy the following conditions before being merged
 
 As guideline for the common etiquette and guideline for submitting and reviewing pull-requests,
 please refer to [Effective Code Reviews](https://nyu-cds.github.io/effective-code-reviews/) paper by the [NYU](https://www.nyu.edu/).
+
+## Testing the plugin manually
+
+A local test instance of Jenkins with the plugin installed can be started using
+`mvn hpi:run`. This will also create a Jenkins home directory in the projects
+working directory. `mvnDebug hpi:run` may be used to create a debuggable session,
+to which a debugger can be connected on port `8000`. The Jenkins server can
+be accessed in the browser under `http://localhost:8080/jenkins`.
+The project by default just provides the bare minimum of plugins to the test
+server. Depending on the tests that should be run, this may not be enough. To
+install newer versions of plugins or additional plugins, either add/modify the
+corresponding dependencies in the `pom.xml` to let maven install the plugins or
+install them manually to the plugin directory in the Jenkins home directory
+created for the test server (by default `./work/plugins`). Plugins can be
+downloaded from [Jenkins mirrors](http://mirrors.jenkins-ci.org/plugins/).
+
+To test this plugin properly, a Gerrit instance is needed in addition to the Jenkins
+server. Either a [self-built](https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#release)
+Gerrit can be used or a prebuilt release can be downloaded from the
+[release homepage](https://gerrit-releases.storage.googleapis.com/index.html).
+Initialize a site as described [here](https://gerrit-review.googlesource.com/Documentation/install.html#init)
+and start Gerrit using `$GERRIT_SITE/bin/gerrit.sh start`. As test cases create
+a project with some changes. These changes should contain a `Jenkinsfile` in their
+source tree, that contains the pipeline steps that should be tested, e.g.:
+
+```groovy
+node('master') {
+  gerritReview labels: [Verified: 1]
+}
+```
+
+Now a multibranch pipeline can be created on the Jenkins server that builds
+changes of the created project on Gerrit. Select `Gerrit` as the SCM to be used.
+
+If the checks-plugin support should be tested as well, the Gerrit test server has
+to have at least version `3.1` and the `checks`-plugin installed. Checkers can be
+added to a project via the Rest API:
+
+```sh
+curl -XPOST http://localhost:8081/a/plugins/checks/checkers/ \
+  --user 'admin' \
+  -H 'Content-Type: application/json' \
+  --data '{"uuid": "test:checker", "name": "checker", "repository": "test"}'
+```
+
+## Additional resources
+
+The GerritCodeReview-plugin heavily relies on the `scm-api-plugin` and
+`branch-api-plugin`. To find out how to implement the APIs these plugins are
+providing, refer to these sources:
+
+scm-api-plugin: https://github.com/jenkinsci/scm-api-plugin/blob/master/docs/implementation.adoc
+
+branch-pi-plugin: https://github.com/jenkinsci/branch-api-plugin/blob/master/docs/implementation.adoc
+
+To get started with the Jenkins UI components, refer to https://jenkins.io/doc/developer/forms/jelly-form-controls/
