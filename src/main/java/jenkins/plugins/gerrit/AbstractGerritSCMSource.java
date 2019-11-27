@@ -66,6 +66,8 @@ import org.jenkinsci.plugins.gitclient.GitClient;
 
 public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   public static final String R_CHANGES = "refs/changes/";
+  public static final String OPEN_CHANGES_FILTER =
+      System.getProperty("gerrit.open.changes.filter", "-age:24w");
 
   private ProjectOpenChanges projectOpenChanges;
 
@@ -667,7 +669,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
 
   private Changes.QueryRequest getOpenChanges(GerritApi gerritApi, String project)
       throws UnsupportedEncodingException {
-    String query = "p:" + project + " status:open -age:24w";
+    String query = "p:" + project + " status:open " + OPEN_CHANGES_FILTER;
     return gerritApi
         .changes()
         .query(URLEncoder.encode(query, StandardCharsets.UTF_8.name()))
