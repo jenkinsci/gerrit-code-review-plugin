@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23b4691b_229449d1",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-27T15:15:49Z",
+      "side": 0,
+      "message": "FYI, I noticed that succeeded seems to be always false. When debugging I saw that this was actually a hardcoded response from the observer used in the SCMRequest. If that is indeed the case, the cache would never be updated after filling it for the first time, since projectOpenChanges.add() is never called anywhere else. Could this be the issue and not just serialization?\nAlso the logged line in line 170 is never appearing, when scanning for changes. ANother indication that my observation could be right.",
+      "revId": "af68e8e2074c00e63982a10a10d5449b6ea52a2a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
