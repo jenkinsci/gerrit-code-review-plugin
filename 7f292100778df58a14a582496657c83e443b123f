@@ -69,6 +69,30 @@
       "revId": "7f292100778df58a14a582496657c83e443b123f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fd23d03_ad05e8dc",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritCheckStep.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-27T12:36:14Z",
+      "side": 1,
+      "message": "Done.\n\nAlso had to change all license headers of new files to comply with my working agreement.",
+      "parentUuid": "8f13bc12_3b260869",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "7f292100778df58a14a582496657c83e443b123f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
