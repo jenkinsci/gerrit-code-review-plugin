@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c32d531_563b78f5",
+        "filename": "README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-27T01:59:58Z",
+      "side": 1,
+      "message": "Can\u0027t we somehow pass in the checker uuid from the trigger step? We query for pending checks, we get say the check for change 4711 and we get the checker uuidm as the response. We then trigger the build for that check and here and below we would like to update the status. How could we pass the checker uuid from them query/triggering phase to here, so that we wouldn\u0027t have to hard code it in the Jenkinsfile or in yaml pipeline configuration file.\n\nImagine we would like to set up 300 pipelines for Gerrit and all plugins (for OpenStack that would be 2000+ pojects. The goal should be to have Jenkinsfile to be the almost the same, and avoid putting here any project specific information.\n\nGiven that checkers have to be dedicated per project, configuring the checker uuid here or in pipeline configuration file would mean, to put this information in every pipeline/Jenkinsfile.\n\nThe alternative, that I don\u0027t know how to implement, is to have one single Checker definition with common schme-prefix, say \"gerritforge:\" and define each and every checker in Gerrit-review for all projects wit tha prefix, say: \"gerritforge:gerrit\" and \"gerritforge:reviewers\" for reviewers-plugin. Now the only configuration would be: query-pending-change-with-checker-scheme-strategy: \"scheme:gerritforge\". C\u0027est tout! With this the plugin would query for pending changes, retriever the pending checks, memorize (somehow?) the discovered check uuid, and will be able to upgrade them later on.",
+      "range": {
+        "startLine": 196,
+        "startChar": 37,
+        "endLine": 196,
+        "endChar": 65
+      },
+      "revId": "7f292100778df58a14a582496657c83e443b123f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f13bc12_3b260869",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritCheckStep.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-27T01:59:58Z",
+      "side": 1,
+      "message": "Nit: 2019.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "7f292100778df58a14a582496657c83e443b123f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
