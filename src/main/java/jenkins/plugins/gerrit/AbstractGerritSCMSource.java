@@ -149,7 +149,6 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
               throws IOException, InterruptedException {
 
             listener.getLogger().println("Checking " + remoteReferences.size() + " branches ...");
-            listener.getLogger().println("Checking " + remoteReferences.size() + " branches ...");
             Map<String, ObjectId> filteredRefs = filterRemoteReferences(remoteReferences);
             listener.getLogger().println("Filtered " + filteredRefs.size() + " branches ...");
             walk.setRetainBody(false);
@@ -573,7 +572,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
 
       Changes.QueryRequest changeQuery = getOpenChanges(gerritApi, gerritURI.getProject());
 
-      List<RefSpec> fetchRefSpecs;
+      List<RefSpec> fetchRefSpecs = Collections.emptyList();
       try {
         if (head == null) {
           Stream<RefSpec> refSpecs =
@@ -583,21 +582,27 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                   .filter((RefSpec refSpec) -> !refSpec.getSource().contains(R_CHANGES));
           Stream<RefSpec> openChangesRefSpecs = changeQueryToRefSpecs(changeQuery);
           fetchRefSpecs = Stream.concat(refSpecs, openChangesRefSpecs).collect(Collectors.toList());
-        } else if (head instanceof ChangeSCMHead) {
+        } else if(head instanceof ChangeSCMHead) {
+          String headName = head.getName();
           fetchRefSpecs =
               Arrays.asList(
-                  new RefSpec(
-                      R_CHANGES + head.getName() + ":refs/remotes/origin/" + head.getName()));
+                  new RefSpec(R_CHANGES + headName + ":refs/remotes/origin/" + headName));
+
         } else {
-          fetchRefSpecs = Collections.emptyList();
+          String headName = head.getName();
+          fetchRefSpecs =
+              Arrays.asList(
+                  new RefSpec("+refs/heads/" + headName + ":refs/remotes/origin/" + headName));
         }
       } catch (RestApiException e) {
         throw new IOException("Unable to query Gerrit open changes", e);
       }
 
-      listener.getLogger().println("Fetching refs " + fetchRefSpecs);
+      if(!fetchRefSpecs.isEmpty()) {
+        listener.getLogger().println("Fetching refs " + fetchRefSpecs);
+        fetch.from(remoteURI, fetchRefSpecs).execute();
+      }
 
-      fetch.from(remoteURI, fetchRefSpecs).execute();
       return retriever.run(client, context, remoteName, changeQuery);
     } finally {
       cacheLock.unlock();
