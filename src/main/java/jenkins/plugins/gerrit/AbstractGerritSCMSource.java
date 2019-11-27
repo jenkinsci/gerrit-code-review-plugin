@@ -580,19 +580,21 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                   .filter((RefSpec refSpec) -> !refSpec.getSource().contains(R_CHANGES));
           Stream<RefSpec> openChangesRefSpecs = changeQueryToRefSpecs(changeQuery);
           fetchRefSpecs = Stream.concat(refSpecs, openChangesRefSpecs).collect(Collectors.toList());
-        } else if (head instanceof ChangeSCMHead) {
+        } else {
+          String headName = head.getName();
+          String refSpecPrefix = head instanceof ChangeSCMHead ? R_CHANGES : "+refs/heads/";
           fetchRefSpecs =
               Arrays.asList(
-                  new RefSpec(
-                      R_CHANGES + head.getName() + ":refs/remotes/origin/" + head.getName()));
-        } else {
-          fetchRefSpecs = Collections.emptyList();
+                  new RefSpec(refSpecPrefix + headName + ":refs/remotes/origin/" + headName));
         }
       } catch (RestApiException e) {
         throw new IOException("Unable to query Gerrit open changes", e);
       }
 
-      fetch.from(remoteURI, fetchRefSpecs).execute();
+      if (!fetchRefSpecs.isEmpty()) {
+        fetch.from(remoteURI, fetchRefSpecs).execute();
+      }
+
       return retriever.run(client, context, remoteName, changeQuery);
     } finally {
       cacheLock.unlock();
