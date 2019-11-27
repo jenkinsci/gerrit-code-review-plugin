@@ -27,6 +27,7 @@ import hudson.EnvVars;
 import hudson.model.Action;
 import hudson.model.Actionable;
 import hudson.model.TaskListener;
+import hudson.plugins.git.Branch;
 import hudson.plugins.git.GitTool;
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +38,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.CheckForNull;
@@ -69,7 +72,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   public static final String OPEN_CHANGES_FILTER =
       System.getProperty("gerrit.open.changes.filter", "-age:4w");
 
-  private ProjectOpenChanges projectOpenChanges;
+  private transient ProjectChanges projectChanges;
 
   public interface Retriever<T> {
     T run(
@@ -89,7 +92,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
 
   /** Return the Gerrit change information associated with a change number */
   public Optional<ChangeInfo> getChangeInfo(int changeNum) throws IOException {
-    return getProjectOpenChanges().get(changeNum);
+    return getProjectChanges().get(changeNum);
   }
 
   /** {@inheritDoc} */
@@ -116,15 +119,18 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
             try (RevWalk walk = new RevWalk(repository);
                 GitSCMSourceRequest request =
                     context.newRequest(AbstractGerritSCMSource.this, listener)) {
-              Map<String, ObjectId> remoteReferences = null;
-              if (context.wantBranches() || context.wantTags()) {
-                listener.getLogger().println("Listing remote references...");
-                remoteReferences =
-                    client.getRemoteReferences(
-                        client.getRemoteUrl(remoteName), null, false, context.wantTags());
-              }
               if (context.wantBranches()) {
-                discoverBranches(repository, walk, request, remoteReferences, changeQuery);
+                discoverBranches(
+                    repository,
+                    walk,
+                    request,
+                    client
+                        .getRemoteBranches()
+                        .stream()
+                        .collect(
+                            Collectors.toMap(
+                                (Branch branch) -> branch.getName(),
+                                (Branch branch) -> branch.getSHA1())));
               }
               if (context.wantTags()) {
                 // TODO
@@ -137,82 +143,50 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
               final Repository repository,
               final RevWalk walk,
               GitSCMSourceRequest request,
-              final Map<String, ObjectId> remoteReferences,
-              Changes.QueryRequest changeQuery)
+              final Map<String, ObjectId> remoteReferences)
               throws IOException, InterruptedException {
 
-            try {
-              listener.getLogger().println("Checking " + remoteReferences.size() + " branches ...");
-              Map<String, ObjectId> filteredRefs = filterRemoteReferences(remoteReferences);
-              listener.getLogger().println("Filtered " + filteredRefs.size() + " branches ...");
-              walk.setRetainBody(false);
-              int branchesCount = 0;
-              int changesCount = 0;
-              HashMap<Integer, ChangeInfo> openChanges = getOpenChanges(changeQuery);
+            listener.getLogger().println("Checking " + remoteReferences.size() + " branches ...");
+            Map<String, ObjectId> filteredRefs = filterRemoteReferences(remoteReferences);
+            listener.getLogger().println("Filtered " + filteredRefs.size() + " branches ...");
+            walk.setRetainBody(false);
+            int branchesCount = 0;
+            int changesCount = 0;
 
-              for (final Map.Entry<String, ObjectId> ref : filteredRefs.entrySet()) {
-                String refKey = ref.getKey();
-                if (!refKey.startsWith(Constants.R_HEADS) && !refKey.startsWith(R_CHANGES)) {
-                  continue;
-                }
+            for (final Map.Entry<String, ObjectId> ref : filteredRefs.entrySet()) {
+              String refKey = ref.getKey();
+              if (!refKey.startsWith(Constants.R_HEADS) && !refKey.startsWith(R_CHANGES)) {
+                continue;
+              }
 
-                String refName = ref.getKey();
-                if (refName.startsWith(R_CHANGES)) {
-                  getOpenChange(refName, openChanges)
-                      .ifPresent(
-                          openChangeInfo -> {
-                            try {
-                              if (processChangeRequest(
-                                  repository, walk, request, ref, openChangeInfo, listener)) {
-                                listener
-                                    .getLogger()
-                                    .format(
-                                        "Processed %d changes (query complete)%n", changesCount);
-                                return;
-                              }
-                            } catch (Exception e) {
-                              listener
-                                  .getLogger()
-                                  .format("Unable to process $s: %s", refName, e.toString());
-                            }
-                          });
-                } else {
-                  if (processBranchRequest(repository, walk, request, ref, listener)) {
+              String refName = ref.getKey();
+              if (refName.startsWith(R_CHANGES)) {
+                try {
+                  if (processChangeRequest(repository, walk, request, ref, listener)) {
                     listener
                         .getLogger()
-                        .format("Processed %d branches (query complete)%n", branchesCount);
+                        .format("Processed %d changes (query complete)%n", changesCount);
                     return;
                   }
+                } catch (Exception e) {
+                  listener.getLogger().format("Unable to process %s: %s", refName, e.toString());
+                }
+              } else {
+                if (processBranchRequest(repository, walk, request, ref, listener)) {
+                  listener
+                      .getLogger()
+                      .format("Processed %d branches (query complete)%n", branchesCount);
+                  return;
                 }
               }
-              listener.getLogger().format("Processed %d branches%n", branchesCount);
-              listener.getLogger().format("Processed %d changes%n", changesCount);
-            } catch (RestApiException e) {
-              throw new IOException(e);
             }
+            listener.getLogger().format("Processed %d branches%n", branchesCount);
+            listener.getLogger().format("Processed %d changes%n", changesCount);
           }
         },
         new GitSCMSourceContext<>(criteria, observer).withTraits(getTraits()),
         listener,
         true);
-  }
-
-  private Optional<ChangeInfo> getOpenChange(
-      String refName, HashMap<Integer, ChangeInfo> openChanges) {
-    String[] changeParts = refName.substring(R_CHANGES.length()).split("/");
-    Integer changeNumber = Integer.valueOf(changeParts[1]);
-    return Optional.ofNullable(openChanges.get(changeNumber));
-  }
-
-  private HashMap<Integer, ChangeInfo> getOpenChanges(Changes.QueryRequest changeQuery)
-      throws RestApiException {
-    HashMap<Integer, ChangeInfo> openChanges = new HashMap<>();
-
-    for (ChangeInfo change : changeQuery.get()) {
-      openChanges.put(Integer.valueOf(change._number), change);
-    }
-
-    return openChanges;
   }
 
   /** {@inheritDoc} */
@@ -410,7 +384,6 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       final RevWalk walk,
       GitSCMSourceRequest request,
       final Map.Entry<String, ObjectId> ref,
-      ChangeInfo changeInfo,
       final TaskListener listener)
       throws IOException, InterruptedException {
     final String branchName = StringUtils.removeStart(ref.getKey(), R_CHANGES);
@@ -504,9 +477,6 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
               }
             });
 
-    if (succeeded) {
-      projectOpenChanges.add(changeInfo);
-    }
     return succeeded;
   }
 
@@ -515,11 +485,12 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     Map<String, ObjectId> filteredRefs = new HashMap<>();
 
     for (Map.Entry<String, ObjectId> gitRef : gitRefs.entrySet()) {
-      if (gitRef.getKey().startsWith(R_CHANGES)) {
-        String[] changeParts = gitRef.getKey().split("/");
+      Pattern changePattern = Pattern.compile("origin/(\\d\\d)/(\\d+)/(\\d+)");
+      Matcher changeMatcher = changePattern.matcher(gitRef.getKey());
+      if (changeMatcher.matches()) {
         try {
-          Integer changeNum = Integer.valueOf(changeParts[3]);
-          Integer patchSet = Integer.valueOf(changeParts[4]);
+          Integer changeNum = Integer.parseInt(changeMatcher.group(2));
+          Integer patchSet = Integer.parseInt(changeMatcher.group(3));
 
           Integer latestPatchSet = changes.get(changeNum);
           if (latestPatchSet == null || latestPatchSet < patchSet) {
@@ -529,7 +500,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
           // change or patch-set are not numbers => ignore refs
         }
       } else {
-        filteredRefs.put(gitRef.getKey(), gitRef.getValue());
+        filteredRefs.put(gitRef.getKey().replace("origin", "refs/heads"), gitRef.getValue());
       }
     }
 
@@ -538,7 +509,8 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       Integer patchSet = change.getValue();
       String refName =
           String.format("%s%02d/%d/%d", R_CHANGES, changeNum % 100, changeNum, patchSet);
-      ObjectId changeObjectId = gitRefs.get(refName);
+      String originName = String.format("origin/%02d/%d/%d", changeNum % 100, changeNum, patchSet);
+      ObjectId changeObjectId = gitRefs.get(originName);
       filteredRefs.put(refName, changeObjectId);
     }
 
@@ -641,14 +613,14 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
             });
   }
 
-  private ProjectOpenChanges getProjectOpenChanges() throws IOException {
-    if (projectOpenChanges == null) {
+  private ProjectChanges getProjectChanges() throws IOException {
+    if (projectChanges == null) {
       GerritURI gerritURI = getGerritURI();
       GerritApi gerritApi = createGerritApi(FakeTaskListener.INSTANCE, gerritURI);
-      projectOpenChanges = new ProjectOpenChanges(gerritApi);
+      projectChanges = new ProjectChanges(gerritApi);
     }
 
-    return projectOpenChanges;
+    return projectChanges;
   }
 
   private GerritApi createGerritApi(@Nonnull TaskListener listener, GerritURI remoteUri)
