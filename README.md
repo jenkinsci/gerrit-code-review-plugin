@@ -101,6 +101,7 @@ Gerrit using RestAPI.
 |GERRIT_PATCHSET_UPLOADER        |Uploader (name <email>) of the Gerrit patch-set                 |
 |GERRIT_PATCHSET_UPLOADER_NAME   |Uploader name of the Gerrit patch-set                           |
 |GERRIT_PATCHSET_UPLOADER_EMAIL  |Uploader e-mail of the Gerrit patch-set                         |
+|GERRIT_REFNAME                  |Git ref name of the change/patch-set                        |
 
 When the Jenkinsfile is discovered through a multi-branch pipeline, the above environment
 variables related to Gerrit and the associated change/patch-set would be automatically
