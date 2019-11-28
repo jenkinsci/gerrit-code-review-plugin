@@ -28,7 +28,13 @@ import hudson.model.Action;
 import hudson.model.Actionable;
 import hudson.model.TaskListener;
 import hudson.plugins.git.Branch;
+import hudson.plugins.git.BranchSpec;
+import hudson.plugins.git.GitSCM;
 import hudson.plugins.git.GitTool;
+import hudson.plugins.git.SubmoduleConfig;
+import hudson.plugins.git.UserRemoteConfig;
+import hudson.plugins.git.browser.GitRepositoryBrowser;
+import hudson.scm.SCM;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -72,8 +78,9 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   public static final String R_CHANGES = "refs/changes/";
   public static final String OPEN_CHANGES_FILTER =
       System.getProperty("gerrit.open.changes.filter", "-age:4w");
-
+  public static final String ORIGIN_REF_PREFIX = "origin/";
   private transient ProjectChanges projectChanges;
+  private static Pattern changePattern = Pattern.compile("(\\d\\d)/(\\d+)/(\\d+)");
 
   public interface Retriever<T> {
 
@@ -487,8 +494,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     Map<String, ObjectId> filteredRefs = new HashMap<>();
 
     for (Map.Entry<String, ObjectId> gitRef : gitRefs.entrySet()) {
-      Pattern changePattern = Pattern.compile("origin/(\\d\\d)/(\\d+)/(\\d+)");
-      Matcher changeMatcher = changePattern.matcher(gitRef.getKey());
+      Matcher changeMatcher = getChangeRefMatcher(gitRef.getKey());
       if (changeMatcher.matches()) {
         try {
           Integer changeNum = Integer.parseInt(changeMatcher.group(2));
@@ -517,6 +523,14 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     }
 
     return filteredRefs;
+  }
+
+  private Matcher getChangeRefMatcher(String gitRef) {
+    String changeRef =
+        gitRef.startsWith(ORIGIN_REF_PREFIX)
+            ? gitRef.substring(ORIGIN_REF_PREFIX.length())
+            : gitRef;
+    return changePattern.matcher(changeRef);
   }
 
   @Nonnull
@@ -668,5 +682,49 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   @Override
   protected boolean isCategoryEnabled(@Nonnull SCMHeadCategory category) {
     return true;
+  }
+
+  /** {@inheritDoc} */
+  @NonNull
+  @Override
+  public SCM build(
+      @NonNull SCMHead head, @edu.umd.cs.findbugs.annotations.CheckForNull SCMRevision revision) {
+    if (getChangeRefMatcher(head.getName()).matches()) {
+      GitSCM gitscm = ((GitSCM) super.build(head, revision));
+
+      List<UserRemoteConfig> userRemoteConfigs = gitscm.getUserRemoteConfigs();
+      UserRemoteConfig headRemoteConfig = gitscm.getUserRemoteConfigs().get(0);
+      UserRemoteConfig changeRemoteConfig =
+          new UserRemoteConfig(
+              headRemoteConfig.getUrl(),
+              headRemoteConfig.getName(),
+              "refs/changes/"
+                  + head.getName()
+                  + ":refs/remotes/"
+                  + headRemoteConfig.getName()
+                  + "/"
+                  + head.getName(),
+              headRemoteConfig.getCredentialsId());
+
+      List<UserRemoteConfig> totalRemoteConfig = new ArrayList<>();
+      totalRemoteConfig.addAll(userRemoteConfigs);
+      totalRemoteConfig.add(changeRemoteConfig);
+
+      List<BranchSpec> branches = gitscm.getBranches();
+      Collection<SubmoduleConfig> submoduleCfg = gitscm.getSubmoduleCfg();
+      GitRepositoryBrowser browser = gitscm.getBrowser();
+      String gitTool = gitscm.gitTool;
+
+      return new GitSCM(
+          userRemoteConfigs,
+          branches,
+          false,
+          submoduleCfg,
+          browser,
+          gitTool,
+          Arrays.asList(new GerritFetchChangeSCMExtension(changeRemoteConfig)));
+    } else {
+      return super.build(head, revision);
+    }
   }
 }
