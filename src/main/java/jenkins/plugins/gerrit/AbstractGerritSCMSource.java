@@ -28,7 +28,13 @@ import hudson.model.Action;
 import hudson.model.Actionable;
 import hudson.model.TaskListener;
 import hudson.plugins.git.Branch;
+import hudson.plugins.git.BranchSpec;
+import hudson.plugins.git.GitSCM;
 import hudson.plugins.git.GitTool;
+import hudson.plugins.git.SubmoduleConfig;
+import hudson.plugins.git.UserRemoteConfig;
+import hudson.plugins.git.browser.GitRepositoryBrowser;
+import hudson.scm.SCM;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -68,13 +74,17 @@ import org.jenkinsci.plugins.gitclient.Git;
 import org.jenkinsci.plugins.gitclient.GitClient;
 
 public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
+
   public static final String R_CHANGES = "refs/changes/";
   public static final String OPEN_CHANGES_FILTER =
       System.getProperty("gerrit.open.changes.filter", "-age:4w");
-
+  public static final String ORIGIN_REF_PREFIX = "origin/";
   private transient ProjectChanges projectChanges;
+  private static Pattern changePattern = Pattern.compile("(\\d\\d)/(\\d+)/(\\d+)");
+
 
   public interface Retriever<T> {
+
     T run(
         GitClient client,
         GitSCMSourceContext context,
@@ -83,19 +93,24 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
         throws IOException, InterruptedException;
   }
 
-  public AbstractGerritSCMSource() {}
+  public AbstractGerritSCMSource() {
+  }
 
   @SuppressFBWarnings(value = "NP_BOOLEAN_RETURN_NULL", justification = "Overridden")
   public Boolean getInsecureHttps() {
     return null;
   }
 
-  /** Return the Gerrit change information associated with a change number */
+  /**
+   * Return the Gerrit change information associated with a change number
+   */
   public Optional<ChangeInfo> getChangeInfo(int changeNum) throws IOException {
     return getProjectChanges().get(changeNum);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @SuppressFBWarnings(value = "SE_BAD_FIELD", justification = "Known non-serializable this")
   protected void retrieve(
@@ -195,7 +210,9 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     return openChanges;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Nonnull
   @Override
   protected List<Action> retrieveActions(
@@ -236,7 +253,9 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
         false);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @NonNull
   @Override
   protected List<Action> retrieveActions(
@@ -491,8 +510,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     Map<String, ObjectId> filteredRefs = new HashMap<>();
 
     for (Map.Entry<String, ObjectId> gitRef : gitRefs.entrySet()) {
-      Pattern changePattern = Pattern.compile("origin/(\\d\\d)/(\\d+)/(\\d+)");
-      Matcher changeMatcher = changePattern.matcher(gitRef.getKey());
+      Matcher changeMatcher = getChangeRefMatcher(gitRef.getKey());
       if (changeMatcher.matches()) {
         try {
           Integer changeNum = Integer.parseInt(changeMatcher.group(2));
@@ -521,6 +539,11 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     }
 
     return filteredRefs;
+  }
+
+  private Matcher getChangeRefMatcher(String gitRef) {
+    String changeRef = gitRef.startsWith(ORIGIN_REF_PREFIX) ? gitRef.substring(ORIGIN_REF_PREFIX.length()) : gitRef;
+    return changePattern.matcher(changeRef);
   }
 
   @Nonnull
@@ -586,7 +609,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                   .filter((RefSpec refSpec) -> !refSpec.getSource().contains(R_CHANGES));
           Stream<RefSpec> openChangesRefSpecs = changeQueryToRefSpecs(changeQuery);
           fetchRefSpecs = Stream.concat(refSpecs, openChangesRefSpecs).collect(Collectors.toList());
-        } else if(head instanceof ChangeSCMHead) {
+        } else if (head instanceof ChangeSCMHead) {
           String headName = head.getName();
           fetchRefSpecs =
               Arrays.asList(
@@ -602,7 +625,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
         throw new IOException("Unable to query Gerrit open changes", e);
       }
 
-      if(!fetchRefSpecs.isEmpty()) {
+      if (!fetchRefSpecs.isEmpty()) {
         listener.getLogger().println("Fetching refs " + fetchRefSpecs);
         fetch.from(remoteURI, fetchRefSpecs).execute();
       }
@@ -673,5 +696,39 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   @Override
   protected boolean isCategoryEnabled(@Nonnull SCMHeadCategory category) {
     return true;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @NonNull
+  @Override
+  public SCM build(@NonNull SCMHead head,
+      @edu.umd.cs.findbugs.annotations.CheckForNull SCMRevision revision) {
+    if(getChangeRefMatcher(head.getName()).matches()) {
+      GitSCM gitscm = ((GitSCM) super.build(head, revision));
+
+      List<UserRemoteConfig> userRemoteConfigs = gitscm.getUserRemoteConfigs();
+      UserRemoteConfig headRemoteConfig = gitscm.getUserRemoteConfigs().get(0);
+      UserRemoteConfig changeRemoteConfig = new UserRemoteConfig(
+          headRemoteConfig.getUrl(),
+          headRemoteConfig.getName(),
+          "refs/changes/" + head.getName() + ":efs/remotes/@{remote}/" + head.getName(),
+          headRemoteConfig.getCredentialsId());
+
+      List<UserRemoteConfig> totalRemoteConfig = new ArrayList<>();
+      totalRemoteConfig.addAll(userRemoteConfigs);
+      totalRemoteConfig.add(changeRemoteConfig);
+
+      List<BranchSpec> branches = gitscm.getBranches();
+      Collection<SubmoduleConfig> submoduleCfg = gitscm.getSubmoduleCfg();
+      GitRepositoryBrowser browser = gitscm.getBrowser();
+      String gitTool = gitscm.gitTool;
+
+      return new GerritSCM(head, userRemoteConfigs, branches, false, submoduleCfg, browser,
+          gitTool);
+    } else {
+      return super.build(head, revision);
+    }
   }
 }
