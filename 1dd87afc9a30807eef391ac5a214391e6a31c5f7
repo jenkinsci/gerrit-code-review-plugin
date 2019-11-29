@@ -22,6 +22,30 @@
       "revId": "1dd87afc9a30807eef391ac5a214391e6a31c5f7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "366a29a3_d8cbcc64",
+        "filename": "CONTRIBUTING.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-29T12:06:48Z",
+      "side": 1,
+      "message": "I wouldn\u0027t actually add it, since they are not per se dependencies of the plugin, but may just be needed to test the plugin with some more elaborate pipelines. In principle basic tests should be possible with the current pom.xml.",
+      "parentUuid": "ab53fdf6_9b59cc93",
+      "range": {
+        "startLine": 133,
+        "startChar": 59,
+        "endLine": 134,
+        "endChar": 74
+      },
+      "revId": "1dd87afc9a30807eef391ac5a214391e6a31c5f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
