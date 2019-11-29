@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1864999d_30405795",
+        "filename": "CONTRIBUTING.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-11-29T12:16:03Z",
+      "side": 1,
+      "message": "Why don\u0027t we provide a docker-compose.yaml with all the things you need to properly test the overall scenario?\n\nThe number of components is significant, and we want to encourage more contributors to this project. Making their lives easier would be a big plus for them and for us as well.\n\nWDYT?",
+      "revId": "1dd87afc9a30807eef391ac5a214391e6a31c5f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ab53fdf6_9b59cc93",
         "filename": "CONTRIBUTING.md",
         "patchSetId": 4
