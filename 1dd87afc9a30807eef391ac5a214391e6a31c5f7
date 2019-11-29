@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "390525b1_a150d5eb",
+        "filename": "CONTRIBUTING.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-11-29T12:27:30Z",
+      "side": 1,
+      "message": "Yes, that would certainly make it a bit easier. But it should be done in a way that one can still flexibly use different versions of Jenkins/Gerrit and plugins. Workspaces should be importable. If I find some time, I can create a change that provides a dockerized development setup.",
+      "parentUuid": "1864999d_30405795",
+      "revId": "1dd87afc9a30807eef391ac5a214391e6a31c5f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ab53fdf6_9b59cc93",
         "filename": "CONTRIBUTING.md",
         "patchSetId": 4
