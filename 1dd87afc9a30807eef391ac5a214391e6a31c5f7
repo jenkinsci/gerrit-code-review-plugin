@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab53fdf6_9b59cc93",
+        "filename": "CONTRIBUTING.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-11-29T11:48:46Z",
+      "side": 1,
+      "message": "Is there a known minimum set of plugins, that can be added to pom.xml file? What would be the proper way to document it? If we upload pom_jenkinks_with_plugins.xml to ay controbs directory, then it would be very helpful. However, this resource would have to be maintained, as it could become outdated very fast.",
+      "range": {
+        "startLine": 133,
+        "startChar": 59,
+        "endLine": 134,
+        "endChar": 74
+      },
+      "revId": "1dd87afc9a30807eef391ac5a214391e6a31c5f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
