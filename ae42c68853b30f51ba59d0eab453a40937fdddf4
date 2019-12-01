@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c52b53d_0e239199",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-01T06:53:54Z",
+      "side": 1,
+      "message": "This assignment is not actually needed. fetchRefSpecs is assigned in all branched in if statement below. Remove.",
+      "range": {
+        "startLine": 575,
+        "startChar": 33,
+        "endLine": 575,
+        "endChar": 60
+      },
+      "revId": "ae42c68853b30f51ba59d0eab453a40937fdddf4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff8bc755_9698c414",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-01T06:53:54Z",
+      "side": 1,
+      "message": "This branched can be combined, the only difference is the refspec prefix:\n\n  String refSpecPrefix \u003d head instanceof ChangeSCMHead ? R_CHANGES : \"+refs/heads/\";\n  fetchRefSpecs \u003d\n              Arrays.asList(\n                  new RefSpec(refSpecPrefix + headName + \":refs/remotes/origin/\" + headName));",
+      "range": {
+        "startLine": 585,
+        "startChar": 10,
+        "endLine": 595,
+        "endChar": 9
+      },
+      "revId": "ae42c68853b30f51ba59d0eab453a40937fdddf4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb55611f_bb70b979",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-01T06:53:54Z",
+      "side": 1,
+      "message": "Never true? As mentioned above, the fetchRefSpecs is never empty?",
+      "range": {
+        "startLine": 600,
+        "startChar": 6,
+        "endLine": 600,
+        "endChar": 37
+      },
+      "revId": "ae42c68853b30f51ba59d0eab453a40937fdddf4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
