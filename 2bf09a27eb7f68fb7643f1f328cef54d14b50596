@@ -22,6 +22,30 @@
       "revId": "2bf09a27eb7f68fb7643f1f328cef54d14b50596",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52baea9b_b9cf6243",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-01T22:25:09Z",
+      "side": 1,
+      "message": "Nope, this is during the branch indexing. If you prune the branches when you are fetching a single ref, you may remove behind other concurrent indexing refs they were working on.\n\nPreviously, this did not matter because we were fetching everything anyway. Now, because we only fetch individual changes, this becomes very important to avoid concurrency issues.",
+      "parentUuid": "5952d39f_97a4d2b2",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 42
+      },
+      "revId": "2bf09a27eb7f68fb7643f1f328cef54d14b50596",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
