@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8326b660_86ebd333",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-01T22:13:44Z",
+      "side": 1,
+      "message": "I\u0027ll then keep the removal of the cache.",
+      "parentUuid": "3e648e22_43ee607c",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 66
+      },
+      "revId": "c6342247a0ecf907d303e50877e5f33fc0496872",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f81fa65_6d43d192",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "e46b2953_c22d850b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-01T22:13:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b4b683d_7930a896",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "c6342247a0ecf907d303e50877e5f33fc0496872",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc8ed0a5_736a82f6",
         "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
         "patchSetId": 3
@@ -125,6 +173,24 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "bc8ed0a5_736a82f6",
+      "revId": "c6342247a0ecf907d303e50877e5f33fc0496872",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0e1c3d7_fb705ce7",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-01T22:13:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26a75c95_d2fd4c2c",
       "revId": "c6342247a0ecf907d303e50877e5f33fc0496872",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
@@ -178,6 +244,30 @@
     },
     {
       "key": {
+        "uuid": "b92679a3_37202fec",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-01T22:13:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64559209_e97e6046",
+      "range": {
+        "startLine": 151,
+        "startChar": 12,
+        "endLine": 151,
+        "endChar": 98
+      },
+      "revId": "c6342247a0ecf907d303e50877e5f33fc0496872",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b2684e9_8426d8aa",
         "filename": "src/main/java/jenkins/plugins/gerrit/ProjectChanges.java",
         "patchSetId": 3
@@ -198,6 +288,30 @@
       "revId": "c6342247a0ecf907d303e50877e5f33fc0496872",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c99d6264_d703aa13",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectChanges.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-01T22:13:44Z",
+      "side": 1,
+      "message": "Simply copy\u0026paste error :-) Good catch.",
+      "parentUuid": "1b2684e9_8426d8aa",
+      "range": {
+        "startLine": 24,
+        "startChar": 56,
+        "endLine": 24,
+        "endChar": 69
+      },
+      "revId": "c6342247a0ecf907d303e50877e5f33fc0496872",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
