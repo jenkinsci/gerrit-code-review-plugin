@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3e648e22_43ee607c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-01T21:42:51Z",
+      "side": 1,
+      "message": "The non-serializable problem, was major. However, the fact of having stale data was worse. Just caching doesn\u0027t make so much sense here, until we demonstrate that we are making too many calls.",
+      "parentUuid": "ebaeac7e_a7bee5fb",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 66
+      },
+      "revId": "c6342247a0ecf907d303e50877e5f33fc0496872",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1f81fa65_6d43d192",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2019-12-01T06:47:23Z",
       "side": 1,
       "message": "What does this mean?",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "c6342247a0ecf907d303e50877e5f33fc0496872",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b4b683d_7930a896",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-01T21:42:51Z",
+      "side": 1,
+      "message": "typo: s/stable/stale",
+      "parentUuid": "1f81fa65_6d43d192",
       "range": {
         "startLine": 11,
         "startChar": 25,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "26a75c95_d2fd4c2c",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-01T21:42:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bc8ed0a5_736a82f6",
+      "revId": "c6342247a0ecf907d303e50877e5f33fc0496872",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a066ecf_961feffc",
         "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
         "patchSetId": 3
@@ -76,6 +142,30 @@
       "writtenOn": "2019-12-01T06:47:23Z",
       "side": 1,
       "message": "This line was already logged and now it was duplicated (and removed again in the follow-up change in this series).This should not have been added in the first place.",
+      "range": {
+        "startLine": 151,
+        "startChar": 12,
+        "endLine": 151,
+        "endChar": 98
+      },
+      "revId": "c6342247a0ecf907d303e50877e5f33fc0496872",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64559209_e97e6046",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-01T21:42:51Z",
+      "side": 1,
+      "message": "Good catch, let me get rid of it.",
+      "parentUuid": "6a066ecf_961feffc",
       "range": {
         "startLine": 151,
         "startChar": 12,
