@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "85336df8_4002533a",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-01T22:22:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c52b53d_0e239199",
+      "range": {
+        "startLine": 575,
+        "startChar": 33,
+        "endLine": 575,
+        "endChar": 60
+      },
+      "revId": "ae42c68853b30f51ba59d0eab453a40937fdddf4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff8bc755_9698c414",
         "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "db47d813_39d97d94",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-01T22:22:22Z",
+      "side": 1,
+      "message": "True, let me simplify it.",
+      "parentUuid": "ff8bc755_9698c414",
+      "range": {
+        "startLine": 585,
+        "startChar": 10,
+        "endLine": 595,
+        "endChar": 9
+      },
+      "revId": "ae42c68853b30f51ba59d0eab453a40937fdddf4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb55611f_bb70b979",
         "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
         "patchSetId": 5
@@ -68,6 +116,30 @@
       "revId": "ae42c68853b30f51ba59d0eab453a40937fdddf4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2c142bc_ddda3ae5",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-01T22:22:22Z",
+      "side": 1,
+      "message": "It can be empty if:\n- head \u003d\u003d null AND\n- refSpecs (filtered) is empty AND\n- there are no open changes in Gerrit",
+      "parentUuid": "eb55611f_bb70b979",
+      "range": {
+        "startLine": 600,
+        "startChar": 6,
+        "endLine": 600,
+        "endChar": 37
+      },
+      "revId": "ae42c68853b30f51ba59d0eab453a40937fdddf4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
