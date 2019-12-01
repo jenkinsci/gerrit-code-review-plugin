@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7267ca60_7c5bc6d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-01T07:05:33Z",
+      "side": 1,
+      "message": "would be very slow",
+      "range": {
+        "startLine": 13,
+        "startChar": 39,
+        "endLine": 13,
+        "endChar": 54
+      },
+      "revId": "d3a2f10eb2b1248250f3838cf08c049cbd8b306a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee63228f_4a9ce26c",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-01T07:05:33Z",
+      "side": 1,
+      "message": "Nit: Can be static.",
+      "range": {
+        "startLine": 528,
+        "startChar": 2,
+        "endLine": 528,
+        "endChar": 9
+      },
+      "revId": "d3a2f10eb2b1248250f3838cf08c049cbd8b306a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65703f14_4e68a9bb",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-01T07:05:33Z",
+      "side": 1,
+      "message": "Nit: Not needed branch (and would be warned by error prone linter). Also you could swap the if statement and avoid indent nesting:\n\n  if (!getChangeRefMatcher(head.getName()).matches()) {\n    return super.build(head, revision);\n  }\n\n  GitSCM gitscm \u003d ((GitSCM) super.build(head, revision));\n  [...]",
+      "range": {
+        "startLine": 722,
+        "startChar": 6,
+        "endLine": 722,
+        "endChar": 12
+      },
+      "revId": "d3a2f10eb2b1248250f3838cf08c049cbd8b306a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1f7122a_263b5c9b",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-01T07:05:33Z",
+      "side": 1,
+      "message": "Missing license header.",
+      "revId": "d3a2f10eb2b1248250f3838cf08c049cbd8b306a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
