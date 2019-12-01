@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e67ae268_04ab6c49",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-01T06:25:51Z",
+      "side": 0,
+      "message": "This is changing the default from 24w to 4w, and this default was introduced in previous change. The right default 4w caould have been set already in previous change, so that this change wouldn\u0027t change it?",
+      "range": {
+        "startLine": 670,
+        "startChar": 55,
+        "endLine": 670,
+        "endChar": 58
+      },
+      "revId": "539340347e491a46a31beab382aff9557390ec87",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
