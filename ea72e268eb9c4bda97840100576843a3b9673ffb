@@ -16,6 +16,24 @@
       "revId": "ea72e268eb9c4bda97840100576843a3b9673ffb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a028b5a_6a22ddce",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-01T21:16:07Z",
+      "side": 1,
+      "message": "Actually, this log was just a leftover from debugging. The Git client already display the fetch command with the refs.\n\nLet me remove it.",
+      "parentUuid": "d7ad3515_8fddf4c6",
+      "revId": "ea72e268eb9c4bda97840100576843a3b9673ffb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
