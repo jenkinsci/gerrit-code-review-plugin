@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17334570_8c7099c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-01T06:19:52Z",
+      "side": 1,
+      "message": "What real data is this improvement based on? Gerrit-review.googlesource.com?",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 15,
+        "endChar": 30
+      },
+      "revId": "539340347e491a46a31beab382aff9557390ec87",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53abf09e_3aa563a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-01T06:19:52Z",
+      "side": 1,
+      "message": "Where is the code that does this?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 8
+      },
+      "revId": "539340347e491a46a31beab382aff9557390ec87",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33f55093_5b9212e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-01T06:19:52Z",
+      "side": 1,
+      "message": "Could be done in its own change?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 22
+      },
+      "revId": "539340347e491a46a31beab382aff9557390ec87",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
