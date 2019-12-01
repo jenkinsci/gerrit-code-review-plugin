@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebaeac7e_a7bee5fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-01T06:47:23Z",
+      "side": 1,
+      "message": "We could change this. For example gerrit is using home baked framework on top of Guava caches that uses H2 database. Would it make sense?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 66
+      },
+      "revId": "c6342247a0ecf907d303e50877e5f33fc0496872",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f81fa65_6d43d192",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-01T06:47:23Z",
+      "side": 1,
+      "message": "What does this mean?",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "c6342247a0ecf907d303e50877e5f33fc0496872",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc8ed0a5_736a82f6",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-01T06:47:23Z",
+      "side": 1,
+      "message": "Here and on L79 unrelated new line changes.",
+      "revId": "c6342247a0ecf907d303e50877e5f33fc0496872",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a066ecf_961feffc",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-01T06:47:23Z",
+      "side": 1,
+      "message": "This line was already logged and now it was duplicated (and removed again in the follow-up change in this series).This should not have been added in the first place.",
+      "range": {
+        "startLine": 151,
+        "startChar": 12,
+        "endLine": 151,
+        "endChar": 98
+      },
+      "revId": "c6342247a0ecf907d303e50877e5f33fc0496872",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b2684e9_8426d8aa",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectChanges.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-01T06:47:23Z",
+      "side": 1,
+      "message": "Why a different logger name is used here, and not ProjectChanges.class?",
+      "range": {
+        "startLine": 24,
+        "startChar": 56,
+        "endLine": 24,
+        "endChar": 69
+      },
+      "revId": "c6342247a0ecf907d303e50877e5f33fc0496872",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
