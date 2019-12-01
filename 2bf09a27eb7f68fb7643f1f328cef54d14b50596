@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5952d39f_97a4d2b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-01T06:55:44Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this mean, that if build for patch set 20 is started, and then patch set 21 was uploaded, then we would like to stop the verification for patch set 20, when starting the build for patch set 21?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 42
+      },
+      "revId": "2bf09a27eb7f68fb7643f1f328cef54d14b50596",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
