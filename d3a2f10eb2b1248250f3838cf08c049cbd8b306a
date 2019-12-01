@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "496ffcdc_85f003f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-01T22:41:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7267ca60_7c5bc6d0",
+      "range": {
+        "startLine": 13,
+        "startChar": 39,
+        "endLine": 13,
+        "endChar": 54
+      },
+      "revId": "d3a2f10eb2b1248250f3838cf08c049cbd8b306a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee63228f_4a9ce26c",
         "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "d3a2f10eb2b1248250f3838cf08c049cbd8b306a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c03edd40_68337f53",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-01T22:41:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee63228f_4a9ce26c",
+      "range": {
+        "startLine": 528,
+        "startChar": 2,
+        "endLine": 528,
+        "endChar": 9
+      },
+      "revId": "d3a2f10eb2b1248250f3838cf08c049cbd8b306a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "bfc928e9_ebb99e3e",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-01T22:41:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65703f14_4e68a9bb",
+      "range": {
+        "startLine": 722,
+        "startChar": 6,
+        "endLine": 722,
+        "endChar": 12
+      },
+      "revId": "d3a2f10eb2b1248250f3838cf08c049cbd8b306a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1f7122a_263b5c9b",
         "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceContext.java",
         "patchSetId": 5
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "4363ee3d_904e7af2",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-01T22:41:44Z",
+      "side": 1,
+      "message": "Got rid of the class altogether.",
+      "parentUuid": "c1f7122a_263b5c9b",
+      "revId": "d3a2f10eb2b1248250f3838cf08c049cbd8b306a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "893a66dd_655f80eb",
         "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceContext.java",
         "patchSetId": 5
@@ -102,6 +192,24 @@
       "revId": "d3a2f10eb2b1248250f3838cf08c049cbd8b306a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18c47bff_e56d972f",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-01T22:41:44Z",
+      "side": 1,
+      "message": "Good catch, it\u0027s a leftover of a (failed) experiment. It should be removed.",
+      "parentUuid": "893a66dd_655f80eb",
+      "revId": "d3a2f10eb2b1248250f3838cf08c049cbd8b306a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
