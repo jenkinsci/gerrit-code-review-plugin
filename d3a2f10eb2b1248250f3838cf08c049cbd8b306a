@@ -85,6 +85,23 @@
       "revId": "d3a2f10eb2b1248250f3838cf08c049cbd8b306a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "893a66dd_655f80eb",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-01T07:09:03Z",
+      "side": 1,
+      "message": "Is this class actually used, I don\u0027t see any references? If I remove this class it and build and run tests, then it is no differences.",
+      "revId": "d3a2f10eb2b1248250f3838cf08c049cbd8b306a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
