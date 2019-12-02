@@ -17,6 +17,7 @@ package jenkins.plugins.gerrit;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.model.TaskListener;
+import jenkins.plugins.gerrit.checks.api.CheckerInput;
 import jenkins.plugins.gerrit.traits.FilterChecksTrait.ChecksQueryOperator;
 import jenkins.plugins.git.GitSCMSourceContext;
 import jenkins.scm.api.SCMHeadObserver;
@@ -27,11 +28,35 @@ public class GerritSCMSourceContext
     extends GitSCMSourceContext<GerritSCMSourceContext, GerritSCMSourceRequest> {
 
   @NonNull private ChecksQueryOperator checksQueryOperator = ChecksQueryOperator.SCHEME;
+  @NonNull private boolean createChecker = false;
   @NonNull private boolean filterForPendingChecks = false;
   @NonNull private String checksQueryString = "";
+  @NonNull private CheckerInput checker = new CheckerInput();
 
   public GerritSCMSourceContext(SCMSourceCriteria criteria, SCMHeadObserver observer) {
     super(criteria, observer);
+  }
+
+  /**
+   * Defines whether a checker should be created in Gerrit
+   *
+   * @param wantChecker whether the checker should be applied.
+   * @return {@code this} for method chaining.
+   */
+  @NonNull
+  public GerritSCMSourceContext wantCreateChecker(boolean wantChecker) {
+    createChecker = wantChecker;
+    return this;
+  }
+
+  /**
+   * Returns true, if a checker should be created
+   *
+   * @return boolean whether a checker should be created.
+   */
+  @NonNull
+  public final boolean createChecker() {
+    return createChecker;
   }
 
   /**
@@ -98,6 +123,29 @@ public class GerritSCMSourceContext
   @NonNull
   public final String checksQueryString() {
     return checksQueryString;
+  }
+
+  /**
+   * Defines the checker to be created.
+   *
+   * @param checker checker to be created.
+   * @return {@code this} for method chaining.
+   */
+  @NonNull
+  public GerritSCMSourceContext withChecker(CheckerInput checker) {
+    this.checker = checker;
+    // TODO: Set repository and url fields
+    return this;
+  }
+
+  /**
+   * Returns the CheckerInput object describing the checker.
+   *
+   * @return the CheckerInput object describing the checker.
+   */
+  @NonNull
+  public final CheckerInput checker() {
+    return checker;
   }
 
   @NonNull
