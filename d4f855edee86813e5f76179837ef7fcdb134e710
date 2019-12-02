@@ -22,6 +22,30 @@
       "revId": "d4f855edee86813e5f76179837ef7fcdb134e710",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78126f73_9f6345fe",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-02T07:27:38Z",
+      "side": 1,
+      "message": "Jenkins tries anyway to serialise the entire object, that\u0027s the reason why it was failing with the Guava cache.",
+      "parentUuid": "868c5b59_1f30c862",
+      "range": {
+        "startLine": 75,
+        "startChar": 10,
+        "endLine": 75,
+        "endChar": 19
+      },
+      "revId": "d4f855edee86813e5f76179837ef7fcdb134e710",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
