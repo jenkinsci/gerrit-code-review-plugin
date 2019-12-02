@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b89a6ad0_c97a92f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-02T07:24:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5f63e6d6_29f893e8",
+      "range": {
+        "startLine": 10,
+        "startChar": 45,
+        "endLine": 10,
+        "endChar": 66
+      },
+      "revId": "9cfa819f69539f26d7fbb6fbbf6aec79e044d4a4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0bb65b4_d80dcc85",
         "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
         "patchSetId": 3
