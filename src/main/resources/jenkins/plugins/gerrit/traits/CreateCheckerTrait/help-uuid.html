@@ -1,0 +1,43 @@
+<!--
+ ~ Copyright (C) 2019 SAP SE
+ ~
+ ~ Licensed under the Apache License, Version 2.0 (the "License");
+ ~ you may not use this file except in compliance with the License.
+ ~ You may obtain a copy of the License at
+ ~
+ ~ http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~ Unless required by applicable law or agreed to in writing, software
+ ~ distributed under the License is distributed on an "AS IS" BASIS,
+ ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ ~ See the License for the specific language governing permissions and
+ ~ limitations under the License.
+ -->
+
+<div>
+    <p><b>Mandatory</b></p>
+    <p>
+        A unique identifier for the checker.
+    </p>
+    <p>
+        UUIDs are of the form SCHEME ':' ID. The scheme and ID portions may only contain
+        alphanumeric characters (a-z, A-Z, 0-9) plus the punctuation characters ., _, and -.
+        Thus UUIDs are URL-safe without escaping.
+    </p>
+    <p>
+        The scheme is by convention a short string (max 100 chars) associated with the
+        external system that created the checker, for example jenkins. The scheme must also
+        be a valid ref name component according to git-check-ref-format, for example it may
+        not start or end with a period.
+    </p>
+    <p>
+        The ID is an arbitrary identifier that may have meaning to the external system.
+    </p>
+    <p>
+        UUIDs must be unique and are immutable after creation.
+    </p>
+    <p>
+        Checker names cannot be used as identifiers in the REST API since checker names
+        may be ambiguous.
+    </p>
+</div>
