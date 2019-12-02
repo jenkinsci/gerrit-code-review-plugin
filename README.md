@@ -113,7 +113,9 @@ GerritCodeReview-plugin supports the usage of the checks plugin, making it even
 more convenient to integrate automated verification into the code review.
 
 To build changes with pending checks, create a new `Multibranch Pipeline` item
-and select `Branch Source` of type `Gerrit` as described above. Then add the
+and select `Branch Source` of type `Gerrit` as described above.
+
+To filter open changes by pending checks of checkers manually created in gerrit, add the
 `Filter by Pending Checks`-behaviour to the `Gerrit Branch Source`. To select
 checkers, which should be checked for whether their checks are pending, under
 `Query Operator` either select to query pending checks by checker scheme to
@@ -121,8 +123,13 @@ select a whole group of checkers or by a specific checker UUID, to only query
 by a specific checker. In the `Query String`-field enter the scheme name or checker
 UUID respectively.
 
+To let Jenkins create a checker use the `Add checker in Gerrit`-behaviour instead.
+This behaviour allows to configure a checker. The `Checker UUID`- and `Display Name`-
+fields are mandatory. On saving the configuration, Jenkins will create/update the
+checker in Gerrit.
+
 Jenkins will then only start builds for changes that have pending checks handled
-by the configured checkers and will set the status of the check to `SCHEDULED`.
+by the configured checker(s) and will set the status of the check to `SCHEDULED`.
 
 # Plugin Releases
 
