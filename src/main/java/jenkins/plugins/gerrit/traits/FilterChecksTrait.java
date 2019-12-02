@@ -16,20 +16,15 @@ package jenkins.plugins.gerrit.traits;
 
 import hudson.Extension;
 import hudson.util.ListBoxModel;
-import java.io.IOException;
 import javax.annotation.Nonnull;
-import jenkins.plugins.gerrit.ChangeSCMHead;
 import jenkins.plugins.gerrit.GerritSCMSource;
 import jenkins.plugins.gerrit.GerritSCMSourceContext;
-import jenkins.plugins.gerrit.GerritSCMSourceRequest;
+import jenkins.plugins.gerrit.PendingChecksFilter;
 import jenkins.plugins.git.GitSCMBuilder;
-import jenkins.scm.api.SCMHead;
 import jenkins.scm.api.SCMHeadCategory;
 import jenkins.scm.api.SCMSource;
 import jenkins.scm.api.trait.SCMBuilder;
-import jenkins.scm.api.trait.SCMHeadFilter;
 import jenkins.scm.api.trait.SCMSourceContext;
-import jenkins.scm.api.trait.SCMSourceRequest;
 import jenkins.scm.api.trait.SCMSourceTrait;
 import jenkins.scm.api.trait.SCMSourceTraitDescriptor;
 import jenkins.scm.impl.trait.Discovery;
@@ -126,24 +121,6 @@ public class FilterChecksTrait extends SCMSourceTrait {
     @Override
     public Class<? extends SCMSource> getSourceClass() {
       return GerritSCMSource.class;
-    }
-  }
-
-  public static class PendingChecksFilter extends SCMHeadFilter {
-
-    @Override
-    public boolean isExcluded(SCMSourceRequest request, SCMHead head)
-        throws IOException, InterruptedException {
-      if (head instanceof ChangeSCMHead) {
-        return !((GerritSCMSourceRequest) request)
-            .getPatchsetWithPendingChecks()
-            .containsKey(
-                String.format(
-                    "%d/%d",
-                    ((ChangeSCMHead) head).getChangeNumber(),
-                    ((ChangeSCMHead) head).getPatchSetNumber()));
-      }
-      return true;
     }
   }
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ~ Copyright (C) 2019 SAP SE
+ ~
+ ~ Licensed under the Apache License, Version 2.0 (the "License");
+ ~ you may not use this file except in compliance with the License.
+ ~ You may obtain a copy of the License at
+ ~
+ ~ http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~ Unless required by applicable law or agreed to in writing, software
+ ~ distributed under the License is distributed on an "AS IS" BASIS,
+ ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ ~ See the License for the specific language governing permissions and
+ ~ limitations under the License.
+-->
+
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:c="/lib/credentials"
+         xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <f:entry title="${%Checker UUID}" field="uuid">
+    <f:textbox />
+  </f:entry>
+  <f:entry title="${%Display Name}" field="name">
+    <f:textbox />
+  </f:entry>
+  <f:entry title="${%Description}" field="description">
+    <f:textbox />
+  </f:entry>
+  <f:entry title="${%Status}" field="status">
+    <f:select />
+  </f:entry>
+  <f:entry title="${%Blocking}" field="blocking">
+    <f:enumSet />
+  </f:entry>
+  <f:entry title="${%Query}" field="query">
+    <f:textbox />
+  </f:entry>
+</j:jelly>
