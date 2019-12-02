@@ -18,6 +18,7 @@ import com.cloudbees.plugins.credentials.CredentialsProvider;
 import com.cloudbees.plugins.credentials.common.StandardListBoxModel;
 import com.cloudbees.plugins.credentials.common.StandardUsernameCredentials;
 import com.cloudbees.plugins.credentials.domains.URIRequirementBuilder;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import hudson.Extension;
 import hudson.Util;
 import hudson.model.Descriptor;
@@ -35,6 +36,7 @@ import hudson.scm.SCM;
 import hudson.security.ACL;
 import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.util.*;
@@ -45,6 +47,8 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import jenkins.model.Jenkins;
+import jenkins.plugins.gerrit.checks.api.CheckerInput;
+import jenkins.plugins.gerrit.checks.client.GerritChecksApi;
 import jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait;
 import jenkins.plugins.git.AbstractGitSCMSource;
 import jenkins.plugins.git.GitSCMBuilder;
@@ -91,6 +95,45 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
   @DataBoundConstructor
   public GerritSCMSource(String remote) {
     this.remote = remote;
+  }
+
+  @Override
+  public void afterSave() {
+    GerritSCMSourceContext context =
+        new GerritSCMSourceContext(null, SCMHeadObserver.none()).withTraits(getTraits());
+    if (context.createChecker()) {
+      CheckerInput checker = context.checker();
+      createOrUpdateChecker(checker);
+    }
+  }
+
+  void createOrUpdateChecker(CheckerInput checker) {
+    try {
+      checker.repository = getGerritURI().getProject();
+      try {
+        checker.url = Jenkins.getInstance().getRootUrl() + getOwner().getUrl();
+      } catch (NullPointerException e) {
+        LOGGER.log(Level.WARNING, "Could not set checker URL", e);
+      }
+      UsernamePasswordCredentialsProvider.UsernamePassword credentials =
+          new UsernamePasswordCredentialsProvider(getCredentials())
+              .getUsernamePassword(getGerritURI().getRemoteURI());
+      GerritChecksApi gerritChecksApi =
+          new GerritApiBuilder()
+              .gerritApiUrl(getGerritURI().getApiURI())
+              .insecureHttps(getInsecureHttps())
+              .requireAuthentication()
+              .credentials(credentials.username, credentials.password)
+              .buildChecksApi();
+      try {
+        gerritChecksApi.checkers().get(checker.uuid);
+        gerritChecksApi.checkers().update(checker);
+      } catch (RestApiException e) {
+        gerritChecksApi.checkers().create(checker);
+      }
+    } catch (IOException | RestApiException | URISyntaxException e) {
+      LOGGER.log(Level.SEVERE, "Could not create checker " + checker.uuid, e);
+    }
   }
 
   @DataBoundSetter

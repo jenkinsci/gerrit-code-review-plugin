@@ -18,7 +18,11 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Set;
 
 @SuppressFBWarnings(
-    value = {"UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD", "UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD"})
+    value = {
+      "UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD",
+      "UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD",
+      "URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"
+    })
 public class CheckerInput {
   public String uuid;
   public String name;
