@@ -69,6 +69,30 @@
       "revId": "9cfa819f69539f26d7fbb6fbbf6aec79e044d4a4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "939bf4e4_2e42bddd",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-02T07:24:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0bb65b4_d80dcc85",
+      "range": {
+        "startLine": 70,
+        "startChar": 55,
+        "endLine": 70,
+        "endChar": 65
+      },
+      "revId": "9cfa819f69539f26d7fbb6fbbf6aec79e044d4a4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
