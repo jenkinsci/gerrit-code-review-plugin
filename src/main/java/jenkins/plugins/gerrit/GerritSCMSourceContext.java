@@ -14,6 +14,7 @@
 
 package jenkins.plugins.gerrit;
 
+import com.google.gerrit.plugins.checks.api.CheckerInput;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.model.TaskListener;
@@ -27,11 +28,25 @@ public class GerritSCMSourceContext
     extends GitSCMSourceContext<GerritSCMSourceContext, GerritSCMSourceRequest> {
 
   @NonNull private ChecksQueryOperator checksQueryOperator = ChecksQueryOperator.SCHEME;
+  @NonNull private boolean createChecker = false;
   @NonNull private boolean filterForPendingChecks = false;
   @NonNull private String checksQueryString = "";
+  @NonNull private CheckerInput checker = new CheckerInput();
 
   public GerritSCMSourceContext(SCMSourceCriteria criteria, SCMHeadObserver observer) {
     super(criteria, observer);
+  }
+
+  /**
+   * Defines whether a checker should be created in Gerrit
+   *
+   * @param wantChecker whether the checker should be applied.
+   * @return {@code this} for method chaining.
+   */
+  @NonNull
+  public GerritSCMSourceContext wantCreateChecker(boolean wantChecker) {
+    createChecker = wantChecker;
+    return this;
   }
 
   /**
@@ -98,6 +113,29 @@ public class GerritSCMSourceContext
   @NonNull
   public final String checksQueryString() {
     return checksQueryString;
+  }
+
+  /**
+   * Defines the checker to be created.
+   *
+   * @param checker checker to be created.
+   * @return {@code this} for method chaining.
+   */
+  @NonNull
+  public GerritSCMSourceContext withChecker(CheckerInput checker) {
+    this.checker = checker;
+    // TODO: Set repository and url fields
+    return this;
+  }
+
+  /**
+   * Returns the CheckerInput object describing the checker.
+   *
+   * @return the CheckerInput object describing the checker.
+   */
+  @NonNull
+  public final CheckerInput checker() {
+    return checker;
   }
 
   @NonNull
