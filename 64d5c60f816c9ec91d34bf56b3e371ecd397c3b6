@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "169870c0_09a1f18b",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-02T06:02:32Z",
+      "side": 1,
+      "message": "private?",
+      "range": {
+        "startLine": 80,
+        "startChar": 2,
+        "endLine": 80,
+        "endChar": 8
+      },
+      "revId": "64d5c60f816c9ec91d34bf56b3e371ecd397c3b6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58303644_b3aa9d49",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-02T06:02:32Z",
+      "side": 1,
+      "message": "I see, that the base class is using: edu.umd.cs.findbugs.annotations.CheckForNull [1]. But then why, this plugin is mixing the annotation internally and is also using javax.annotation.CheckForNull?\n\n* [1] https://github.com/jenkinsci/git-plugin/blob/master/src/main/java/jenkins/plugins/git/AbstractGitSCMSource.java#L32",
+      "range": {
+        "startLine": 684,
+        "startChar": 29,
+        "endLine": 684,
+        "endChar": 74
+      },
+      "revId": "64d5c60f816c9ec91d34bf56b3e371ecd397c3b6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
