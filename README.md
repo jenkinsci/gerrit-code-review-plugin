@@ -30,7 +30,7 @@ Why should I write yet another Gerrit/Jenkins plugin? Isn't Gerrit
 Trigger Plugin
 (<https://wiki.jenkins.io/display/JENKINS/Gerrit+Trigger>) enough?  
 We couldn't use it against
-[gerrit-review.googlesource.com](http://gerrit-review.googlesource.com){.external-link}
+[gerrit-review.googlesource.com](http://gerrit-review.googlesource.com)
 because stream events are just not accessible.
 
 There are unresolved issues about:
@@ -115,7 +115,7 @@ and started contributing with pull-requests.
 
 Significant performance improvment on the branch indexing and checkout
 of changes. On the validation of [Gerrit Code Review CI](https://gerrit-ci.gerritforge.com) the
-branch indexing time was reduced from 40 minutes down to 2 minutes (20x improvment).
+branch indexing time was reduced from **40 minutes down to 2 minutes** (20x performance improvement).
 
 Also, introduces the ability to reduce the number of refs being fetched by defining a custom
 query condition.
@@ -129,15 +129,15 @@ query condition.
 
 #### Fixes
 
-- [JENKINS-59958] Do not cache open changes
-- [JENKINS-60259] Restrict git fetch to open changes refsSpecs
-- [JENKINS-60126] Update gerrit-rest-java-client to 0.8.17
+- [JENKINS-59958](https://issues.jenkins-ci.org/browse/JENKINS-59958) Do not cache open changes
+- [JENKINS-60259](https://issues.jenkins-ci.org/browse/JENKINS-60259) Restrict git fetch to open changes refsSpecs
+- [JENKINS-60126](https://issues.jenkins-ci.org/browse/JENKINS-60126) Update gerrit-rest-java-client to 0.8.17
 
 ### v0.3.5 - Released - 24 October 2019
 
 #### Fixes
 
--   [JENKINS-59745] Fix exception navigating the SCMs of a workflowJob
+-   [JENKINS-59745](https://issues.jenkins-ci.org/browse/JENKINS-59745) Fix exception navigating the SCMs of a workflowJob
 
 ### v0.3.4 - Released - 10 October 2019
 
