@@ -30,7 +30,7 @@ Why should I write yet another Gerrit/Jenkins plugin? Isn't Gerrit
 Trigger Plugin
 (<https://wiki.jenkins.io/display/JENKINS/Gerrit+Trigger>) enough?
 We couldn't use it against
-[gerrit-review.googlesource.com](http://gerrit-review.googlesource.com){.external-link}
+[gerrit-review.googlesource.com](http://gerrit-review.googlesource.com)
 because stream events are just not accessible.
 
 There are unresolved issues about:
@@ -58,12 +58,14 @@ integration:
 node {
   checkout scm
   try {
+    gerritReview labels: [Verified: 0]
     stage('Hello') {
       echo 'Hello World'
+      gerritComment path:'path/to/file', line: 10, message: 'invalid syntax'
     }
-    gerritReview score:1
+    gerritReview labels: [Verified: 1]
   } catch (e) {
-    gerritReview score:-1
+    gerritReview labels: [Verified: -1]
     throw e
   }
 }
@@ -78,13 +80,16 @@ pipeline {
     stages {
         stage('Example') {
             steps {
+                gerritReview labels: [Verified: 0]
                 echo 'Hello World'
+                gerritComment path:'path/to/file', line: 10, message: 'invalid syntax'
             }
         }
     }
     post {
-        success { gerritReview score:1 }
-        failure { gerritReview score:-1 }
+        success { gerritReview labels: [Verified: 1] }
+        unstable { gerritReview labels: [Verified: 0], message: 'Build is unstable' }
+        failure { gerritReview labels: [Verified: -1] }
     }
 }
 ```
@@ -156,7 +161,7 @@ query condition.
 
 #### Fixes
 
--   [JENKINS-5479](https://issues.jenkins-ci.org/browse/JENKINS-56479){.external-link}
+-   [JENKINS-5479](https://issues.jenkins-ci.org/browse/JENKINS-56479)
     Fix exception thrown when trying to parse unhandled events 
 -   7d31723 Allow for remote URLs containing .git when matching webhook
     project events
@@ -169,7 +174,7 @@ query condition.
 
 Fixes
 
--   [JENKINS-54432](https://issues.jenkins-ci.org/browse/JENKINS-54432){.external-link} Restore
+-   [JENKINS-54432](https://issues.jenkins-ci.org/browse/JENKINS-54432) Restore
     normal behaviour when using Gerrit as anonymous SCM source  
 
 ### v0.3.1 - Released - 29 October 2018
@@ -190,7 +195,7 @@ review.
 
 #### Fixes
 
--   [JENKINS-54224](https://issues.jenkins-ci.org/browse/JENKINS-54224){.external-link} restapi:
+-   [JENKINS-54224](https://issues.jenkins-ci.org/browse/JENKINS-54224) restapi:
     cleanup restapi usage
 
 ### v0.2.1 - Released - 27 October 2018
@@ -202,20 +207,20 @@ v0.2 release.
 
 #### Fixes
 
--   [3359ba3](https://github.com/jenkinsci/gerrit-code-review-plugin/commit/3359ba3){.external-link} -
+-   [3359ba3](https://github.com/jenkinsci/gerrit-code-review-plugin/commit/3359ba3) -
     Amendements to the documentation to explain the first-time setup
 
--   [e320d18](https://github.com/jenkinsci/gerrit-code-review-plugin/commit/e320d18){.external-link} -
+-   [e320d18](https://github.com/jenkinsci/gerrit-code-review-plugin/commit/e320d18) -
     Allow feedback to an open change without changing current score /
     label
 
--   [fc0bc91](https://github.com/jenkinsci/gerrit-code-review-plugin/commit/fc0bc91){.external-link} -
+-   [fc0bc91](https://github.com/jenkinsci/gerrit-code-review-plugin/commit/fc0bc91) -
     Restapi: allow the use of remote Gerrit server with non-root prefix
 
--   [JENKINS-54214](https://issues.jenkins-ci.org/browse/JENKINS-54214){.external-link} - Avoid
+-   [JENKINS-54214](https://issues.jenkins-ci.org/browse/JENKINS-54214) - Avoid
     NPE when credentials are not provided
 
--   [JENKINS-54212](https://issues.jenkins-ci.org/browse/JENKINS-54212){.external-link} - Fix
+-   [JENKINS-54212](https://issues.jenkins-ci.org/browse/JENKINS-54212) - Fix
     detection of project name with refupdate
 
 ### v0.2 - Released - 23 October 2018
@@ -233,24 +238,24 @@ the rest of the CPS scripts and pipelines.
 
 #### Features
 
--   [JENKINS-54070](https://issues.jenkins-ci.org/browse/JENKINS-54070){.external-link} - Support
+-   [JENKINS-54070](https://issues.jenkins-ci.org/browse/JENKINS-54070) - Support
     for Jenkinsfile declarative pipelines
--   [JENKINS-50783](https://issues.jenkins-ci.org/browse/JENKINS-50783){.external-link} -
+-   [JENKINS-50783](https://issues.jenkins-ci.org/browse/JENKINS-50783) -
     Support for file-based comments from Jenkinsfile steps
 
 #### Fixes
 
--   [JENKINS-49695](https://issues.jenkins-ci.org/browse/JENKINS-49695){.external-link} - Could
+-   [JENKINS-49695](https://issues.jenkins-ci.org/browse/JENKINS-49695) - Could
     not fetch branches from source while using Discover open changes
--   [JENKINS-50930](https://issues.jenkins-ci.org/browse/JENKINS-50930){.external-link} - Multibranch
+-   [JENKINS-50930](https://issues.jenkins-ci.org/browse/JENKINS-50930) - Multibranch
     fails if gerrit lives at a subdirectory
--   [JENKINS-49983](https://issues.jenkins-ci.org/browse/JENKINS-49983){.external-link} - NullPointerException
+-   [JENKINS-49983](https://issues.jenkins-ci.org/browse/JENKINS-49983) - NullPointerException
     from gerrit plugin due to lack of configuration
--   [JENKINS-49985](https://issues.jenkins-ci.org/browse/JENKINS-49985){.external-link} - hudson.remoting.ProxyException:
+-   [JENKINS-49985](https://issues.jenkins-ci.org/browse/JENKINS-49985) - hudson.remoting.ProxyException:
     org.codehaus.groovy.runtime.typehandling.GroovyCastException
--   [JENKINS-49713](https://issues.jenkins-ci.org/browse/JENKINS-49713){.external-link} - gerrit-plugin
+-   [JENKINS-49713](https://issues.jenkins-ci.org/browse/JENKINS-49713) - gerrit-plugin
     exposes change-requests as normal branches instead of pull-requests
--   [JENKINS-49692](https://issues.jenkins-ci.org/browse/JENKINS-49692){.external-link} - Could
+-   [JENKINS-49692](https://issues.jenkins-ci.org/browse/JENKINS-49692) - Could
     not update folder level actions from source
 
 ### v0.1.1 - Released - 4 April 2018
