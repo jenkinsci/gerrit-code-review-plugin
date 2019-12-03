@@ -30,7 +30,7 @@ Why should I write yet another Gerrit/Jenkins plugin? Isn't Gerrit
 Trigger Plugin
 (<https://wiki.jenkins.io/display/JENKINS/Gerrit+Trigger>) enough?  
 We couldn't use it against
-[gerrit-review.googlesource.com](http://gerrit-review.googlesource.com){.external-link}
+[gerrit-review.googlesource.com](http://gerrit-review.googlesource.com)
 because stream events are just not accessible.
 
 There are unresolved issues about:
@@ -58,12 +58,14 @@ integration:
 node {
   checkout scm
   try {
+    gerritReview labels: [Verified: 0]
     stage('Hello') {
       echo 'Hello World'
+      gerritComment path:'path/to/file', line: 10, message: 'invalid syntax'
     }
-    gerritReview score:1
+    gerritReview labels: [Verified: 1]
   } catch (e) {
-    gerritReview score:-1
+    gerritReview labels: [Verified: -1]
     throw e
   }
 }
@@ -78,13 +80,16 @@ pipeline {
     stages {
         stage('Example') {
             steps {
+                gerritReview labels: [Verified: 0]
                 echo 'Hello World'
+                gerritComment path:'path/to/file', line: 10, message: 'invalid syntax'
             }
         }
     }
     post {
-        success { gerritReview score:1 }
-        failure { gerritReview score:-1 }
+        success { gerritReview labels: [Verified: 1] }
+        unstable { gerritReview labels: [Verified: 0], message: 'Build is unstable' }
+        failure { gerritReview labels: [Verified: -1] }
     }
 }
 ```
