@@ -20,7 +20,7 @@
   <packaging>hpi</packaging>
   <name>Gerrit Code Review plugin</name>
   <description>Integrates Jenkins with Gerrit Code Review</description>
-  <url>https://wiki.jenkins.io/display/JENKINS/Gerrit+Code+Review+Plugin</url>
+  <url>https://github.com/jenkinsci/gerrit-code-review-plugin</url>
   <inceptionYear>2018</inceptionYear>
 
   <properties>
