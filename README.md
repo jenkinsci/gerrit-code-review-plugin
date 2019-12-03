@@ -109,7 +109,7 @@ Registry since April 2018 and has been used so far by hundreds of
 developers around the world that provided already very useful feedback
 and started contributing with pull-requests.
 
-### v0.3.6 - Released - 2 December 2019
+### v0.3.7 - Released - 3 December 2019
 
 #### Highlights
 
