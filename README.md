@@ -9,9 +9,9 @@ integrated with [Gerrit Code Review](https://gerritcodereview.com) for branches 
 ## Why yet another plugin?
 
 I wanted to use the Gerrit CI validation workflow with potentially any
-project, including Gerrit plugins or anybody else wanting to adopt it.  
+project, including Gerrit plugins or anybody else wanting to adopt it.
 I could just "copy & paste" our Groovy workflow, however, that does not
-seem a sensible and long-term approach.  
+seem a sensible and long-term approach.
 I wanted to have "something more" than a pure triggering mechanism: I
 wanted to extend the power of Jenkisfile with the Gerrit review workflow
 verbs.
@@ -28,20 +28,20 @@ change, unless they need a more Jenkisfile-integrated experience.
 
 Why should I write yet another Gerrit/Jenkins plugin? Isn't Gerrit
 Trigger Plugin
-(<https://wiki.jenkins.io/display/JENKINS/Gerrit+Trigger>) enough?  
+(<https://wiki.jenkins.io/display/JENKINS/Gerrit+Trigger>) enough?
 We couldn't use it against
-[gerrit-review.googlesource.com](http://gerrit-review.googlesource.com){.external-link}
+[gerrit-review.googlesource.com](http://gerrit-review.googlesource.com)
 because stream events are just not accessible.
 
 There are unresolved issues about:
 
--   **Stability**  
+-   **Stability**
     stream-events are based on SSH, which isn't scalable or reliable
     against downtime, doesn't allow smart Git routing
--   **Complex configuration**  
+-   **Complex configuration**
     requires a node-level and project-level configuration, which is
     orthogonal to the Jenkinsfile pipeline
--   **Integration**  
+-   **Integration**
     using it inside a Jenkinsfile isn't that straightforward and
     multi-branch projects aren't supported either
 
@@ -90,7 +90,7 @@ pipeline {
 ```
 
 One key aspect will be: stateless, configuration-less apart the standard
-SCM configuration settings.  
+SCM configuration settings.
 That means that multiple Jobs, multiple branches of the same Job, can
 have their own Gerrit integration defined and working out-of-the-box.
 
@@ -101,7 +101,7 @@ will just work.
 
 I have presented the first prototype of this new plugin at the Jenkins
 World Conference in San Francisco back in 2017 inside my "Data-Driven
-Pipeline workshop."  
+Pipeline workshop."
 (<https://jenkinsworld20162017.sched.com/event/APTd/data-driven-pipeline-workshop-free>)
 
 The first version was published and available in the Jenkins Plugin
@@ -115,7 +115,7 @@ and started contributing with pull-requests.
 
 Significant performance improvment on the branch indexing and checkout
 of changes. On the validation of [Gerrit Code Review CI](https://gerrit-ci.gerritforge.com) the
-branch indexing time was reduced from 40 minutes down to 2 minutes (20x improvment).
+branch indexing time was reduced from **40 minutes down to 2 minutes** (20x performance improvement).
 
 Also, introduces the ability to reduce the number of refs being fetched by defining a custom
 query condition.
@@ -129,15 +129,15 @@ query condition.
 
 #### Fixes
 
-- [JENKINS-59958] Do not cache open changes
-- [JENKINS-60259] Restrict git fetch to open changes refsSpecs
-- [JENKINS-60126] Update gerrit-rest-java-client to 0.8.17
+- [JENKINS-59958](https://issues.jenkins-ci.org/browse/JENKINS-59958) Do not cache open changes
+- [JENKINS-60259](https://issues.jenkins-ci.org/browse/JENKINS-60259) Restrict git fetch to open changes refsSpecs
+- [JENKINS-60126](https://issues.jenkins-ci.org/browse/JENKINS-60126) Update gerrit-rest-java-client to 0.8.17
 
 ### v0.3.5 - Released - 24 October 2019
 
 #### Fixes
 
--   [JENKINS-59745] Fix exception navigating the SCMs of a workflowJob
+-   [JENKINS-59745](https://issues.jenkins-ci.org/browse/JENKINS-59745) Fix exception navigating the SCMs of a workflowJob
 
 ### v0.3.4 - Released - 10 October 2019
 
