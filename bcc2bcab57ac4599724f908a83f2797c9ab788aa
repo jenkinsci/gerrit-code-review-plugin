@@ -16,6 +16,24 @@
       "revId": "bcc2bcab57ac4599724f908a83f2797c9ab788aa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18f5bd68_8ef78e83",
+        "filename": "src/main/java/jenkins/plugins/gerrit/checks/api/CheckerInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T15:02:31Z",
+      "side": 1,
+      "message": "True, but in the end changing the references would be minimal work, especially it is only replacing `jenkins.plugins.gerrit`.\nI think keeping the package structure of the checks plugin is artificial, especially, if the decision would be to maintain the client in a separate repository in the end.",
+      "parentUuid": "cddbe087_a340c8fa",
+      "revId": "bcc2bcab57ac4599724f908a83f2797c9ab788aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
