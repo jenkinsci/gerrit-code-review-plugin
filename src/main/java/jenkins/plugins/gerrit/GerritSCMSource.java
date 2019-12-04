@@ -99,8 +99,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
 
   @Override
   public void afterSave() {
-    GerritSCMSourceContext context =
-        new GerritSCMSourceContext(null, SCMHeadObserver.none()).withTraits(getTraits());
+    GerritSCMSourceContext context = getContext();
     if (context.createChecker()) {
       CheckerInput checker = context.checker();
       createOrUpdateChecker(checker);
@@ -268,6 +267,10 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
   @Override
   public Boolean getInsecureHttps() {
     return insecureHttps;
+  }
+
+  public GerritSCMSourceContext getContext() {
+    return new GerritSCMSourceContext(null, SCMHeadObserver.none()).withTraits(getTraits());
   }
 
   @Restricted(DoNotUse.class)
