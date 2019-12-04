@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2b1152d_ee285d0f",
+        "filename": "CONTRIBUTING.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2019-12-04T14:27:47Z",
+      "side": 1,
+      "message": "project\u0027s",
+      "range": {
+        "startLine": 124,
+        "startChar": 69,
+        "endLine": 124,
+        "endChar": 77
+      },
+      "revId": "5f9176e1f9ef27a65f28be80355565a7920e3d0b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5df71d0f_25010a9d",
+        "filename": "CONTRIBUTING.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2019-12-04T14:27:47Z",
+      "side": 1,
+      "message": "how ? by copying the plugin archive to that directory ?",
+      "range": {
+        "startLine": 131,
+        "startChar": 57,
+        "endLine": 131,
+        "endChar": 76
+      },
+      "revId": "5f9176e1f9ef27a65f28be80355565a7920e3d0b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c532210_2fe2f727",
+        "filename": "CONTRIBUTING.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2019-12-04T14:27:47Z",
+      "side": 1,
+      "message": "this sentence seems incomplete",
+      "range": {
+        "startLine": 141,
+        "startChar": 59,
+        "endLine": 142,
+        "endChar": 27
+      },
+      "revId": "5f9176e1f9ef27a65f28be80355565a7920e3d0b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b749db5f_6056b091",
+        "filename": "CONTRIBUTING.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2019-12-04T14:27:47Z",
+      "side": 1,
+      "message": "I\u0027d remove this word",
+      "range": {
+        "startLine": 152,
+        "startChar": 15,
+        "endLine": 152,
+        "endChar": 22
+      },
+      "revId": "5f9176e1f9ef27a65f28be80355565a7920e3d0b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43147a5f_ea2991ea",
+        "filename": "CONTRIBUTING.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2019-12-04T14:27:47Z",
+      "side": 1,
+      "message": "Using the checks-plugin requires at least Gerrit 3.1 with the Gerrit checks-plugins installed",
+      "revId": "5f9176e1f9ef27a65f28be80355565a7920e3d0b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
