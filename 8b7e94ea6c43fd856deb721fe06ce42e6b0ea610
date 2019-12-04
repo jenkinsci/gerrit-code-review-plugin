@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7de6857_1361e917",
+        "filename": "src/main/java/jenkins/plugins/gerrit/checks/api/BlockingCondition.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-04T22:21:59Z",
+      "side": 1,
+      "message": "Can we use the final package of where these classes should go?\nAs you explained in the commit message, this is just a tactical short-term action to allow us to release the support for checks.\n\nI would ideally NOT change the jenkins plugin code in the future and just have a different build that uses an external library.",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 31
+      },
+      "revId": "8b7e94ea6c43fd856deb721fe06ce42e6b0ea610",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
