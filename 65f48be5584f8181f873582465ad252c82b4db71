@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3c55a0ac_87977d7b",
+        "filename": "README.md",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T16:04:18Z",
+      "side": 1,
+      "message": "Sorry, that was my editor on its own.",
+      "parentUuid": "fa2709e5_62303d43",
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cfbaae10_c7fb6eae",
         "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
         "patchSetId": 27
@@ -30,6 +48,30 @@
       "writtenOn": "2019-12-04T14:19:44Z",
       "side": 1,
       "message": "How do we know here, that we are actually using checker plugin integration or not?",
+      "range": {
+        "startLine": 513,
+        "startChar": 17,
+        "endLine": 516,
+        "endChar": 19
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b0c73d2_44f20368",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T16:04:18Z",
+      "side": 1,
+      "message": "If the filter is not used, the set of checker uuids will be empty and the for loop body will not be executed.",
+      "parentUuid": "cfbaae10_c7fb6eae",
       "range": {
         "startLine": 513,
         "startChar": 17,
@@ -88,6 +130,54 @@
     },
     {
       "key": {
+        "uuid": "c365cdcf_1c84a1ac",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceRequest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T16:04:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aab75f84_4776e186",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 10
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6712fb74_289231f9",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceRequest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T16:04:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9be86d57_304353db",
+      "range": {
+        "startLine": 36,
+        "startChar": 10,
+        "endLine": 36,
+        "endChar": 17
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10984192_3e48d0b7",
         "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceRequest.java",
         "patchSetId": 27
@@ -99,6 +189,30 @@
       "writtenOn": "2019-12-04T14:19:44Z",
       "side": 1,
       "message": "Why is this initialization required, if you are assigning the map in ctor anyway. Remove?",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 56
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "daedcf83_29103fa7",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceRequest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T16:04:18Z",
+      "side": 1,
+      "message": "Moved the assignment to a ternary statement in the constructor.",
+      "parentUuid": "10984192_3e48d0b7",
       "range": {
         "startLine": 37,
         "startChar": 6,
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "b8637b6d_535db4bf",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceRequest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T16:04:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02c25885_6fa59500",
+      "range": {
+        "startLine": 72,
+        "startChar": 12,
+        "endLine": 73,
+        "endChar": 91
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7a76767_ac1e0b4f",
         "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceRequest.java",
         "patchSetId": 27
@@ -154,6 +292,30 @@
       "revId": "65f48be5584f8181f873582465ad252c82b4db71",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64d00b50_1308f6dd",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceRequest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T16:04:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7a76767_ac1e0b4f",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 7
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "6e192bb3_82cb023f",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceRequest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T16:04:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba002c9f_6bd18099",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 59
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b6e822a_939d785c",
         "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceRequest.java",
         "patchSetId": 27
@@ -191,6 +377,30 @@
       "writtenOn": "2019-12-04T14:19:44Z",
       "side": 1,
       "message": "Is this doing some filtering here?",
+      "range": {
+        "startLine": 86,
+        "startChar": 8,
+        "endLine": 93,
+        "endChar": 9
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98025f5b_5b0bc37a",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceRequest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T16:04:18Z",
+      "side": 1,
+      "message": "Not filtering. The pendingChecks endpoint will return a PendingChecksInfo for each pending check, meaning that there can multiple PendingChecksInfos per ref (This may be a bug in the checks plugin, since this seems counterintuitive). I consolidate them here, creating a map with the ref as key and a set with the PendingChecksInfo.",
+      "parentUuid": "4b6e822a_939d785c",
       "range": {
         "startLine": 86,
         "startChar": 8,
@@ -226,6 +436,30 @@
     },
     {
       "key": {
+        "uuid": "facbb1df_af07cf4a",
+        "filename": "src/main/java/jenkins/plugins/gerrit/traits/FilterChecksTrait.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T16:04:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da37b0ab_fa09034b",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 46,
+        "endChar": 29
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a306c548_4cb77fed",
         "filename": "src/main/java/jenkins/plugins/gerrit/traits/FilterChecksTrait.java",
         "patchSetId": 27
@@ -249,6 +483,30 @@
     },
     {
       "key": {
+        "uuid": "a4a24982_31c9fa91",
+        "filename": "src/main/java/jenkins/plugins/gerrit/traits/FilterChecksTrait.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T16:04:18Z",
+      "side": 1,
+      "message": "Apparently the package name is not even needed. Too much copy-pasting from the existing trait.",
+      "parentUuid": "a306c548_4cb77fed",
+      "range": {
+        "startLine": 104,
+        "startChar": 10,
+        "endLine": 104,
+        "endChar": 48
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9323201f_31c77ce3",
         "filename": "src/main/java/jenkins/plugins/gerrit/traits/FilterChecksTrait.java",
         "patchSetId": 27
@@ -260,6 +518,24 @@
       "writtenOn": "2019-12-04T14:19:44Z",
       "side": 1,
       "message": "Can\u0027t this class be a inner class of FilterChecksTrait? Or could this go in its own file?",
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d54152ce_17ad6317",
+        "filename": "src/main/java/jenkins/plugins/gerrit/traits/FilterChecksTrait.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T16:04:18Z",
+      "side": 1,
+      "message": "It is an inner class.\nIn one of the next changes I move it to its own file, since I need it in multiple places then.",
+      "parentUuid": "9323201f_31c77ce3",
       "revId": "65f48be5584f8181f873582465ad252c82b4db71",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
@@ -289,6 +565,30 @@
     },
     {
       "key": {
+        "uuid": "1a1c9f75_712f21c9",
+        "filename": "src/test/java/jenkins/plugins/gerrit/ChangeSCMRevisionTest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T16:04:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6603b0a0_b272155c",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 3
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f45ac376_bbe4014d",
         "filename": "src/test/java/jenkins/plugins/gerrit/GerritApiBuilderTest.java",
         "patchSetId": 27
@@ -300,6 +600,30 @@
       "writtenOn": "2019-12-04T14:19:44Z",
       "side": 1,
       "message": "Could you beter and provide credentials() method without parameters?",
+      "range": {
+        "startLine": 66,
+        "startChar": 12,
+        "endLine": 66,
+        "endChar": 36
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c09b0564_06aef378",
+        "filename": "src/test/java/jenkins/plugins/gerrit/GerritApiBuilderTest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T16:04:18Z",
+      "side": 1,
+      "message": "Sure, but the credentials method is actually not code that I have implemented in this change, so this should be improved in a separate change.",
+      "parentUuid": "f45ac376_bbe4014d",
       "range": {
         "startLine": 66,
         "startChar": 12,
