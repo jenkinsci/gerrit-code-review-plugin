@@ -1,0 +1,314 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa2709e5_62303d43",
+        "filename": "README.md",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-04T14:19:44Z",
+      "side": 1,
+      "message": "All these traling blanks clean up could be done in it sown change.",
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfbaae10_c7fb6eae",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-04T14:19:44Z",
+      "side": 1,
+      "message": "How do we know here, that we are actually using checker plugin integration or not?",
+      "range": {
+        "startLine": 513,
+        "startChar": 17,
+        "endLine": 516,
+        "endChar": 19
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aab75f84_4776e186",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceRequest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-04T14:19:44Z",
+      "side": 1,
+      "message": "final?",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 10
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9be86d57_304353db",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceRequest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-04T14:19:44Z",
+      "side": 1,
+      "message": "Just use Map interface? do you really need the implementation class?",
+      "range": {
+        "startLine": 36,
+        "startChar": 10,
+        "endLine": 36,
+        "endChar": 17
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10984192_3e48d0b7",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceRequest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-04T14:19:44Z",
+      "side": 1,
+      "message": "Why is this initialization required, if you are assigning the map in ctor anyway. Remove?",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 56
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02c25885_6fa59500",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceRequest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-04T14:19:44Z",
+      "side": 1,
+      "message": "It is unusual to have Optional of list(). Actually it is considered to return null for collection, and it should be just empty in case there are no pending checks. In which case, you wouldn\u0027t need optional, and just check pendingChecks.isEmpty() below.",
+      "range": {
+        "startLine": 72,
+        "startChar": 12,
+        "endLine": 73,
+        "endChar": 91
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7a76767_ac1e0b4f",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceRequest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-04T14:19:44Z",
+      "side": 1,
+      "message": "Use switch statement.",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 7
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba002c9f_6bd18099",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceRequest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-04T14:19:44Z",
+      "side": 1,
+      "message": "This should just be:\n\n  for (PendingChecksInfo check : pendingChecks) {\n     [...]\n  }\n\nbecause in case of empty collection you wouldn\u0027t enter in this loop.",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 59
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b6e822a_939d785c",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceRequest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-04T14:19:44Z",
+      "side": 1,
+      "message": "Is this doing some filtering here?",
+      "range": {
+        "startLine": 86,
+        "startChar": 8,
+        "endLine": 93,
+        "endChar": 9
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da37b0ab_fa09034b",
+        "filename": "src/main/java/jenkins/plugins/gerrit/traits/FilterChecksTrait.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-04T14:19:44Z",
+      "side": 1,
+      "message": "Both final?",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 46,
+        "endChar": 29
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a306c548_4cb77fed",
+        "filename": "src/main/java/jenkins/plugins/gerrit/traits/FilterChecksTrait.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-04T14:19:44Z",
+      "side": 1,
+      "message": "Can\u0027t this be statically imported?",
+      "range": {
+        "startLine": 104,
+        "startChar": 10,
+        "endLine": 104,
+        "endChar": 48
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9323201f_31c77ce3",
+        "filename": "src/main/java/jenkins/plugins/gerrit/traits/FilterChecksTrait.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-04T14:19:44Z",
+      "side": 1,
+      "message": "Can\u0027t this class be a inner class of FilterChecksTrait? Or could this go in its own file?",
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6603b0a0_b272155c",
+        "filename": "src/test/java/jenkins/plugins/gerrit/ChangeSCMRevisionTest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-04T14:19:44Z",
+      "side": 1,
+      "message": "You meant:\n\n    @Before\n    public void setUp() {\n        [..]\n    }\n\n It is unusual to have ctor in JUnit test.",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 3
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f45ac376_bbe4014d",
+        "filename": "src/test/java/jenkins/plugins/gerrit/GerritApiBuilderTest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-12-04T14:19:44Z",
+      "side": 1,
+      "message": "Could you beter and provide credentials() method without parameters?",
+      "range": {
+        "startLine": 66,
+        "startChar": 12,
+        "endLine": 66,
+        "endChar": 36
+      },
+      "revId": "65f48be5584f8181f873582465ad252c82b4db71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
