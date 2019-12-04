@@ -73,6 +73,12 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
       envs.put("GERRIT_API_INSECURE_HTTPS", "true");
     }
 
+    GerritSCMSourceContext context = gerritSCMSource.getContext();
+
+    if (Boolean.TRUE.equals(context.createChecker())) {
+      envs.put("GERRIT_CHECKER_UUID", context.checker().uuid);
+    }
+
     String displayName = workflowJob.getDisplayName();
     Matcher matcher = REF_PATTERN.matcher(displayName);
     if (matcher.find()) {
