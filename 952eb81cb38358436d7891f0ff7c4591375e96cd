@@ -1,0 +1,7 @@
+Verified+1: Jenkins at Gerrit-CI <jenkins@gerritforge.com>
+Code-Review+2: David Ostrovsky <david.ostrovsky@gmail.com>
+Submitted-by: Luca Milanesio <luca.milanesio@gmail.com>
+Submitted-at: Wed, 04 Dec 2019 22:19:10 +0000
+Reviewed-on: https://review.gerrithub.io/c/jenkinsci/gerrit-code-review-plugin/+/476789
+Project: jenkinsci/gerrit-code-review-plugin
+Branch: refs/heads/master
