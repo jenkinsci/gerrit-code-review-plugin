@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5180abb5_76376294",
+        "filename": "CONTRIBUTING.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T14:46:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2b1152d_ee285d0f",
+      "range": {
+        "startLine": 124,
+        "startChar": 69,
+        "endLine": 124,
+        "endChar": 77
+      },
+      "revId": "5f9176e1f9ef27a65f28be80355565a7920e3d0b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5df71d0f_25010a9d",
         "filename": "CONTRIBUTING.md",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2019-12-04T14:27:47Z",
       "side": 1,
       "message": "how ? by copying the plugin archive to that directory ?",
+      "range": {
+        "startLine": 131,
+        "startChar": 57,
+        "endLine": 131,
+        "endChar": 76
+      },
+      "revId": "5f9176e1f9ef27a65f28be80355565a7920e3d0b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8bf145e_1b9603c1",
+        "filename": "CONTRIBUTING.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T14:46:54Z",
+      "side": 1,
+      "message": "Maven will download the plugin dependencies into the working tree of the development setup and copy over the artifact of this plugin into the same directory (./work/plugins)",
+      "parentUuid": "5df71d0f_25010a9d",
       "range": {
         "startLine": 131,
         "startChar": 57,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "7b1d7435_fcccfbb0",
+        "filename": "CONTRIBUTING.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T14:46:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c532210_2fe2f727",
+      "range": {
+        "startLine": 141,
+        "startChar": 59,
+        "endLine": 142,
+        "endChar": 27
+      },
+      "revId": "5f9176e1f9ef27a65f28be80355565a7920e3d0b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b749db5f_6056b091",
         "filename": "CONTRIBUTING.md",
         "patchSetId": 6
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "a970d5fc_5e0f03d9",
+        "filename": "CONTRIBUTING.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T14:46:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b749db5f_6056b091",
+      "range": {
+        "startLine": 152,
+        "startChar": 15,
+        "endLine": 152,
+        "endChar": 22
+      },
+      "revId": "5f9176e1f9ef27a65f28be80355565a7920e3d0b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43147a5f_ea2991ea",
         "filename": "CONTRIBUTING.md",
         "patchSetId": 6
@@ -108,6 +204,24 @@
       "revId": "5f9176e1f9ef27a65f28be80355565a7920e3d0b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b534980f_afe66c25",
+        "filename": "CONTRIBUTING.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T14:46:54Z",
+      "side": 1,
+      "message": "I think your variant does not make much sense. Of course the checks plugin require sthe checks plugin installed. I rearranged my sentence, hopefully making it better readable.",
+      "parentUuid": "43147a5f_ea2991ea",
+      "revId": "5f9176e1f9ef27a65f28be80355565a7920e3d0b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
