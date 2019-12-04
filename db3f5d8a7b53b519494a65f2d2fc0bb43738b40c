@@ -22,6 +22,30 @@
       "revId": "db3f5d8a7b53b519494a65f2d2fc0bb43738b40c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbdbd106_0b285f07",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritCheckStep.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-04T16:04:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b5ab44a_91217244",
+      "range": {
+        "startLine": 134,
+        "startChar": 21,
+        "endLine": 134,
+        "endChar": 39
+      },
+      "revId": "db3f5d8a7b53b519494a65f2d2fc0bb43738b40c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
