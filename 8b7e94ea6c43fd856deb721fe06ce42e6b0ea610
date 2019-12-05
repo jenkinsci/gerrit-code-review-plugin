@@ -22,6 +22,30 @@
       "revId": "8b7e94ea6c43fd856deb721fe06ce42e6b0ea610",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d27dc21e_cd44c7c1",
+        "filename": "src/main/java/jenkins/plugins/gerrit/checks/api/BlockingCondition.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-05T09:51:50Z",
+      "side": 1,
+      "message": "David gave me a similar comment. I can get behind that for the [...].api package, since that package is already existing in the checks plugin. But for the client package, I am not sure, since until we know how this should be done exactly, we can\u0027t be sure how the package name will be in the end or even if that part will be added somewhere else anyway.\nI will however change the package name, if you insist.",
+      "parentUuid": "a7de6857_1361e917",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 31
+      },
+      "revId": "8b7e94ea6c43fd856deb721fe06ce42e6b0ea610",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
