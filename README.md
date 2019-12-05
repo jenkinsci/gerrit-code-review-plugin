@@ -56,6 +56,7 @@ integration:
 
 ``` syntaxhighlighter-pre
 node {
+  gerritChecker uuid: 'example:checker', name: 'checker'
   checkout scm
   try {
     gerritReview labels: [Verified: 0]
@@ -79,6 +80,7 @@ integration:
 ``` syntaxhighlighter-pre
 pipeline {
     agent any
+    gerritChecker uuid: 'example:checker', name: 'checker'
     stages {
         stage('Example') {
             steps {
@@ -132,6 +134,10 @@ To let Jenkins create a checker use the `Add checker in Gerrit`-behaviour instea
 This behaviour allows to configure a checker. The `Checker UUID`- and `Display Name`-
 fields are mandatory. On saving the configuration, Jenkins will create/update the
 checker in Gerrit.
+
+Alternatively, the checker can be created/updated directly from the Jenkinsfile
+in a project by using the `gerritChecker` pipeline step. This step requires the
+mandatory `uuid` and `name` parameters.
 
 Jenkins will then only start builds for changes that have pending checks handled
 by the configured checker(s) and will set the status of the check to `SCHEDULED`.
