@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67571008_d1d122f7",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2019-12-05T14:52:59Z",
+      "side": 1,
+      "message": "We should check for pending checks already here, to stop early, if non exist.",
+      "revId": "dfe0afe7bad30c17bcd6d8700210ac9067cd019b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
