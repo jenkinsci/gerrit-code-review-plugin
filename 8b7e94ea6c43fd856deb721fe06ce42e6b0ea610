@@ -46,6 +46,30 @@
       "revId": "8b7e94ea6c43fd856deb721fe06ce42e6b0ea610",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e704fe4e_322775f1",
+        "filename": "src/main/java/jenkins/plugins/gerrit/checks/api/BlockingCondition.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-06T22:48:15Z",
+      "side": 1,
+      "message": "Thanks :-)",
+      "parentUuid": "d27dc21e_cd44c7c1",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 31
+      },
+      "revId": "8b7e94ea6c43fd856deb721fe06ce42e6b0ea610",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
