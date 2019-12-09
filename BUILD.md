@@ -94,6 +94,7 @@ Gerrit using RestAPI.
 |GERRIT_BRANCH                   |target branch of the Gerrit change                              |
 |GERRIT_TOPIC                    |topic name (if any) of the Gerrit change                        |
 |GERRIT_CHANGE_ID                |Gerrit change id                                                |
+|GERRIT_CHANGE_URL               |Gerrit change URL                                               |
 |GERRIT_PATCHSET_REVISION        |SHA1 of the Gerrit patch-set                                    |
 |GERRIT_CHANGE_OWNER             |Owner (name <email>) of the Gerrit change                       |
 |GERRIT_CHANGE_OWNER_NAME        |Owner name of the Gerrit change                                 |

@@ -83,7 +83,12 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
       changeInfo.ifPresent(
           (change) -> {
             publishChangeDetails(
-                envs, matcher.group("changeNum"), matcher.group("patchSet"), patchSetNum, change);
+                envs,
+                matcher.group("changeNum"),
+                matcher.group("patchSet"),
+                patchSetNum,
+                change,
+                gerritURI);
           });
     }
   }
@@ -93,12 +98,14 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
       String changeNum,
       String patchSet,
       int patchSetNum,
-      ChangeInfo change) {
+      ChangeInfo change,
+      GerritURI gerritURI) {
     envs.put("GERRIT_CHANGE_NUMBER", changeNum);
     envs.put("GERRIT_PATCHSET_NUMBER", patchSet);
     envs.put("GERRIT_CHANGE_PRIVATE_STATE", booleanString(change.isPrivate));
     envs.put("GERRIT_CHANGE_WIP_STATE", booleanString(change.workInProgress));
     envs.put("GERRIT_CHANGE_SUBJECT", change.subject);
+    envs.put("GERRIT_CHANGE_URL", gerritURI.setPath("" + change._number).toASCIIString());
     envs.put("GERRIT_BRANCH", change.branch);
     envs.put("GERRIT_TOPIC", nullToEmpty(change.topic));
     envs.put("GERRIT_CHANGE_ID", change.id);

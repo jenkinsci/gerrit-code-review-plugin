@@ -103,6 +103,15 @@ public class GerritURI {
     return remoteURI.setRawPath(getPrefix());
   }
 
+  /**
+   * Set the Gerrit path.
+   *
+   * @return Gerrit URL with the path.
+   */
+  public URIish setPath(String path) {
+    return remoteURI.setPath(getPrefix() + path);
+  }
+
   private Matcher getMatcher() {
     Matcher authMatcher = GERRIT_AUTH_HTTP_URI_PATTERN.matcher(remoteURI.getRawPath());
     if (authMatcher.matches()) {
