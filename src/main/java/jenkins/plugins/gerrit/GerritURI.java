@@ -103,6 +103,16 @@ public class GerritURI {
     return remoteURI.setRawPath(getPrefix());
   }
 
+  /**
+   * Get the Gerrit root URL.
+   *
+   * @return Gerrit root URL
+   * @throws URISyntaxException if URL is invalid.
+   */
+  public URIish getRootURL() throws URISyntaxException {
+    return remoteURI.setRawPath("");
+  }
+
   private Matcher getMatcher() {
     Matcher authMatcher = GERRIT_AUTH_HTTP_URI_PATTERN.matcher(remoteURI.getRawPath());
     if (authMatcher.matches()) {
