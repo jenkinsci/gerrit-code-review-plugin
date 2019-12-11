@@ -201,8 +201,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                 continue;
               }
 
-              String refName = ref.getKey();
-              if (refName.startsWith(R_CHANGES)) {
+              if (refKey.startsWith(R_CHANGES)) {
                 try {
                   if (processChangeRequest(repository, walk, request, ref, listener)) {
                     listener
@@ -211,7 +210,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                     return;
                   }
                 } catch (Exception e) {
-                  listener.getLogger().format("Unable to process %s: %s", refName, e.toString());
+                  listener.getLogger().format("Unable to process %s: %s", refKey, e.toString());
                 }
               } else {
                 if (processBranchRequest(repository, walk, request, ref, listener)) {
