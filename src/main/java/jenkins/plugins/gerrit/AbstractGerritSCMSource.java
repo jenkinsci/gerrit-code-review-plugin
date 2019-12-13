@@ -28,13 +28,7 @@ import hudson.model.Action;
 import hudson.model.Actionable;
 import hudson.model.TaskListener;
 import hudson.plugins.git.Branch;
-import hudson.plugins.git.BranchSpec;
-import hudson.plugins.git.GitSCM;
 import hudson.plugins.git.GitTool;
-import hudson.plugins.git.SubmoduleConfig;
-import hudson.plugins.git.UserRemoteConfig;
-import hudson.plugins.git.browser.GitRepositoryBrowser;
-import hudson.scm.SCM;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -53,6 +47,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import jenkins.plugins.git.AbstractGitSCMSource;
 import jenkins.plugins.git.GitRemoteHeadRefAction;
+import jenkins.plugins.git.GitSCMBuilder;
 import jenkins.plugins.git.GitSCMSourceContext;
 import jenkins.plugins.git.GitSCMSourceRequest;
 import jenkins.scm.api.*;
@@ -678,41 +673,20 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   }
 
   /** {@inheritDoc} */
-  @NonNull
   @Override
-  public SCM build(@NonNull SCMHead head, @CheckForNull SCMRevision revision) {
-    if (!getChangeRefMatcher(head.getName()).matches()) {
-      return super.build(head, revision);
+  protected void decorate(GitSCMBuilder<?> builder) {
+    if (!getChangeRefMatcher(builder.head().getName()).matches()) {
+      return;
     }
 
-    GitSCM gitscm = ((GitSCM) super.build(head, revision));
-
-    List<UserRemoteConfig> userRemoteConfigs = gitscm.getUserRemoteConfigs();
-    UserRemoteConfig headRemoteConfig = gitscm.getUserRemoteConfigs().get(0);
-    UserRemoteConfig changeRemoteConfig =
-        new UserRemoteConfig(
-            headRemoteConfig.getUrl(),
-            headRemoteConfig.getName(),
+    builder
+        .withoutRefSpecs()
+        .withRefSpec(
             "refs/changes/"
-                + head.getName()
+                + builder.head().getName()
                 + ":refs/remotes/"
-                + headRemoteConfig.getName()
+                + builder.remoteName()
                 + "/"
-                + head.getName(),
-            headRemoteConfig.getCredentialsId());
-
-    List<BranchSpec> branches = gitscm.getBranches();
-    Collection<SubmoduleConfig> submoduleCfg = gitscm.getSubmoduleCfg();
-    GitRepositoryBrowser browser = gitscm.getBrowser();
-    String gitTool = gitscm.gitTool;
-
-    return new GitSCM(
-        userRemoteConfigs,
-        branches,
-        false,
-        submoduleCfg,
-        browser,
-        gitTool,
-        Arrays.asList(new GerritFetchChangeSCMExtension(changeRemoteConfig)));
+                + builder.head().getName());
   }
 }
