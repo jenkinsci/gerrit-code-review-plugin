@@ -14,9 +14,12 @@
 
 package jenkins.plugins.gerrit;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import java.util.EnumSet;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -31,11 +34,48 @@ class ProjectChanges {
 
   public Optional<ChangeInfo> get(int changeNumber) {
     try {
-      return Optional.ofNullable(gerritApi.changes().id(changeNumber).get());
+      EnumSet<ListChangesOption> options = EnumSet.allOf(ListChangesOption.class);
+      options.remove(ListChangesOption.CHECK);
+      if (isVersionBelow215(gerritApi.config().server().getVersion())) {
+        options.remove(ListChangesOption.TRACKING_IDS);
+        options.remove(ListChangesOption.SKIP_MERGEABLE);
+      }
+      return Optional.ofNullable(gerritApi.changes().id(changeNumber).get(options));
     } catch (RestApiException e) {
       LOGGER.severe(String.format("Unable to retrieve change %d", changeNumber));
       LOGGER.throwing(ProjectChanges.class.getName(), "get", e);
       return Optional.empty();
     }
+  }
+
+  @VisibleForTesting
+  boolean isVersionBelow215(String version) {
+    if (version == null) {
+      return false;
+    }
+
+    if (version.equals("<2.8")) {
+      return true;
+    }
+
+    String[] versionSplit = version.split("\\.");
+    if (versionSplit.length == 0) {
+      return false;
+    }
+    try {
+      if (versionSplit.length >= 1 && Integer.parseInt(versionSplit[0]) < 2) {
+        return true;
+      }
+      if (versionSplit.length >= 1 && Integer.parseInt(versionSplit[0]) > 2) {
+        return false;
+      }
+      if (versionSplit.length == 1 || Integer.parseInt(versionSplit[1]) < 15) {
+        return true;
+      }
+    } catch (NumberFormatException e) {
+      return false;
+    }
+
+    return false;
   }
 }
