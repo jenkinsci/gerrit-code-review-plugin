@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74e57b64_6c4d6b0a",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-30T12:56:22Z",
+      "side": 0,
+      "message": "This is needed and is lost in your fix.\nWe do need to add the extensions, let me see if there is another way.",
+      "range": {
+        "startLine": 716,
+        "startChar": 8,
+        "endLine": 716,
+        "endChar": 78
+      },
+      "revId": "ab6d12a110f40c013e9bdd664e3a4ef6430ec087",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45f1b48e_1b3f1f62",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritFetchChangeSCMExtension.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-30T12:56:22Z",
+      "side": 0,
+      "message": "This is this completely removed? Without this extension the whole fetching would break as it would try to fetch ALL changes and not only the ones that are still open.",
+      "revId": "ab6d12a110f40c013e9bdd664e3a4ef6430ec087",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
