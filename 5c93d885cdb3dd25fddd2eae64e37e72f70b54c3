@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "58487a8d_33a90f8f",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritCheckStep.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-30T00:10:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "487932b7_6faee21f",
+      "range": {
+        "startLine": 57,
+        "startChar": 11,
+        "endLine": 57,
+        "endChar": 17
+      },
+      "revId": "5c93d885cdb3dd25fddd2eae64e37e72f70b54c3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d42377c8_a6300371",
         "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritCheckStep.java",
         "patchSetId": 18
@@ -45,6 +69,30 @@
       "revId": "5c93d885cdb3dd25fddd2eae64e37e72f70b54c3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9adf87b_643d91b5",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritCheckStep.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-12-30T00:10:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d42377c8_a6300371",
+      "range": {
+        "startLine": 80,
+        "startChar": 12,
+        "endLine": 80,
+        "endChar": 51
+      },
+      "revId": "5c93d885cdb3dd25fddd2eae64e37e72f70b54c3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
