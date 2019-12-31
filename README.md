@@ -141,6 +141,37 @@ Registry since April 2018 and has been used so far by hundreds of
 developers around the world that provided already very useful feedback
 and started contributing with pull-requests.
 
+### v0.4.0 - Released - 31 December 2019
+
+#### Highlights
+
+The very first integration of the [Gerrit Checks plugin](https://gerrit.googlesource.com/plugins/checks)
+with Jenkins is now available, allowing a 1st-class integration of the build validation with the
+Gerrit UI. Allows also the ability to have the build duration, live status update and quick links
+in the Gerrit UI to view the logs and re-run the build.
+
+The adoption of the Gerrit checks plugin allows to reduce significantly the pipeline branch scanning
+by getting the exact list of changes that need verification, instead of fetching all the open changes
+that may or may not need any verification at all. For large repositories with a lot of changes, that
+means reducing the branch scanning from minutes to a few seconds.
+
+Because of the huge contribution of the Gerrit checks integration, Thomas Dräbing is nominated
+the 3rd maintainer of the Gerrit Code Review plugin for Jenkins.
+
+Also, fixes the compatibilities issues with Gerrit v2.14 or earlier releases.
+
+#### New features
+
+- Add `gerritCheck` pipeline step to update check status in Gerrit UI
+- Add support for selecting changes with pending checks
+- Add REST API client for the checks plugin
+- Add `GERRIT_CHANGE_URL` env variable pointing to the Gerrit change screen URL
+
+#### Fixes
+
+- [JENKINS-60364](https://issues.jenkins-ci.org/browse/) Downgrade Gerrit API to v0.8.15 for fixing compatibility
+  with Gerrit v2.14 or earlier.
+
 ### v0.3.7 - Released - 3 December 2019
 
 #### Highlights

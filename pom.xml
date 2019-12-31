@@ -146,6 +146,11 @@
       <name>Alon Bar-Lev</name>
       <email>alon.barlev@gmail.com</email>
     </developer>
+    <developer>
+      <id>thomasdraebing</id>
+      <name>Thomas Dräbing</name>
+      <email>thomas.draebing@sap.com</email>
+    </developer>
   </developers>
 
   <dependencies>
