@@ -141,6 +141,12 @@ Registry since April 2018 and has been used so far by hundreds of
 developers around the world that provided already very useful feedback
 and started contributing with pull-requests.
 
+### v0.4.1 - Released - 5 January 2019
+
+#### Fixes
+
+- [JENKINS-60383](https://issues.jenkins-ci.org/browse/JENKINS-60383) Preserve additional behaviour of the SCM source.
+
 ### v0.4.0 - Released - 31 December 2019
 
 #### Highlights
@@ -169,7 +175,7 @@ Also, fixes the compatibilities issues with Gerrit v2.14 or earlier releases.
 
 #### Fixes
 
-- [JENKINS-60364](https://issues.jenkins-ci.org/browse/) Downgrade Gerrit API to v0.8.15 for fixing compatibility
+- [JENKINS-60364](https://issues.jenkins-ci.org/browse/JENKINS-60364) Downgrade Gerrit API to v0.8.15 for fixing compatibility
   with Gerrit v2.14 or earlier.
 
 ### v0.3.7 - Released - 3 December 2019
@@ -339,14 +345,14 @@ First fully functional release of the Gerrit Code Review integration
 that can be functionally equivalent to the historical Gerrit Trigger
 Plugin but with a focus on Jenkinsfile pipelines.
 
-### v0.7 - Planned
+### v0.8 - Planned
 
 ##### Highlights
 
 Support for internal networks where any calls outside the Jenkins node
 can be made via Proxy servers.
 
-### v0.6 - Planned
+### v0.7 - Planned
 
 ##### Highlights
 
@@ -356,14 +362,14 @@ feedback can be different from the one used for fetching the changes.
 The challenge of this release is how to automatically discover the
 upstream Gerrit node purely based on the fetch URL.
 
-### v0.5 - Planned
+### v0.6 - Planned
 
 ##### Highlights
 
 Introduction of the Git/SSH protocol support and use for review
 feedback.
 
-### v0.4 - Planned
+### v0.5 - Planned
 
 ##### Highlights
 
