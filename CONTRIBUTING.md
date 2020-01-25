@@ -10,14 +10,14 @@ git-plugin repository.
 Patch submission is done through [GerritHub](https://review.gerrithub.io)  where patches are
 voted on by everyone in the community.  A patch usually requires a minimum of one +2 votes
 before it will be merged. Your Gerrit patch-sets will be fetched and validated by the
-[Gerrit CI](https://jenkins.gerritcentral.com/job/gerrit-code-review-plugin/) using thei
+[GerritForge Jenkins job](https://jenkins.gerritforge.com/job/gerrit-code-review-plugin/) using the
 Gerrit Code Review plugin for Jenkins, which is exactly *this project* you are contributing :-).
 
 If you are not familiar with [Gerrit Code Review](https://gerritcodereview.com) and you are
 willing to contribute anyway, we do accept pull requests. Fork the repository on GitHub, prepare
 your change on your forked copy, and submit a pull request.  Your pull
 request will be evaluated by the
-[Cloudbees Jenkins job](https://ci.jenkins.io/job/Plugins/job/gerrit-code-review-plugin/).
+[CloudBees Jenkins job](https://ci.jenkins.io/job/Plugins/job/gerrit-code-review-plugin/).
 
 *NOTE: Whether you chose GitHub or Gerrit Code Review, the discussion and approval will
 take place uniquely on GerritHub.*
@@ -34,6 +34,7 @@ your best to improve code coverage with tests when you submit.
 
 Before submitting your change, please review the findbugs output to
 assure that you haven't introduced new findbugs warnings.
+
 - `mvn findbugs:check` to analyze project using [Findbugs](http://findbugs.sourceforge.net/)
 - `mvn findbugs:gui` to check Findbugs report using GUI
 
@@ -79,7 +80,7 @@ $ chmod +x .git/hooks/commit-msg
 
 Now open .git/config in a text editor and add these lines: (this will make pushing reviews easier)
 
-```bash
+``` git
 [remote "review"]
   url = https://review.gerrithub.io/spdk/spdk
   push = HEAD:refs/for/master
