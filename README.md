@@ -141,7 +141,7 @@ Registry since April 2018 and has been used so far by hundreds of
 developers around the world that provided already very useful feedback
 and started contributing with pull-requests.
 
-### v0.4.1 - Released - 5 January 2019
+### v0.4.1 - Released - 5 January 2020
 
 #### Fixes
 
