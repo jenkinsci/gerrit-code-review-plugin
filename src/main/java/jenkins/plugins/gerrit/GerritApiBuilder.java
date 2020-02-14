@@ -102,7 +102,7 @@ public class GerritApiBuilder {
       gerritApi =
           new GerritRestApiFactory()
               .create(
-                  new GerritAuthData.Basic(gerritApiUrl.toString(), username, password),
+                  new GerritAuthData.Basic(gerritApiUrl.toString(), username, password, true),
                   extensions.toArray(new HttpClientBuilderExtension[0]));
     }
     return gerritApi;
