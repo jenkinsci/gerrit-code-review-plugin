@@ -76,9 +76,6 @@ public class GerritCommentStepTest {
                 message),
             true));
 
-    g.getClient()
-        .when(HttpRequest.request("/a/project/login/").withMethod("POST"))
-        .respond(HttpResponse.response().withStatusCode(200));
     DraftInput draftInput = new DraftInput();
     draftInput.path = path;
     draftInput.line = line;
@@ -98,9 +95,6 @@ public class GerritCommentStepTest {
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
 
-    g.getClient()
-        .verify(
-            HttpRequest.request("/a/project/login/").withMethod("POST"), VerificationTimes.once());
     g.getClient()
         .verify(
             HttpRequest.request(
