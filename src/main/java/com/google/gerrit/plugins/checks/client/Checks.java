@@ -143,7 +143,12 @@ public class Checks extends AbstractEndpoint {
             EntityUtils.toString(response.getEntity()), new TypeToken<CheckInfo>() {}.getType());
       }
       throw new RestApiException(
-          String.format("Request returned status %s", response.getStatusLine().getStatusCode()));
+          String.format(
+              "POST %s with body '%s' returned status %s (%s)",
+              request.getURI(),
+              inputString,
+              response.getStatusLine().getStatusCode(),
+              EntityUtils.toString(response.getEntity())));
     }
   }
 
