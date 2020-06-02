@@ -16,7 +16,7 @@
   </licenses>
 
   <artifactId>gerrit-code-review</artifactId>
-  <version>0.4.2-SNAPSHOT</version>
+  <version>0.4.2</version>
   <packaging>hpi</packaging>
   <name>Gerrit Code Review plugin</name>
   <description>Integrates Jenkins with Gerrit Code Review</description>
@@ -433,7 +433,7 @@
     <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
     <url>http://github.com/jenkinsci/${project.artifactId}-plugin</url>
-    <tag>HEAD</tag>
+    <tag>gerrit-code-review-0.4.2</tag>
   </scm>
 
   <pluginRepositories>
