@@ -141,6 +141,12 @@ Registry since April 2018 and has been used so far by hundreds of
 developers around the world that provided already very useful feedback
 and started contributing with pull-requests.
 
+### v0.4.2 - Released - 2 June 2020
+
+#### Fixes
+
+- [JENKINS-62539](https://issues.jenkins-ci.org/browse/JENKINS-62539) Always use API when interacting with changes on Gerrit.
+
 ### v0.4.1 - Released - 5 January 2020
 
 #### Fixes
