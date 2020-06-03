@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5eb33979_df47403c",
+        "filename": "src/main/java/jenkins/plugins/gerrit/UserAgentClientBuilderExtension.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-06-03T18:16:33Z",
+      "side": 1,
+      "message": "This isn\u0027t gonna be the manifest of the plugin though. Best to rely on the Maven properties generated under the group/artifact name.",
+      "range": {
+        "startLine": 45,
+        "startChar": 28,
+        "endLine": 45,
+        "endChar": 48
+      },
+      "revId": "775ae10fb6854371716669e1f76e01084cf56811",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
