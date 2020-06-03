@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5ff35bc_440d063c",
+        "filename": "src/main/java/jenkins/plugins/gerrit/UserAgentClientBuilderExtension.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-06-03T17:35:17Z",
+      "side": 1,
+      "message": "This isn\u0027t the class loader actually used by Jenkins and it would result in a class cast exception error.",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 39
+      },
+      "revId": "60fee2b53525aafa34a38153240a5120b6567d46",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
