@@ -96,6 +96,7 @@ public class GerritApiBuilder {
     GerritApi gerritApi = null;
     if (verifyParameters()) {
       List<HttpClientBuilderExtension> extensions = new ArrayList<>();
+      extensions.add(UserAgentClientBuilderExtension.INSTANCE);
       if (Boolean.TRUE.equals(insecureHttps)) {
         extensions.add(SSLNoVerifyCertificateManagerClientBuilderExtension.INSTANCE);
       }
