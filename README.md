@@ -141,6 +141,16 @@ Registry since April 2018 and has been used so far by hundreds of
 developers around the world that provided already very useful feedback
 and started contributing with pull-requests.
 
+### v0.4.3 - Released - 4 June 2020
+
+#### New features
+
+- [JENKINS-55037](https://issues.jenkins-ci.org/browse/JENKINS-55037)
+  Add an extra query filter for discovering changes (e.g. `is:wip` or `file:componenta/src`)
+- [JENKINS-62551](https://issues.jenkins-ci.org/browse/JENKINS-62551)
+  Add plugin name and version to the HTTP user agent
+- Bump gerrit-rest-java-client to 0.9.2
+
 ### v0.4.2 - Released - 2 June 2020
 
 #### Fixes
