@@ -22,6 +22,30 @@
       "revId": "775ae10fb6854371716669e1f76e01084cf56811",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d40a7581_fddd8eb0",
+        "filename": "src/main/java/jenkins/plugins/gerrit/UserAgentClientBuilderExtension.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-06-04T15:59:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5eb33979_df47403c",
+      "range": {
+        "startLine": 45,
+        "startChar": 28,
+        "endLine": 45,
+        "endChar": 48
+      },
+      "revId": "775ae10fb6854371716669e1f76e01084cf56811",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
