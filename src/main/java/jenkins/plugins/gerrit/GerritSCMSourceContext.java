@@ -29,6 +29,7 @@ public class GerritSCMSourceContext
   @NonNull private ChecksQueryOperator checksQueryOperator = ChecksQueryOperator.SCHEME;
   @NonNull private boolean filterForPendingChecks = false;
   @NonNull private String checksQueryString = "";
+  @NonNull private String changesQueryFilter = "";
 
   public GerritSCMSourceContext(SCMSourceCriteria criteria, SCMHeadObserver observer) {
     super(criteria, observer);
@@ -105,5 +106,13 @@ public class GerritSCMSourceContext
   public GerritSCMSourceRequest newRequest(
       @NonNull SCMSource source, @CheckForNull TaskListener listener) {
     return new GerritSCMSourceRequest((GerritSCMSource) source, this, listener);
+  }
+
+  public void setChangeFilter(String changesQueryFilter) {
+    this.changesQueryFilter = changesQueryFilter;
+  }
+
+  public String changesQueryFilter() {
+    return changesQueryFilter;
   }
 }

@@ -27,9 +27,22 @@ import org.kohsuke.stapler.DataBoundConstructor;
 
 /** A {@link Discovery} trait that would discover all the Gerrit Changes */
 public class ChangeDiscoveryTrait extends SCMSourceTrait {
+  private final String queryString;
+
   /** Constructor for stapler. */
   @DataBoundConstructor
-  public ChangeDiscoveryTrait() {}
+  public ChangeDiscoveryTrait(String queryString) {
+    this.queryString = queryString;
+  }
+
+  /**
+   * Returns the changes query string.
+   *
+   * @return the changes query string.
+   */
+  public String getQueryString() {
+    return queryString;
+  }
 
   /** {@inheritDoc} */
   @Override
@@ -37,6 +50,7 @@ public class ChangeDiscoveryTrait extends SCMSourceTrait {
     GerritSCMSourceContext ctx = (GerritSCMSourceContext) context;
     ctx.wantBranches(true);
     ctx.withAuthority(new BranchSCMHeadAuthority());
+    ctx.setChangeFilter(queryString);
   }
 
   /** {@inheritDoc} */
