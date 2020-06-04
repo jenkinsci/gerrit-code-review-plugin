@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "217edbc3_88c4ecdb",
+        "filename": "src/main/java/jenkins/plugins/gerrit/UserAgentClientBuilderExtension.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2020-06-04T07:18:22Z",
+      "side": 1,
+      "message": "nit: 2020",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "4cc04653c0daee271134e528a73f6f1b78d93f61",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
