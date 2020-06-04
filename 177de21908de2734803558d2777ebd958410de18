@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "04335fec_28193729",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-06-04T15:25:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f9e7536_0c6f6f2b",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 10,
+        "endChar": 45
+      },
+      "revId": "177de21908de2734803558d2777ebd958410de18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "962438a3_46f2d90c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7c8b75be_781f069c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-06-04T15:25:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "962438a3_46f2d90c",
+      "range": {
+        "startLine": 22,
+        "startChar": 20,
+        "endLine": 22,
+        "endChar": 21
+      },
+      "revId": "177de21908de2734803558d2777ebd958410de18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3420419_4f7e5c2f",
         "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
         "patchSetId": 2
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "80806013_2e698d4f",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-06-04T15:25:40Z",
+      "side": 1,
+      "message": "I\u0027ve run the reformat.",
+      "parentUuid": "c3420419_4f7e5c2f",
+      "revId": "177de21908de2734803558d2777ebd958410de18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0768e83d_ea90e3d8",
         "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
         "patchSetId": 2
@@ -76,6 +142,24 @@
       "writtenOn": "2020-06-04T14:49:37Z",
       "side": 1,
       "message": "line too long",
+      "revId": "177de21908de2734803558d2777ebd958410de18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fec4d06_4479a704",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-06-04T15:25:40Z",
+      "side": 1,
+      "message": "I\u0027ve run reformat.",
+      "parentUuid": "0768e83d_ea90e3d8",
       "revId": "177de21908de2734803558d2777ebd958410de18",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
