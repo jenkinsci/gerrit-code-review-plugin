@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -635,7 +636,9 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
         throw new IllegalStateException("Invalid gerrit configuration");
       }
 
-      Changes.QueryRequest changeQuery = getOpenChanges(gerritApi, gerritURI.getProject());
+      Changes.QueryRequest changeQuery = getOpenChanges(gerritApi, gerritURI.getProject(), context.changesQueryFilter());
+      listener.getLogger().println("Looking for open changes with query '" +
+              URLDecoder.decode(changeQuery.getQuery(), StandardCharsets.UTF_8.name()) + "' ...");
 
       List<RefSpec> fetchRefSpecs;
       try {
@@ -717,9 +720,9 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     return setupGerritApiBuilder(listener, remoteUri).buildChecksApi();
   }
 
-  private Changes.QueryRequest getOpenChanges(GerritApi gerritApi, String project)
+  private Changes.QueryRequest getOpenChanges(GerritApi gerritApi, String project, String changeQueryFilter)
       throws UnsupportedEncodingException {
-    String query = "p:" + project + " status:open " + OPEN_CHANGES_FILTER;
+    String query = "p:" + project + " status:open " + OPEN_CHANGES_FILTER + " " + changeQueryFilter;
     return gerritApi
         .changes()
         .query(URLEncoder.encode(query, StandardCharsets.UTF_8.name()))
