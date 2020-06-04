@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f9e7536_0c6f6f2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2020-06-04T14:49:37Z",
+      "side": 1,
+      "message": "nit: allows",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 10,
+        "endChar": 45
+      },
+      "revId": "177de21908de2734803558d2777ebd958410de18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "962438a3_46f2d90c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2020-06-04T14:49:37Z",
+      "side": 1,
+      "message": "nit: the trait\n\nMaybe be specific and specify which trait",
+      "range": {
+        "startLine": 22,
+        "startChar": 20,
+        "endLine": 22,
+        "endChar": 21
+      },
+      "revId": "177de21908de2734803558d2777ebd958410de18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3420419_4f7e5c2f",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2020-06-04T14:49:37Z",
+      "side": 1,
+      "message": "line too long",
+      "revId": "177de21908de2734803558d2777ebd958410de18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0768e83d_ea90e3d8",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2020-06-04T14:49:37Z",
+      "side": 1,
+      "message": "line too long",
+      "revId": "177de21908de2734803558d2777ebd958410de18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
