@@ -728,7 +728,12 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   private Changes.QueryRequest getOpenChanges(
       GerritApi gerritApi, String project, String changeQueryFilter)
       throws UnsupportedEncodingException {
-    String query = "p:" + project + " status:open " + OPEN_CHANGES_FILTER + " " + changeQueryFilter;
+    String query =
+        "p:"
+            + project
+            + " status:open "
+            + OPEN_CHANGES_FILTER
+            + (changeQueryFilter == null ? "" : " " + changeQueryFilter);
     return gerritApi
         .changes()
         .query(URLEncoder.encode(query, StandardCharsets.UTF_8.name()))
