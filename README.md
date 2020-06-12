@@ -141,6 +141,13 @@ Registry since April 2018 and has been used so far by hundreds of
 developers around the world that provided already very useful feedback
 and started contributing with pull-requests.
 
+### v0.4.4 - Released - 12 June 2020
+
+#### Fixes
+
+- [JENKINS-62648](https://issues.jenkins-ci.org/browse/JENKINS-62648)
+  Fix regression in v0.4.3 where changes are no longer detected because of a `null` query string.
+
 ### v0.4.3 - Released - 4 June 2020
 
 #### New features
