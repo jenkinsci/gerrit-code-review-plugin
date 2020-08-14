@@ -41,11 +41,19 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
   private static final Pattern REF_PATTERN =
       Pattern.compile("^\\d+\\/(?<changeNum>\\d+)\\/(?<patchSet>\\d+)$");
 
+  public static class ChangeInfoInvisibleAction extends InvisibleAction {
+    Optional<ChangeInfo> maybeChangeInfo;
+
+    ChangeInfoInvisibleAction(Optional<ChangeInfo> maybeChangeInfo) {
+      this.maybeChangeInfo = maybeChangeInfo;
+    }
+  }
+
   @Override
   public void buildEnvironmentFor(
-      @Nonnull Job j, @Nonnull EnvVars envs, @Nonnull TaskListener listener)
+      @Nonnull Run r, @Nonnull EnvVars envs, @Nonnull TaskListener listener)
       throws IOException, InterruptedException {
-    ItemGroup jobParent = j.getParent();
+    ItemGroup jobParent = r.getParent().getParent();
     if (!(jobParent instanceof WorkflowMultiBranchProject)) {
       return;
     }
@@ -56,7 +64,7 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
       return;
     }
 
-    WorkflowJob workflowJob = (WorkflowJob) j;
+    WorkflowJob workflowJob = (WorkflowJob) r.getParent();
 
     GerritSCMSource gerritSCMSource =
         (GerritSCMSource) multiBranchProject.getSources().get(0).getSource();
@@ -78,8 +86,14 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
     if (matcher.find()) {
       int patchSetNum = Integer.parseInt(matcher.group("patchSet"));
 
-      Optional<ChangeInfo> changeInfo =
-          gerritSCMSource.getChangeInfo(Integer.parseInt(matcher.group("changeNum")));
+      Optional<ChangeInfo> changeInfo = Optional.empty();
+      List<ChangeInfoInvisibleAction> changeInfos = r.getActions(ChangeInfoInvisibleAction.class);
+      if (changeInfos.isEmpty()) {
+        changeInfo = gerritSCMSource.getChangeInfo(Integer.parseInt(matcher.group("changeNum")));
+        r.addAction(new ChangeInfoInvisibleAction(changeInfo));
+      } else {
+        changeInfo = changeInfos.get(0).maybeChangeInfo;
+      }
       changeInfo.ifPresent(
           (change) -> {
             publishChangeDetails(
