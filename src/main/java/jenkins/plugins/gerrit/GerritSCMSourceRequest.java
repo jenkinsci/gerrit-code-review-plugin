@@ -14,6 +14,7 @@
 
 package jenkins.plugins.gerrit;
 
+import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.plugins.checks.api.PendingChecksInfo;
 import com.google.gerrit.plugins.checks.client.GerritChecksApi;
@@ -25,7 +26,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Nullable;
 import jenkins.plugins.git.GitSCMSourceRequest;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.URIish;
 
 public class GerritSCMSourceRequest extends GitSCMSourceRequest {
@@ -34,9 +37,12 @@ public class GerritSCMSourceRequest extends GitSCMSourceRequest {
 
   private final Map<String, HashSet<PendingChecksInfo>> patchsetWithPendingChecks;
 
+  private final ProjectChanges projectChanges;
+
   public GerritSCMSourceRequest(
       GerritSCMSource source, GerritSCMSourceContext context, TaskListener listener) {
     super(source, context, listener);
+    this.projectChanges = createProjectChanges(source, listener);
     this.filterForPendingChecks = context.filterForPendingChecks();
     this.patchsetWithPendingChecks =
         filterForPendingChecks
@@ -44,8 +50,24 @@ public class GerritSCMSourceRequest extends GitSCMSourceRequest {
             : new HashMap<String, HashSet<PendingChecksInfo>>();
   }
 
+  private ProjectChanges createProjectChanges(GerritSCMSource source, TaskListener listener) {
+    try {
+      return source.getProjectChanges();
+    } catch (IOException e) {
+      listener.error(e.getMessage());
+      return null;
+    }
+  }
+
   public Map<String, HashSet<PendingChecksInfo>> getPatchsetWithPendingChecks() {
     return patchsetWithPendingChecks;
+  }
+
+  @Nullable
+  public Integer getPatchSetForChangeByRevision(int changeNum, ObjectId gitRef) {
+    RevisionInfo revision =
+        projectChanges.get(changeNum).map(info -> info.revisions.get(gitRef.name())).orElse(null);
+    return revision == null ? null : revision._number;
   }
 
   private GerritChecksApi getGerritChecksApi(GerritSCMSource source, TaskListener listener)
