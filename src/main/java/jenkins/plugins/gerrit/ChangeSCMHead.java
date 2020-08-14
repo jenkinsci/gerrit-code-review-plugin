@@ -75,8 +75,14 @@ public class ChangeSCMHead extends SCMHead implements ChangeRequestSCMHead2 {
 
   @Nonnull
   @Override
+  public String getName() {
+    return "C-" + changeNumber;
+  }
+
+  @Nonnull
+  @Override
   public String getOriginName() {
-    return getName();
+    return super.getName();
   }
 
   /** {@inheritDoc} */
