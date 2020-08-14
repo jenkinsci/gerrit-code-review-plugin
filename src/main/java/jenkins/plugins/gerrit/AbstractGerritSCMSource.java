@@ -77,6 +77,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       System.getProperty("gerrit.open.changes.filter", "-age:24w");
   private static final String ORIGIN_REF_PREFIX = "origin/";
   private static final Pattern changePattern = Pattern.compile("(\\d\\d)/(\\d+)/(\\d+)");
+  private static final Pattern branchPattern = Pattern.compile("C-(\\d+)");
   private transient ProjectChanges projectChanges;
 
   public interface Retriever<T> {
@@ -154,7 +155,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
               throws IOException, InterruptedException {
 
             listener.getLogger().println("Checking " + remoteReferences.size() + " branches ...");
-            Map<String, ObjectId> filteredRefs = filterRemoteReferences(remoteReferences);
+            Map<String, ObjectId> filteredRefs = filterRemoteReferences(remoteReferences, request);
             listener.getLogger().println("Filtered " + filteredRefs.size() + " branches ...");
             walk.setRetainBody(false);
             int branchesCount = 0;
@@ -505,7 +506,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
               public void record(
                   @Nonnull ChangeSCMHead head, SCMRevision revision, boolean isMatch) {
                 if (isMatch) {
-                  listener.getLogger().println("    Met criteria");
+                  listener.getLogger().println("    Met criteria: " + head.getOriginName() + " as branch " + head.getName());
                   for (String checkerUuid : head.getPendingCheckerUuids()) {
                     updateChecksToPending(
                         listener, head.getChangeNumber(), head.getPatchSetNumber(), checkerUuid);
@@ -541,12 +542,13 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     return Collections.<String>emptySet();
   }
 
-  private Map<String, ObjectId> filterRemoteReferences(Map<String, ObjectId> gitRefs) {
+  private Map<String, ObjectId> filterRemoteReferences(Map<String, ObjectId> gitRefs, GerritSCMSourceRequest request) {
     Map<Integer, Integer> changes = new HashMap<>();
     Map<String, ObjectId> filteredRefs = new HashMap<>();
 
     for (Map.Entry<String, ObjectId> gitRef : gitRefs.entrySet()) {
       Matcher changeMatcher = getChangeRefMatcher(gitRef.getKey());
+      Matcher branchMatcher = getBranchRefMatcher(gitRef.getKey());
       if (changeMatcher.matches()) {
         try {
           Integer changeNum = Integer.parseInt(changeMatcher.group(2));
@@ -559,6 +561,20 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
         } catch (NumberFormatException e) {
           // change or patch-set are not numbers => ignore refs
         }
+      } else if (branchMatcher.matches()) {
+        try {
+          int changeNum = Integer.parseInt(branchMatcher.group(1));
+          Integer patchSet = changes.get(changeNum);
+
+          if (patchSet == null) {
+            // If patchset wasn't already known, we have to fetch it from the server
+            patchSet = request.getPatchSetForChangeByRevision(changeNum, gitRef.getValue());
+          }
+
+          changes.put(changeNum, patchSet);
+        } catch (NumberFormatException e) {
+          // change is not a number => ignore refs
+        }
       } else {
         filteredRefs.put(gitRef.getKey().replace("origin", "refs/heads"), gitRef.getValue());
       }
@@ -569,7 +585,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       Integer patchSet = change.getValue();
       String refName =
           String.format("%s%02d/%d/%d", R_CHANGES, changeNum % 100, changeNum, patchSet);
-      String originName = String.format("origin/%02d/%d/%d", changeNum % 100, changeNum, patchSet);
+      String originName = String.format("origin/C-%d", changeNum);
       ObjectId changeObjectId = gitRefs.get(originName);
       filteredRefs.put(refName, changeObjectId);
     }
@@ -583,6 +599,14 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
             ? gitRef.substring(ORIGIN_REF_PREFIX.length())
             : gitRef;
     return changePattern.matcher(changeRef);
+  }
+
+  private static Matcher getBranchRefMatcher(String gitRef) {
+    String changeRef =
+        gitRef.startsWith(ORIGIN_REF_PREFIX)
+            ? gitRef.substring(ORIGIN_REF_PREFIX.length())
+            : gitRef;
+    return branchPattern.matcher(changeRef);
   }
 
   @Nonnull
@@ -656,11 +680,17 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
           Stream<RefSpec> openChangesRefSpecs = changeQueryToRefSpecs(changeQuery);
           fetchRefSpecs = Stream.concat(refSpecs, openChangesRefSpecs).collect(Collectors.toList());
         } else {
-          String headName = head.getName();
-          String refSpecPrefix = head instanceof ChangeSCMHead ? R_CHANGES : "+refs/heads/";
+          String remoteRef;
+          String localRef = "refs/remotes/origin/" + head.getName();
+
+          if (head instanceof ChangeSCMHead) {
+            remoteRef = R_CHANGES + ((ChangeSCMHead) head).getOriginName();
+          } else {
+            remoteRef = "refs/heads/" + head.getName();
+          }
           fetchRefSpecs =
               Arrays.asList(
-                  new RefSpec(refSpecPrefix + headName + ":refs/remotes/origin/" + headName));
+                  new RefSpec("+" + remoteRef + ":" + localRef));
         }
       } catch (RestApiException e) {
         throw new IOException("Unable to query Gerrit open changes", e);
@@ -682,13 +712,14 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
         .stream()
         .map(
             (ChangeInfo change) -> {
-              String patchRef = change.revisions.entrySet().iterator().next().getValue().ref;
-              return new RefSpec(
-                  patchRef + ":" + patchRef.replace("refs/changes", "refs/remotes/origin"));
+              // Force fetch 45/12345/6 into refs/remotes/origin/C-12345 to match the inferred source branch
+              String remoteRef = change.revisions.entrySet().iterator().next().getValue().ref;
+              String localRef = "refs/remotes/origin/C-" + change._number;
+              return new RefSpec("+" + remoteRef + ":" + localRef);
             });
   }
 
-  private ProjectChanges getProjectChanges() throws IOException {
+  ProjectChanges getProjectChanges() throws IOException {
     if (projectChanges == null) {
       GerritURI gerritURI = getGerritURI();
       GerritApi gerritApi = createGerritApi(FakeTaskListener.INSTANCE, gerritURI);
@@ -756,7 +787,8 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   /** {@inheritDoc} */
   @Override
   protected void decorate(GitSCMBuilder<?> builder) {
-    if (!getChangeRefMatcher(builder.head().getName()).matches()) {
+    String refName = builder.head() instanceof ChangeSCMHead ? ((ChangeSCMHead) builder.head()).getOriginName() : builder.head().getName();
+    if (!getChangeRefMatcher(refName).matches()) {
       return;
     }
 
@@ -764,7 +796,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
         .withoutRefSpecs()
         .withRefSpec(
             "refs/changes/"
-                + builder.head().getName()
+                + refName
                 + ":refs/remotes/"
                 + builder.remoteName()
                 + "/"
