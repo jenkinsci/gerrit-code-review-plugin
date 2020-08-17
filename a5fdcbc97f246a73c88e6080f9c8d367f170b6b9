@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a8e6fd7_606bd171",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000334
+      },
+      "writtenOn": "2020-08-17T17:34:18Z",
+      "side": 1,
+      "message": "I think another positive side effect of this, is you can now also store the change+patchset information with a build, which would help with the options mentioned in https://issues.jenkins-ci.org/browse/JENKINS-62816?focusedCommentId\u003d395802\u0026page\u003dcom.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-395802\n\nAs if the patchset number is not part of the branch name, we would have no other way to associate the build to a patchset number, other than keeping the information associated like you are adding here (or by making an API call for all revisions, and scan the revisions list for the commit hash that matches the build).\n\nAs a result of this new information, we can remove any branch name parsing, and pull the data right out of this new action 👍",
+      "revId": "a5fdcbc97f246a73c88e6080f9c8d367f170b6b9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
