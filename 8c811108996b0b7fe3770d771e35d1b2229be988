@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7c88a7d5_fd93a207",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1000334
+      },
+      "writtenOn": "2020-08-18T15:36:14Z",
+      "side": 1,
+      "message": "Yes, I agree a warning of some kind should be emitted to the console",
+      "parentUuid": "913932ec_2c72ac06",
+      "revId": "8c811108996b0b7fe3770d771e35d1b2229be988",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e55729ff_c46058a5",
         "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceRequest.java",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2020-08-17T22:44:57Z",
       "side": 1,
       "message": "The name of the method is not telling the truth: this method isn\u0027t creating any Project\u0027s changes but simply return them. What about calling it \u0027getSourceProjectProjects\u0027 instead?",
+      "range": {
+        "startLine": 53,
+        "startChar": 25,
+        "endLine": 53,
+        "endChar": 45
+      },
+      "revId": "8c811108996b0b7fe3770d771e35d1b2229be988",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35068d8d_5fe2f5b3",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMSourceRequest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000334
+      },
+      "writtenOn": "2020-08-18T15:36:14Z",
+      "side": 1,
+      "message": "True. It was initially a copy of the createGerritApi() from GerritSCMSource, before I found that ProjectChanges already includes what I needed for this. And I only updated the \"ProjectChanges\" part of the method name, not the \"create\".",
+      "parentUuid": "e55729ff_c46058a5",
       "range": {
         "startLine": 53,
         "startChar": 25,
