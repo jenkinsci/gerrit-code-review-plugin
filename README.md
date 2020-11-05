@@ -2,6 +2,7 @@
 
 [![Jenkins Plugin](https://img.shields.io/jenkins/plugin/v/gerrit-code-review.svg)](https://plugins.jenkins.io/gerrit-code-review)
 [![Jenkins Plugin Installs](https://img.shields.io/jenkins/plugin/i/gerrit-code-review.svg?color=blue)](https://plugins.jenkins.io/gerrit-code-review)
+[![Build Status](https://ci.jenkins.io/buildStatus/icon?job=Plugins/gerrit-code-review-plugin/master)](https://ci.jenkins.io/job/Plugins/job/gerrit-code-review-plugin/job/master/)
 
 This plugin allows any Jenkins multi-branch pipeline to be seamlessly
 integrated with [Gerrit Code Review](https://gerritcodereview.com) for branches and changes validation.
@@ -51,32 +52,157 @@ The new name "Gerrit Code Review Plugin" indicates Gerrit as the
 first-class citizen of the Jenkins ecosystem, and not just as an "extra
 triggering or validation" logic of a Jenkins job.
 
-**Jenkinsfile / Scripted pipeline example,** with Gerrit Code Review
-integration:
+One key aspect will be: stateless, configuration-less apart the standard
+SCM configuration settings.
+That means that multiple Jobs, multiple branches of the same Job, can
+have their own Gerrit integration defined and working out-of-the-box.
 
-``` syntaxhighlighter-pre
-node {
-  checkout scm
-  try {
-    gerritReview labels: [Verified: 0]
-    stage('Hello') {
-      echo 'Hello World'
-      gerritComment path:'path/to/file', line: 10, message: 'invalid syntax'
-    }
-    gerritReview labels: [Verified: 1]
-    gerritCheck checks: ['example:checker': 'SUCCESSFUL']
-  } catch (e) {
-    gerritReview labels: [Verified: -1]
-    gerritCheck checks: ['example:checker': 'FAILED']
-    throw e
+No more people asking "how do I configure the Gerrit integration"? it
+will just work.
+
+## Jenkins Setup
+
+### Using Multibranch Pipeline
+
+Create a new `Multibranch Pipeline` item.
+
+Select `Branch Source` of type `Gerrit`.
+
+Specify project repository URL, only `http` or `https` based protocol is
+supported at this point, copy the URL from project settings at Gerrit.
+
+Trigger `Scan Multibranch Pipeline now` either manually or by external
+trigger.
+
+Notice the `Changes` tab at the job information, per each review an entry will
+be created.
+
+#### Remote Trigger
+
+Remote trigger is possible using webhook, URL is
+`https://jenkins/prefix/gerrit-webhook/`.
+
+Content:
+
+```json
+{
+  "project": {
+    "name": "project1"
   }
 }
 ```
 
-**Jenkinsfile / Declarative pipeline example**, with Gerrit Code Review
-integration:
+Example:
 
-``` syntaxhighlighter-pre
+```sh
+$ curl -X POST -d '{"project":{"name":"project1"}}' 'https://jenkins/prefix/gerrit-webhook/'
+```
+
+### Using Gerrit Trigger Plugin
+
+Configure Gerrit Trigger Plugin normally.
+
+At the job that being triggered, add a parameter with the name of
+`GERRIT_CREDENTIALS_ID` with default value of a credentials id that can access
+Gerrit using RestAPI.
+
+### Using Environment Variables
+
+| Key                            | Description                                                      |
+| ------------------------------ | ---------------------------------------------------------------- |
+| GERRIT_API_URL                 | Gerrit API URL, onlhy `http` and `https` protocols are supported |
+| GERRIT_CHANGE_URL              | Gerrit change URL to parse GERRIT_API_URL out if missing         |
+| GERRIT_API_INSECURE_HTTPS      | If set to `true` certificate validation will be disabled         |
+| GERRIT_CREDENTIALS_ID          | Jenkins credentials object id                                    |
+| GERRIT_PROJECT                 | Gerrit project name                                              |
+| BRANCH_NAME                    | Gerrit reference name nn/nnnn/n                                  |
+| GERRIT_CHANGE_NUMBER           | Gerrit change number                                             |
+| GERRIT_PATCHSET_NUMBER         | Gerrit revision                                                  |
+| GERRIT_CHANGE_PRIVATE_STATE    | true if the Gerrit change is private                             |
+| GERRIT_CHANGE_WIP_STATE        | true if the Gerrit change is WIP                                 |
+| GERRIT_CHANGE_SUBJECT          | Gerrit change headline                                           |
+| GERRIT_BRANCH                  | target branch of the Gerrit change                               |
+| GERRIT_TOPIC                   | topic name (if any) of the Gerrit change                         |
+| GERRIT_CHANGE_ID               | Gerrit change id                                                 |
+| GERRIT_CHANGE_URL              | Gerrit change URL                                                |
+| GERRIT_PATCHSET_REVISION       | SHA1 of the Gerrit patch-set                                     |
+| GERRIT_CHANGE_OWNER            | Owner (name <email>) of the Gerrit change                        |
+| GERRIT_CHANGE_OWNER_NAME       | Owner name of the Gerrit change                                  |
+| GERRIT_CHANGE_OWNER_EMAIL      | Owner e-mail of the Gerrit change                                |
+| GERRIT_PATCHSET_UPLOADER       | Uploader (name <email>) of the Gerrit patch-set                  |
+| GERRIT_PATCHSET_UPLOADER_NAME  | Uploader name of the Gerrit patch-set                            |
+| GERRIT_PATCHSET_UPLOADER_EMAIL | Uploader e-mail of the Gerrit patch-set                          |
+| GERRIT_REFNAME                 | Git ref name of the change/patch-set                             |
+
+When the Jenkinsfile is discovered through a multi-branch pipeline, the above environment
+variables related to Gerrit and the associated change/patch-set would be automatically
+discovered and made available to the pipeline steps.
+
+For the pipeline projects (non-multibranch) the variables would need to be set through
+an external triggering job (e.g. Gerrit Trigger Plugin).
+
+### Integrating with the Gerrit Checks plugin
+
+The [Gerrit Checks plugin](https://gerrit-review.googlesource.com/Documentation/config-plugins.html#checks)
+provides a different approach to integrate CI systems with Gerrit. The
+GerritCodeReview-plugin supports the usage of the checks plugin, making it even
+more convenient to integrate automated verification into the code review.
+
+To build changes with pending checks, create a new `Multibranch Pipeline` item
+and select `Branch Source` of type `Gerrit` as described above. Then add the
+`Filter by Pending Checks`-behaviour to the `Gerrit Branch Source`. To select
+checkers, which should be checked for whether their checks are pending, under
+`Query Operator` either select to query pending checks by checker scheme to
+select a whole group of checkers or by a specific checker UUID, to only query
+by a specific checker. In the `Query String`-field enter the scheme name or checker
+UUID respectively.
+
+Jenkins will then only start builds for changes that have pending checks handled
+by the configured checkers and will set the status of the check to `SCHEDULED`.
+
+## Jenkinsfile Steps
+
+Gerrit Code Review plugin provides steps for allowing to post the
+review feedback back to the originating change and adding extra comments
+to the code that has been built.
+
+### ```gerritReview```
+
+Add a review label to the change/patchset that has triggered the
+multi-branch pipeline job execution.
+
+Parameters:
+
+- ```labels``` The labels associated to the review, a dictionary, key is label
+  name and value is the score.
+
+- ```message```
+  Additional message provided as explanation of the the review feedback.
+  Default: ''
+
+### ```gerritComment```
+
+Add a review comment to the entire file or a single line.
+All the comments added during the pipeline execution are going to be
+published upon the execution of the ```gerritReview``` step.
+
+Parameters:
+
+- ```path```
+  Relative path of the file to comment. Mandatory.
+
+- ```line```
+  Line number of where the comment should be added. When not specified
+  the comment apply to the entire file.
+
+- ```message```
+  Comment message body. Mandatory.
+
+### Declarative pipeline example
+
+> Note: the gerrit DSL helper was removed in 0.3, please use the following.
+
+```groovy
 pipeline {
     agent any
     stages {
@@ -102,34 +228,33 @@ pipeline {
 }
 ```
 
-One key aspect will be: stateless, configuration-less apart the standard
-SCM configuration settings.
-That means that multiple Jobs, multiple branches of the same Job, can
-have their own Gerrit integration defined and working out-of-the-box.
+### Scripted pipeline example
 
-No more people asking "how do I configure the Gerrit integration"? it
-will just work.
+```groovy
+node {
+  checkout scm
+  try {
+    gerritReview labels: [Verified: 0]
+    stage('Hello') {
+      echo 'Hello World'
+      gerritComment path:'path/to/file', line: 10, message: 'invalid syntax'
+    }
+    gerritReview labels: [Verified: 1]
+    gerritCheck checks: ['example:checker': 'SUCCESSFUL']
+  } catch (e) {
+    gerritReview labels: [Verified: -1]
+    gerritCheck checks: ['example:checker': 'FAILED']
+    throw e
+  }
+}
+```
 
-### Integrating with the Gerrit Checks plugin
+## Issues
 
-The [Gerrit Checks plugin](https://gerrit-review.googlesource.com/Documentation/config-plugins.html#checks)
-provides a different approach to integrate CI systems with Gerrit. The
-GerritCodeReview-plugin supports the usage of the checks plugin, making it even
-more convenient to integrate automated verification into the code review.
+The issues are tracked on the [Jenkins Issues portal](https://issues.jenkins-ci.org/issues/?jql=project%20%3D%20JENKINS%20AND%20status%20in%20(Open%2C%20%22In%20Progress%22%2C%20Reopened)%20AND%20component%20%3D%20gerrit-code-review-plugin)
+under the `gerrit-code-review-plugin` component.
 
-To build changes with pending checks, create a new `Multibranch Pipeline` item
-and select `Branch Source` of type `Gerrit` as described above. Then add the
-`Filter by Pending Checks`-behaviour to the `Gerrit Branch Source`. To select
-checkers, which should be checked for whether their checks are pending, under
-`Query Operator` either select to query pending checks by checker scheme to
-select a whole group of checkers or by a specific checker UUID, to only query
-by a specific checker. In the `Query String`-field enter the scheme name or checker
-UUID respectively.
-
-Jenkins will then only start builds for changes that have pending checks handled
-by the configured checkers and will set the status of the check to `SCHEDULED`.
-
-# Plugin Releases
+## Plugin Releases
 
 I have presented the first prototype of this new plugin at the Jenkins
 World Conference in San Francisco back in 2017 inside my "Data-Driven
@@ -398,8 +523,3 @@ feedback.
 
 Support for BlueOcean, including change description, hyperlink and owner
 visible from Jenkins UI.
-
-# Issues
-
-The issues are tracked on the [Jenkins Issues portal](https://issues.jenkins-ci.org/issues/?jql=project%20%3D%20JENKINS%20AND%20status%20in%20(Open%2C%20%22In%20Progress%22%2C%20Reopened)%20AND%20component%20%3D%20gerrit-code-review-plugin)
-under the `gerrit-code-review-plugin` component.
