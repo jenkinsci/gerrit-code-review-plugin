@@ -60,25 +60,6 @@ have their own Gerrit integration defined and working out-of-the-box.
 No more people asking "how do I configure the Gerrit integration"? it
 will just work.
 
-### Integrating with the Gerrit Checks plugin
-
-The [Gerrit Checks plugin](https://gerrit-review.googlesource.com/Documentation/config-plugins.html#checks)
-provides a different approach to integrate CI systems with Gerrit. The
-GerritCodeReview-plugin supports the usage of the checks plugin, making it even
-more convenient to integrate automated verification into the code review.
-
-To build changes with pending checks, create a new `Multibranch Pipeline` item
-and select `Branch Source` of type `Gerrit` as described above. Then add the
-`Filter by Pending Checks`-behaviour to the `Gerrit Branch Source`. To select
-checkers, which should be checked for whether their checks are pending, under
-`Query Operator` either select to query pending checks by checker scheme to
-select a whole group of checkers or by a specific checker UUID, to only query
-by a specific checker. In the `Query String`-field enter the scheme name or checker
-UUID respectively.
-
-Jenkins will then only start builds for changes that have pending checks handled
-by the configured checkers and will set the status of the check to `SCHEDULED`.
-
 ## Jenkins Setup
 
 ### Using Multibranch Pipeline
@@ -159,6 +140,25 @@ discovered and made available to the pipeline steps.
 
 For the pipeline projects (non-multibranch) the variables would need to be set through
 an external triggering job (e.g. Gerrit Trigger Plugin).
+
+### Integrating with the Gerrit Checks plugin
+
+The [Gerrit Checks plugin](https://gerrit-review.googlesource.com/Documentation/config-plugins.html#checks)
+provides a different approach to integrate CI systems with Gerrit. The
+GerritCodeReview-plugin supports the usage of the checks plugin, making it even
+more convenient to integrate automated verification into the code review.
+
+To build changes with pending checks, create a new `Multibranch Pipeline` item
+and select `Branch Source` of type `Gerrit` as described above. Then add the
+`Filter by Pending Checks`-behaviour to the `Gerrit Branch Source`. To select
+checkers, which should be checked for whether their checks are pending, under
+`Query Operator` either select to query pending checks by checker scheme to
+select a whole group of checkers or by a specific checker UUID, to only query
+by a specific checker. In the `Query String`-field enter the scheme name or checker
+UUID respectively.
+
+Jenkins will then only start builds for changes that have pending checks handled
+by the configured checkers and will set the status of the check to `SCHEDULED`.
 
 ## Jenkinsfile Steps
 
@@ -249,7 +249,12 @@ node {
 }
 ```
 
-# Plugin Releases
+## Issues
+
+The issues are tracked on the [Jenkins Issues portal](https://issues.jenkins-ci.org/issues/?jql=project%20%3D%20JENKINS%20AND%20status%20in%20(Open%2C%20%22In%20Progress%22%2C%20Reopened)%20AND%20component%20%3D%20gerrit-code-review-plugin)
+under the `gerrit-code-review-plugin` component.
+
+## Plugin Releases
 
 I have presented the first prototype of this new plugin at the Jenkins
 World Conference in San Francisco back in 2017 inside my "Data-Driven
@@ -518,8 +523,3 @@ feedback.
 
 Support for BlueOcean, including change description, hyperlink and owner
 visible from Jenkins UI.
-
-# Issues
-
-The issues are tracked on the [Jenkins Issues portal](https://issues.jenkins-ci.org/issues/?jql=project%20%3D%20JENKINS%20AND%20status%20in%20(Open%2C%20%22In%20Progress%22%2C%20Reopened)%20AND%20component%20%3D%20gerrit-code-review-plugin)
-under the `gerrit-code-review-plugin` component.
