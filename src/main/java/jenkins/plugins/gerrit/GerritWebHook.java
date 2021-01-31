@@ -14,8 +14,6 @@
 
 package jenkins.plugins.gerrit;
 
-import static hudson.model.Computer.threadPoolForRemoting;
-
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
@@ -26,7 +24,6 @@ import hudson.model.RootAction;
 import hudson.model.UnprotectedRootAction;
 import hudson.security.ACL;
 import hudson.security.ACLContext;
-import hudson.util.SequentialExecutionQueue;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -60,9 +57,6 @@ public class GerritWebHook implements UnprotectedRootAction {
           "patchset-created",
           "private-state-changed",
           "wip-state-changed");
-
-  private final transient SequentialExecutionQueue queue =
-      new SequentialExecutionQueue(threadPoolForRemoting);
 
   @Override
   public String getIconFileName() {
