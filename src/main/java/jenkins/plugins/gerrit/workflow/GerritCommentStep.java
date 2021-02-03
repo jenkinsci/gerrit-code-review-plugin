@@ -32,22 +32,34 @@ import org.kohsuke.stapler.DataBoundSetter;
 public class GerritCommentStep extends Step {
 
   private String path;
-  private int line;
   private String message;
+  private CommentLocation location;
 
   @DataBoundConstructor
   public GerritCommentStep(String path, String message) {
     this.path = path;
     this.message = message;
+    this.location = new CommentFile();
   }
 
-  public int getLine() {
-    return line;
+  /**
+   * Set line of comment. This is a helper property setter to maintain compatibility with earlier
+   * releases: setLocation() should normally be used instead.
+   *
+   * @param line Line where to post the comment.
+   */
+  @DataBoundSetter
+  public void setLine(int line) {
+    this.location = new CommentLine(line);
+  }
+
+  public CommentLocation getLocation() {
+    return location;
   }
 
   @DataBoundSetter
-  public void setLine(int line) {
-    this.line = line;
+  public void setLocation(CommentLocation location) {
+    this.location = location;
   }
 
   public class Execution extends SynchronousStepExecution<Void> {
@@ -74,12 +86,12 @@ public class GerritCommentStep extends Step {
         listener
             .getLogger()
             .format(
-                "Gerrit review change %d/%d %s=%d (%s)%n",
-                change.getChangeId(), change.getRevision(), path, line, message);
+                "Gerrit review change %d/%d %s=%s (%s)%n",
+                change.getChangeId(), change.getRevision(), path, location, message);
         DraftInput draftInput = new DraftInput();
         draftInput.path = path;
-        draftInput.line = line;
         draftInput.message = message;
+        location.apply(draftInput);
         gerritApi
             .changes()
             .id(change.getChangeId())
