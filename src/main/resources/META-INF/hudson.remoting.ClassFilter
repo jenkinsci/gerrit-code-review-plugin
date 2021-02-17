@@ -1,0 +1,5 @@
+com.google.gerrit.extensions.common.AccountInfo
+com.google.gerrit.extensions.common.ChangeInfo
+com.google.gerrit.extensions.common.ChangeMessageInfo
+com.google.gson.internal.LinkedTreeMap
+java.sql.Timestamp
