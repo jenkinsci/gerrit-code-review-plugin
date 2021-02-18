@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b925f4b0_c9aa8fcf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-18T11:36:38Z",
+      "side": 1,
+      "message": "Thanks, @Thomas. Can you do an E2E verification and click the Verified +1?",
+      "revId": "39b07cc6571ebbd0461adb6c67007c51a548db7c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
