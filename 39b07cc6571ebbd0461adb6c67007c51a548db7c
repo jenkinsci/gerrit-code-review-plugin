@@ -68,6 +68,24 @@
       "parentUuid": "ea85f662_f3c3c9e5",
       "revId": "39b07cc6571ebbd0461adb6c67007c51a548db7c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33217a5e_d64ee6fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2021-02-19T08:37:21Z",
+      "side": 1,
+      "message": "My bad. I used JDK11. That was why the build failed. It works for 2.54 as well.",
+      "parentUuid": "6d43e4df_46d812c3",
+      "revId": "39b07cc6571ebbd0461adb6c67007c51a548db7c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
