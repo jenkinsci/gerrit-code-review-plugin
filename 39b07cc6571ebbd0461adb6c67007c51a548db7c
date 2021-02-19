@@ -33,6 +33,23 @@
       "message": "I can\u0027t vote on Verified, but I would have to give it -1. It works with Gerrit 2.280, which I used for testing and where I encountered the issue. However, it fails with the current POM-file. We would have to go to a newer minimal required version of Jenkins (I would guess 2.107.1).",
       "revId": "39b07cc6571ebbd0461adb6c67007c51a548db7c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea85f662_f3c3c9e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2021-02-19T07:37:20Z",
+      "side": 1,
+      "message": "I can\u0027t vote on Verified, but I would have to give it -1. It works with Gerrit 2.280, which I used for testing and where I encountered the issue. However, it fails with the current POM-file. We would have to go to a newer minimal required version of Jenkins (I would guess 2.107.1).",
+      "revId": "39b07cc6571ebbd0461adb6c67007c51a548db7c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
