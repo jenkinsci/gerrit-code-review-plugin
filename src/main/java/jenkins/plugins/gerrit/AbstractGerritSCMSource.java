@@ -53,6 +53,7 @@ import javax.annotation.Nullable;
 import jenkins.plugins.git.AbstractGitSCMSource;
 import jenkins.plugins.git.GitRemoteHeadRefAction;
 import jenkins.plugins.git.GitSCMBuilder;
+import jenkins.plugins.git.AbstractGitSCMSource.SCMRevisionImpl;
 import jenkins.scm.api.*;
 import jenkins.scm.api.metadata.ObjectMetadataAction;
 import jenkins.scm.api.trait.SCMSourceRequest;
@@ -98,6 +99,40 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   /** Return the Gerrit change information associated with a change number */
   public Optional<ChangeInfo> getChangeInfo(int changeNum) throws IOException {
     return getProjectChanges().get(changeNum);
+  }
+
+  /** {@inheritDoc} */
+  @CheckForNull
+  @Override
+  protected SCMRevision retrieve(@NonNull final SCMHead head, @NonNull TaskListener listener)
+      throws IOException, InterruptedException {
+    return doRetrieve(
+        null,
+        new Retriever<SCMRevision>() {
+          @Override
+          public SCMRevision run(
+              GitClient client,
+              GerritSCMSourceContext context,
+              String remoteName,
+              Changes.QueryRequest changeQuery)
+              throws IOException, InterruptedException {
+
+            if (head instanceof ChangeSCMHead) {
+              return new SCMRevisionImpl(head, ((ChangeSCMHead) head).getRev());
+            }
+
+            for (Branch b : client.getRemoteBranches()) {
+              String branchName = StringUtils.removeStart(b.getName(), remoteName + "/");
+              if (branchName.equals(head.getName())) {
+                return new SCMRevisionImpl(head, b.getSHA1String());
+              }
+            }
+            return null;
+          }
+        },
+        new GerritSCMSourceContext(null, SCMHeadObserver.none()).withTraits(getTraits()),
+        listener,
+        false);
   }
 
   /** {@inheritDoc} */
