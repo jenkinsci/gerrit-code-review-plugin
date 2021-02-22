@@ -34,6 +34,8 @@ public class ChangeSCMHead extends SCMHead implements ChangeRequestSCMHead2 {
 
   private final int patchset;
 
+  private final String rev;
+
   private final Set<String> pendingCheckerUuids;
 
   ChangeSCMHead(
@@ -41,6 +43,7 @@ public class ChangeSCMHead extends SCMHead implements ChangeRequestSCMHead2 {
     super(branchName);
     changeNumber = parseChangeNumber(ref);
     patchset = parsePatchset(ref);
+    rev = ref.getValue().name();
     this.pendingCheckerUuids = pendingCheckerUuids;
   }
 
@@ -89,6 +92,10 @@ public class ChangeSCMHead extends SCMHead implements ChangeRequestSCMHead2 {
 
   public int getPatchSetNumber() {
     return patchset;
+  }
+
+  public String getRev() {
+    return rev;
   }
 
   public Set<String> getPendingCheckerUuids() {
