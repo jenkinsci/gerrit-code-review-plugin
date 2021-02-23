@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b3f8202_be5da225",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2021-02-23T09:32:41Z",
+      "side": 1,
+      "message": "This is not nice, since the job will then again do the retrieving as during the scan. This creates unnecessary fetch requests.",
+      "revId": "be22b1c08441837f04b9e6b786c0a805f950d8be",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
