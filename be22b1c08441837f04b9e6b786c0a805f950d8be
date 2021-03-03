@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1155bd19_19342382",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2021-03-03T13:24:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b3f8202_be5da225",
+      "revId": "be22b1c08441837f04b9e6b786c0a805f950d8be",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07a5e998_d6e1ea25",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-02-28T00:02:28Z",
       "side": 1,
       "message": "You should pass head in here to avoid fetching unnecessary revs.",
+      "revId": "be22b1c08441837f04b9e6b786c0a805f950d8be",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a4c6b4e_3f4a75d9",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2021-03-03T13:24:17Z",
+      "side": 1,
+      "message": "Done.\nThanks for the hint!",
+      "parentUuid": "07a5e998_d6e1ea25",
       "revId": "be22b1c08441837f04b9e6b786c0a805f950d8be",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
