@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.lang.reflect.Type;
 import java.net.URISyntaxException;
+import java.sql.Timestamp;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.eclipse.jgit.transport.URIish;
@@ -65,6 +66,7 @@ abstract class AbstractEndpoint {
       return new GsonBuilder()
           .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
           .setDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+          .registerTypeAdapter(Timestamp.class, new GerritTimestampTypeAdapter())
           .create();
     }
 
