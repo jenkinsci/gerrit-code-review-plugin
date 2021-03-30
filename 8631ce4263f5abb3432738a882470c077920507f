@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "641c62bf_b3900c62",
+        "filename": "src/test/java/jenkins/plugins/gerrit/workflow/GerritCheckStepTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1000334
+      },
+      "writtenOn": "2021-03-30T23:36:25Z",
+      "side": 1,
+      "message": "This test fails in PS1, showcasing the bug.\nPS2 introduces the fix.",
+      "revId": "8631ce4263f5abb3432738a882470c077920507f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
