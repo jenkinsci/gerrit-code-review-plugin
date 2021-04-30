@@ -18,6 +18,23 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "233d5ed1_d7ab6323",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-04-30T22:06:58Z",
+      "side": 1,
+      "message": "Looks good, but the test risks to be flaky",
+      "revId": "d960aeef33c39411c1f2c354f134748b2332dd5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f8d973d_b1a8fd8b",
@@ -82,6 +99,52 @@
         "startChar": 54,
         "endLine": 26,
         "endChar": 59
+      },
+      "revId": "d960aeef33c39411c1f2c354f134748b2332dd5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bc2c276_9d9a5d35",
+        "filename": "src/test/java/jenkins/plugins/gerrit/workflow/GerritCheckStepTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-04-30T22:06:58Z",
+      "side": 1,
+      "message": "This would make this test quite flakey: why not just getting the time stamp at the beginning of the test and asserting that parsedEpoch should be between the initial time stamp and nowEpoch instead?",
+      "range": {
+        "startLine": 284,
+        "startChar": 60,
+        "endLine": 284,
+        "endChar": 63
+      },
+      "revId": "d960aeef33c39411c1f2c354f134748b2332dd5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4976d015_bcd4fb43",
+        "filename": "src/test/java/jenkins/plugins/gerrit/workflow/GerritCheckStepTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-04-30T22:06:58Z",
+      "side": 1,
+      "message": "Best to use ZoneOffset.UTC instead of the literal \"UTC\"",
+      "range": {
+        "startLine": 294,
+        "startChar": 18,
+        "endLine": 294,
+        "endChar": 34
       },
       "revId": "d960aeef33c39411c1f2c354f134748b2332dd5f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
