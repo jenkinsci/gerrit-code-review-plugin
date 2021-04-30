@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdca8f08_08b97a93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-04-30T20:38:59Z",
+      "side": 1,
+      "message": "Thanks, Joe, for the fix. Good catch indeed !",
+      "revId": "d960aeef33c39411c1f2c354f134748b2332dd5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f8d973d_b1a8fd8b",
+        "filename": "src/main/java/com/google/gerrit/plugins/checks/client/GerritTimestampTypeAdapter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-04-30T20:38:59Z",
+      "side": 1,
+      "message": "UTCTimestampTypeAdapter? Calling this \u0027Gerrit\u0027 doesn\u0027t help understanding what it does.",
+      "range": {
+        "startLine": 20,
+        "startChar": 6,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "d960aeef33c39411c1f2c354f134748b2332dd5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb9f890e_02a6f4fc",
+        "filename": "src/main/java/com/google/gerrit/plugins/checks/client/GerritTimestampTypeAdapter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-04-30T20:38:59Z",
+      "side": 1,
+      "message": "utcDateFormat",
+      "range": {
+        "startLine": 21,
+        "startChar": 29,
+        "endLine": 21,
+        "endChar": 41
+      },
+      "revId": "d960aeef33c39411c1f2c354f134748b2332dd5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "629ed3e8_eefc3e5e",
+        "filename": "src/main/java/com/google/gerrit/plugins/checks/client/GerritTimestampTypeAdapter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-04-30T20:38:59Z",
+      "side": 1,
+      "message": "It would be best to use ZoneOffset.UTC instead of a String",
+      "range": {
+        "startLine": 26,
+        "startChar": 54,
+        "endLine": 26,
+        "endChar": 59
+      },
+      "revId": "d960aeef33c39411c1f2c354f134748b2332dd5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
