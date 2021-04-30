@@ -75,6 +75,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7576cd86_ad631d58",
+        "filename": "src/main/java/com/google/gerrit/plugins/checks/client/GerritTimestampTypeAdapter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-04-30T22:43:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f8d973d_b1a8fd8b",
+      "range": {
+        "startLine": 20,
+        "startChar": 6,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "d960aeef33c39411c1f2c354f134748b2332dd5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb9f890e_02a6f4fc",
@@ -88,6 +112,30 @@
       "writtenOn": "2021-04-30T20:38:59Z",
       "side": 1,
       "message": "utcDateFormat",
+      "range": {
+        "startLine": 21,
+        "startChar": 29,
+        "endLine": 21,
+        "endChar": 41
+      },
+      "revId": "d960aeef33c39411c1f2c354f134748b2332dd5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9650279b_ccc82197",
+        "filename": "src/main/java/com/google/gerrit/plugins/checks/client/GerritTimestampTypeAdapter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-04-30T22:43:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb9f890e_02a6f4fc",
       "range": {
         "startLine": 21,
         "startChar": 29,
@@ -121,6 +169,53 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92eb52b8_2b76e118",
+        "filename": "src/main/java/com/google/gerrit/plugins/checks/client/GerritTimestampTypeAdapter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-04-30T22:43:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "629ed3e8_eefc3e5e",
+      "range": {
+        "startLine": 26,
+        "startChar": 54,
+        "endLine": 26,
+        "endChar": 59
+      },
+      "revId": "d960aeef33c39411c1f2c354f134748b2332dd5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab2f96f7_e6b8887c",
+        "filename": "src/test/java/jenkins/plugins/gerrit/workflow/GerritCheckStepTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-04-30T22:43:44Z",
+      "side": 1,
+      "message": "This looks unused",
+      "range": {
+        "startLine": 226,
+        "startChar": 11,
+        "endLine": 226,
+        "endChar": 14
+      },
+      "revId": "d960aeef33c39411c1f2c354f134748b2332dd5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3bc2c276_9d9a5d35",
@@ -144,6 +239,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c8265de_a17aba04",
+        "filename": "src/test/java/jenkins/plugins/gerrit/workflow/GerritCheckStepTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-04-30T22:43:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bc2c276_9d9a5d35",
+      "range": {
+        "startLine": 284,
+        "startChar": 60,
+        "endLine": 284,
+        "endChar": 63
+      },
+      "revId": "d960aeef33c39411c1f2c354f134748b2332dd5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4976d015_bcd4fb43",
@@ -157,6 +276,30 @@
       "writtenOn": "2021-04-30T22:06:58Z",
       "side": 1,
       "message": "Best to use ZoneOffset.UTC instead of the literal \"UTC\"",
+      "range": {
+        "startLine": 294,
+        "startChar": 18,
+        "endLine": 294,
+        "endChar": 34
+      },
+      "revId": "d960aeef33c39411c1f2c354f134748b2332dd5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6951670d_87986765",
+        "filename": "src/test/java/jenkins/plugins/gerrit/workflow/GerritCheckStepTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-04-30T22:43:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4976d015_bcd4fb43",
       "range": {
         "startLine": 294,
         "startChar": 18,
