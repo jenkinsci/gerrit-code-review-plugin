@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdc966f0_da62c5c8",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-05-01T01:47:38Z",
+      "side": 1,
+      "message": "extract as majorVersion",
+      "range": {
+        "startLine": 66,
+        "startChar": 38,
+        "endLine": 66,
+        "endChar": 71
+      },
+      "revId": "fb34e5501c1b74213948dc47f49f5917efd6b6a2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76deb73d_f3b91f6c",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-05-01T01:47:38Z",
+      "side": 1,
+      "message": "extract as minorVersion",
+      "range": {
+        "startLine": 72,
+        "startChar": 38,
+        "endLine": 72,
+        "endChar": 71
+      },
+      "revId": "fb34e5501c1b74213948dc47f49f5917efd6b6a2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bffa0d7_1f6ddcfc",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-05-01T01:47:38Z",
+      "side": 1,
+      "message": "This exception shouldn\u0027t be swallowed, otherwise the admin won\u0027t release why the version isn\u0027t matched.",
+      "range": {
+        "startLine": 75,
+        "startChar": 13,
+        "endLine": 75,
+        "endChar": 36
+      },
+      "revId": "fb34e5501c1b74213948dc47f49f5917efd6b6a2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
