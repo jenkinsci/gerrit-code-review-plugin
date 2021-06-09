@@ -74,6 +74,27 @@ public class GerritURITest {
   }
 
   @Test
+  public void prefixIsExtractedFromHTTPURIWithChangeWithProjectWithDots() throws URISyntaxException {
+    GerritURI gerritURI = new GerritURI(new URIish("http://host/c/project/with/d.o.t.s/+/9916469"));
+
+    assertEquals("/", gerritURI.getPrefix());
+  }
+
+  @Test
+  public void prefixIsExtractedFromHTTPURIWithChangeWithoutProject() throws URISyntaxException {
+    GerritURI gerritURI = new GerritURI(new URIish("http://host/c/9916469"));
+
+    assertEquals("/", gerritURI.getPrefix());
+  }
+
+  @Test
+  public void prefixIsExtractedFromHTTPURIForChangeWithoutC() throws URISyntaxException {
+    GerritURI gerritURI = new GerritURI(new URIish("http://host/9916469"));
+
+    assertEquals("/", gerritURI.getPrefix());
+  }
+
+  @Test
   public void prefixWithSlashesIsExtractedFromHTTPSURI() throws URISyntaxException {
     GerritURI gerritURI = new GerritURI(new URIish("https://host/prefix/with/slashes/a/project"));
 
