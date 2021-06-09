@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b281264d_5fa55b3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2021-06-09T13:57:42Z",
+      "side": 1,
+      "message": "We noticed this issue after upgrading Gerrit from 2.14 to 2.16, which changed the pattern of the GERRIT_CHANGE_URL generated from Gerrit Trigger from \"https://gerrit/1234567\" to \"https://gerrit/c/project/+/1234567\". If the project contains dots, it fails with the following stack trace:\n\n```\njava.lang.IllegalArgumentException: Unable to determine Gerrit prefix from remote https://gerrit/c/project/with/d.o.t.s/+/1234567\n        at jenkins.plugins.gerrit.GerritURI.getPrefix(GerritURI.java:84)\n\n```",
+      "revId": "a2d735655dccd6ede602f4082b20662a8a600c9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
