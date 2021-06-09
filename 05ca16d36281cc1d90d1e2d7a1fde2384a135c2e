@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad58316c_d3b304f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2021-06-09T14:05:56Z",
+      "side": 1,
+      "message": "Fixed maven format.",
+      "revId": "05ca16d36281cc1d90d1e2d7a1fde2384a135c2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
