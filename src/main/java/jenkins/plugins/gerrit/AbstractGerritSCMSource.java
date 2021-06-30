@@ -18,11 +18,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
+import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.plugins.checks.api.PendingChecksInfo;
 import com.google.gerrit.plugins.checks.client.GerritChecksApi;
+
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.EnvVars;
@@ -53,6 +55,7 @@ import jenkins.plugins.git.AbstractGitSCMSource.SCMRevisionImpl;
 import jenkins.plugins.git.GitRemoteHeadRefAction;
 import jenkins.plugins.git.GitSCMBuilder;
 import jenkins.scm.api.*;
+import jenkins.scm.api.SCMFile.Type;
 import jenkins.scm.api.metadata.ObjectMetadataAction;
 import jenkins.scm.api.trait.SCMSourceRequest;
 import org.apache.commons.lang.StringUtils;
@@ -104,6 +107,25 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   @Override
   protected SCMRevision retrieve(@NonNull final SCMHead head, @NonNull TaskListener listener)
       throws IOException, InterruptedException {
+    if (head instanceof ChangeSCMHead) {
+      String rev = ((ChangeSCMHead) head).getRev();
+      if (rev != null) {
+        return new SCMRevisionImpl(head, rev);
+      }
+    } else {
+      try {
+        GerritURI gerritUri = getGerritURI();
+        BranchInfo branch = createGerritApi(listener, gerritUri)
+          .projects()
+          .name(gerritUri.getProject())
+          .branch(head.getName())
+          .get();
+        return new SCMRevisionImpl(head, branch.revision);
+      } catch (Exception e) {
+        listener.error("Failed to get revision from gerrit api. Falling back to checkout");
+      }
+    }
+
     return doRetrieve(
         head,
         new Retriever<SCMRevision>() {
@@ -114,11 +136,6 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
               String remoteName,
               Changes.QueryRequest changeQuery)
               throws IOException, InterruptedException {
-
-            if (head instanceof ChangeSCMHead) {
-              return new SCMRevisionImpl(head, ((ChangeSCMHead) head).getRev());
-            }
-
             for (Branch b : client.getRemoteBranches()) {
               String branchName = StringUtils.removeStart(b.getName(), remoteName + "/");
               if (branchName.equals(head.getName())) {
