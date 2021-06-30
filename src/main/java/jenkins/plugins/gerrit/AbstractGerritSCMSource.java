@@ -24,6 +24,8 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.plugins.checks.api.PendingChecksInfo;
 import com.google.gerrit.plugins.checks.client.GerritChecksApi;
+import com.google.gitiles.client.GerritGitilesApi;
+
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.EnvVars;
@@ -740,6 +742,22 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   protected GerritChecksApi createGerritChecksApi(
       @Nonnull TaskListener listener, GerritURI remoteUri) throws IOException {
     return setupGerritApiBuilder(listener, remoteUri).buildChecksApi();
+  }
+
+  public GerritGitilesApi createGerritGitilesApi() throws IOException {
+    try {
+      UsernamePasswordCredentialsProvider.UsernamePassword credentials =
+          new UsernamePasswordCredentialsProvider(getCredentials())
+              .getUsernamePassword(getGerritURI().getRemoteURI());
+
+      return new GerritApiBuilder()
+          .gerritApiUrl(getGerritURI().getApiURI())
+          .insecureHttps(getInsecureHttps())
+          .credentials(credentials.username, credentials.password)
+          .buildGitilesApi();
+    } catch (URISyntaxException e) {
+      throw new IOException(e);
+    }
   }
 
   private Changes.QueryRequest getOpenChanges(
