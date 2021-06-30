@@ -6,6 +6,8 @@ import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.plugins.checks.client.GerritChecksApi;
 import com.google.gerrit.plugins.checks.client.GerritChecksApiBuilder;
+import com.google.gitiles.client.GerritGitilesApi;
+import com.google.gitiles.client.GerritGitilesApiBuilder;
 import com.urswolfer.gerrit.client.rest.GerritAuthData;
 import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
 import com.urswolfer.gerrit.client.rest.http.HttpClientBuilderExtension;
@@ -119,6 +121,20 @@ public class GerritApiBuilder {
         gerritChecksApiBuilder.allowInsecureHttps();
       }
       return gerritChecksApiBuilder.build();
+    }
+    return null;
+  }
+
+  public GerritGitilesApi buildGitilesApi() {
+    if (verifyParameters()) {
+      GerritGitilesApiBuilder gerritGitilesApiBuilder = new GerritGitilesApiBuilder(gerritApiUrl);
+      if (username != null) {
+        gerritGitilesApiBuilder.setBasicAuthCredentials(username, password);
+      }
+      if (Boolean.TRUE.equals(insecureHttps)) {
+        gerritGitilesApiBuilder.allowInsecureHttps();
+      }
+      return gerritGitilesApiBuilder.build();
     }
     return null;
   }
