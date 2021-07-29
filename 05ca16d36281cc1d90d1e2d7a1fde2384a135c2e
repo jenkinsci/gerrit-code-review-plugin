@@ -16,6 +16,23 @@
       "message": "Fixed maven format.",
       "revId": "05ca16d36281cc1d90d1e2d7a1fde2384a135c2e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37c18e98_1467aa8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2021-07-29T13:06:22Z",
+      "side": 1,
+      "message": "Am I supposed to do something? I received an email saying that it\u0027s requiring my attention.",
+      "revId": "05ca16d36281cc1d90d1e2d7a1fde2384a135c2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
