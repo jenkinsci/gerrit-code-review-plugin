@@ -86,6 +86,24 @@
       "message": "Oh, I thought on that, but then:\n\n",
       "revId": "05ca16d36281cc1d90d1e2d7a1fde2384a135c2e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e77bb0d6_0a529a24",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-07-30T00:28:26Z",
+      "side": 1,
+      "message": "Try again, you should be able to submit now.",
+      "parentUuid": "7b54f49b_a5852fa1",
+      "revId": "05ca16d36281cc1d90d1e2d7a1fde2384a135c2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
