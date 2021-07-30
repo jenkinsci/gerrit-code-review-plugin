@@ -1,0 +1,8 @@
+Code-Review+1: Felipe Santos <felipecassiors@gmail.com>
+Code-Review+2: Luca Milanesio <luca@milanesio.org>
+Verified+1: Jenkins at Gerrit-CI <jenkins@gerritforge.com>
+Submitted-by: Felipe Santos <felipecassiors@gmail.com>
+Submitted-at: Fri, 30 Jul 2021 00:43:29 +0000
+Reviewed-on: https://review.gerrithub.io/c/jenkinsci/gerrit-code-review-plugin/+/518613
+Project: jenkinsci/gerrit-code-review-plugin
+Branch: refs/heads/master
