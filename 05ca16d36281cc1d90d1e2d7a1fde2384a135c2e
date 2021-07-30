@@ -104,6 +104,24 @@
       "parentUuid": "7b54f49b_a5852fa1",
       "revId": "05ca16d36281cc1d90d1e2d7a1fde2384a135c2e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be3c4464_4129a7b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2021-07-30T00:44:15Z",
+      "side": 1,
+      "message": "Awesome, it worked now. Thank you, change is merged! :D",
+      "parentUuid": "e77bb0d6_0a529a24",
+      "revId": "05ca16d36281cc1d90d1e2d7a1fde2384a135c2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
