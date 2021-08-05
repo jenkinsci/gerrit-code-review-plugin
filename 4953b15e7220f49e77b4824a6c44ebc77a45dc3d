@@ -16,6 +16,23 @@
       "message": "@Grzegorz are you still working on this change?",
       "revId": "4953b15e7220f49e77b4824a6c44ebc77a45dc3d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6866167d_c8f37950",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-08-05T01:08:41Z",
+      "side": 1,
+      "message": "Ping @Grzegorz? Are you guys still on an older version of Gerrit?",
+      "revId": "4953b15e7220f49e77b4824a6c44ebc77a45dc3d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
