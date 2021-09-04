@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4164f8b5_c80f000b",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectChanges.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-09-04T01:28:38Z",
+      "side": 1,
+      "message": "This check isn\u0027t needed: if we ended up at L69 it means that versionSplit.length is \u003e 0 that means \u003e\u003d 1",
+      "range": {
+        "startLine": 66,
+        "startChar": 10,
+        "endLine": 66,
+        "endChar": 38
+      },
+      "revId": "e70fda5742d595eb8d3446b091c94631554cc7d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e1ca85b_6fc79362",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectChanges.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-09-04T01:28:38Z",
+      "side": 1,
+      "message": "This check isn\u0027t needed: if we ended up at L69 it means that versionSplit.length is \u003e 0 that means \u003e\u003d 1",
+      "range": {
+        "startLine": 69,
+        "startChar": 10,
+        "endLine": 69,
+        "endChar": 38
+      },
+      "revId": "e70fda5742d595eb8d3446b091c94631554cc7d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
