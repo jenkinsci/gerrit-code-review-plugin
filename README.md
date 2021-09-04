@@ -269,6 +269,22 @@ Registry since April 2018 and has been used so far by hundreds of
 developers around the world that provided already very useful feedback
 and started contributing with pull-requests.
 
+### v0.4.5 - Released - 3 Sep 2021
+
+#### New features
+
+- [d0f1c20](https://review.gerrithub.io/q/d0f1c20) Support Gerrit < 2.15
+- [d73aa8b](https://review.gerrithub.io/q/d73aa8b) Expose GERRIT_REFSPEC variable, like gerrit-trigger
+
+#### Fixes
+
+- [JENKINS-61469](https://issues.jenkins-ci.org/browse/JENKINS-61469) Persist change rev over rebuilds of child jobs
+- [JENKINS-63437](https://issues.jenkins-ci.org/browse/JENKINS-63437) Resolve improper timestamp format
+- [JENKINS-64899](https://issues.jenkins-ci.org/browse/JENKINS-64899) Add exemptions to ClassFilter
+- [JENKINS-61107](https://issues.jenkins-ci.org/browse/JENKINS-61107) Avoid excessive query for change-info
+- [05ca16d](https://review.gerrithub.io/q/05ca16d) Fix prefix extract when project contain dots
+- [b8368cf](https://review.gerrithub.io/q/b8368cf) Add more diagnostic data when update Checks API fails
+
 ### v0.4.4 - Released - 12 June 2020
 
 #### Fixes
