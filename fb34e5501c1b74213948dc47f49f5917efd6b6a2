@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31121aa5_a3e6aaf2",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-09-04T01:18:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdc966f0_da62c5c8",
+      "range": {
+        "startLine": 66,
+        "startChar": 38,
+        "endLine": 66,
+        "endChar": 71
+      },
+      "revId": "fb34e5501c1b74213948dc47f49f5917efd6b6a2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76deb73d_f3b91f6c",
@@ -47,6 +71,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61dcf6a7_9938458b",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-09-04T01:18:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76deb73d_f3b91f6c",
+      "range": {
+        "startLine": 72,
+        "startChar": 38,
+        "endLine": 72,
+        "endChar": 71
+      },
+      "revId": "fb34e5501c1b74213948dc47f49f5917efd6b6a2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7bffa0d7_1f6ddcfc",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-05-01T01:47:38Z",
       "side": 1,
       "message": "This exception shouldn\u0027t be swallowed, otherwise the admin won\u0027t release why the version isn\u0027t matched.",
+      "range": {
+        "startLine": 75,
+        "startChar": 13,
+        "endLine": 75,
+        "endChar": 36
+      },
+      "revId": "fb34e5501c1b74213948dc47f49f5917efd6b6a2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f232cee_d78d9103",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-09-04T01:18:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bffa0d7_1f6ddcfc",
       "range": {
         "startLine": 75,
         "startChar": 13,
