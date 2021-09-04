@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9f40265_125d57f3",
+        "filename": "src/main/java/jenkins/plugins/gerrit/ProjectChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-09-04T01:39:12Z",
+      "side": 1,
+      "message": "parse",
+      "range": {
+        "startLine": 83,
+        "startChar": 42,
+        "endLine": 83,
+        "endChar": 46
+      },
+      "revId": "24640c441c6ef4997857722d0d5daccad5387e9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
