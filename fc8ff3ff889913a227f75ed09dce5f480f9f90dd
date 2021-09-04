@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3993c6c7_13f5aa0e",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/CommentFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-09-04T01:11:45Z",
+      "side": 1,
+      "message": "Missing license header",
+      "revId": "fc8ff3ff889913a227f75ed09dce5f480f9f90dd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a40e4aa7_5b8d63a1",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/CommentLine.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-09-04T01:11:45Z",
+      "side": 1,
+      "message": "Missing license header",
+      "revId": "fc8ff3ff889913a227f75ed09dce5f480f9f90dd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb441c28_cb7b32f0",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/CommentLocation.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-09-04T01:11:45Z",
+      "side": 1,
+      "message": "Missing license header",
+      "revId": "fc8ff3ff889913a227f75ed09dce5f480f9f90dd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ca4ced7_2603cfe7",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/CommentRange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-09-04T01:11:45Z",
+      "side": 1,
+      "message": "Missing license header",
+      "revId": "fc8ff3ff889913a227f75ed09dce5f480f9f90dd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
