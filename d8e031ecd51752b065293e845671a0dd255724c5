@@ -73,6 +73,30 @@
       },
       "revId": "d8e031ecd51752b065293e845671a0dd255724c5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98521257_1d239179",
+        "filename": "src/main/java/com/google/gerrit/plugins/checks/client/UTCTimestampTypeAdapter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-09-05T21:58:37Z",
+      "side": 1,
+      "message": "Fixed with Change-Id: I441b04ec5f",
+      "parentUuid": "db181f5e_95a54fd9",
+      "range": {
+        "startLine": 22,
+        "startChar": 50,
+        "endLine": 22,
+        "endChar": 54
+      },
+      "revId": "d8e031ecd51752b065293e845671a0dd255724c5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
