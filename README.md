@@ -269,6 +269,23 @@ Registry since April 2018 and has been used so far by hundreds of
 developers around the world that provided already very useful feedback
 and started contributing with pull-requests.
 
+### v0.4.6 - Released - 5 Sep 2021
+
+#### Fixes
+
+- [c50c5ea](https://review.gerrithub.io/q/c50c5ea) Fix timestamp parsing for Checks JSON payload
+
+#### Known issues
+
+Requires to allow the serialization of the following classes through Jenkins's remoting:
+- com.google.gerrit.extensions.common.AvatarInfo
+- com.google.gerrit.extensions.common.ReviewerUpdateInfo
+
+Add the following extra JVM options when starting Jenkins:
+```
+export JAVA_OPTS='-Dhudson.remoting.ClassFilter=com.google.gerrit.extensions.common.AvatarInfo,com.google.gerrit.extensions.common.ReviewerUpdateInfo'
+```
+
 ### v0.4.5 - Released - 3 Sep 2021
 
 #### New features
