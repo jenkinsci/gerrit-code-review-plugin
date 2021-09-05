@@ -33,6 +33,46 @@
       "message": "Sorry, I was out of town this weekend, so I\u0027m just getting caught up now.\n\nThank you for making the changes and merging!",
       "revId": "d8e031ecd51752b065293e845671a0dd255724c5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2e6eaca_c9167939",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-09-05T20:57:08Z",
+      "side": 1,
+      "message": "Post-merge review (-1)",
+      "revId": "d8e031ecd51752b065293e845671a0dd255724c5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db181f5e_95a54fd9",
+        "filename": "src/main/java/com/google/gerrit/plugins/checks/client/UTCTimestampTypeAdapter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-09-05T20:57:08Z",
+      "side": 1,
+      "message": "Oops, this should have been a Timstamp and not a Date.\n\nIt fails on Jenkins with:\nhudson.remoting.ProxyException: java.lang.IllegalArgumentException: Can not set java.sql.Timestamp field com.google.gerrit.plugins.checks.api.CheckInfo.started to java.util.Date\n\nLet me fix it now.",
+      "range": {
+        "startLine": 22,
+        "startChar": 50,
+        "endLine": 22,
+        "endChar": 54
+      },
+      "revId": "d8e031ecd51752b065293e845671a0dd255724c5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
