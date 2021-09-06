@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7c33c04_d34ab413",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-09-06T21:31:56Z",
+      "side": 1,
+      "message": "Self-approving after having confirmation from Ben (maintainer of the Checks UI) that the SCHEDULED state does not exists anymore in the Gerrit Checks API / UI and therefore it does not make any sense using it because it won\u0027t be rendered correctly anyway.",
+      "revId": "cec34f7fdaf913026b37cc8fbeb772ee215e3245",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
