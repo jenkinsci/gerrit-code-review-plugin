@@ -21,8 +21,6 @@ import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.plugins.checks.api.CheckInput;
-import com.google.gerrit.plugins.checks.api.CheckState;
 import com.google.gerrit.plugins.checks.api.PendingChecksInfo;
 import com.google.gerrit.plugins.checks.client.GerritChecksApi;
 import edu.umd.cs.findbugs.annotations.NonNull;
@@ -228,33 +226,6 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
         new GerritSCMSourceContext(criteria, observer).withTraits(getTraits()),
         listener,
         true);
-  }
-
-  private void updateChecksToPending(
-      @NonNull TaskListener listener, int changeNumber, int patchSetNumber, String checkerUUID) {
-    try {
-      CheckInput input = new CheckInput();
-      input.checkerUuid = checkerUUID;
-      input.state = CheckState.SCHEDULED;
-      createGerritChecksApi(listener, getGerritURI())
-          .checks()
-          .change(changeNumber)
-          .patchSet(patchSetNumber)
-          .update(input);
-      listener
-          .getLogger()
-          .println(
-              String.format(
-                  "Updated the status of check %s for patchset %d/%d to SCHEDULED.",
-                  checkerUUID, changeNumber, patchSetNumber));
-    } catch (IOException | RestApiException | URISyntaxException e) {
-      listener
-          .getLogger()
-          .println(
-              String.format(
-                  "Could not update the status of check %s for patchset %d/%d",
-                  checkerUUID, changeNumber, patchSetNumber));
-    }
   }
 
   /** {@inheritDoc} */
@@ -540,10 +511,6 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                   @Nonnull ChangeSCMHead head, SCMRevision revision, boolean isMatch) {
                 if (isMatch) {
                   listener.getLogger().println("    Met criteria");
-                  for (String checkerUuid : head.getPendingCheckerUuids()) {
-                    updateChecksToPending(
-                        listener, head.getChangeNumber(), head.getPatchSetNumber(), checkerUuid);
-                  }
                 } else {
                   listener.getLogger().println("    Does not meet criteria");
                 }
