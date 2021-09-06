@@ -269,6 +269,12 @@ Registry since April 2018 and has been used so far by hundreds of
 developers around the world that provided already very useful feedback
 and started contributing with pull-requests.
 
+### v0.4.7 - Released - 6 Sep 2021
+
+#### Fixes
+
+- [I732c14](https://review.gerrithub.io/q/I732c14) Avoid updating Gerrit Checks to SCHEDULED status
+
 ### v0.4.6 - Released - 5 Sep 2021
 
 #### Fixes
