@@ -139,6 +139,24 @@
       "message": "Luca, for some reason the plugin v0.4.5 onwards did not make its way to the Jenkins plugin registry (https://plugins.jenkins.io/gerrit-code-review). Is it being tracked somewhere?",
       "revId": "05ca16d36281cc1d90d1e2d7a1fde2384a135c2e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d12505d_3b7e537f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-09-08T22:07:33Z",
+      "side": 1,
+      "message": "See https://groups.google.com/g/jenkinsci-dev/c/1-46eS41y6I",
+      "parentUuid": "bf788317_261410ff",
+      "revId": "05ca16d36281cc1d90d1e2d7a1fde2384a135c2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
