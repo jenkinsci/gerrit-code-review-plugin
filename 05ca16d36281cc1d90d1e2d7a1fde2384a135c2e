@@ -122,6 +122,23 @@
       "parentUuid": "e77bb0d6_0a529a24",
       "revId": "05ca16d36281cc1d90d1e2d7a1fde2384a135c2e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf788317_261410ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2021-09-08T21:36:26Z",
+      "side": 1,
+      "message": "Luca, for some reason the plugin v0.4.5 onwards did not make its way to the Jenkins plugin registry (https://plugins.jenkins.io/gerrit-code-review). Is it being tracked somewhere?",
+      "revId": "05ca16d36281cc1d90d1e2d7a1fde2384a135c2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
