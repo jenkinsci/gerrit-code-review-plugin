@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c8044a4_8a1cc1bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-09-08T00:26:12Z",
+      "side": 1,
+      "message": "The checks plugin is going to be discontinued: does it make sense to keep this change open?",
+      "revId": "5ec79f0a5cd30dbd5c5f587f5f1a48cb15e63051",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
