@@ -34,6 +34,24 @@
       "parentUuid": "63b6334c_97e578df",
       "revId": "3f2f3394cc9afb8108677d847dc4b9db99d196eb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6006a02d_a147cb80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-09-08T00:39:36Z",
+      "side": 1,
+      "message": "No worries, I am happy to take over this change and bring it forward !",
+      "parentUuid": "e1e2ff2f_de893c97",
+      "revId": "3f2f3394cc9afb8108677d847dc4b9db99d196eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
