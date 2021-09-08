@@ -157,6 +157,24 @@
       "parentUuid": "bf788317_261410ff",
       "revId": "05ca16d36281cc1d90d1e2d7a1fde2384a135c2e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6088ba0_df6ed50a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-09-08T22:54:13Z",
+      "side": 1,
+      "message": "The issues with repo.jenkins-ci.org have been resolved and the v0.4.7 is now published: https://repo.jenkins-ci.org/ui/native/releases/org/jenkins-ci/plugins/gerrit-code-review/0.4.7",
+      "parentUuid": "8d12505d_3b7e537f",
+      "revId": "05ca16d36281cc1d90d1e2d7a1fde2384a135c2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
