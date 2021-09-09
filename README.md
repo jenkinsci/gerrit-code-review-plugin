@@ -286,10 +286,11 @@ and started contributing with pull-requests.
 Requires to allow the serialization of the following classes through Jenkins's remoting:
 - com.google.gerrit.extensions.common.AvatarInfo
 - com.google.gerrit.extensions.common.ReviewerUpdateInfo
+- com.google.gerrit.extensions.common.TrackingIdInfo
 
 Add the following extra JVM options when starting Jenkins:
 ```
-export JAVA_OPTS='-Dhudson.remoting.ClassFilter=com.google.gerrit.extensions.common.AvatarInfo,com.google.gerrit.extensions.common.ReviewerUpdateInfo'
+export JAVA_OPTS='-Dhudson.remoting.ClassFilter=com.google.gerrit.extensions.common.AvatarInfo,com.google.gerrit.extensions.common.ReviewerUpdateInfo,com.google.gerrit.extensions.common.TrackingIdInfo'
 ```
 
 ### v0.4.5 - Released - 3 Sep 2021
