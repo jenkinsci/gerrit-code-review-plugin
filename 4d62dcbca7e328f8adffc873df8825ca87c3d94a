@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "226e6817_d6b006a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-09-09T20:33:01Z",
+      "side": 1,
+      "message": "Waiting for the Jenkins build to set Verified +1, as it should be",
+      "revId": "4d62dcbca7e328f8adffc873df8825ca87c3d94a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
