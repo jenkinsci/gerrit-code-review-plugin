@@ -1,0 +1,7 @@
+Code-Review+2: Antonio Barone <syntonyze@gmail.com>
+Verified+1: Jenkins at Gerrit-CI <jenkins@gerritforge.com>
+Submitted-by: Luca Milanesio <luca@milanesio.org>
+Submitted-at: Thu, 09 Sep 2021 20:48:34 +0000
+Reviewed-on: https://review.gerrithub.io/c/jenkinsci/gerrit-code-review-plugin/+/523711
+Project: jenkinsci/gerrit-code-review-plugin
+Branch: refs/heads/master
