@@ -84,6 +84,9 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
 
   private Boolean insecureHttps;
 
+  private Boolean kinesisEnabled;
+  private String streamName;
+
   @CheckForNull private String credentialsId;
 
   private List<SCMSourceTrait> traits = new ArrayList<>();
@@ -96,6 +99,16 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
   @DataBoundSetter
   public void setInsecureHttps(Boolean insecureHttps) {
     this.insecureHttps = insecureHttps;
+  }
+
+  @DataBoundSetter
+  public void setKinesisEnabled(Boolean kinesisEnabled) {
+    this.kinesisEnabled = kinesisEnabled;
+  }
+
+  @DataBoundSetter
+  public void setStreamName(String streamName) {
+    this.streamName = streamName;
   }
 
   @DataBoundSetter
@@ -225,6 +238,14 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
   @Override
   public Boolean getInsecureHttps() {
     return insecureHttps;
+  }
+
+  public Boolean getKinesisEnabled() {
+    return kinesisEnabled;
+  }
+
+  public String getStreamName() {
+    return streamName;
   }
 
   @Restricted(DoNotUse.class)
