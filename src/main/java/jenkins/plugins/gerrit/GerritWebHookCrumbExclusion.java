@@ -2,6 +2,8 @@ package jenkins.plugins.gerrit;
 
 import hudson.Extension;
 import hudson.security.csrf.CrumbExclusion;
+import jenkins.plugins.gerrit.triggers.GerritWebHook;
+
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
