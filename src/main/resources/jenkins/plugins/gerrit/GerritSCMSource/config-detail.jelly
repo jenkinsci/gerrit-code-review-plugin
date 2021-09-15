@@ -19,6 +19,14 @@
   <f:entry title="${%Project Repository}" field="remote">
     <f:textbox/>
   </f:entry>
+  <f:section title="${%Scan Triggers}">
+    <f:entry title="${%Enable AWS Kinesis}" field="kinesisEnabled">
+      <f:checkbox />
+    </f:entry>
+    <f:entry title="${%Stream name}" field="streamName">
+      <f:textbox />
+    </f:entry>
+  </f:section>
   <f:entry title="${%Insecure HTTPS}" field="insecureHttps">
     <f:checkbox/>
   </f:entry>

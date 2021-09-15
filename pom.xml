@@ -25,7 +25,7 @@
 
   <properties>
     <java.level>8</java.level>
-    <jenkins.version>2.54</jenkins.version>
+    <jenkins.version>2.312</jenkins.version>
     <no-test-jar>false</no-test-jar>
     <concurrency>1C</concurrency>
     <workflow.version>1.14.2</workflow.version>
@@ -36,6 +36,11 @@
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>animal-sniffer-maven-plugin</artifactId>
+          <version>1.16</version>
+        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
@@ -102,16 +107,31 @@
       </plugin>
       <plugin>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <configuration>
-          <rules>
-            <requireUpperBoundDeps>
-              <excludes combine.children="append">
-                <!-- workflow-cps requests 1.1.1, core 2.60.1 requests 1.2.1 -->
-                <exclude>org.jenkins-ci.ui:jquery-detached</exclude>
-              </excludes>
-            </requireUpperBoundDeps>
-          </rules>
-        </configuration>
+        <executions>
+          <execution>
+            <id>display-info</id>
+            <configuration>
+              <rules>
+                <requireUpperBoundDeps>
+                  <excludes combine.children="append">
+                    <!-- workflow-cps requests 1.1.1, core 2.60.1 requests 1.2.1 -->
+                    <exclude>org.jenkins-ci.ui:jquery-detached</exclude>
+                  </excludes>
+                </requireUpperBoundDeps>
+                <enforceBytecodeVersion>
+                  <excludes>
+                    <exclude>com.fasterxml.jackson.dataformat:jackson-dataformat-cbor</exclude>
+                    <exclude>com.fasterxml.jackson.core:jackson-databind</exclude>
+                    <exclude>com.fasterxml.jackson.core:jackson-core</exclude>
+                    <exclude>com.fasterxml.jackson.core:jackson-annotations</exclude>
+                    <exclude>com.fasterxml.jackson.datatype:jackson-datatype-jdk8</exclude>
+                    <exclude>org.projectlombok:lombok</exclude>
+                  </excludes>
+                </enforceBytecodeVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>com.coveo</groupId>
@@ -170,6 +190,31 @@
       <version>1.17</version>
     </dependency>
     <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-codec-http</artifactId>
+      <version>4.1.53.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-buffer</artifactId>
+      <version>4.1.53.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-transport</artifactId>
+      <version>4.1.53.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-codec</artifactId>
+      <version>4.1.53.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-handler</artifactId>
+      <version>4.1.53.Final</version>
+    </dependency>
+    <dependency>
       <groupId>com.mashape.unirest</groupId>
       <artifactId>unirest-java</artifactId>
       <version>1.4.9</version>
@@ -191,6 +236,21 @@
       </exclusions>
     </dependency>
     <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.30</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpcore</artifactId>
+      <version>4.4.13</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.15</version>
+    </dependency>
+    <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <!-- due to mockserver-netty -->
@@ -210,7 +270,7 @@
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
-      <version>4.5.3</version>
+      <version>4.5.13</version>
     </dependency>
     <dependency>
       <groupId>org.jenkins-ci</groupId>
@@ -226,6 +286,12 @@
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>branch-api</artifactId>
       <version>2.0.11</version>
+    </dependency>
+    <dependency>
+      <groupId>io.jenkins.plugins</groupId>
+      <artifactId>aws-kinesis-consumer</artifactId>
+      <version>1.0.5</version>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>

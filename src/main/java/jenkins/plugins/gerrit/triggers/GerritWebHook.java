@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package jenkins.plugins.gerrit;
+package jenkins.plugins.gerrit.triggers;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Sets;
@@ -22,27 +22,20 @@ import com.google.gson.JsonPrimitive;
 import hudson.Extension;
 import hudson.model.RootAction;
 import hudson.model.UnprotectedRootAction;
-import hudson.security.ACL;
-import hudson.security.ACLContext;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import javax.annotation.Nonnull;
 import javax.servlet.http.HttpServletRequest;
 import jenkins.model.Jenkins;
-import jenkins.scm.api.SCMSource;
-import jenkins.scm.api.SCMSourceOwner;
-import org.acegisecurity.Authentication;
-import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
+import jenkins.plugins.gerrit.GerritProjectEvent;
 import org.kohsuke.stapler.Stapler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Extension
-public class GerritWebHook implements UnprotectedRootAction {
+public class GerritWebHook implements UnprotectedRootAction, Trigger {
   private static final Logger log = LoggerFactory.getLogger(GerritWebHook.class);
   private static final Gson gson = new Gson();
 
@@ -76,41 +69,7 @@ public class GerritWebHook implements UnprotectedRootAction {
   @SuppressWarnings({"unused", "deprecation"})
   public void doIndex() throws IOException {
     HttpServletRequest req = Stapler.getCurrentRequest();
-    getBody(req)
-        .ifPresent(
-            projectEvent -> {
-              String username = "anonymous";
-              Authentication authentication = getJenkinsInstance().getAuthentication();
-              if (authentication != null) {
-                username = authentication.getName();
-              }
-
-              log.info("GerritWebHook invoked by user '{}' for event: {}", username, projectEvent);
-
-              try (ACLContext acl = ACL.as(ACL.SYSTEM)) {
-                List<WorkflowMultiBranchProject> jenkinsItems =
-                    getJenkinsInstance().getAllItems(WorkflowMultiBranchProject.class);
-                log.info("Scanning {} Jenkins items", jenkinsItems.size());
-                for (SCMSourceOwner scmJob : jenkinsItems) {
-                  log.info("Scanning job " + scmJob);
-                  List<SCMSource> scmSources = scmJob.getSCMSources();
-                  for (SCMSource scmSource : scmSources) {
-                    if (scmSource instanceof GerritSCMSource) {
-                      GerritSCMSource gerritSCMSource = (GerritSCMSource) scmSource;
-                      log.debug("Checking match for SCM source: " + gerritSCMSource.getRemote());
-                      if (projectEvent.matches(gerritSCMSource.getRemote())) {
-                        log.info(
-                            "Triggering SCM event for source "
-                                + scmSources.get(0)
-                                + " on job "
-                                + scmJob);
-                        scmJob.onSCMSourceUpdated(scmSource);
-                      }
-                    }
-                  }
-                }
-              }
-            });
+    getBody(req).ifPresent(this::processEvent);
   }
 
   @VisibleForTesting
@@ -129,10 +88,5 @@ public class GerritWebHook implements UnprotectedRootAction {
 
   public static GerritWebHook get() {
     return Jenkins.getInstance().getExtensionList(RootAction.class).get(GerritWebHook.class);
-  }
-
-  @Nonnull
-  public static Jenkins getJenkinsInstance() throws IllegalStateException {
-    return Jenkins.getInstance();
   }
 }

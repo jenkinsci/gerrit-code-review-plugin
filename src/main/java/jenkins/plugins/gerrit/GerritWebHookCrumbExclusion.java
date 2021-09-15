@@ -7,6 +7,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import jenkins.plugins.gerrit.triggers.GerritWebHook;
 
 @Extension
 public class GerritWebHookCrumbExclusion extends CrumbExclusion {
