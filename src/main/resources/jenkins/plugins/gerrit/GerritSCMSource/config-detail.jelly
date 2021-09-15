@@ -25,6 +25,14 @@
   <f:entry title="${%Credentials}" field="credentialsId">
     <c:select/>
   </f:entry>
+  <f:section title="${%Scan Triggers}">
+    <f:entry title="${%Enable AWS Kinesis}" field="kinesisEnabled">
+      <f:checkbox />
+    </f:entry>
+    <f:entry title="${%Stream Name}" field="streamName">
+      <f:textbox />
+    </f:entry>
+  </f:section>
   <f:entry title="${%Behaviours}">
     <scm:traits field="traits"/>
   </f:entry>

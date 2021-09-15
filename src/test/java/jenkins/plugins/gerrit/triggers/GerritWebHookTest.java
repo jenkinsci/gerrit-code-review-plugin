@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package jenkins.plugins.gerrit;
+package jenkins.plugins.gerrit.triggers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -28,6 +28,9 @@ import java.util.Optional;
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
+
+import jenkins.plugins.gerrit.GerritProjectEvent;
+import jenkins.plugins.gerrit.triggers.GerritWebHook;
 import org.junit.Test;
 
 public class GerritWebHookTest {

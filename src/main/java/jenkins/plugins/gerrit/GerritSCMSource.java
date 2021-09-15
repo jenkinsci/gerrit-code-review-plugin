@@ -82,7 +82,11 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
 
   private final String remote;
 
+  private String streamName;
+
   private Boolean insecureHttps;
+
+  private Boolean kinesisEnabled;
 
   @CheckForNull private String credentialsId;
 
@@ -96,6 +100,16 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
   @DataBoundSetter
   public void setInsecureHttps(Boolean insecureHttps) {
     this.insecureHttps = insecureHttps;
+  }
+
+  @DataBoundSetter
+  public void setKinesisEnabled(Boolean kinesisEnabled) {
+    this.kinesisEnabled = kinesisEnabled;
+  }
+
+  @DataBoundSetter
+  public void setStreamName(String streamName) {
+    this.streamName = streamName;
   }
 
   @DataBoundSetter
@@ -225,6 +239,14 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
   @Override
   public Boolean getInsecureHttps() {
     return insecureHttps;
+  }
+
+  public Boolean getKinesisEnabled() {
+    return kinesisEnabled;
+  }
+
+  public String getStreamName() {
+    return streamName;
   }
 
   @Restricted(DoNotUse.class)
