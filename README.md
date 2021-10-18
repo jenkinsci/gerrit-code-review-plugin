@@ -290,7 +290,7 @@ Requires to allow the serialization of the following classes through Jenkins's r
 
 Add the following extra JVM options when starting Jenkins:
 ```
-export JAVA_OPTS='-Dhudson.remoting.ClassFilter=com.google.gerrit.extensions.common.AvatarInfo,com.google.gerrit.extensions.common.ReviewerUpdateInfo,com.google.gerrit.extensions.common.TrackingIdInfo'
+export JAVA_OPTS='-Dhudson.remoting.ClassFilter=com.google.gerrit.extensions.common.AvatarInfo,com.google.gerrit.extensions.common.ReviewerUpdateInfo,com.google.gerrit.extensions.common.TrackingIdInfo,com.google.gerrit.extensions.common.SubmitRequirementInfo'
 ```
 
 ### v0.4.5 - Released - 3 Sep 2021
