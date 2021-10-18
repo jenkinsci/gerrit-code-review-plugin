@@ -269,6 +269,12 @@ Registry since April 2018 and has been used so far by hundreds of
 developers around the world that provided already very useful feedback
 and started contributing with pull-requests.
 
+### v0.4.8 - Released - 20 May 2023
+
+#### Fixes
+
+- [JENKINS-68879](https://issues.jenkins.io/browse/JENKINS-68879) Include Gerrit classes allowed by JEP-200 to be serialized
+
 ### v0.4.7 - Released - 6 Sep 2021
 
 #### Fixes
@@ -290,7 +296,7 @@ Requires to allow the serialization of the following classes through Jenkins's r
 
 Add the following extra JVM options when starting Jenkins:
 ```
-export JAVA_OPTS='-Dhudson.remoting.ClassFilter=com.google.gerrit.extensions.common.AvatarInfo,com.google.gerrit.extensions.common.ReviewerUpdateInfo,com.google.gerrit.extensions.common.TrackingIdInfo'
+export JAVA_OPTS='-Dhudson.remoting.ClassFilter=com.google.gerrit.extensions.common.AvatarInfo,com.google.gerrit.extensions.common.ReviewerUpdateInfo,com.google.gerrit.extensions.common.TrackingIdInfo,com.google.gerrit.extensions.common.SubmitRequirementInfo'
 ```
 
 ### v0.4.5 - Released - 3 Sep 2021
