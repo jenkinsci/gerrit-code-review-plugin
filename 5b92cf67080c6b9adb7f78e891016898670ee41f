@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e92ec809_91aac2c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000334
+      },
+      "writtenOn": "2021-10-26T17:34:32Z",
+      "side": 1,
+      "message": "That same feedback was also provided here: https://github.com/jenkinsci/gerrit-code-review-plugin/commit/4d62dcbca7e328f8adffc873df8825ca87c3d94a#r58236368",
+      "parentUuid": "42056111_64f3390d",
+      "revId": "5b92cf67080c6b9adb7f78e891016898670ee41f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a21efdeb_0d9455a0",
@@ -31,6 +49,23 @@
       "writtenOn": "2021-10-18T23:07:40Z",
       "side": 1,
       "message": "should it also be in this list?",
+      "revId": "5b92cf67080c6b9adb7f78e891016898670ee41f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4d5a6eb_1fd3f7a7",
+        "filename": "src/main/resources/META-INF/hudson.remoting.ClassFilter",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000334
+      },
+      "writtenOn": "2021-10-26T17:34:32Z",
+      "side": 1,
+      "message": "This would be where we need to add those additional classes",
       "revId": "5b92cf67080c6b9adb7f78e891016898670ee41f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
