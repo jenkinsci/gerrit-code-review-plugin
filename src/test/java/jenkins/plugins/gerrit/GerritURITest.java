@@ -109,4 +109,25 @@ public class GerritURITest {
 
     assertEquals("", gerritURI.getPrefix());
   }
+
+  @Test
+  public void httpUriWithoutPrefixAreAccepted() throws URISyntaxException {
+    GerritURI gerritURI = new GerritURI(new URIish("https://host"));
+
+    assertEquals("/", gerritURI.getPrefix());
+  }
+
+  @Test
+  public void settingProjectToBaseUriReturnsTheProjectUri() throws URISyntaxException {
+    GerritURI gerritURI = new GerritURI(new URIish("https://host"));
+
+    assertEquals("https://host/foo", gerritURI.setProject("foo").toString());
+  }
+
+  @Test
+  public void settingProjectToProjectUriReturnsTheNewProjectUri() throws URISyntaxException {
+    GerritURI gerritURI = new GerritURI(new URIish("https://host/foo"));
+
+    assertEquals("https://host/bar", gerritURI.setProject("bar").toString());
+  }
 }
