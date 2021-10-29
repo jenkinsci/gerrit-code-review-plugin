@@ -21,6 +21,7 @@ import org.jenkins.ui.icon.IconSet;
 /** Gerrit Code Review Logo */
 public class GerritLogo extends AvatarMetadataAction {
   public static final String ICONS_PREFIX = "plugin/gerrit-code-review/icons/";
+  public static final String ICON_CLASS_NAME = "icon-gerrit-logo";
 
   static {
     IconSet.icons.addIcon(
@@ -48,7 +49,7 @@ public class GerritLogo extends AvatarMetadataAction {
   /** {@inheritDoc} */
   @Override
   public String getAvatarIconClassName() {
-    return "icon-gerrit-logo";
+    return ICON_CLASS_NAME;
   }
 
   /** {@inheritDoc} */
