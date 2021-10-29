@@ -113,11 +113,15 @@ public class GerritURI {
   }
 
   private Matcher getMatcher() {
-    Matcher authMatcher = GERRIT_AUTH_HTTP_URI_PATTERN.matcher(remoteURI.getRawPath());
+    String rawPath = remoteURI.getRawPath();
+    if ("".equals(rawPath)) {
+      rawPath = "/";
+    }
+    Matcher authMatcher = GERRIT_AUTH_HTTP_URI_PATTERN.matcher(rawPath);
     if (authMatcher.matches()) {
       return authMatcher;
     }
-    return GERRIT_ANON_HTTP_URI_PATTERN.matcher(remoteURI.getRawPath());
+    return GERRIT_ANON_HTTP_URI_PATTERN.matcher(rawPath);
   }
 
   private Scheme getScheme(String value) {

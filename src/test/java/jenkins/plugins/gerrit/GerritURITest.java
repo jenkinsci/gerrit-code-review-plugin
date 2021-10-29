@@ -109,4 +109,12 @@ public class GerritURITest {
 
     assertEquals("", gerritURI.getPrefix());
   }
+
+  @Test
+  public void httpUriWithoutPrefixAreAccepted() throws URISyntaxException {
+    GerritURI gerritURI =
+            new GerritURI(new URIish("https://host"));
+
+    assertEquals("/", gerritURI.getPrefix());
+  }
 }
