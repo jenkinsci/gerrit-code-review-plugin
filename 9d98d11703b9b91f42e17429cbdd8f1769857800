@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d82aa49c_4d4d3ceb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 29
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2021-10-30T09:52:17Z",
+      "side": 1,
+      "message": "The build fails with:\n\n  Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?\n  + echo Failed to cleanup docker images\n  Failed to cleanup docker images\n\nI don\u0027t think I can fix that myself 😊",
+      "revId": "9d98d11703b9b91f42e17429cbdd8f1769857800",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
