@@ -38,7 +38,15 @@ import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.regex.Matcher;
@@ -49,10 +57,19 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import jenkins.plugins.git.AbstractGitSCMSource;
-import jenkins.plugins.git.AbstractGitSCMSource.SCMRevisionImpl;
 import jenkins.plugins.git.GitRemoteHeadRefAction;
 import jenkins.plugins.git.GitSCMBuilder;
-import jenkins.scm.api.*;
+import jenkins.scm.api.SCMFile;
+import jenkins.scm.api.SCMHead;
+import jenkins.scm.api.SCMHeadCategory;
+import jenkins.scm.api.SCMHeadEvent;
+import jenkins.scm.api.SCMHeadObserver;
+import jenkins.scm.api.SCMProbe;
+import jenkins.scm.api.SCMProbeStat;
+import jenkins.scm.api.SCMRevision;
+import jenkins.scm.api.SCMSourceCriteria;
+import jenkins.scm.api.SCMSourceEvent;
+import jenkins.scm.api.SCMSourceOwner;
 import jenkins.scm.api.metadata.ObjectMetadataAction;
 import jenkins.scm.api.trait.SCMSourceRequest;
 import org.apache.commons.lang.StringUtils;
@@ -761,14 +778,12 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       return;
     }
 
-    builder
-        .withoutRefSpecs()
-        .withRefSpec(
-            "refs/changes/"
-                + builder.head().getName()
-                + ":refs/remotes/"
-                + builder.remoteName()
-                + "/"
-                + builder.head().getName());
+    builder.withRefSpec(
+        "refs/changes/"
+            + builder.head().getName()
+            + ":refs/remotes/"
+            + builder.remoteName()
+            + "/"
+            + builder.head().getName());
   }
 }
