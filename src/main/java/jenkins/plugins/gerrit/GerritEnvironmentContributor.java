@@ -151,8 +151,55 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
     }
   }
 
+<<<<<<< PATCH SET (a10ae2 [JENKINS-67090] Include reverted change number info)
+  private void publishChangeDetails(
+      @Nonnull EnvVars envs,
+      String changeNum,
+      String patchSet,
+      int patchSetNum,
+      ChangeInfo change,
+      GerritURI gerritURI) {
+    envs.put("GERRIT_CHANGE_NUMBER", changeNum);
+    envs.put("GERRIT_PATCHSET_NUMBER", patchSet);
+    envs.put("GERRIT_CHANGE_PRIVATE_STATE", booleanString(change.isPrivate));
+    envs.put("GERRIT_CHANGE_WIP_STATE", booleanString(change.workInProgress));
+    envs.put("GERRIT_CHANGE_SUBJECT", change.subject);
+    envs.put("GERRIT_CHANGE_URL", gerritURI.setPath("" + change._number).toASCIIString());
+    envs.put("GERRIT_BRANCH", change.branch);
+    envs.put("GERRIT_TOPIC", nullToEmpty(change.topic));
+    envs.put("GERRIT_CHANGE_ID", change.id);
+    envs.put("GERRIT_REVERTED_CHANGE_NUMBER", integerString(change.revertOf));
+
+    Map.Entry<String, RevisionInfo> patchSetInfo =
+        change
+            .revisions
+            .entrySet()
+            .stream()
+            .filter(entry -> entry.getValue()._number == patchSetNum)
+            .findFirst()
+            .get();
+
+    envs.put("GERRIT_REFNAME", patchSetInfo.getValue().ref);
+    envs.put("GERRIT_REFSPEC", patchSetInfo.getValue().ref);
+    envs.put("GERRIT_PATCHSET_REVISION", patchSetInfo.getKey());
+    envs.put("GERRIT_CHANGE_OWNER", change.owner.name + " <" + change.owner.email + ">");
+    envs.put("GERRIT_CHANGE_OWNER_NAME", change.owner.name);
+    envs.put("GERRIT_CHANGE_OWNER_EMAIL", change.owner.email);
+
+    AccountInfo uploader = patchSetInfo.getValue().uploader;
+    envs.put("GERRIT_PATCHSET_UPLOADER", uploader.name + " <" + uploader.email + ">");
+    envs.put("GERRIT_PATCHSET_UPLOADER_NAME", uploader.name);
+    envs.put("GERRIT_PATCHSET_UPLOADER_EMAIL", uploader.email);
+  }
+
+=======
+>>>>>>> BASE      (51d1ef Fix typos in README.md)
   private String booleanString(Boolean booleanValue) {
     return Optional.ofNullable(booleanValue).orElse(Boolean.FALSE).toString();
+  }
+
+  private String integerString(Integer integerValue) {
+    return Optional.ofNullable(integerValue).map(Object::toString).orElse("");
   }
 
   private String nullToEmpty(String value) {
