@@ -41,6 +41,7 @@ public class GerritEnvironmentContributorTest {
       TEST_PROJECT_NAME + "~" + TEST_BRANCH + "~" + TEST_CHANGE_ID;
   public static final int TEST_PATCHSET_NUMBER = 2;
   public static final int TEST_CHANGE_NUMBER = 1;
+  public static final int TEST_REVERTED_CHANGE_NUMBER = 3;
   public static final String TEST_CHANGE_REF_NAME =
       "refs/changes/"
           + String.format("%02d", TEST_CHANGE_NUMBER)
@@ -81,6 +82,7 @@ public class GerritEnvironmentContributorTest {
                         });
                   }
                 };
+            this.revertOf = TEST_REVERTED_CHANGE_NUMBER;
           }
         };
     gerritURI = new GerritURI(new URIish(TEST_GERRIT_URL));
@@ -120,6 +122,7 @@ public class GerritEnvironmentContributorTest {
             put("GERRIT_CHANGE_ID", TEST_CHANGE_ID_TRIPLET);
             put("GERRIT_CHANGE_PRIVATE_STATE", "false");
             put("GERRIT_REFSPEC", TEST_CHANGE_REF_NAME);
+            put("GERRIT_REVERTED_CHANGE_NUMBER", Integer.toString(TEST_REVERTED_CHANGE_NUMBER));
           }
         };
     assertThat(changeEnvs).containsExactlyEntriesIn(expectedMap);
