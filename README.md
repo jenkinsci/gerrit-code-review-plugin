@@ -109,7 +109,7 @@ Gerrit using RestAPI.
 ### Using Environment Variables
 
 | Key                            | Description                                                     |
-| ------------------------------ | --------------------------------------------------------------- |
+|--------------------------------|-----------------------------------------------------------------|
 | BRANCH_NAME                    | Gerrit reference name nn/nnnn/n                                 |
 | GERRIT_API_INSECURE_HTTPS      | If set to `true` certificate validation will be disabled        |
 | GERRIT_API_URL                 | Gerrit API URL, only `http` and `https` protocols are supported |
@@ -124,7 +124,7 @@ Gerrit using RestAPI.
 | GERRIT_CHANGE_URL              | Gerrit change URL to parse GERRIT_API_URL out if missing        |
 | GERRIT_CHANGE_WIP_STATE        | true if the Gerrit change is WIP                                |
 | GERRIT_CREDENTIALS_ID          | Jenkins credentials object id                                   |
-| GERRIT_PATCHSET_KIND           | Kind of patch-set uploaded (**)                                  |
+| GERRIT_PATCHSET_KIND           | Kind of patch-set uploaded (**)                                 |
 | GERRIT_PATCHSET_NUMBER         | Gerrit revision                                                 |
 | GERRIT_PATCHSET_REVISION       | SHA1 of the Gerrit patch-set                                    |
 | GERRIT_PATCHSET_UPLOADER       | Uploader (name <email>) of the Gerrit patch-set                 |
@@ -133,6 +133,7 @@ Gerrit using RestAPI.
 | GERRIT_PROJECT                 | Gerrit project name                                             |
 | GERRIT_REFNAME                 | Git ref name of the change/patch-set                            |
 | GERRIT_REFSPEC                 | Git ref name of the change/patch-set (*)                        |
+| GERRIT_REVERTED_CHANGE_NUMBER  | If the current change is a revert, the reverted change number.  |
 | GERRIT_TOPIC                   | topic name (if any) of the Gerrit change                        |
 
 (*) Added for compatibility with the [gerrit-trigger-plugin](https://plugins.jenkins.io/gerrit-trigger/)
