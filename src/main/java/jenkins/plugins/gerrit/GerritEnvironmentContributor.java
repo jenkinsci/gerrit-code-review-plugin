@@ -14,6 +14,7 @@
 
 package jenkins.plugins.gerrit;
 
+import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -136,6 +137,9 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
 
     envs.put("GERRIT_REFNAME", patchSetInfo.getValue().ref);
     envs.put("GERRIT_REFSPEC", patchSetInfo.getValue().ref);
+    envs.put(
+        "GERRIT_PATCHSET_NO_CODE_CHANGE",
+        booleanString(patchSetInfo.getValue().kind == ChangeKind.NO_CODE_CHANGE));
     envs.put("GERRIT_PATCHSET_REVISION", patchSetInfo.getKey());
     envs.put("GERRIT_CHANGE_OWNER", change.owner.name + " <" + change.owner.email + ">");
     envs.put("GERRIT_CHANGE_OWNER_NAME", change.owner.name);
