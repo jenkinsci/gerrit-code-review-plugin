@@ -67,6 +67,8 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
             changeEnvs.put("GERRIT_BRANCH", change.branch);
             changeEnvs.put("GERRIT_TOPIC", Strings.nullToEmpty(change.topic));
             changeEnvs.put("GERRIT_CHANGE_ID", change.id);
+            changeEnvs.put("GERRIT_REVERTED_CHANGE_NUMBER", integerString(change.revertOf));
+
 
             Map.Entry<String, RevisionInfo> patchSetInfo =
                 change
@@ -153,6 +155,10 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
 
   private String booleanString(Boolean booleanValue) {
     return Optional.ofNullable(booleanValue).orElse(Boolean.FALSE).toString();
+  }
+
+  private String integerString(Integer integerValue) {
+    return Optional.ofNullable(integerValue).map(Object::toString).orElse("");
   }
 
   private String nullToEmpty(String value) {
