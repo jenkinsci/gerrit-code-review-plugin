@@ -70,6 +70,23 @@
       "parentUuid": "6006a02d_a147cb80",
       "revId": "3f2f3394cc9afb8108677d847dc4b9db99d196eb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a505530_6890292a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1019275
+      },
+      "writtenOn": "2022-06-01T15:39:33Z",
+      "side": 1,
+      "message": "This looks like a good start to fix a long-standing annoyance. Any plans to move forward?",
+      "revId": "3f2f3394cc9afb8108677d847dc4b9db99d196eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
