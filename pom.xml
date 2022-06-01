@@ -28,7 +28,7 @@
     <jenkins.version>2.54</jenkins.version>
     <no-test-jar>false</no-test-jar>
     <concurrency>1C</concurrency>
-    <workflow.version>1.14.2</workflow.version>
+    <workflow.version>2.65</workflow.version>
     <scm-api-plugin.version>2.2.6</scm-api-plugin.version>
     <slf4jVersion>1.7.25</slf4jVersion> <!-- due to mockserver-netty -->
   </properties>
