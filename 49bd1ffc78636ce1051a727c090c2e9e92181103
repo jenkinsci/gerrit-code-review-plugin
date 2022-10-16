@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93aa3c87_e7519327",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 37
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-10-16T08:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b54e314_8cc04fb4",
+      "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eca336c0_b434c1d1",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-10-13T22:20:28Z",
       "side": 1,
       "message": "Missing copyright header",
+      "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be0349d9_84ac8bda",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMNavigator.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-10-16T08:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eca336c0_b434c1d1",
       "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -52,6 +88,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab1464eb_622dd7bb",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritSCMNavigatorContext.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-10-16T08:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "779c49ea_058c0190",
+      "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3bb91d7e_4d62a965",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-10-13T22:20:28Z",
       "side": 1,
       "message": "Missing copyright header",
+      "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dae40c06_9ab39250",
+        "filename": "src/main/java/jenkins/plugins/gerrit/PagedCodeProjectsRequest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-10-16T08:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bb91d7e_4d62a965",
       "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -86,6 +158,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e58994b3_351f1790",
+        "filename": "src/main/java/jenkins/plugins/gerrit/PagedCodeProjectsRequest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-10-16T08:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "989a1619_870e79fd",
+      "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90993424_4209380b",
@@ -99,6 +189,30 @@
       "writtenOn": "2022-10-13T22:20:28Z",
       "side": 1,
       "message": "Are you working for GerritForge?\nJust add your name in the Copyright section.",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 37
+      },
+      "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9dccd36c_bdb9b1e7",
+        "filename": "src/main/resources/jenkins/plugins/gerrit/GerritSCMNavigator/config.jelly",
+        "patchSetId": 37
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-10-16T08:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90993424_4209380b",
       "range": {
         "startLine": 3,
         "startChar": 17,
@@ -155,6 +269,54 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "774d81ca_b6335047",
+        "filename": "src/main/resources/jenkins/plugins/gerrit/GerritSCMNavigator/config_en.properties",
+        "patchSetId": 37
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-10-16T08:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbd041c4_63d3223c",
+      "range": {
+        "startLine": 1,
+        "startChar": 16,
+        "endLine": 1,
+        "endChar": 20
+      },
+      "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9c237b6_a37cb34b",
+        "filename": "src/main/resources/jenkins/plugins/gerrit/GerritSCMNavigator/config_en.properties",
+        "patchSetId": 37
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-10-16T08:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d434e15b_a081a3c7",
+      "range": {
+        "startLine": 1,
+        "startChar": 21,
+        "endLine": 1,
+        "endChar": 36
+      },
+      "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad2b5783_349233f1",
@@ -191,6 +353,54 @@
       "writtenOn": "2022-10-13T22:20:28Z",
       "side": 1,
       "message": "Are you working for GerritForge?\nJust add your name in the Copyright section.",
+      "range": {
+        "startLine": 2,
+        "startChar": 22,
+        "endLine": 2,
+        "endChar": 37
+      },
+      "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c619589_eaa5787e",
+        "filename": "src/main/resources/jenkins/plugins/gerrit/GerritSCMNavigator/help-credentialsId.html",
+        "patchSetId": 37
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-10-16T08:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad2b5783_349233f1",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eda3907e_c639a69b",
+        "filename": "src/main/resources/jenkins/plugins/gerrit/GerritSCMNavigator/help-credentialsId.html",
+        "patchSetId": 37
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-10-16T08:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2019c71b_2bedb3c4",
       "range": {
         "startLine": 2,
         "startChar": 22,
@@ -247,6 +457,54 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9df42cf_fb91701e",
+        "filename": "src/main/resources/jenkins/plugins/gerrit/GerritSCMNavigator/help-insecureHttps.html",
+        "patchSetId": 37
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-10-16T08:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16ee984f_b95818c7",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39c1800c_2d7e5015",
+        "filename": "src/main/resources/jenkins/plugins/gerrit/GerritSCMNavigator/help-insecureHttps.html",
+        "patchSetId": 37
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-10-16T08:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fb9cedb_9a9af9dd",
+      "range": {
+        "startLine": 2,
+        "startChar": 22,
+        "endLine": 2,
+        "endChar": 37
+      },
+      "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6dbd8987_d2186a0b",
@@ -293,6 +551,54 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01ca6f85_da547351",
+        "filename": "src/main/resources/jenkins/plugins/gerrit/GerritSCMNavigator/help-serverUri.html",
+        "patchSetId": 37
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-10-16T08:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "497b3e2e_1a7518af",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1ae51ea_eef83050",
+        "filename": "src/main/resources/jenkins/plugins/gerrit/GerritSCMNavigator/help-serverUri.html",
+        "patchSetId": 37
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-10-16T08:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6dbd8987_d2186a0b",
+      "range": {
+        "startLine": 2,
+        "startChar": 22,
+        "endLine": 2,
+        "endChar": 37
+      },
+      "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1844e56_2902b808",
@@ -306,6 +612,24 @@
       "writtenOn": "2022-10-13T22:20:28Z",
       "side": 1,
       "message": "Missing copyright header",
+      "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b906b1f_c8efa517",
+        "filename": "src/test/java/jenkins/plugins/gerrit/GerritMockServerRule.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-10-16T08:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1844e56_2902b808",
       "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -333,6 +657,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd7033a5_85f68bb5",
+        "filename": "src/test/java/jenkins/plugins/gerrit/GerritMockServerRule.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-10-16T08:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b022dcb_00697ebe",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 33
+      },
+      "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "345f5fd3_80617e91",
@@ -346,6 +694,24 @@
       "writtenOn": "2022-10-13T22:20:28Z",
       "side": 1,
       "message": "Missing copyright",
+      "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "983818ab_9018a64f",
+        "filename": "src/test/java/jenkins/plugins/gerrit/GerritSCMNavigatorDescriptorTest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-10-16T08:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "345f5fd3_80617e91",
       "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -367,6 +733,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5d63a9c_fce3d932",
+        "filename": "src/test/java/jenkins/plugins/gerrit/GerritSCMNavigatorTest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-10-16T08:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "207baa02_14cbfdf6",
+      "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c1c0d10_65769c7d",
@@ -380,6 +764,24 @@
       "writtenOn": "2022-10-13T22:20:28Z",
       "side": 1,
       "message": "Missing copyright header",
+      "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7cd1179_77905912",
+        "filename": "src/test/java/jenkins/plugins/gerrit/PagedCodeProjectsRequestTest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-10-16T08:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c1c0d10_65769c7d",
       "revId": "49bd1ffc78636ce1051a727c090c2e9e92181103",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
