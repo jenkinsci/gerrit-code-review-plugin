@@ -50,6 +50,24 @@
       "message": "Thanks @Réda and apologies for the delay.\nCan you please verify the change?",
       "revId": "60ba18679f5ed27c3c58f2591611a8d7dacf0a89",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4599ca3e_3056ef49",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 38
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-11-19T21:15:14Z",
+      "side": 1,
+      "message": "Done. Thank you !",
+      "parentUuid": "68a31c67_8195e308",
+      "revId": "60ba18679f5ed27c3c58f2591611a8d7dacf0a89",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
