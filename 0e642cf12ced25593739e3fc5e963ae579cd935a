@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73e9714b_356f0108",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2022-11-19T21:30:20Z",
+      "side": 1,
+      "message": "This should fix https://ci.jenkins.io/job/Plugins/job/gerrit-code-review-plugin/job/master/131/console",
+      "revId": "0e642cf12ced25593739e3fc5e963ae579cd935a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
