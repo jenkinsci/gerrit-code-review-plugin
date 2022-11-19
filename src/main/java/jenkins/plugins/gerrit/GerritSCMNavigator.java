@@ -89,7 +89,9 @@ public class GerritSCMNavigator extends SCMNavigator {
     attributes.put("server-url", serverUrl);
     attributes.put("credentials-id", credentialsId);
 
-    return attributes.entrySet().stream()
+    return attributes
+        .entrySet()
+        .stream()
         .map(attribute -> attribute.getKey() + "=" + attribute.getValue())
         .collect(Collectors.joining("::"));
   }
