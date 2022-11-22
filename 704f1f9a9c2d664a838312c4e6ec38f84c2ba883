@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d01e4f54_50b0a50c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020684
+      },
+      "writtenOn": "2022-11-22T12:06:19Z",
+      "side": 1,
+      "message": "Hi, I just happened to notice your change. I have a similar change on review:\n\u003e https://review.gerrithub.io/c/jenkinsci/gerrit-code-review-plugin/+/545745\n\nNO_CODE_CHANGE \u0026 NO_CHANGE both can indicate no code change. So wouldn\u0027t it be nice to expose patchset kind data itself?\n",
+      "revId": "704f1f9a9c2d664a838312c4e6ec38f84c2ba883",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
