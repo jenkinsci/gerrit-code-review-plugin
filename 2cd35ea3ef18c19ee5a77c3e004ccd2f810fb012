@@ -69,6 +69,46 @@
       "message": "Are we missing one test for the new environment variable?",
       "revId": "2cd35ea3ef18c19ee5a77c3e004ccd2f810fb012",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e9c0d51_0b9ea98a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-11-23T18:55:00Z",
+      "side": 1,
+      "message": "The typos should be fixed in a separate change: 1 change \u003d 1 fix 😊",
+      "revId": "2cd35ea3ef18c19ee5a77c3e004ccd2f810fb012",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a4d6c46_146c48c5",
+        "filename": "README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-11-23T18:55:00Z",
+      "side": 1,
+      "message": "Can we also give a hint of what would be the expected values?",
+      "range": {
+        "startLine": 135,
+        "startChar": 35,
+        "endLine": 135,
+        "endChar": 62
+      },
+      "revId": "2cd35ea3ef18c19ee5a77c3e004ccd2f810fb012",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
