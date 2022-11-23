@@ -16,6 +16,24 @@
       "message": "Could you please explain why this change is useful?",
       "revId": "a88ed38d8c2645d3e3e849f6298cdfaee1ac5c7f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "195d8e89_a998c268",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1017420
+      },
+      "writtenOn": "2022-11-23T15:55:59Z",
+      "side": 1,
+      "message": "This api is used in the following commit. It provides access to more details on the files and folders in the repo than the standard Gerrit api.",
+      "parentUuid": "96b6e471_5bc40453",
+      "revId": "a88ed38d8c2645d3e3e849f6298cdfaee1ac5c7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
