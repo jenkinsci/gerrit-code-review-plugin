@@ -139,12 +139,12 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
     envs.put("GERRIT_PATCHSET_REVISION", patchSetInfo.getKey());
     envs.put("GERRIT_CHANGE_OWNER", change.owner.name + " <" + change.owner.email + ">");
     envs.put("GERRIT_CHANGE_OWNER_NAME", change.owner.name);
-    envs.put("GERRIT_CHANGE_OWNER_EMAIL", change.owner.email);
+    envs.put("GERRIT_CHANGE_OWNER_EMAIL", nullToEmpty(change.owner.email));
 
     AccountInfo uploader = patchSetInfo.getValue().uploader;
     envs.put("GERRIT_PATCHSET_UPLOADER", uploader.name + " <" + uploader.email + ">");
     envs.put("GERRIT_PATCHSET_UPLOADER_NAME", uploader.name);
-    envs.put("GERRIT_PATCHSET_UPLOADER_EMAIL", uploader.email);
+    envs.put("GERRIT_PATCHSET_UPLOADER_EMAIL", nullToEmpty(uploader.email));
   }
 
   private String booleanString(Boolean booleanValue) {
