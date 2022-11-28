@@ -68,6 +68,23 @@
       "parentUuid": "68a31c67_8195e308",
       "revId": "60ba18679f5ed27c3c58f2591611a8d7dacf0a89",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a65d81e_38342052",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 38
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-11-28T11:31:36Z",
+      "side": 1,
+      "message": "@Réda how did you verify this build? The CI is now broken 😞 \n\nSee:\nhttps://ci.jenkins.io/job/Plugins/job/gerrit-code-review-plugin/job/master/131/",
+      "revId": "60ba18679f5ed27c3c58f2591611a8d7dacf0a89",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
