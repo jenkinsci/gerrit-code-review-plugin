@@ -72,7 +72,7 @@ public class GerritMockServerRule implements TestRule {
     serverRule
         .getClient()
         .when(HttpRequest.request("/projects/").withMethod("GET"))
-        .callback(
+        .respond(
             httpRequest -> {
               int start =
                   ofNullable(httpRequest.getFirstQueryStringParameter("S"))
