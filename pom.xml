@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>2.37</version>
+    <version>4.51</version>
     <relativePath />
   </parent>
 
@@ -25,7 +25,7 @@
 
   <properties>
     <java.level>8</java.level>
-    <jenkins.version>2.54</jenkins.version>
+    <jenkins.version>2.289.1</jenkins.version>
     <no-test-jar>false</no-test-jar>
     <concurrency>1C</concurrency>
     <workflow.version>1.14.2</workflow.version>
