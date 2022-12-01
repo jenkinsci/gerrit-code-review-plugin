@@ -121,6 +121,24 @@
       "parentUuid": "d4d5a6eb_1fd3f7a7",
       "revId": "5b92cf67080c6b9adb7f78e891016898670ee41f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d26e26e6_bad052cc",
+        "filename": "src/main/resources/META-INF/hudson.remoting.ClassFilter",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000334
+      },
+      "writtenOn": "2022-12-01T01:03:05Z",
+      "side": 1,
+      "message": "I guess I\u0027m not done 🤦‍♂️ Restarted and got another failure, so adding to the list:\n```\ncom.google.gerrit.extensions.common.LabelInfo\ncom.google.gerrit.extensions.common.RevisionInfo\ncom.google.gerrit.extensions.common.FetchInfo\ncom.google.gerrit.extensions.common.CommitInfo\ncom.google.gerrit.extensions.common.WebLinkInfo\ncom.google.gerrit.extensions.common.GitPerson\ncom.google.gerrit.extensions.common.AccountInfo\ncom.google.gerrit.extensions.common.ReviewerUpdateInfo\ncom.google.gerrit.extensions.common.ChangeMessageInfo\ncom.google.gerrit.extensions.common.FileInfo\ncom.google.gerrit.extensions.common.PushCertificateInfo\n```\n\nUnfortunately the only way to know if it\u0027s going to work is to add it to the list and restart the entire jenkins cluster, then try the job again. If it fails again, add the next class to the startup args, and try again. Rinse/repeat... \n\nThis list is kind of becoming a pile of \"ignore everything from gerrit\" list.\n\nWith ALL of the above, I can now finally run my jobs again.\n\n```\n-Dhudson.remoting.ClassFilter\u003dcom.google.gerrit.extensions.common.AvatarInfo,com.google.gerrit.extensions.common.ReviewerUpdateInfo,com.google.gerrit.extensions.common.SubmitRequirementInfo,com.google.gerrit.extensions.common.TrackingIdInfo,com.google.gerrit.extensions.common.ChangeInfo,com.google.gerrit.extensions.common.ActionInfo,com.google.gerrit.extensions.common.LabelInfo,com.google.gerrit.extensions.common.RevisionInfo,com.google.gerrit.extensions.common.FetchInfo,com.google.gerrit.extensions.common.CommitInfo,com.google.gerrit.extensions.common.WebLinkInfo,com.google.gerrit.extensions.common.GitPerson,com.google.gerrit.extensions.common.AccountInfo,com.google.gerrit.extensions.common.ReviewerUpdateInfo,com.google.gerrit.extensions.common.ChangeMessageInfo,com.google.gerrit.extensions.common.PluginDefinedInfo,com.google.gerrit.extensions.common.FileInfo,com.google.gerrit.extensions.common.PushCertificateInfo\n```",
+      "parentUuid": "c99cd377_f8ae7e54",
+      "revId": "5b92cf67080c6b9adb7f78e891016898670ee41f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
