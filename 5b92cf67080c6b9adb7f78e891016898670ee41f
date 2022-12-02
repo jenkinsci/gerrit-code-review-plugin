@@ -139,6 +139,24 @@
       "parentUuid": "c99cd377_f8ae7e54",
       "revId": "5b92cf67080c6b9adb7f78e891016898670ee41f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6114cf45_32690712",
+        "filename": "src/main/resources/META-INF/hudson.remoting.ClassFilter",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020750
+      },
+      "writtenOn": "2022-12-02T07:26:47Z",
+      "side": 1,
+      "message": "For my setup I also found that these two were needed:\n\n com.google.gerrit.extensions.common.ApprovalInfo\n com.google.gerrit.extensions.common.VotingRangeInfo",
+      "parentUuid": "d26e26e6_bad052cc",
+      "revId": "5b92cf67080c6b9adb7f78e891016898670ee41f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
