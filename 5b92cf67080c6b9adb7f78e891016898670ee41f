@@ -175,6 +175,24 @@
       "parentUuid": "6114cf45_32690712",
       "revId": "5b92cf67080c6b9adb7f78e891016898670ee41f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e075b5c3_a41cc19e",
+        "filename": "src/main/resources/META-INF/hudson.remoting.ClassFilter",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2022-12-09T21:57:35Z",
+      "side": 1,
+      "message": "Summing all the above and removing duplicates:\n\n```\ncom.google.gerrit.extensions.common.AvatarInfo\ncom.google.gerrit.extensions.common.ReviewerUpdateInfo\ncom.google.gerrit.extensions.common.SubmitRequirementInfo\ncom.google.gerrit.extensions.common.TrackingIdInfo\ncom.google.gerrit.extensions.common.ChangeInfo\ncom.google.gerrit.extensions.common.ActionInfo\ncom.google.gerrit.extensions.common.LabelInfo\ncom.google.gerrit.extensions.common.RevisionInfo\ncom.google.gerrit.extensions.common.FetchInfo\ncom.google.gerrit.extensions.common.CommitInfo\ncom.google.gerrit.extensions.common.WebLinkInfo\ncom.google.gerrit.extensions.common.GitPerson\ncom.google.gerrit.extensions.common.AccountInfo\ncom.google.gerrit.extensions.common.ChangeMessageInfo\ncom.google.gerrit.extensions.common.PluginDefinedInfo\ncom.google.gerrit.extensions.common.FileInfo\ncom.google.gerrit.extensions.common.PushCertificateInfo\ncom.google.gerrit.extensions.common.ApprovalInfo\ncom.google.gerrit.extensions.common.VotingRangeInfo\n```",
+      "parentUuid": "c63149e6_e1ffc85f",
+      "revId": "5b92cf67080c6b9adb7f78e891016898670ee41f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
