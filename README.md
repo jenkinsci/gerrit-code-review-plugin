@@ -14,7 +14,7 @@ project, including Gerrit plugins or anybody else wanting to adopt it.
 I could just "copy & paste" our Groovy workflow, however, that does not
 seem a sensible and long-term approach.
 I wanted to have "something more" than a pure triggering mechanism: I
-wanted to extend the power of Jenkisfile with the Gerrit review workflow
+wanted to extend the power of Jenkinsfile with the Gerrit review workflow
 verbs.
 
 ## What about the Gerrit Trigger Plugin?
@@ -23,7 +23,7 @@ The **new plugin is not going to replace the current Gerrit Trigger
 Plugin**, but would rather represent an alternative to simpler scenarios
 when you just require a standard Jenkinsfile Gerrit validation workflow.
 For all the current users of the Gerrit Trigger Plugin things wouldn't
-change, unless they need a more Jenkisfile-integrated experience.
+change, unless they need a more Jenkinsfile-integrated experience.
 
 ## Why not?
 
@@ -110,7 +110,7 @@ Gerrit using RestAPI.
 
 | Key                            | Description                                                      |
 | ------------------------------ | ---------------------------------------------------------------- |
-| GERRIT_API_URL                 | Gerrit API URL, onlhy `http` and `https` protocols are supported |
+| GERRIT_API_URL                 | Gerrit API URL, only `http` and `https` protocols are supported |
 | GERRIT_CHANGE_URL              | Gerrit change URL to parse GERRIT_API_URL out if missing         |
 | GERRIT_API_INSECURE_HTTPS      | If set to `true` certificate validation will be disabled         |
 | GERRIT_CREDENTIALS_ID          | Jenkins credentials object id                                    |
@@ -180,7 +180,7 @@ Parameters:
   name and value is the score.
 
 - ```message```
-  Additional message provided as explanation of the the review feedback.
+  Additional message provided as explanation of the review feedback.
   Default: ''
 
 ### ```gerritComment```
@@ -446,7 +446,7 @@ review.
 -   Support for multiple labels in a single \`gerritReview\` step invocation
 -   Support for integration with the Gerrit Trigger Plugin
 -   Remove the support for deprecated \`GerritDSL\` style invocation
-    (e.g. \`gerrit.review\` step)
+    (e.g., \`gerrit.review\` step)
 
 #### Fixes
 
@@ -463,7 +463,7 @@ v0.2 release.
 #### Fixes
 
 -   [3359ba3](https://github.com/jenkinsci/gerrit-code-review-plugin/commit/3359ba3) -
-    Amendements to the documentation to explain the first-time setup
+    Amendments to the documentation to explain the first-time setup
 
 -   [e320d18](https://github.com/jenkinsci/gerrit-code-review-plugin/commit/e320d18) -
     Allow feedback to an open change without changing current score /
