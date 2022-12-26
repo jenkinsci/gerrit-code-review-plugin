@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d345ffa_7804109b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020684
+      },
+      "writtenOn": "2022-12-26T20:34:30Z",
+      "side": 1,
+      "message": "Verified with no issues found. I don\u0027t have permissions to set Verified +1\n\u003e mvn clean verify",
+      "revId": "5fce32355b523a0e5e682b179a156f8851ef29ac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
