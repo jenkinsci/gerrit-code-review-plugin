@@ -88,6 +88,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f18fa87_f9306196",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020684
+      },
+      "writtenOn": "2022-12-26T20:29:56Z",
+      "side": 1,
+      "message": "Done! typos are on new change: https://review.gerrithub.io/c/jenkinsci/gerrit-code-review-plugin/+/547807",
+      "parentUuid": "5e9c0d51_0b9ea98a",
+      "revId": "2cd35ea3ef18c19ee5a77c3e004ccd2f810fb012",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a4d6c46_146c48c5",
@@ -101,6 +119,30 @@
       "writtenOn": "2022-11-23T18:55:00Z",
       "side": 1,
       "message": "Can we also give a hint of what would be the expected values?",
+      "range": {
+        "startLine": 135,
+        "startChar": 35,
+        "endLine": 135,
+        "endChar": 62
+      },
+      "revId": "2cd35ea3ef18c19ee5a77c3e004ccd2f810fb012",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e168f509_d0350585",
+        "filename": "README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1020684
+      },
+      "writtenOn": "2022-12-26T20:29:56Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "9a4d6c46_146c48c5",
       "range": {
         "startLine": 135,
         "startChar": 35,
