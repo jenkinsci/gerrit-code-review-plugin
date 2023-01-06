@@ -29,6 +29,7 @@ import com.google.gitiles.client.GerritGitilesApi;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.EnvVars;
+import hudson.ExtensionList;
 import hudson.model.Action;
 import hudson.model.TaskListener;
 import hudson.plugins.git.Branch;
@@ -51,7 +52,6 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import jenkins.plugins.git.AbstractGitSCMSource;
-import jenkins.plugins.git.AbstractGitSCMSource.SCMRevisionImpl;
 import jenkins.plugins.git.GitSCMBuilder;
 import jenkins.scm.api.*;
 import jenkins.scm.api.metadata.ObjectMetadataAction;
@@ -157,6 +157,68 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       @CheckForNull SCMHeadEvent<?> event,
       @Nonnull final TaskListener listener)
       throws IOException, InterruptedException {
+    GerritSCMSourceContext context = new GerritSCMSourceContext(criteria, observer).withTraits(getTraits());
+    try (GerritSCMSourceRequest request = context.newRequest(this, listener)) {
+      if (context.wantBranches()) {
+        GerritURI gerritUri = getGerritURI();
+        GerritApi gerritApi = createGerritApi(listener, gerritUri);
+        List<BranchInfo> branches = gerritApi
+          .projects()
+          .name(gerritUri.getProject())
+          .branches()
+          .get();
+
+        List<ChangeInfo> changes =
+            getOpenChanges(gerritApi, gerritUri.getProject(), context.changesQueryFilter()).get();
+
+        int branchesCount = 0;
+        int changesCount = 0;
+
+        listener.getLogger().format("Checking branches...%n");
+        for (final BranchInfo branch : branches) {
+          if (!branch.ref.startsWith(Constants.R_HEADS)) {
+            continue;
+          }
+
+          ++branchesCount;
+
+          final String branchName = StringUtils.removeStart(branch.ref, Constants.R_HEADS);
+          listener.getLogger().format("  Checking branch %s%n", branchName);
+
+          if (processBranch(request, new SCMHead(branchName), branch.revision, listener)) {
+            listener.getLogger().format("Processed %d branches (query completed)%n", branchesCount);
+          }
+        }
+
+        listener.getLogger().format("Checking changes...%n");
+        for (final ChangeInfo change : changes) {
+          final String ref = change.revisions.entrySet().iterator().next().getValue().ref;
+          if (!ref.startsWith(R_CHANGES)) {
+            continue;
+          }
+
+          ++changesCount;
+
+          final String branchName = StringUtils.removeStart(ref, R_CHANGES);
+          listener.getLogger().format("  Checking change %s%n", branchName);
+
+          final String rev = change.currentRevision;
+          if (processBranch(request, new ChangeSCMHead(branchName, rev), rev, listener)) {
+            listener.getLogger().format("Processed %d changes (query completed)%n", changesCount);
+          }
+
+        }
+
+
+        listener.getLogger().format("Processed %d branches%n", branchesCount);
+        listener.getLogger().format("Processed %d changes%n", changesCount);
+      }
+
+      return;
+    } catch (RestApiException | IOException e) {
+
+    }
+
     doRetrieve(
         null,
         new Retriever<Object>() {
@@ -274,12 +336,82 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     return resultBuilder.build();
   }
 
+  @NonNull
+  @Override
+  protected SCMProbe createProbe(@NonNull final SCMHead head, SCMRevision revision) throws IOException {
+    GerritSCMFileSystem.BuilderImpl builder = ExtensionList.lookup(SCMFileSystem.Builder.class).get(GerritSCMFileSystem.BuilderImpl.class);
+    if (builder == null) {
+      throw new IOException();
+    }
+    final SCMFileSystem fs = builder.build(this, head, revision);
+    return new SCMProbe() {
+      @NonNull
+      @Override
+      public SCMProbeStat stat(@NonNull String path) throws IOException {
+        try {
+          return SCMProbeStat.fromType(fs.child(path).getType());
+        } catch (InterruptedException e) {
+          throw new IOException("Interrupted", e);
+        }
+      }
+
+      @Override
+      public void close() throws IOException {
+        Objects.requireNonNull(fs).close();
+      }
+
+      @Override
+      public String name() {
+        return head.getName();
+      }
+
+      @Override
+      public long lastModified() {
+        try {
+          return fs != null ? fs.lastModified() : 0;
+        } catch (IOException | InterruptedException e) {
+          return 0L;
+        }
+      }
+
+      @Override
+      public SCMFile getRoot() {
+        return fs != null ? fs.getRoot() : null;
+      }
+    };
+  }
+
   private String getGerritBaseUrl() throws IOException {
     try {
       return getGerritURI().getApiURI().toASCIIString();
     } catch (URISyntaxException e) {
       throw new IOException(e);
     }
+  }
+
+  private <H extends SCMHead> boolean processBranch(
+      GerritSCMSourceRequest request,
+      H head,
+      String rev,
+      final TaskListener listener)
+      throws IOException, InterruptedException {
+    return request.process(
+      head,
+      (SCMSourceRequest.RevisionLambda<H, SCMRevision>) h -> new SCMRevisionImpl(h, rev),
+      new SCMSourceRequest.ProbeLambda<H, SCMRevision>() {
+        @NonNull
+        @Override
+        public SCMSourceCriteria.Probe create (@NonNull H head, @Nullable SCMRevision rev) throws IOException {
+          return createProbe(head, rev);
+        }
+      },
+      (SCMSourceRequest.Witness<H, SCMRevision>) (h, revision, isMatch) -> {
+        if (isMatch) {
+          listener.getLogger().format("    Met criteria%n");
+        } else {
+          listener.getLogger().format("    Does not meet criteria%n");
+        }
+      });
   }
 
   private boolean processBranchRequest(
