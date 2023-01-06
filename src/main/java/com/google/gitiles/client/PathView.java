@@ -17,6 +17,7 @@ import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.transport.URIish;
 
 import jenkins.plugins.gerrit.rest.AbstractEndpoint;
@@ -56,11 +57,14 @@ public class PathView extends AbstractEndpoint {
     try {
       HttpHead request = new HttpHead(buildUri("", "text"));
       try (CloseableHttpResponse response = client.execute(request)) {
-        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+        int status = response.getStatusLine().getStatusCode();
+        if (status == HttpStatus.SC_OK) {
           return Integer.parseInt(response.getFirstHeader("X-Gitiles-Path-Mode").getValue(), 8);
+        } else if (status == 404) {
+          return FileMode.TYPE_MISSING;
         }
         throw new RestApiException(
-            String.format("Request failed with status: %d", response.getStatusLine().getStatusCode()));
+            String.format("Request failed with status: %d", status));
       }
     } catch (Exception e) {
       throw new RestApiException("Failed to get mode info: ", e);
