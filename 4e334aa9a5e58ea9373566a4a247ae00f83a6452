@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4119cd1a_b5216285",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-01-10T23:31:39Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 13,
+        "startChar": 54,
+        "endLine": 13,
+        "endChar": 119
+      },
+      "revId": "4e334aa9a5e58ea9373566a4a247ae00f83a6452",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2d5c3254_fd8e00f7",
@@ -14,6 +37,46 @@
       "writtenOn": "2023-01-09T13:10:57Z",
       "side": 1,
       "message": "🔊 Hello! Can you please review this change? It is verified locally.",
+      "revId": "4e334aa9a5e58ea9373566a4a247ae00f83a6452",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54a25fc4_1943b740",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritEnvironmentContributor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-01-10T23:31:39Z",
+      "side": 1,
+      "message": "If there is no value, why setting the variable then?\n\nI would rewrite this as:\n```\n  Optional.ofNullable(change.owner.email)\n          .ifDefined(v -\u003e envs.put(\"GERRIT_CHANGE_OWNER_EMAIL\", v)\n```",
+      "range": {
+        "startLine": 142,
+        "startChar": 4,
+        "endLine": 142,
+        "endChar": 75
+      },
+      "revId": "4e334aa9a5e58ea9373566a4a247ae00f83a6452",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "536e61a4_6c07ea69",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritEnvironmentContributor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-01-10T23:31:39Z",
+      "side": 1,
+      "message": "Same as above",
       "revId": "4e334aa9a5e58ea9373566a4a247ae00f83a6452",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
