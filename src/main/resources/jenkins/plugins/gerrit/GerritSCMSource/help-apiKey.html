@@ -1,4 +1,3 @@
-<?jelly escape-by-default='true'?>
 <!--
  ~ Copyright (C) 2018 GerritForge Ltd
  ~
@@ -15,20 +14,6 @@
  ~ limitations under the License.
  -->
 
-<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form" xmlns:c="/lib/credentials" xmlns:scm="/jenkins/scm/api/form">
-  <f:entry title="${%Project Repository}" field="remote">
-    <f:textbox/>
-  </f:entry>
-  <f:entry title="${%Insecure HTTPS}" field="insecureHttps">
-    <f:checkbox/>
-  </f:entry>
-  <f:entry title="${%WebHook API Key}" field="apiKey">
-    <f:password/>
-  </f:entry>
-  <f:entry title="${%Credentials}" field="credentialsId">
-    <c:select/>
-  </f:entry>
-  <f:entry title="${%Behaviours}">
-    <scm:traits field="traits"/>
-  </f:entry>
-</j:jelly>
+<div>
+    Gerrit web-hook apiKey used as additional security layer to prevent accidental SCM scans.
+</div>

@@ -30,6 +30,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.servlet.http.HttpServletRequest;
 import jenkins.model.Jenkins;
@@ -76,6 +77,8 @@ public class GerritWebHook implements UnprotectedRootAction {
   @SuppressWarnings({"unused", "deprecation"})
   public void doIndex() throws IOException {
     HttpServletRequest req = Stapler.getCurrentRequest();
+    String jobName = req.getParameter("jobName");
+    String apiKey = req.getParameter("apiKey");
     getBody(req)
         .ifPresent(
             projectEvent -> {
@@ -89,22 +92,41 @@ public class GerritWebHook implements UnprotectedRootAction {
 
               try (ACLContext acl = ACL.as(ACL.SYSTEM)) {
                 List<WorkflowMultiBranchProject> jenkinsItems =
-                    getJenkinsInstance().getAllItems(WorkflowMultiBranchProject.class);
+                    getJenkinsInstance().getAllItems(WorkflowMultiBranchProject.class).stream()
+                        .filter(project -> jobName == null || project.getName().equals(jobName))
+                        .collect(Collectors.toList());
+                if (jobName != null && jenkinsItems.size() != 1) {
+                  throw new IllegalStateException(
+                      String.format(
+                          "Project '%s' not found, not visible by user '%s' or not a multi-branch pipeline",
+                          jobName, username));
+                }
                 log.info("Scanning {} Jenkins items", jenkinsItems.size());
                 for (SCMSourceOwner scmJob : jenkinsItems) {
-                  log.info("Scanning job " + scmJob);
-                  List<SCMSource> scmSources = scmJob.getSCMSources();
-                  for (SCMSource scmSource : scmSources) {
-                    if (scmSource instanceof GerritSCMSource) {
-                      GerritSCMSource gerritSCMSource = (GerritSCMSource) scmSource;
-                      log.debug("Checking match for SCM source: " + gerritSCMSource.getRemote());
-                      if (projectEvent.matches(gerritSCMSource.getRemote())) {
-                        log.info(
-                            "Triggering SCM event for source "
-                                + scmSources.get(0)
-                                + " on job "
-                                + scmJob);
-                        scmJob.onSCMSourceUpdated(scmSource);
+                  if (jobName == null || scmJob.getName().equals(jobName)) {
+                    log.info("Scanning job " + scmJob);
+                    List<SCMSource> scmSources = scmJob.getSCMSources();
+                    for (SCMSource scmSource : scmSources) {
+                      if (scmSource instanceof GerritSCMSource) {
+                        GerritSCMSource gerritSCMSource = (GerritSCMSource) scmSource;
+                        String gerritSCMSourceApiKey = gerritSCMSource.getApiKey();
+                        log.debug("Checking match for SCM source: " + gerritSCMSource.getRemote());
+                        if (projectEvent.matches(gerritSCMSource.getRemote())) {
+                          if (gerritSCMSourceApiKey != null
+                              && !gerritSCMSourceApiKey.trim().isEmpty()) {
+                            if (!gerritSCMSourceApiKey.equals(apiKey)) {
+                              throw new IllegalStateException(
+                                  "Unable to trigger the SCM source because of the ApiKey provided in gerrit web hook is invalid");
+                            }
+                          }
+
+                          log.info(
+                              "Triggering SCM event for source "
+                                  + scmSources.get(0)
+                                  + " on job "
+                                  + scmJob);
+                          scmJob.onSCMSourceUpdated(scmSource);
+                        }
                       }
                     }
                   }
