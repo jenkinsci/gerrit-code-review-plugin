@@ -25,6 +25,8 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import hudson.model.Result;
 import javax.servlet.http.HttpServletResponse;
+
+import jenkins.branch.Branch;
 import jenkins.branch.BranchSource;
 import jenkins.plugins.git.GitSampleRepoRule;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
@@ -32,9 +34,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 
-public class GerritWebHookTriggerTest {
+import java.io.IOException;
 
-  @Rule public JenkinsRule j = new JenkinsRule();
+public class GerritWebHookTriggerTest {
+    private static final String API_KEY = "gerrit-api-key";
+
+    @Rule public JenkinsRule j = new JenkinsRule();
   @Rule public GitSampleRepoRule g = new GitSampleRepoRule();
 
   String repoName = "somerepo";
@@ -44,11 +49,9 @@ public class GerritWebHookTriggerTest {
 
   @Test
   public void gerritWebHookShouldTriggerMultiBranchPipelineProjectWithoutFolder() throws Exception {
-    WorkflowMultiBranchProject mp =
-        j.jenkins.createProject(WorkflowMultiBranchProject.class, projectName);
-    mp.getSourcesList().add(new BranchSource(getGerritSCMSource()));
+    WorkflowMultiBranchProject mp = createMultiBranchPipelineProject(new BranchSource(getGerritSCMSource()));
 
-    assertEquals(httpStatusOfPostGerritEventBodyToWebhookURI(), HttpServletResponse.SC_OK);
+    assertEquals(HttpServletResponse.SC_OK, httpStatusOfPostGerritEventBodyToWebhookURI());
     j.waitUntilNoActivity();
 
     assertEquals(Result.SUCCESS, mp.getIndexing().getResult());
@@ -56,27 +59,71 @@ public class GerritWebHookTriggerTest {
 
   @Test
   public void gerritWebHookShouldTriggerMultiBranchPipelineProjectWithFolder() throws Exception {
-    Folder f = j.jenkins.createProject(Folder.class, "folder");
-    WorkflowMultiBranchProject mp = f.createProject(WorkflowMultiBranchProject.class, projectName);
-    mp.getSourcesList().add(new BranchSource(getGerritSCMSource()));
+    WorkflowMultiBranchProject mp = createMultiBranchPipelineProject("folder", new BranchSource(getGerritSCMSource()));
 
-    assertEquals(httpStatusOfPostGerritEventBodyToWebhookURI(), HttpServletResponse.SC_OK);
+    assertEquals(HttpServletResponse.SC_OK, httpStatusOfPostGerritEventBodyToWebhookURI());
     j.waitUntilNoActivity();
 
     assertEquals(Result.SUCCESS, mp.getIndexing().getResult());
   }
 
-  private int httpStatusOfPostGerritEventBodyToWebhookURI() throws UnirestException {
+
+
+  @Test
+  public void gerritWebHookShouldTriggerMultiBranchPipelineProjectWithApiKey() throws Exception {
+    WorkflowMultiBranchProject mp = createMultiBranchPipelineProject(new BranchSource(getGerritSCMSource(API_KEY)));
+
+    assertEquals(HttpServletResponse.SC_OK, httpStatusOfPostGerritEventBodyToWebhookURI(API_KEY));
+    j.waitUntilNoActivity();
+
+    assertEquals(Result.SUCCESS, mp.getIndexing().getResult());
+  }
+
+  @Test
+  public void gerritWebHookWithoutApiKeyShouldNotTriggerMultiBranchPipelineProjectWithApiKey() throws Exception {
+    createMultiBranchPipelineProject(new BranchSource(getGerritSCMSource(API_KEY)));
+    assertEquals(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, httpStatusOfPostGerritEventBodyToWebhookURI());
+  }
+
+  @Test
+  public void gerritWebHookWithInvalidApiKeyShouldNotTriggerMultiBranchPipelineProjectWithFolderWithApiKey() throws Exception {
+    createMultiBranchPipelineProject(new BranchSource(getGerritSCMSource(API_KEY)));
+    assertEquals(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, httpStatusOfPostGerritEventBodyToWebhookURI("bogus" + API_KEY));
+  }
+
+    private WorkflowMultiBranchProject createMultiBranchPipelineProject(BranchSource branchSource) throws IOException {
+        WorkflowMultiBranchProject mp = j.jenkins.createProject(WorkflowMultiBranchProject.class, projectName);
+        mp.getSourcesList().add(branchSource);
+        return mp;
+    }
+
+    private WorkflowMultiBranchProject createMultiBranchPipelineProject(String folderName, BranchSource branchSource) throws IOException {
+        Folder f = j.jenkins.createProject(Folder.class, folderName);
+        WorkflowMultiBranchProject mp = f.createProject(WorkflowMultiBranchProject.class, projectName);
+        mp.getSourcesList().add(branchSource);
+        return mp;
+    }
+
+ private int httpStatusOfPostGerritEventBodyToWebhookURI() throws UnirestException {
+    return httpStatusOfPostGerritEventBodyToWebhookURI(null);
+ }
+  private int httpStatusOfPostGerritEventBodyToWebhookURI(String apiKey) throws UnirestException {
     return Unirest.post(gerritPluginWebhookURI())
         .header(HttpHeaders.CONTENT_TYPE, MediaType.JSON_UTF_8.toString())
+            .queryString("apiKey", apiKey)
         .body(gerritEventBody)
         .asString()
         .getStatus();
   }
 
   private GerritSCMSource getGerritSCMSource() {
+    return getGerritSCMSource(null);
+  }
+
+  private GerritSCMSource getGerritSCMSource(String apiKey) {
     GerritSCMSource mockSource = mock(GerritSCMSource.class);
     when(mockSource.getRemote()).thenReturn("somerepo");
+    when(mockSource.getApiKey()).thenReturn(apiKey);
     return mockSource;
   }
 

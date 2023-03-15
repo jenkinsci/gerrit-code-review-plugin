@@ -84,6 +84,8 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
 
   private Boolean insecureHttps;
 
+  private String apiKey;
+
   @CheckForNull private String credentialsId;
 
   private List<SCMSourceTrait> traits = new ArrayList<>();
@@ -275,7 +277,16 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
     return traits;
   }
 
-  @Symbol({"gerrit", "git"})
+  @DataBoundSetter
+  public void setApiKey(String apiKey) {
+    this.apiKey = apiKey;
+  }
+
+  public String getApiKey() {
+    return apiKey;
+  }
+
+    @Symbol({"gerrit", "git"})
   @Extension
   public static class DescriptorImpl extends SCMSourceDescriptor {
 
