@@ -35,6 +35,7 @@ import hudson.scm.SCM;
 import hudson.security.ACL;
 import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
+import hudson.util.Secret;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.util.*;
@@ -83,6 +84,8 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
   private final String remote;
 
   private Boolean insecureHttps;
+
+  private Secret apiKey;
 
   @CheckForNull private String credentialsId;
 
@@ -273,6 +276,15 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
   @Override
   public List<SCMSourceTrait> getTraits() {
     return traits;
+  }
+
+  @DataBoundSetter
+  public void setApiKey(Secret apiKey) {
+    this.apiKey = apiKey;
+  }
+
+  public Secret getApiKey() {
+    return apiKey;
   }
 
   @Symbol({"gerrit", "git"})
