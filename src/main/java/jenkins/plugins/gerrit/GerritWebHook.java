@@ -24,16 +24,19 @@ import hudson.model.RootAction;
 import hudson.model.UnprotectedRootAction;
 import hudson.security.ACL;
 import hudson.security.ACLContext;
+import hudson.util.Secret;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.servlet.http.HttpServletRequest;
 import jenkins.model.Jenkins;
-import jenkins.scm.api.SCMSource;
 import jenkins.scm.api.SCMSourceOwner;
 import org.acegisecurity.Authentication;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
@@ -43,6 +46,7 @@ import org.slf4j.LoggerFactory;
 
 @Extension
 public class GerritWebHook implements UnprotectedRootAction {
+  public static final String API_KEY_MD_ALGO = "SHA-256";
   private static final Logger log = LoggerFactory.getLogger(GerritWebHook.class);
   private static final Gson gson = new Gson();
 
@@ -76,6 +80,8 @@ public class GerritWebHook implements UnprotectedRootAction {
   @SuppressWarnings({"unused", "deprecation"})
   public void doIndex() throws IOException {
     HttpServletRequest req = Stapler.getCurrentRequest();
+    String jobName = req.getParameter("jobName");
+    String apiKeyParam = req.getParameter("apiKey");
     getBody(req)
         .ifPresent(
             projectEvent -> {
@@ -89,28 +95,96 @@ public class GerritWebHook implements UnprotectedRootAction {
 
               try (ACLContext acl = ACL.as(ACL.SYSTEM)) {
                 List<WorkflowMultiBranchProject> jenkinsItems =
-                    getJenkinsInstance().getAllItems(WorkflowMultiBranchProject.class);
-                log.info("Scanning {} Jenkins items", jenkinsItems.size());
-                for (SCMSourceOwner scmJob : jenkinsItems) {
-                  log.info("Scanning job " + scmJob);
-                  List<SCMSource> scmSources = scmJob.getSCMSources();
-                  for (SCMSource scmSource : scmSources) {
-                    if (scmSource instanceof GerritSCMSource) {
-                      GerritSCMSource gerritSCMSource = (GerritSCMSource) scmSource;
-                      log.debug("Checking match for SCM source: " + gerritSCMSource.getRemote());
-                      if (projectEvent.matches(gerritSCMSource.getRemote())) {
-                        log.info(
-                            "Triggering SCM event for source "
-                                + scmSources.get(0)
-                                + " on job "
-                                + scmJob);
-                        scmJob.onSCMSourceUpdated(scmSource);
-                      }
-                    }
+                    getJenkinsInstance()
+                        .getAllItems(WorkflowMultiBranchProject.class)
+                        .stream()
+                        .filter(job -> jobName == null || job.getName().equals(jobName))
+                        .collect(Collectors.toList());
+                if (jobName != null && jenkinsItems.isEmpty()) {
+                  throw new IllegalStateException(
+                      String.format("Job '%s' not found or not a multi-branch pipeline", jobName));
+                }
+                if (jobName != null && jenkinsItems.size() > 1) {
+                  throw new IllegalStateException(
+                      String.format(
+                          "Search for job '%s' is ambiguous and returned %d entries",
+                          jobName, jenkinsItems.size()));
+                }
+                log.info(
+                    "Scanning {} Jenkins items {}",
+                    jenkinsItems.size(),
+                    jobName == null ? "" : "matching " + jobName);
+                List<WorkflowMultiBranchProject> machingJobs =
+                    jenkinsItems
+                        .stream()
+                        .filter(job -> jobName == null || job.getName().equals(jobName))
+                        .collect(Collectors.toList());
+
+                log.info("Found {} Jenkins mathcing jobs", machingJobs.size());
+                for (SCMSourceOwner scmJob : machingJobs) {
+                  List<GerritSCMSource> gerritScmSources =
+                      scmJob
+                          .getSCMSources()
+                          .stream()
+                          .filter(GerritSCMSource.class::isInstance)
+                          .map(GerritSCMSource.class::cast)
+                          .collect(Collectors.toList());
+                  log.info(
+                      "Scanning job {} with {} Gerrit SCM sources",
+                      scmJob.getName(),
+                      gerritScmSources.size());
+                  for (GerritSCMSource scmSource : gerritScmSources) {
+                    triggerScmSourceOnJob(apiKeyParam, projectEvent, scmJob, scmSource);
                   }
                 }
               }
             });
+  }
+
+  private void triggerScmSourceOnJob(
+      String apiKeyParam,
+      GerritProjectEvent projectEvent,
+      SCMSourceOwner scmJob,
+      GerritSCMSource gerritSCMSource) {
+    Secret gerritSCMSourceApiKey = gerritSCMSource.getApiKey();
+    log.debug("Checking match for SCM source: " + gerritSCMSource.getRemote());
+    if (!projectEvent.matches(gerritSCMSource.getRemote())) {
+      log.warn(
+          "Not triggering job {}: SCM source remote does not match the one specified in the project event",
+          scmJob.getName());
+      return;
+    }
+    if (gerritSCMSourceApiKey == null || gerritSCMSourceApiKey.getPlainText().isEmpty()) {
+      log.warn(
+          "Not triggering job {}: apiKey was not configured in the SCM source or empty",
+          scmJob.getName());
+      return;
+    }
+
+    if (!sameApiKeyMessageDigest(apiKeyParam, gerritSCMSourceApiKey)) {
+      throw new IllegalStateException(
+          "Unable to trigger the SCM source because of the ApiKey provided in gerrit web-hook does not match the one configured in the source");
+    }
+
+    log.info("Triggering SCM event for source {} on job {}", gerritSCMSource, scmJob);
+    scmJob.onSCMSourceUpdated(gerritSCMSource);
+  }
+
+  private boolean sameApiKeyMessageDigest(String apiKeyParam, Secret gerritSCMSourceApiKey) {
+    return MessageDigest.isEqual(messageDigest(gerritSCMSourceApiKey), messageDigest(apiKeyParam));
+  }
+
+  private byte[] messageDigest(Secret secret) {
+    return messageDigest(secret.getPlainText());
+  }
+
+  private byte[] messageDigest(String plaintext) {
+    try {
+      MessageDigest digest = MessageDigest.getInstance(API_KEY_MD_ALGO);
+      return digest.digest(plaintext.getBytes(StandardCharsets.UTF_8));
+    } catch (NoSuchAlgorithmException e) {
+      throw new IllegalStateException(e);
+    }
   }
 
   @VisibleForTesting
