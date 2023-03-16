@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9891a56b_813f0fa4",
+        "filename": "src/main/resources/jenkins/plugins/gerrit/GerritSCMNavigator/help-apiKey.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-03-16T01:01:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b932383_acb4ef96",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "8c5679873bbde50cf4bf0e6c66eca72c89fab6e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bfce9d4a_660b056d",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-03-16T00:56:45Z",
       "side": 1,
       "message": "2023",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "8c5679873bbde50cf4bf0e6c66eca72c89fab6e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3657cfc0_d1497038",
+        "filename": "src/main/resources/jenkins/plugins/gerrit/GerritSCMSource/help-apiKey.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-03-16T01:01:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfce9d4a_660b056d",
       "range": {
         "startLine": 2,
         "startChar": 17,
