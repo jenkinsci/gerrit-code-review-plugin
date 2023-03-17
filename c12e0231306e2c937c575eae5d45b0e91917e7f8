@@ -3,6 +3,63 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2dce700f_cb306831",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1019805
+      },
+      "writtenOn": "2023-03-17T11:32:41Z",
+      "side": 1,
+      "message": "`integration`",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4993087b_8f0f233f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1019805
+      },
+      "writtenOn": "2023-03-17T11:32:41Z",
+      "side": 1,
+      "message": "Why `by suffix` specifically? I\u0027m not familiar with webhooks in Gerrit - is that how they work?",
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "637d04a0_f32fb894",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1019805
+      },
+      "writtenOn": "2023-03-17T11:32:41Z",
+      "side": 1,
+      "message": "Do we mean `executed` instead of `generated`?",
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0d636820_0f494cff",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -20,6 +77,23 @@
         "endLine": 26,
         "endChar": 51
       },
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cec01885_8a8e3a89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1019805
+      },
+      "writtenOn": "2023-03-17T11:32:41Z",
+      "side": 1,
+      "message": "Doesn\u0027t this defeat the purpose of this change?",
       "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -89,6 +163,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b151fd6f_40b19b45",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1019805
+      },
+      "writtenOn": "2023-03-17T11:32:41Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "ab2b4d0e_f475dd2c",
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7d13d86c_56fd90fd",
         "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
         "patchSetId": 3
@@ -106,6 +198,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ceb402d8_93fc9f22",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1019805
+      },
+      "writtenOn": "2023-03-17T11:32:41Z",
+      "side": 1,
+      "message": "Nit: same as `isBlank()` (or do we need to maintain Java 8 compatibility?).",
+      "range": {
+        "startLine": 116,
+        "startChar": 56,
+        "endLine": 116,
+        "endChar": 72
+      },
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd6fd407_a3c9afb0",
         "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
         "patchSetId": 3
@@ -117,6 +232,30 @@
       "writtenOn": "2023-03-17T10:08:15Z",
       "side": 1,
       "message": "nit: abstracting in a private method this bit of logic might make the code more readable, WDYT?\n\nSomething like: `validateSCMSourceApiKey` ?",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 27
+      },
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c23f086_6314920d",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1019805
+      },
+      "writtenOn": "2023-03-17T11:32:41Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "fd6fd407_a3c9afb0",
       "range": {
         "startLine": 115,
         "startChar": 0,
