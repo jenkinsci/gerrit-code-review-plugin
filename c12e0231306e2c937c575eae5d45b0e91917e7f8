@@ -60,6 +60,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c85e4d6_59c4ac81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2023-03-17T11:34:03Z",
+      "side": 1,
+      "message": "nit: long line",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 73
+      },
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0d636820_0f494cff",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -94,6 +117,29 @@
       "writtenOn": "2023-03-17T11:32:41Z",
       "side": 1,
       "message": "Doesn\u0027t this defeat the purpose of this change?",
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53d27443_1479051e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2023-03-17T11:34:03Z",
+      "side": 1,
+      "message": "nit: long line",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 75
+      },
       "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
