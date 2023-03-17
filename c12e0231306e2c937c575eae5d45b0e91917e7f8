@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d636820_0f494cff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2023-03-17T10:08:15Z",
+      "side": 1,
+      "message": "Would it make sense to split this into another change? It seems unrelated to the security fix or am I missing something?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 51
+      },
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bed00def_6286e591",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2023-03-17T10:08:15Z",
+      "side": 1,
+      "message": "I might lack of context here. I find strange that we are returning some results (`jenkinsItems.size() !\u003d 1` , hence I suppose it can be `\u003e 0`), however we are saying that the project/job is not visible by the user?",
+      "range": {
+        "startLine": 101,
+        "startChar": 51,
+        "endLine": 101,
+        "endChar": 71
+      },
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0edef2fd_7b9c8fff",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2023-03-17T10:08:15Z",
+      "side": 1,
+      "message": "`Project` or `job` not found? We are in the Jenkins space, hence I guess we are referring to `job`?",
+      "range": {
+        "startLine": 101,
+        "startChar": 27,
+        "endLine": 101,
+        "endChar": 34
+      },
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab2b4d0e_f475dd2c",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2023-03-17T10:08:15Z",
+      "side": 1,
+      "message": "nit: what about using a guard close to avoid further nesting?",
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d13d86c_56fd90fd",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2023-03-17T10:08:15Z",
+      "side": 1,
+      "message": "If the key is not specified we still allow the scan to happen for back compatibility, which is fine.\n\nHowever, should we at least log it or warn the Jenkins admin somehow to make sure they are aware of the security issue?",
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd6fd407_a3c9afb0",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2023-03-17T10:08:15Z",
+      "side": 1,
+      "message": "nit: abstracting in a private method this bit of logic might make the code more readable, WDYT?\n\nSomething like: `validateSCMSourceApiKey` ?",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 27
+      },
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
