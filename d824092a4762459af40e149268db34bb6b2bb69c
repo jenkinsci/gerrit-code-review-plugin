@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ea50579_a7492646",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1021037
+      },
+      "writtenOn": "2023-04-18T08:09:56Z",
+      "side": 1,
+      "message": "For us this part doesn\u0027t work anymore on the recent version of jenkins.",
+      "range": {
+        "startLine": 293,
+        "startChar": 0,
+        "endLine": 293,
+        "endChar": 259
+      },
+      "revId": "d824092a4762459af40e149268db34bb6b2bb69c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
