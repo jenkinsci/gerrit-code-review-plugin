@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0f607d3_38d57cba",
+        "filename": "src/main/resources/META-INF/hudson.remoting.ClassFilter",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1021037
+      },
+      "writtenOn": "2023-04-18T08:15:48Z",
+      "side": 1,
+      "message": "Sorry I will make another patch to have right commit comment sorry.",
+      "revId": "551e05983718e9bd460ef829dae7f4c9a111d104",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
