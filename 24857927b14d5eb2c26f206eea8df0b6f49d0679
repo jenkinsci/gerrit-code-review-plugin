@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7890d05b_6b2fdb59",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021037
+      },
+      "writtenOn": "2023-04-19T08:26:20Z",
+      "side": 1,
+      "message": "When I would like use this plugin in recent jenkins. I have some marshal error with xtream and whitelist. \n\nSo I propose to add this class to this white liste.\n\nBest regards, Stephane Martin.",
+      "revId": "24857927b14d5eb2c26f206eea8df0b6f49d0679",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
