@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d43386a_bafc82a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1019016
+      },
+      "writtenOn": "2023-06-13T13:14:26Z",
+      "side": 1,
+      "message": "Hi Luca,\n\ndo you have a guess on when this will be released?\n\nThanks",
+      "revId": "e6736c9a155d1fcd41df3c0459750b12cc1ccfac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c74fe434_8917cdd4",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1019016
+      },
+      "writtenOn": "2023-06-13T13:14:26Z",
+      "side": 1,
+      "message": "is it OK there is a release date already despite this commit not even being merged yet?",
+      "revId": "e6736c9a155d1fcd41df3c0459750b12cc1ccfac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
