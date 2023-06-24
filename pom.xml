@@ -205,6 +205,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -420,6 +421,12 @@
       <groupId>org.xmlunit</groupId>
       <artifactId>xmlunit-matchers</artifactId>
       <version>2.2.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.truth</groupId>
+      <artifactId>truth</artifactId>
+      <version>1.1.4</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
