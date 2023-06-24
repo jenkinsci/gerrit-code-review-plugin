@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d0e49545_96994a0a",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-06-24T11:56:33Z",
+      "side": 1,
+      "message": "Nope, because this change isn\u0027t working yet and I also believe it is the wrong approach.",
+      "parentUuid": "c74fe434_8917cdd4",
+      "revId": "e6736c9a155d1fcd41df3c0459750b12cc1ccfac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e74aee47_a25cfe2b",
         "filename": "src/main/resources/META-INF/hudson.remoting.ClassFilter",
         "patchSetId": 6
