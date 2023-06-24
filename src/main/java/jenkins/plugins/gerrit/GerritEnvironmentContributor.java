@@ -14,6 +14,7 @@
 
 package jenkins.plugins.gerrit;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -26,6 +27,7 @@ import hudson.model.Run;
 import hudson.model.TaskListener;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -43,10 +45,48 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
       Pattern.compile("^\\d+\\/(?<changeNum>\\d+)\\/(?<patchSet>\\d+)$");
 
   public static class ChangeInfoInvisibleAction extends InvisibleAction {
-    Optional<ChangeInfo> maybeChangeInfo;
+    private final Map<String, String> changeEnvs;
 
-    ChangeInfoInvisibleAction(Optional<ChangeInfo> maybeChangeInfo) {
-      this.maybeChangeInfo = maybeChangeInfo;
+    ChangeInfoInvisibleAction(Optional<ChangeInfo> maybeChangeInfo, String changeNum, String patchSet, int patchSetNum, GerritURI gerritURI) {
+      changeEnvs = new HashMap<>();
+
+      maybeChangeInfo.ifPresent((change) -> {
+
+        changeEnvs.put("GERRIT_CHANGE_NUMBER", changeNum);
+        changeEnvs.put("GERRIT_PATCHSET_NUMBER", patchSet);
+        changeEnvs.put("GERRIT_CHANGE_PRIVATE_STATE", change.isPrivate != null ? Boolean.toString(change.isPrivate) : "false");
+        changeEnvs.put("GERRIT_CHANGE_WIP_STATE", change.workInProgress != null ? Boolean.toString(change.workInProgress) : "false");
+        changeEnvs.put("GERRIT_CHANGE_SUBJECT", change.subject);
+        changeEnvs.put("GERRIT_CHANGE_URL", gerritURI.setPath("" + change._number).toASCIIString());
+        changeEnvs.put("GERRIT_BRANCH", change.branch);
+        changeEnvs.put("GERRIT_TOPIC", Strings.nullToEmpty(change.topic));
+        changeEnvs.put("GERRIT_CHANGE_ID", change.id);
+
+        Map.Entry<String, RevisionInfo> patchSetInfo =
+                change
+                        .revisions
+                        .entrySet()
+                        .stream()
+                        .filter(entry -> entry.getValue()._number == patchSetNum)
+                        .findFirst()
+                        .get();
+
+        changeEnvs.put("GERRIT_REFNAME", patchSetInfo.getValue().ref);
+        changeEnvs.put("GERRIT_REFSPEC", patchSetInfo.getValue().ref);
+        changeEnvs.put("GERRIT_PATCHSET_REVISION", patchSetInfo.getKey());
+        changeEnvs.put("GERRIT_CHANGE_OWNER", change.owner.name + " <" + change.owner.email + ">");
+        changeEnvs.put("GERRIT_CHANGE_OWNER_NAME", change.owner.name);
+        changeEnvs.put("GERRIT_CHANGE_OWNER_EMAIL", change.owner.email);
+
+        AccountInfo uploader = patchSetInfo.getValue().uploader;
+        changeEnvs.put("GERRIT_PATCHSET_UPLOADER", uploader.name + " <" + uploader.email + ">");
+        changeEnvs.put("GERRIT_PATCHSET_UPLOADER_NAME", uploader.name);
+        changeEnvs.put("GERRIT_PATCHSET_UPLOADER_EMAIL", uploader.email);
+      });
+    }
+
+    public Map<String,String> getChangeEnvs() {
+      return changeEnvs;
     }
   }
 
@@ -87,64 +127,22 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
     if (matcher.find()) {
       int patchSetNum = Integer.parseInt(matcher.group("patchSet"));
 
-      Optional<ChangeInfo> changeInfo = Optional.empty();
+      Map<String,String> changeEnvs;
       List<ChangeInfoInvisibleAction> changeInfos = r.getActions(ChangeInfoInvisibleAction.class);
       if (changeInfos.isEmpty()) {
-        changeInfo = gerritSCMSource.getChangeInfo(Integer.parseInt(matcher.group("changeNum")));
-        r.addAction(new ChangeInfoInvisibleAction(changeInfo));
-      } else {
-        changeInfo = changeInfos.get(0).maybeChangeInfo;
-      }
-      changeInfo.ifPresent(
-          (change) -> {
-            publishChangeDetails(
-                envs,
-                matcher.group("changeNum"),
+        Optional<ChangeInfo> changeInfo = gerritSCMSource.getChangeInfo(Integer.parseInt(matcher.group("changeNum")));
+        ChangeInfoInvisibleAction changeInfoAction = new ChangeInfoInvisibleAction(changeInfo, matcher.group("changeNum"),
                 matcher.group("patchSet"),
                 patchSetNum,
-                change,
                 gerritURI);
-          });
+        r.addAction(changeInfoAction);
+        changeEnvs = changeInfoAction.getChangeEnvs();
+      } else {
+        changeEnvs = changeInfos.get(0).getChangeEnvs();
+      }
+
+      envs.putAll(changeEnvs);
     }
-  }
-
-  private void publishChangeDetails(
-      @Nonnull EnvVars envs,
-      String changeNum,
-      String patchSet,
-      int patchSetNum,
-      ChangeInfo change,
-      GerritURI gerritURI) {
-    envs.put("GERRIT_CHANGE_NUMBER", changeNum);
-    envs.put("GERRIT_PATCHSET_NUMBER", patchSet);
-    envs.put("GERRIT_CHANGE_PRIVATE_STATE", booleanString(change.isPrivate));
-    envs.put("GERRIT_CHANGE_WIP_STATE", booleanString(change.workInProgress));
-    envs.put("GERRIT_CHANGE_SUBJECT", change.subject);
-    envs.put("GERRIT_CHANGE_URL", gerritURI.setPath("" + change._number).toASCIIString());
-    envs.put("GERRIT_BRANCH", change.branch);
-    envs.put("GERRIT_TOPIC", nullToEmpty(change.topic));
-    envs.put("GERRIT_CHANGE_ID", change.id);
-
-    Map.Entry<String, RevisionInfo> patchSetInfo =
-        change
-            .revisions
-            .entrySet()
-            .stream()
-            .filter(entry -> entry.getValue()._number == patchSetNum)
-            .findFirst()
-            .get();
-
-    envs.put("GERRIT_REFNAME", patchSetInfo.getValue().ref);
-    envs.put("GERRIT_REFSPEC", patchSetInfo.getValue().ref);
-    envs.put("GERRIT_PATCHSET_REVISION", patchSetInfo.getKey());
-    envs.put("GERRIT_CHANGE_OWNER", change.owner.name + " <" + change.owner.email + ">");
-    envs.put("GERRIT_CHANGE_OWNER_NAME", change.owner.name);
-    envs.put("GERRIT_CHANGE_OWNER_EMAIL", change.owner.email);
-
-    AccountInfo uploader = patchSetInfo.getValue().uploader;
-    envs.put("GERRIT_PATCHSET_UPLOADER", uploader.name + " <" + uploader.email + ">");
-    envs.put("GERRIT_PATCHSET_UPLOADER_NAME", uploader.name);
-    envs.put("GERRIT_PATCHSET_UPLOADER_EMAIL", uploader.email);
   }
 
   private String booleanString(Boolean booleanValue) {
