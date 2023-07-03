@@ -269,6 +269,12 @@ Registry since April 2018 and has been used so far by hundreds of
 developers around the world that provided already very useful feedback
 and started contributing with pull-requests.
 
+### v0.4.9 - Released - 4 July 2023
+
+#### Fixes
+
+- [SECURITY-2838](https://issues.jenkins.io/browse/SECURITY-2838) Remove all JEP-200 bypass for all classes
+
 ### v0.4.8 - Released - 24 June 2023
 
 #### Fixes
