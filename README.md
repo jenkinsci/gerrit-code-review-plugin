@@ -269,11 +269,19 @@ Registry since April 2018 and has been used so far by hundreds of
 developers around the world that provided already very useful feedback
 and started contributing with pull-requests.
 
+<<<<<<< PATCH SET (014828 [SECURITY-2838] Remove serialisation allow-list for Jenkins )
+### v0.4.9 - Released - 4 July 2023
+
+#### Fixes
+
+- [SECURITY-2838](https://issues.jenkins.io/browse/SECURITY-2838) Remove all JEP-200 bypass for all classes
+=======
 ### v0.4.9 - Released - 22 January 2024
 
 #### Fixes
 
 - [SECURITY-2847](https://issues.jenkins.io/browse/SECURITY-2847) Introduce apiKey/jobName to WebHooks to prevent abuse
+>>>>>>> BASE      (76b696 [maven-release-plugin] prepare for next development iteratio)
 
 ### v0.4.8 - Released - 24 June 2023
 
