@@ -1,9 +1,0 @@
-com.google.gerrit.extensions.common.AccountInfo
-com.google.gerrit.extensions.common.ChangeInfo
-com.google.gerrit.extensions.common.ChangeMessageInfo
-com.google.gerrit.extensions.common.AvatarInfo
-com.google.gerrit.extensions.common.ReviewerUpdateInfo
-com.google.gerrit.extensions.common.TrackingIdInfo
-com.google.gerrit.extensions.common.SubmitRequirementInfo
-com.google.gson.internal.LinkedTreeMap
-java.sql.Timestamp

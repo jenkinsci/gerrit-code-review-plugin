@@ -269,6 +269,12 @@ Registry since April 2018 and has been used so far by hundreds of
 developers around the world that provided already very useful feedback
 and started contributing with pull-requests.
 
+### v0.4.10 - Released - TBC
+
+#### Fixes
+
+- [SECURITY-2838](https://issues.jenkins.io/browse/SECURITY-2838) Remove all JEP-200 bypass for all classes
+
 ### v0.4.9 - Released - 22 January 2024
 
 #### Fixes
