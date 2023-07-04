@@ -58,6 +58,66 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b630d4b4_7d6f5e2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-04T13:19:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "637d04a0_f32fb894",
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64a5bef1_9bcc88d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-04T13:19:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dce700f_cb306831",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bd15f16_5a45ce30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-04T13:19:42Z",
+      "side": 1,
+      "message": "I mean that you may try to _guess_ just a suffix of the project, without knowing its name, and still manage to trigger a build with the webhook.",
+      "parentUuid": "4993087b_8f0f233f",
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c85e4d6_59c4ac81",
@@ -71,6 +131,30 @@
       "writtenOn": "2023-03-17T11:34:03Z",
       "side": 1,
       "message": "nit: long line",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 73
+      },
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1d757e5_d7571a55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-04T13:19:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c85e4d6_59c4ac81",
       "range": {
         "startLine": 21,
         "startChar": 0,
@@ -104,6 +188,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae69b0b0_f1c18a73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-04T13:19:42Z",
+      "side": 1,
+      "message": "Without a `jobName` query string, how can you be sure of what project you are going to trigger?",
+      "parentUuid": "0d636820_0f494cff",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 51
+      },
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cec01885_8a8e3a89",
@@ -121,6 +229,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbcdd4b6_3a8b3a76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-04T13:19:42Z",
+      "side": 1,
+      "message": "I\u0027ve amended the change to make the `apiKey` mandatory, even though this would make the new version of the plugin non backward compatible anymore.",
+      "parentUuid": "cec01885_8a8e3a89",
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53d27443_1479051e",
@@ -134,6 +260,30 @@
       "writtenOn": "2023-03-17T11:34:03Z",
       "side": 1,
       "message": "nit: long line",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 75
+      },
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45797513_141837a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-04T13:19:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53d27443_1479051e",
       "range": {
         "startLine": 29,
         "startChar": 0,
@@ -190,6 +340,54 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "302972b5_8ab791a6",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-04T13:19:42Z",
+      "side": 1,
+      "message": "Job.",
+      "parentUuid": "0edef2fd_7b9c8fff",
+      "range": {
+        "startLine": 101,
+        "startChar": 27,
+        "endLine": 101,
+        "endChar": 34
+      },
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25476118_eef5c465",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-04T13:19:42Z",
+      "side": 1,
+      "message": "The visibility was an incorrect statement. However, I\u0027ve split the check in two, so that I can provide a more meaningful error message.",
+      "parentUuid": "bed00def_6286e591",
+      "range": {
+        "startLine": 101,
+        "startChar": 51,
+        "endLine": 101,
+        "endChar": 71
+      },
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab2b4d0e_f475dd2c",
@@ -225,6 +423,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8f9549b_92841da2",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-04T13:19:42Z",
+      "side": 1,
+      "message": "Not sure we can, because we have a loop at L105 and we need to go through all of them. But I agree the nesting is just too much and I\u0027ll do some local refactoring to ease the pain of the reader.",
+      "parentUuid": "b151fd6f_40b19b45",
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d13d86c_56fd90fd",
@@ -242,6 +458,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3cca2b0_614c1363",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-04T13:19:42Z",
+      "side": 1,
+      "message": "I have removed the backward compatibility and now the `apiKey` is mandatory.",
+      "parentUuid": "7d13d86c_56fd90fd",
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ceb402d8_93fc9f22",
@@ -255,6 +489,30 @@
       "writtenOn": "2023-03-17T11:32:41Z",
       "side": 1,
       "message": "Nit: same as `isBlank()` (or do we need to maintain Java 8 compatibility?).",
+      "range": {
+        "startLine": 116,
+        "startChar": 56,
+        "endLine": 116,
+        "endChar": 72
+      },
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52d11c36_57caa711",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-04T13:19:42Z",
+      "side": 1,
+      "message": "Yes, this plugin is compatible with Java 8.",
+      "parentUuid": "ceb402d8_93fc9f22",
       "range": {
         "startLine": 116,
         "startChar": 56,
@@ -302,6 +560,30 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "fd6fd407_a3c9afb0",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 27
+      },
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c67290af_bca44e1a",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-04T13:19:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c23f086_6314920d",
       "range": {
         "startLine": 115,
         "startChar": 0,
