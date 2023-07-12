@@ -80,6 +80,30 @@
       },
       "revId": "888aa9cd4da5376298659973409e25c351706bfa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75ac6218_8b3ac4f2",
+        "filename": "README.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-12T18:25:30Z",
+      "side": 1,
+      "message": "I\u0027d suggest to upload a brand-new change, adding `Originally-Authored-By: \u003c\u003e` on the footer.",
+      "parentUuid": "ba977465_a3fa16c7",
+      "range": {
+        "startLine": 137,
+        "startChar": 1,
+        "endLine": 137,
+        "endChar": 101
+      },
+      "revId": "888aa9cd4da5376298659973409e25c351706bfa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
