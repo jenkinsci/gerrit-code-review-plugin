@@ -18,6 +18,23 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1843e6f8_3be85a5b",
+        "filename": "README.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000334
+      },
+      "writtenOn": "2023-07-12T18:08:42Z",
+      "side": 1,
+      "message": "minor note for Luca: Looks like these actually aren\u0027t sorted at all (they\u0027re kind of all over the place) 🤷‍♂️\nHow strongly do you feel about this? And if it\u0027s something you actually want to see, any reason it can\u0027t be done as a separate change to fix all of them at once?",
+      "revId": "888aa9cd4da5376298659973409e25c351706bfa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e5e5e64_f94c00ec",
@@ -31,6 +48,30 @@
       "writtenOn": "2023-01-10T23:28:52Z",
       "side": 1,
       "message": "Variables are listed in alphabetical order: this should be put back after L134",
+      "range": {
+        "startLine": 137,
+        "startChar": 1,
+        "endLine": 137,
+        "endChar": 101
+      },
+      "revId": "888aa9cd4da5376298659973409e25c351706bfa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba977465_a3fa16c7",
+        "filename": "README.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000334
+      },
+      "writtenOn": "2023-07-12T18:08:42Z",
+      "side": 1,
+      "message": "@manjunath.anna@gmail.com looks like this is the last comment to get this moving. I would like to see this in an upcoming release 🙂\n\n@luca.milanesio@gmail.com If this is no longer maintained by the author, what\u0027s the etiquette on someone else uploading the fix? 😬",
+      "parentUuid": "5e5e5e64_f94c00ec",
       "range": {
         "startLine": 137,
         "startChar": 1,
