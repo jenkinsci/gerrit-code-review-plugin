@@ -108,32 +108,31 @@ Gerrit using RestAPI.
 
 ### Using Environment Variables
 
-| Key                            | Description                                                      |
-| ------------------------------ | ---------------------------------------------------------------- |
+| Key                            | Description                                                     |
+| ------------------------------ | --------------------------------------------------------------- |
+| BRANCH_NAME                    | Gerrit reference name nn/nnnn/n                                 |
+| GERRIT_API_INSECURE_HTTPS      | If set to `true` certificate validation will be disabled        |
 | GERRIT_API_URL                 | Gerrit API URL, only `http` and `https` protocols are supported |
-| GERRIT_CHANGE_URL              | Gerrit change URL to parse GERRIT_API_URL out if missing         |
-| GERRIT_API_INSECURE_HTTPS      | If set to `true` certificate validation will be disabled         |
-| GERRIT_CREDENTIALS_ID          | Jenkins credentials object id                                    |
-| GERRIT_PROJECT                 | Gerrit project name                                              |
-| BRANCH_NAME                    | Gerrit reference name nn/nnnn/n                                  |
-| GERRIT_CHANGE_NUMBER           | Gerrit change number                                             |
-| GERRIT_PATCHSET_NUMBER         | Gerrit revision                                                  |
-| GERRIT_CHANGE_PRIVATE_STATE    | true if the Gerrit change is private                             |
-| GERRIT_CHANGE_WIP_STATE        | true if the Gerrit change is WIP                                 |
-| GERRIT_CHANGE_SUBJECT          | Gerrit change headline                                           |
-| GERRIT_BRANCH                  | target branch of the Gerrit change                               |
-| GERRIT_TOPIC                   | topic name (if any) of the Gerrit change                         |
-| GERRIT_CHANGE_ID               | Gerrit change id                                                 |
-| GERRIT_CHANGE_URL              | Gerrit change URL                                                |
-| GERRIT_PATCHSET_REVISION       | SHA1 of the Gerrit patch-set                                     |
-| GERRIT_CHANGE_OWNER            | Owner (name <email>) of the Gerrit change                        |
-| GERRIT_CHANGE_OWNER_NAME       | Owner name of the Gerrit change                                  |
-| GERRIT_CHANGE_OWNER_EMAIL      | Owner e-mail of the Gerrit change                                |
-| GERRIT_PATCHSET_UPLOADER       | Uploader (name <email>) of the Gerrit patch-set                  |
-| GERRIT_PATCHSET_UPLOADER_NAME  | Uploader name of the Gerrit patch-set                            |
-| GERRIT_PATCHSET_UPLOADER_EMAIL | Uploader e-mail of the Gerrit patch-set                          |
-| GERRIT_REFNAME                 | Git ref name of the change/patch-set                             |
-| GERRIT_REFSPEC                 | Git ref name of the change/patch-set (*)                         |
+| GERRIT_BRANCH                  | target branch of the Gerrit change                              |
+| GERRIT_CHANGE_ID               | Gerrit change id                                                |
+| GERRIT_CHANGE_NUMBER           | Gerrit change number                                            |
+| GERRIT_CHANGE_OWNER            | Owner (name <email>) of the Gerrit change                       |
+| GERRIT_CHANGE_OWNER_NAME       | Owner name of the Gerrit change                                 |
+| GERRIT_CHANGE_OWNER_EMAIL      | Owner e-mail of the Gerrit change                               |
+| GERRIT_CHANGE_PRIVATE_STATE    | true if the Gerrit change is private                            |
+| GERRIT_CHANGE_SUBJECT          | Gerrit change headline                                          |
+| GERRIT_CHANGE_URL              | Gerrit change URL to parse GERRIT_API_URL out if missing        |
+| GERRIT_CHANGE_WIP_STATE        | true if the Gerrit change is WIP                                |
+| GERRIT_CREDENTIALS_ID          | Jenkins credentials object id                                   |
+| GERRIT_PATCHSET_NUMBER         | Gerrit revision                                                 |
+| GERRIT_PATCHSET_REVISION       | SHA1 of the Gerrit patch-set                                    |
+| GERRIT_PATCHSET_UPLOADER       | Uploader (name <email>) of the Gerrit patch-set                 |
+| GERRIT_PATCHSET_UPLOADER_NAME  | Uploader name of the Gerrit patch-set                           |
+| GERRIT_PATCHSET_UPLOADER_EMAIL | Uploader e-mail of the Gerrit patch-set                         |
+| GERRIT_PROJECT                 | Gerrit project name                                             |
+| GERRIT_REFNAME                 | Git ref name of the change/patch-set                            |
+| GERRIT_REFSPEC                 | Git ref name of the change/patch-set (*)                        |
+| GERRIT_TOPIC                   | topic name (if any) of the Gerrit change                        |
 
 (*) Added for compatibility with the [gerrit-trigger-plugin](https://plugins.jenkins.io/gerrit-trigger/)
 
