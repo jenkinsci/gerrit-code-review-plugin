@@ -124,6 +124,7 @@ Gerrit using RestAPI.
 | GERRIT_CHANGE_URL              | Gerrit change URL to parse GERRIT_API_URL out if missing         |
 | GERRIT_CHANGE_WIP_STATE        | true if the Gerrit change is WIP                                 |
 | GERRIT_CREDENTIALS_ID          | Jenkins credentials object id                                    |
+| GERRIT_PATCHSET_KIND           | Kind of patch-set uploaded (**)                                  |
 | GERRIT_PATCHSET_NUMBER         | Gerrit revision                                                  |
 | GERRIT_PATCHSET_REVISION       | SHA1 of the Gerrit patch-set                                     |
 | GERRIT_PATCHSET_UPLOADER       | Uploader (name <email>) of the Gerrit patch-set                  |
@@ -135,6 +136,9 @@ Gerrit using RestAPI.
 | GERRIT_TOPIC                   | topic name (if any) of the Gerrit change                         |
 
 (*) Added for compatibility with the [gerrit-trigger-plugin](https://plugins.jenkins.io/gerrit-trigger/)
+
+(**) [Patchset](https://review.gerrithub.io/Documentation/json.html#patchSet) kind can be any of
+ `REWORK`, `TRIVIAL_REBASE`, `MERGE_FIRST_PARENT_UPDATE`, `NO_CODE_CHANGE` or `NO_CHANGE`
 
 When the Jenkinsfile is discovered through a multi-branch pipeline, the above environment
 variables related to Gerrit and the associated change/patch-set would be automatically

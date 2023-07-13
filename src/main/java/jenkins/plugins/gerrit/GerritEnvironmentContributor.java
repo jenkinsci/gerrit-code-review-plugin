@@ -79,6 +79,8 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
 
             changeEnvs.put("GERRIT_REFNAME", patchSetInfo.getValue().ref);
             changeEnvs.put("GERRIT_REFSPEC", patchSetInfo.getValue().ref);
+            Optional.ofNullable(patchSetInfo.getValue().kind)
+                .ifPresent(kind -> changeEnvs.put("GERRIT_PATCHSET_KIND", kind.toString()));
             changeEnvs.put("GERRIT_PATCHSET_REVISION", patchSetInfo.getKey());
             changeEnvs.put(
                 "GERRIT_CHANGE_OWNER", change.owner.name + " <" + change.owner.email + ">");

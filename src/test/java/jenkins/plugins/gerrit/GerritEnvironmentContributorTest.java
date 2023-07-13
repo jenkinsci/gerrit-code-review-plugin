@@ -16,6 +16,7 @@ package jenkins.plugins.gerrit;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -41,6 +42,7 @@ public class GerritEnvironmentContributorTest {
       TEST_PROJECT_NAME + "~" + TEST_BRANCH + "~" + TEST_CHANGE_ID;
   public static final int TEST_PATCHSET_NUMBER = 2;
   public static final int TEST_CHANGE_NUMBER = 1;
+  public static final String TEST_CHANGE_KIND = ChangeKind.TRIVIAL_REBASE.name();
   public static final String TEST_CHANGE_REF_NAME =
       "refs/changes/"
           + String.format("%02d", TEST_CHANGE_NUMBER)
@@ -77,6 +79,7 @@ public class GerritEnvironmentContributorTest {
                             this._number = TEST_PATCHSET_NUMBER;
                             this.uploader = TEST_ACCOUNT_INFO_MATT_SMITH;
                             this.ref = TEST_CHANGE_REF_NAME;
+                            this.kind = ChangeKind.TRIVIAL_REBASE;
                           }
                         });
                   }
@@ -114,6 +117,7 @@ public class GerritEnvironmentContributorTest {
             put("GERRIT_REFNAME", TEST_CHANGE_REF_NAME);
             put("GERRIT_CHANGE_URL", TEST_GERRIT_URL + "/" + TEST_CHANGE_NUMBER);
             put("GERRIT_CHANGE_NUMBER", Integer.toString(TEST_CHANGE_NUMBER));
+            put("GERRIT_PATCHSET_KIND", TEST_CHANGE_KIND);
             put("GERRIT_PATCHSET_REVISION", Integer.toString(TEST_PATCHSET_NUMBER));
             put("GERRIT_PATCHSET_NUMBER", Integer.toString(TEST_PATCHSET_NUMBER));
             put("GERRIT_CHANGE_WIP_STATE", "false");
