@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "821097b0_027b3215",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000334
+      },
+      "writtenOn": "2023-07-13T18:18:10Z",
+      "side": 1,
+      "message": "I do not have access to Verified score, but tests pass locally:\n```\n[INFO] Results:\n[INFO]\n[INFO] Tests run: 75, Failures: 0, Errors: 0, Skipped: 0\n[INFO]\n[INFO] ------------------------------------------------------------------------\n[INFO] BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n```",
+      "revId": "74773f2e165fa79545210f9c300b33d8c766ea5b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
