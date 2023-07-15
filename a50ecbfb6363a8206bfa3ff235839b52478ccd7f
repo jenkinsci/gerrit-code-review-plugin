@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "84fd2b77_53510d9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1019805
+      },
+      "writtenOn": "2023-07-15T13:46:45Z",
+      "side": 1,
+      "message": "Not much context on this, but isn\u0027t this also a security risk? Do we need a follow-up change to encrypt this somehow?",
+      "range": {
+        "startLine": 20,
+        "startChar": 5,
+        "endLine": 20,
+        "endChar": 60
+      },
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a65a6af5_a7720353",
@@ -14,6 +37,143 @@
       "writtenOn": "2023-07-04T13:19:42Z",
       "side": 1,
       "message": "Thanks everyone for the feedback, can you please take another look?",
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0045da6_4ad3e2f4",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1019805
+      },
+      "writtenOn": "2023-07-15T13:46:45Z",
+      "side": 1,
+      "message": "Nit: to avoid the trailing space on L114 when `jobName \u003d\u003d null`, we should remove it from there and prefix `matching` with it.",
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ba30101_f7bf65fd",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1019805
+      },
+      "writtenOn": "2023-07-15T13:46:45Z",
+      "side": 1,
+      "message": "Typo: `matching`.",
+      "range": {
+        "startLine": 117,
+        "startChar": 49,
+        "endLine": 117,
+        "endChar": 60
+      },
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb025be8_428109c8",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1019805
+      },
+      "writtenOn": "2023-07-15T13:46:45Z",
+      "side": 1,
+      "message": "Isn\u0027t this the same filter as we have on L101 to get `jenkinsItems`? Why would this return a different set of results?",
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25f7495c_8a2bd4cd",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1019805
+      },
+      "writtenOn": "2023-07-15T13:46:45Z",
+      "side": 1,
+      "message": "Typo: `matching`.",
+      "range": {
+        "startLine": 123,
+        "startChar": 43,
+        "endLine": 123,
+        "endChar": 51
+      },
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c220c59_8466b870",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1019805
+      },
+      "writtenOn": "2023-07-15T13:46:45Z",
+      "side": 1,
+      "message": "Nit: Why don\u0027t we do this (and the logging) in the stream above? Then we wouldn\u0027t need to collect, one less step.",
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "593f6086_41155ca6",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1019805
+      },
+      "writtenOn": "2023-07-15T13:46:45Z",
+      "side": 1,
+      "message": "`getPlainText` docs suggest using `toString(secret)` to avoid NPEs.",
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55f34527_49583587",
+        "filename": "src/test/java/jenkins/plugins/gerrit/GerritWebHookTriggerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1019805
+      },
+      "writtenOn": "2023-07-15T13:46:45Z",
+      "side": 1,
+      "message": "Wouldn\u0027t the correct status code here be 403 Forbidden?",
+      "range": {
+        "startLine": 86,
+        "startChar": 28,
+        "endLine": 86,
+        "endChar": 52
+      },
       "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
