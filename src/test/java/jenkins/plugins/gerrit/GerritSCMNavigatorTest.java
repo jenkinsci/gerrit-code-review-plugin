@@ -111,7 +111,8 @@ public class GerritSCMNavigatorTest {
       List<SCMSourceTrait> traits) {
     GerritSCMSource source = (GerritSCMSource) scmSource;
     assertEquals(
-        StringUtils.appendIfMissing(navigator.getServerUrl(), "/") + projectName,
+        StringUtils.appendIfMissing(navigator.getServerUrl(), "/")
+         + (navigator.getCredentialsId() != null ? "a/" : "") + projectName,
         source.getRemote());
     assertEquals(navigator.isInsecureHttps(), source.getInsecureHttps());
     assertEquals(navigator.getCredentialsId(), source.getCredentialsId());

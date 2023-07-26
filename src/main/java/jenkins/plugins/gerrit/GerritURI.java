@@ -117,8 +117,8 @@ public class GerritURI {
    *
    * @return Gerrit URL to the project
    */
-  public URIish setProject(String projectName) throws URISyntaxException {
-    return remoteURI.setRawPath(getPrefix() + projectName);
+  public URIish setProject(String projectName, Boolean authenticated) throws URISyntaxException {
+    return remoteURI.setRawPath(getPrefix() + (authenticated ? "a/" : "") + projectName);
   }
 
   private Matcher getMatcher() {
