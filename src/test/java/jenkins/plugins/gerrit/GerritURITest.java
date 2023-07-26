@@ -121,13 +121,20 @@ public class GerritURITest {
   public void settingProjectToBaseUriReturnsTheProjectUri() throws URISyntaxException {
     GerritURI gerritURI = new GerritURI(new URIish("https://host"));
 
-    assertEquals("https://host/foo", gerritURI.setProject("foo").toString());
+    assertEquals("https://host/foo", gerritURI.setProject("foo", false).toString());
+  }
+
+  @Test
+  public void settingAuthenticatedProjectToBaseUriReturnsTheProjectUri() throws URISyntaxException {
+    GerritURI gerritURI = new GerritURI(new URIish("https://host"));
+
+    assertEquals("https://host/a/foo", gerritURI.setProject("foo", true).toString());
   }
 
   @Test
   public void settingProjectToProjectUriReturnsTheNewProjectUri() throws URISyntaxException {
     GerritURI gerritURI = new GerritURI(new URIish("https://host/foo"));
 
-    assertEquals("https://host/bar", gerritURI.setProject("bar").toString());
+    assertEquals("https://host/bar", gerritURI.setProject("bar", false).toString());
   }
 }

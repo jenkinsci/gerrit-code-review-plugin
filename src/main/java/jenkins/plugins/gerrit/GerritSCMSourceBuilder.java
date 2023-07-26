@@ -46,7 +46,7 @@ public class GerritSCMSourceBuilder
   public GerritSCMSource build() {
     URIish projectUri;
     try {
-      projectUri = gerritURI.setProject(projectName());
+      projectUri = gerritURI.setProject(projectName(), credentialsId != null);
     } catch (URISyntaxException e) {
       throw new IllegalStateException(e);
     }
