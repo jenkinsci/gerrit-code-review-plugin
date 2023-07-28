@@ -223,6 +223,30 @@
       },
       "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b36ac9cd_a15a7f2a",
+        "filename": "src/test/java/jenkins/plugins/gerrit/GerritWebHookTriggerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1019805
+      },
+      "writtenOn": "2023-07-28T09:22:22Z",
+      "side": 1,
+      "message": "Sure, but if I make an API call and am not authenticated/authorised I\u0027d expect a client error (actually a 401 Unauthorized, not a 403 - my bad. Or a 404 if we don\u0027t want to reveal the existence of the endpoint, but I don\u0027t think this is the case here), not a 500, which implies something went wrong in the server.\n\nSo maybe the implementation needs to change, if the error that is thrown maps directly to a 500.",
+      "parentUuid": "b87882fa_fb64fe0c",
+      "range": {
+        "startLine": 86,
+        "startChar": 28,
+        "endLine": 86,
+        "endChar": 52
+      },
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
