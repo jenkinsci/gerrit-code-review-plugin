@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c1f890c_361f008d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1020779
+      },
+      "writtenOn": "2023-12-14T18:39:44Z",
+      "side": 1,
+      "message": "I think that is good point that we need to take it into account. @luca.milanesio@gmail.com can you provide more context about that? Was you initial idea provide the API_KEY as a query parameter in plain text?.",
+      "parentUuid": "84fd2b77_53510d9c",
+      "range": {
+        "startLine": 20,
+        "startChar": 5,
+        "endLine": 20,
+        "endChar": 60
+      },
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a65a6af5_a7720353",
@@ -37,6 +61,23 @@
       "writtenOn": "2023-07-04T13:19:42Z",
       "side": 1,
       "message": "Thanks everyone for the feedback, can you please take another look?",
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62301f5a_792620ea",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1020779
+      },
+      "writtenOn": "2023-12-14T18:39:44Z",
+      "side": 1,
+      "message": "I believe the `apiKey` query parameter is compulsory. Should we fail fast with 401 `Unauthorized` response requests with missing or invalid API key?",
       "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },

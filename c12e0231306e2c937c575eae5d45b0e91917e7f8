@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1033b5ae_62846cb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1020779
+      },
+      "writtenOn": "2023-12-14T18:39:44Z",
+      "side": 1,
+      "message": "I guess that there must be a counterpart or a web hook client that will have to provide those new query parameters.",
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2dce700f_cb306831",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -161,6 +178,23 @@
         "endLine": 21,
         "endChar": 73
       },
+      "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e12c3d2_7be337ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1020779
+      },
+      "writtenOn": "2023-12-14T18:39:44Z",
+      "side": 1,
+      "message": "is the `jobName` query parameter compulsory?",
       "revId": "c12e0231306e2c937c575eae5d45b0e91917e7f8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
