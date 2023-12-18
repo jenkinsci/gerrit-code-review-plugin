@@ -288,6 +288,30 @@
       },
       "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a1a6e73_d4a096a9",
+        "filename": "src/test/java/jenkins/plugins/gerrit/GerritWebHookTriggerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1020779
+      },
+      "writtenOn": "2023-12-18T11:21:16Z",
+      "side": 1,
+      "message": "+1 401",
+      "parentUuid": "b36ac9cd_a15a7f2a",
+      "range": {
+        "startLine": 86,
+        "startChar": 28,
+        "endLine": 86,
+        "endChar": 52
+      },
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
