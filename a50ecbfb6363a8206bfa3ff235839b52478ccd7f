@@ -339,6 +339,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2908076c_e490471c",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1020779
+      },
+      "writtenOn": "2024-01-04T15:33:18Z",
+      "side": 1,
+      "message": "good one. I have used the second proposal.",
+      "parentUuid": "56fa1f1b_eee39bb3",
+      "range": {
+        "startLine": 183,
+        "startChar": 6,
+        "endLine": 184,
+        "endChar": 71
+      },
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55f34527_49583587",
