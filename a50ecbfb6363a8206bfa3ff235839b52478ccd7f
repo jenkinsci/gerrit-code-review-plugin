@@ -141,6 +141,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9a4ed421_2e72d1d5",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1020779
+      },
+      "writtenOn": "2024-01-04T10:34:22Z",
+      "side": 1,
+      "message": "I agree with @dariusjokilehto+os@gmail.com\u0027s comment.",
+      "parentUuid": "bb025be8_428109c8",
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "25f7495c_8a2bd4cd",
         "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
         "patchSetId": 4
