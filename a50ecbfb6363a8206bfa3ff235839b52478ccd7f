@@ -122,6 +122,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da9b3284_7afd4f02",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1020779
+      },
+      "writtenOn": "2024-01-04T12:52:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ba30101_f7bf65fd",
+      "range": {
+        "startLine": 117,
+        "startChar": 49,
+        "endLine": 117,
+        "endChar": 60
+      },
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb025be8_428109c8",
@@ -157,6 +181,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1d686d2_bd8dd67b",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1020779
+      },
+      "writtenOn": "2024-01-04T12:52:42Z",
+      "side": 1,
+      "message": "I have removed the variable `mathcing`. I think is redundant.",
+      "parentUuid": "9a4ed421_2e72d1d5",
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25f7495c_8a2bd4cd",
@@ -180,6 +222,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "735f0357_5063bdd4",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1020779
+      },
+      "writtenOn": "2024-01-04T12:52:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25f7495c_8a2bd4cd",
+      "range": {
+        "startLine": 123,
+        "startChar": 43,
+        "endLine": 123,
+        "endChar": 51
+      },
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c220c59_8466b870",
@@ -193,6 +259,24 @@
       "writtenOn": "2023-07-15T13:46:45Z",
       "side": 1,
       "message": "Nit: Why don\u0027t we do this (and the logging) in the stream above? Then we wouldn\u0027t need to collect, one less step.",
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae52713f_f8f24f14",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1020779
+      },
+      "writtenOn": "2024-01-04T12:52:42Z",
+      "side": 1,
+      "message": "I have done some refactoring.",
+      "parentUuid": "1c220c59_8466b870",
       "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
