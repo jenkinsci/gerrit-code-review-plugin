@@ -16,6 +16,24 @@
       "message": "From the conversation that I had with @luca.milanesio@gmail.com the requirements would be:\n- The method `doIndex` should return ALWAYS WITHOUT EXCEPTIONS raised programmatically to avoid clients re-trying constantly. Instead, we should log messages explaining what has happened.\n- The `apiKey secret` is optional (to keep backward compatibility) and in the case defined in the object `GerritSCMSource` then it will be checked against the `apiKey query parameter`.",
       "revId": "ca62a3aa57ce470a87e7fc0bd5a37aff9bd20744",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fda2bf5c_4861b136",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020779
+      },
+      "writtenOn": "2024-01-09T14:34:21Z",
+      "side": 1,
+      "message": "I uncomment this message to keep it visible and open the conversation.",
+      "parentUuid": "93a49572_844328af",
+      "revId": "ca62a3aa57ce470a87e7fc0bd5a37aff9bd20744",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
