@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2f347496_45f5ec50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-15T08:59:34Z",
+      "side": 1,
+      "message": "\u003e I think that is good point that we need to take it into account. @luca.milanesio@gmail.com can you provide more context about that? Was you initial idea provide the API_KEY as a query parameter in plain text?.\n\nWhy do you believe this is a security risk? The connection is supposed to be encrypted with HTTPS, so that is visible to only the client and the server.\n\nEven if you encrypt it, that won\u0027t avoid the replay attack, which is exactly what we are preventing here with the API_KEY.",
+      "parentUuid": "5c1f890c_361f008d",
+      "range": {
+        "startLine": 20,
+        "startChar": 5,
+        "endLine": 20,
+        "endChar": 60
+      },
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a65a6af5_a7720353",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -113,6 +137,24 @@
       "writtenOn": "2023-07-15T13:46:45Z",
       "side": 1,
       "message": "Nit: to avoid the trailing space on L114 when `jobName \u003d\u003d null`, we should remove it from there and prefix `matching` with it.",
+      "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a58ea0c_da9a9830",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-15T08:59:34Z",
+      "side": 1,
+      "message": "I don\u0027t believe the code complication would be worth it.",
+      "parentUuid": "f0045da6_4ad3e2f4",
       "revId": "a50ecbfb6363a8206bfa3ff235839b52478ccd7f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
