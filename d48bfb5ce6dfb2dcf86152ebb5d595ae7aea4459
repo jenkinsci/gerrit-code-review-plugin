@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7fe4bf34_aadbac87",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1020779
+      },
+      "writtenOn": "2024-01-18T16:26:37Z",
+      "side": 1,
+      "message": "\u003e Shall we check if jobName is null or empty here?\n\nDone\n\n\u003e Alternatively, we can fail the incoming HTTP call with a 400 error.\n\nI understood that if the API return 400, the client will keep trying. am I right?",
+      "parentUuid": "6b42b670_809414e6",
+      "range": {
+        "startLine": 102,
+        "startChar": 39,
+        "endLine": 102,
+        "endChar": 54
+      },
+      "revId": "d48bfb5ce6dfb2dcf86152ebb5d595ae7aea4459",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "04c8b25c_209c1af0",
         "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
         "patchSetId": 14
@@ -37,6 +61,30 @@
       "writtenOn": "2024-01-18T08:41:55Z",
       "side": 1,
       "message": "We should check here that also jobName is not null and not empty, otherwise it is quite normal that we have more than one jenkins job.",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 48
+      },
+      "revId": "d48bfb5ce6dfb2dcf86152ebb5d595ae7aea4459",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2817f09_bdd04ee4",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1020779
+      },
+      "writtenOn": "2024-01-18T16:26:37Z",
+      "side": 1,
+      "message": "That is done in the line L104.",
+      "parentUuid": "04c8b25c_209c1af0",
       "range": {
         "startLine": 110,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09c53113_d9ac1682",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1020779
+      },
+      "writtenOn": "2024-01-18T16:26:37Z",
+      "side": 1,
+      "message": "It was here in the initial draft. Happy to remove it.",
+      "parentUuid": "e080f67a_e4d05f35",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 3
+      },
+      "revId": "d48bfb5ce6dfb2dcf86152ebb5d595ae7aea4459",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ade2090_c6997a7a",
@@ -83,6 +155,30 @@
       "writtenOn": "2024-01-18T08:41:55Z",
       "side": 1,
       "message": "Not needed.",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 3
+      },
+      "revId": "d48bfb5ce6dfb2dcf86152ebb5d595ae7aea4459",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2df8c73_b51bbdeb",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1020779
+      },
+      "writtenOn": "2024-01-18T16:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ade2090_c6997a7a",
       "range": {
         "startLine": 170,
         "startChar": 0,
@@ -116,6 +212,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62209003_72081742",
+        "filename": "src/main/resources/jenkins/plugins/gerrit/GerritSCMSource/help-apiKey.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1020779
+      },
+      "writtenOn": "2024-01-18T16:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9048dbf_37017131",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "d48bfb5ce6dfb2dcf86152ebb5d595ae7aea4459",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e2c6c2e_cd11b9b0",
@@ -129,6 +249,30 @@
       "writtenOn": "2024-01-18T08:41:55Z",
       "side": 1,
       "message": "2024",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "d48bfb5ce6dfb2dcf86152ebb5d595ae7aea4459",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "820660f5_e03e53ee",
+        "filename": "src/test/java/hudson/util/TestSecret.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1020779
+      },
+      "writtenOn": "2024-01-18T16:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e2c6c2e_cd11b9b0",
       "range": {
         "startLine": 1,
         "startChar": 17,
