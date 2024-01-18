@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21b5177f_9249c946",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-18T22:57:24Z",
+      "side": 1,
+      "message": "Can we do together a final E2E test before merge tomorrow?",
+      "revId": "a02a89fc4dc6b93af4f50052c8cdfb2df160f84c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

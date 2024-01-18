@@ -48,6 +48,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4e6d219_074e70c2",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-18T22:57:24Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "7fe4bf34_aadbac87",
+      "range": {
+        "startLine": 102,
+        "startChar": 39,
+        "endLine": 102,
+        "endChar": 54
+      },
+      "revId": "d48bfb5ce6dfb2dcf86152ebb5d595ae7aea4459",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04c8b25c_209c1af0",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "That is done in the line L104.",
       "parentUuid": "04c8b25c_209c1af0",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 48
+      },
+      "revId": "d48bfb5ce6dfb2dcf86152ebb5d595ae7aea4459",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17940105_651e7eb9",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritWebHook.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-18T22:57:24Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a2817f09_bdd04ee4",
       "range": {
         "startLine": 110,
         "startChar": 0,
