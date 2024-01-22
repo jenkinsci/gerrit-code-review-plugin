@@ -269,6 +269,12 @@ Registry since April 2018 and has been used so far by hundreds of
 developers around the world that provided already very useful feedback
 and started contributing with pull-requests.
 
+### v0.4.9 - Released - 22 January 2024
+
+#### Fixes
+
+- [SECURITY-2847](https://issues.jenkins.io/browse/SECURITY-2847) Introduce apiKey/jobName to WebHooks to prevent abuse
+
 ### v0.4.8 - Released - 24 June 2023
 
 #### Fixes
