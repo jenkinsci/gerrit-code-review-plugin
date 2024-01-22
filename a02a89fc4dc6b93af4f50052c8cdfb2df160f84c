@@ -16,6 +16,23 @@
       "message": "Can we do together a final E2E test before merge tomorrow?",
       "revId": "a02a89fc4dc6b93af4f50052c8cdfb2df160f84c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66b353fe_e27895d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-22T20:40:02Z",
+      "side": 1,
+      "message": "Test E2E and works as expected, good job @alvaro.vilaplana@gmail.com and thanks for your help in getting it merged 🎉",
+      "revId": "a02a89fc4dc6b93af4f50052c8cdfb2df160f84c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
