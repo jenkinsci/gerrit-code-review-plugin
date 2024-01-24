@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "912ccd41_8abf6e22",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-24T00:04:21Z",
+      "side": 1,
+      "message": "This makes sense only if `head.getName` starts with `refs/` or is a proper branch name.",
+      "range": {
+        "startLine": 119,
+        "startChar": 18,
+        "endLine": 119,
+        "endChar": 32
+      },
+      "revId": "814d9f041f397033372a18da0aa0fce7f6b16a9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ea76faf_846df733",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-24T00:04:21Z",
+      "side": 1,
+      "message": "Wrong formatting: please run `mvn fmt:format`",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 17
+      },
+      "revId": "814d9f041f397033372a18da0aa0fce7f6b16a9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce3b43f7_82fa09fa",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-24T00:04:21Z",
+      "side": 1,
+      "message": "Can you narrow down this to a more limited set of expected exceptions?\nWhy do you foresee the API to fail *IF* the branch name is valid?",
+      "range": {
+        "startLine": 122,
+        "startChar": 15,
+        "endLine": 122,
+        "endChar": 26
+      },
+      "revId": "814d9f041f397033372a18da0aa0fce7f6b16a9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c80ec7dd_82f35d52",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-24T00:04:21Z",
+      "side": 1,
+      "message": "Wrong formatting: please run `mvn fmt:format`",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 26
+      },
+      "revId": "814d9f041f397033372a18da0aa0fce7f6b16a9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
