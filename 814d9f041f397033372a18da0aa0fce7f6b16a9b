@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2a27bdce_57b0ac21",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1017420
+      },
+      "writtenOn": "2024-02-05T15:21:38Z",
+      "side": 1,
+      "message": "Could you recommend a way to test for this (if that\u0027s what you\u0027d like me to add here)? I\u0027m not sure how to check if it\u0027s a proper branch name.",
+      "parentUuid": "912ccd41_8abf6e22",
+      "range": {
+        "startLine": 119,
+        "startChar": 18,
+        "endLine": 119,
+        "endChar": 32
+      },
+      "revId": "814d9f041f397033372a18da0aa0fce7f6b16a9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3ea76faf_846df733",
         "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
         "patchSetId": 7
@@ -37,6 +61,30 @@
       "writtenOn": "2024-01-24T00:04:21Z",
       "side": 1,
       "message": "Wrong formatting: please run `mvn fmt:format`",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 17
+      },
+      "revId": "814d9f041f397033372a18da0aa0fce7f6b16a9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8e10ff4_ba9b593c",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1017420
+      },
+      "writtenOn": "2024-02-05T15:21:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ea76faf_846df733",
       "range": {
         "startLine": 116,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c011445_1dec87e6",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1017420
+      },
+      "writtenOn": "2024-02-05T15:21:38Z",
+      "side": 1,
+      "message": "I\u0027ve changed this to RestApiException.\n\nThe aim of this was to ensure that, if we weren\u0027t able to find the branch using the rest api, we could try again using the old method of using git locally. I didn\u0027t want to break any projects that were using this plugin and, for whatever reason, couldn\u0027t use the rest api for this.",
+      "parentUuid": "ce3b43f7_82fa09fa",
+      "range": {
+        "startLine": 122,
+        "startChar": 15,
+        "endLine": 122,
+        "endChar": 26
+      },
+      "revId": "814d9f041f397033372a18da0aa0fce7f6b16a9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c80ec7dd_82f35d52",
@@ -83,6 +155,30 @@
       "writtenOn": "2024-01-24T00:04:21Z",
       "side": 1,
       "message": "Wrong formatting: please run `mvn fmt:format`",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 26
+      },
+      "revId": "814d9f041f397033372a18da0aa0fce7f6b16a9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "decd8fb7_2b40f4c9",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1017420
+      },
+      "writtenOn": "2024-02-05T15:21:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c80ec7dd_82f35d52",
       "range": {
         "startLine": 123,
         "startChar": 0,
