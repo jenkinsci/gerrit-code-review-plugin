@@ -15,8 +15,11 @@
 package jenkins.plugins.gerrit.workflow;
 
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.model.TaskListener;
@@ -27,6 +30,7 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import jenkins.plugins.gerrit.GerritApiBuilder;
 import jenkins.plugins.gerrit.GerritChange;
+import jenkins.plugins.gerrit.GerritVersion;
 import org.jenkinsci.plugins.workflow.steps.*;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
@@ -83,14 +87,17 @@ public class GerritReviewStep extends Step {
         if (notifyOwner) {
           reviewInput.notify = NotifyHandling.OWNER;
         }
-        gerritApi
-            .changes()
-            .id(change.getChangeId())
-            .revision(change.getRevision())
-            .review(reviewInput);
+        getChangeApi(gerritApi, change).revision(change.getRevision()).review(reviewInput);
       }
       return null;
     }
+  }
+
+  private ChangeApi getChangeApi(GerritApi gerritApi, GerritChange change) throws RestApiException {
+    Changes changesApi = gerritApi.changes();
+    return GerritVersion.isVersionBelow215(gerritApi)
+        ? changesApi.id(change.getChangeId())
+        : changesApi.id(change.getProject(), change.getChangeId());
   }
 
   @Deprecated

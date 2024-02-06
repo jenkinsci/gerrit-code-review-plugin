@@ -138,7 +138,7 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
       List<ChangeInfoInvisibleAction> changeInfos = r.getActions(ChangeInfoInvisibleAction.class);
       if (changeInfos.isEmpty()) {
         int changeNumber = Integer.parseInt(matcher.group("changeNum"));
-        Optional<ChangeInfo> changeInfo = gerritSCMSource.getChangeInfo(changeNumber);
+        Optional<ChangeInfo> changeInfo = gerritSCMSource.getChangeInfo(changeNumber, gerritURI.getProject());
         ChangeInfoInvisibleAction changeInfoAction =
             new ChangeInfoInvisibleAction(changeInfo, patchSetNum, gerritURI);
         r.addAction(changeInfoAction);
