@@ -95,8 +95,8 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   }
 
   /** Return the Gerrit change information associated with a change number */
-  public Optional<ChangeInfo> getChangeInfo(int changeNum) throws IOException {
-    return getProjectChanges().get(changeNum);
+  public Optional<ChangeInfo> getChangeInfo(int changeNum, String projectName) throws IOException {
+    return getProjectChanges().get(changeNum, projectName);
   }
 
   /** {@inheritDoc} */
@@ -163,9 +163,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                     walk,
                     context,
                     request,
-                    client
-                        .getRemoteBranches()
-                        .stream()
+                    client.getRemoteBranches().stream()
                         .collect(
                             Collectors.toMap(
                                 (Branch branch) -> branch.getName(),
@@ -288,9 +286,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                 final ChangeSCMHead change = (ChangeSCMHead) head;
                 String gerritBaseUrl = getGerritBaseUrl();
 
-                return actionableOwner
-                    .getActions(GitRemoteHeadRefAction.class)
-                    .stream()
+                return actionableOwner.getActions(GitRemoteHeadRefAction.class).stream()
                     .filter(action -> action.getRemote().equals(getRemote()))
                     .map(
                         action ->
@@ -650,9 +646,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       try {
         if (head == null) {
           Stream<RefSpec> refSpecs =
-              context
-                  .asRefSpecs()
-                  .stream()
+              context.asRefSpecs().stream()
                   .filter((RefSpec refSpec) -> !refSpec.getSource().contains(R_CHANGES));
           Stream<RefSpec> openChangesRefSpecs = changeQueryToRefSpecs(changeQuery);
           fetchRefSpecs = Stream.concat(refSpecs, openChangesRefSpecs).collect(Collectors.toList());
@@ -678,9 +672,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   }
 
   private Stream<RefSpec> changeQueryToRefSpecs(QueryRequest changeQuery) throws RestApiException {
-    return changeQuery
-        .get()
-        .stream()
+    return changeQuery.get().stream()
         .map(
             (ChangeInfo change) -> {
               String patchRef = change.revisions.entrySet().iterator().next().getValue().ref;

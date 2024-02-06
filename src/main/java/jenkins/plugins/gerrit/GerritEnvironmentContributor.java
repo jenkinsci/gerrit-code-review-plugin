@@ -69,10 +69,7 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
             changeEnvs.put("GERRIT_CHANGE_ID", change.id);
 
             Map.Entry<String, RevisionInfo> patchSetInfo =
-                change
-                    .revisions
-                    .entrySet()
-                    .stream()
+                change.revisions.entrySet().stream()
                     .filter(entry -> entry.getValue()._number == patchSetNum)
                     .findFirst()
                     .get();
@@ -138,7 +135,8 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
       List<ChangeInfoInvisibleAction> changeInfos = r.getActions(ChangeInfoInvisibleAction.class);
       if (changeInfos.isEmpty()) {
         int changeNumber = Integer.parseInt(matcher.group("changeNum"));
-        Optional<ChangeInfo> changeInfo = gerritSCMSource.getChangeInfo(changeNumber);
+        Optional<ChangeInfo> changeInfo =
+            gerritSCMSource.getChangeInfo(changeNumber, gerritURI.getProject());
         ChangeInfoInvisibleAction changeInfoAction =
             new ChangeInfoInvisibleAction(changeInfo, patchSetNum, gerritURI);
         r.addAction(changeInfoAction);

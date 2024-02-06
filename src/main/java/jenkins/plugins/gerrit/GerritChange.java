@@ -18,9 +18,12 @@ public class GerritChange {
   private Integer changeId = null;
   private Integer revision = null;
 
+  private String project;
+
   public GerritChange(Map<String, String> env, PrintStream logger)
       throws IOException, InterruptedException {
 
+    project = env.get("GERRIT_PROJECT");
     if (StringUtils.isNotEmpty(env.get("GERRIT_CHANGE_NUMBER"))) {
       changeId = Integer.parseInt(env.get("GERRIT_CHANGE_NUMBER"));
       revision = Integer.parseInt(env.get("GERRIT_PATCHSET_NUMBER"));
@@ -55,5 +58,9 @@ public class GerritChange {
 
   public Integer getRevision() {
     return revision;
+  }
+
+  public String getProject() {
+    return project;
   }
 }
