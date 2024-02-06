@@ -14,74 +14,42 @@
 
 package jenkins.plugins.gerrit;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.EnumSet;
 import java.util.Optional;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 class ProjectChanges {
   private static final Logger LOGGER = Logger.getLogger(ProjectChanges.class.getName());
 
   private final GerritApi gerritApi;
+  private final GerritVersion gerritVersion;
 
   ProjectChanges(GerritApi gerritApi) {
     this.gerritApi = gerritApi;
+    this.gerritVersion = new GerritVersion(gerritApi);
   }
 
-  public Optional<ChangeInfo> get(int changeNumber) {
+  public Optional<ChangeInfo> get(int changeNumber, String projectName) {
     try {
       EnumSet<ListChangesOption> options = EnumSet.allOf(ListChangesOption.class);
       options.remove(ListChangesOption.CHECK);
-      if (isVersionBelow215(gerritApi.config().server().getVersion())) {
+
+      if (gerritVersion.isVersionBelow215()) {
         options.remove(ListChangesOption.TRACKING_IDS);
         options.remove(ListChangesOption.SKIP_MERGEABLE);
+
+        return Optional.ofNullable(gerritApi.changes().id(changeNumber).get(options));
       }
-      return Optional.ofNullable(gerritApi.changes().id(changeNumber).get(options));
+      return Optional.ofNullable(gerritApi.changes().id(projectName, changeNumber).get(options));
     } catch (RestApiException e) {
-      LOGGER.severe(String.format("Unable to retrieve change %d", changeNumber));
+      LOGGER.severe(
+          String.format("Unable to retrieve change %d project %s", changeNumber, projectName));
       LOGGER.throwing(ProjectChanges.class.getName(), "get", e);
       return Optional.empty();
-    }
-  }
-
-  @VisibleForTesting
-  boolean isVersionBelow215(String version) {
-    if (version == null) {
-      return false;
-    }
-
-    if (version.equals("<2.8")) {
-      return true;
-    }
-
-    String[] versionSplit = version.split("\\.");
-    if (versionSplit.length == 0) {
-      return false;
-    }
-    try {
-      int majorVersion = Integer.parseInt(versionSplit[0]);
-      if (majorVersion < 2) {
-        return true;
-      }
-      if (majorVersion > 2) {
-        return false;
-      }
-      if (versionSplit.length < 2) {
-        return true;
-      }
-      int minorVersion = Integer.parseInt(versionSplit[1]);
-      if (minorVersion < 15) {
-        return true;
-      }
-      return false;
-    } catch (NumberFormatException e) {
-      LOGGER.log(Level.SEVERE, "Unable to parse Gerrit version " + version, e);
-      return false;
     }
   }
 }
