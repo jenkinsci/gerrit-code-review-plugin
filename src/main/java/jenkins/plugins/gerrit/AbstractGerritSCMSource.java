@@ -95,8 +95,8 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   }
 
   /** Return the Gerrit change information associated with a change number */
-  public Optional<ChangeInfo> getChangeInfo(int changeNum) throws IOException {
-    return getProjectChanges().get(changeNum);
+  public Optional<ChangeInfo> getChangeInfo(int changeNum, String projectName) throws IOException {
+    return getProjectChanges().get(changeNum, projectName);
   }
 
   /** {@inheritDoc} */
