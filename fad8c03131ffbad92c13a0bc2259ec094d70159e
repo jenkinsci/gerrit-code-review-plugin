@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a522045_378a59b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-17T03:28:25Z",
+      "side": 1,
+      "message": "This isn\u0027t _one example_ but the only condition when the change number may not be unique.",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "fad8c03131ffbad92c13a0bc2259ec094d70159e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d22879f6_e6009c2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-17T03:28:25Z",
+      "side": 1,
+      "message": "That\u0027s not the only reason: using only the change number would cause Gerrit to look for the change by a Lucene index lookup.\n\nIndexes may not be consistent in real-time but are *eventually consistent*, that means the CI could in theory fail to locate the change because of a temporary lag int he index update.",
+      "range": {
+        "startLine": 11,
+        "startChar": 26,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "fad8c03131ffbad92c13a0bc2259ec094d70159e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb64c037_62188798",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-17T03:28:25Z",
+      "side": 1,
+      "message": "Unrelated formatting change.",
+      "revId": "fad8c03131ffbad92c13a0bc2259ec094d70159e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1210796a_0f5d6057",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-17T03:28:25Z",
+      "side": 1,
+      "message": "Unrelated formatting change.",
+      "revId": "fad8c03131ffbad92c13a0bc2259ec094d70159e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91b6cefa_add1c920",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-17T03:28:25Z",
+      "side": 1,
+      "message": "Unrelated formatting change.",
+      "revId": "fad8c03131ffbad92c13a0bc2259ec094d70159e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f301d039_102679f9",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-17T03:28:25Z",
+      "side": 1,
+      "message": "Unrelated formatting change.",
+      "revId": "fad8c03131ffbad92c13a0bc2259ec094d70159e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a294e5f_0262f386",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritEnvironmentContributor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-17T03:28:25Z",
+      "side": 1,
+      "message": "Unrelated formatting change.",
+      "revId": "fad8c03131ffbad92c13a0bc2259ec094d70159e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "703043a7_378dee4a",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritEnvironmentContributor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-17T03:28:25Z",
+      "side": 1,
+      "message": "Unrelated formatting change.",
+      "revId": "fad8c03131ffbad92c13a0bc2259ec094d70159e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
