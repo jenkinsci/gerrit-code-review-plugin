@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ae5b22e_c0e39f9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-02-19T11:59:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a522045_378a59b9",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "fad8c03131ffbad92c13a0bc2259ec094d70159e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d22879f6_e6009c2c",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-17T03:28:25Z",
       "side": 1,
       "message": "That\u0027s not the only reason: using only the change number would cause Gerrit to look for the change by a Lucene index lookup.\n\nIndexes may not be consistent in real-time but are *eventually consistent*, that means the CI could in theory fail to locate the change because of a temporary lag int he index update.",
+      "range": {
+        "startLine": 11,
+        "startChar": 26,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "fad8c03131ffbad92c13a0bc2259ec094d70159e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b328e662_a39de8cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-02-19T11:59:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d22879f6_e6009c2c",
       "range": {
         "startLine": 11,
         "startChar": 26,
@@ -64,6 +112,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ff9d627_2958a3ea",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-02-19T11:59:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb64c037_62188798",
+      "revId": "fad8c03131ffbad92c13a0bc2259ec094d70159e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1210796a_0f5d6057",
@@ -77,6 +143,24 @@
       "writtenOn": "2024-02-17T03:28:25Z",
       "side": 1,
       "message": "Unrelated formatting change.",
+      "revId": "fad8c03131ffbad92c13a0bc2259ec094d70159e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42cc1a76_7825b61d",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-02-19T11:59:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1210796a_0f5d6057",
       "revId": "fad8c03131ffbad92c13a0bc2259ec094d70159e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -98,6 +182,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44240d33_0b5b31e7",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-02-19T11:59:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91b6cefa_add1c920",
+      "revId": "fad8c03131ffbad92c13a0bc2259ec094d70159e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f301d039_102679f9",
@@ -111,6 +213,24 @@
       "writtenOn": "2024-02-17T03:28:25Z",
       "side": 1,
       "message": "Unrelated formatting change.",
+      "revId": "fad8c03131ffbad92c13a0bc2259ec094d70159e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a4dabbe_90522010",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-02-19T11:59:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f301d039_102679f9",
       "revId": "fad8c03131ffbad92c13a0bc2259ec094d70159e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -132,6 +252,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b313c4a6_1b8c7746",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritEnvironmentContributor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-02-19T11:59:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a294e5f_0262f386",
+      "revId": "fad8c03131ffbad92c13a0bc2259ec094d70159e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "703043a7_378dee4a",
@@ -145,6 +283,24 @@
       "writtenOn": "2024-02-17T03:28:25Z",
       "side": 1,
       "message": "Unrelated formatting change.",
+      "revId": "fad8c03131ffbad92c13a0bc2259ec094d70159e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be019fa1_bb1588e9",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritEnvironmentContributor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-02-19T11:59:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "703043a7_378dee4a",
       "revId": "fad8c03131ffbad92c13a0bc2259ec094d70159e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
