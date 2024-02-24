@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cd7e739_970bff99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-24T02:09:12Z",
+      "side": 1,
+      "message": "Good job, just a small nit.",
+      "revId": "facaf20ca0cc2579d1463286f1e3982530761f08",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0276a414_7b6484fa",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritVersion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-24T02:09:12Z",
+      "side": 1,
+      "message": "From what I see in the code, this is always created _on-demand_ with the GerritApi and then used.\n\nWhy not just making it a class with a static method `isVersionBelow215`?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 3
+      },
+      "revId": "facaf20ca0cc2579d1463286f1e3982530761f08",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
