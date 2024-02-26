@@ -39,6 +39,30 @@
       },
       "revId": "facaf20ca0cc2579d1463286f1e3982530761f08",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c43f41af_0afa2ff9",
+        "filename": "src/main/java/jenkins/plugins/gerrit/GerritVersion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-02-26T08:39:00Z",
+      "side": 1,
+      "message": "I don\u0027t like static methods for multiple reasons. But this my personal preference so I will convert it to static",
+      "parentUuid": "0276a414_7b6484fa",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 3
+      },
+      "revId": "facaf20ca0cc2579d1463286f1e3982530761f08",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
