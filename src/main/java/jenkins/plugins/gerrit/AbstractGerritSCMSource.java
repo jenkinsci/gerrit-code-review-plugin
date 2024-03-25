@@ -30,7 +30,6 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.EnvVars;
 import hudson.model.Action;
-import hudson.model.Actionable;
 import hudson.model.TaskListener;
 import hudson.plugins.git.Branch;
 import hudson.plugins.git.GitTool;
@@ -60,7 +59,6 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import jenkins.plugins.git.AbstractGitSCMSource;
-import jenkins.plugins.git.GitRemoteHeadRefAction;
 import jenkins.plugins.git.GitSCMBuilder;
 import jenkins.scm.api.SCMFile;
 import jenkins.scm.api.SCMHead;
@@ -271,41 +269,10 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   @Nonnull
   @Override
   protected List<Action> retrieveActions(
-      @CheckForNull SCMSourceEvent event, @Nonnull TaskListener listener)
-      throws IOException, InterruptedException {
-    return doRetrieve(
-        null,
-        new Retriever<List<Action>>() {
-          @Override
-          public List<Action> run(
-              GitClient client,
-              GerritSCMSourceContext context,
-              String remoteName,
-              Changes.QueryRequest queryRequest)
-              throws IOException, InterruptedException {
-            Map<String, String> symrefs = client.getRemoteSymbolicReferences(getRemote(), null);
-            if (symrefs.containsKey(Constants.HEAD)) {
-              // Hurrah! The Server is Git 1.8.5 or newer and our client has symref reporting
-              String target = symrefs.get(Constants.HEAD);
-              if (target.startsWith(Constants.R_HEADS)) {
-                // shorten standard names
-                target = target.substring(Constants.R_HEADS.length());
-              }
-              List<Action> result = new ArrayList<>();
-              if (StringUtils.isNotBlank(target)) {
-                result.add(new GitRemoteHeadRefAction(getRemote(), target));
-              }
-              result.add(new GerritLogo());
-              return result;
-            }
-
-            // Give up, there's no way to get the primary branch
-            return new ArrayList<>();
-          }
-        },
-        new GerritSCMSourceContext(null, SCMHeadObserver.none()).withTraits(getTraits()),
-        listener,
-        false);
+      @CheckForNull SCMSourceEvent event, @Nonnull TaskListener listener) {
+    List<Action> result = new ArrayList<>();
+    result.add(new GerritLogo());
+    return result;
   }
 
   /** {@inheritDoc} */
@@ -314,37 +281,14 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   protected List<Action> retrieveActions(
       @NonNull SCMHead head, @CheckForNull SCMHeadEvent event, @NonNull TaskListener listener)
       throws IOException, InterruptedException {
-    final List<Action> actions =
-        doRetrieve(
-            head,
-            (GitClient client,
-                GerritSCMSourceContext context,
-                String remoteName,
-                Changes.QueryRequest changeQuery) -> {
-              SCMSourceOwner owner = getOwner();
-              if (owner instanceof Actionable && head instanceof ChangeSCMHead) {
-                final Actionable actionableOwner = (Actionable) owner;
-                final ChangeSCMHead change = (ChangeSCMHead) head;
-                String gerritBaseUrl = getGerritBaseUrl();
-
-                return actionableOwner
-                    .getActions(GitRemoteHeadRefAction.class)
-                    .stream()
-                    .filter(action -> action.getRemote().equals(getRemote()))
-                    .map(
-                        action ->
-                            new ObjectMetadataAction(
-                                change.getName(),
-                                change.getId(),
-                                String.format("%s%d", gerritBaseUrl, change.getChangeNumber())))
-                    .collect(Collectors.toList());
-              } else {
-                return Collections.emptyList();
-              }
-            },
-            new GerritSCMSourceContext(null, SCMHeadObserver.none()).withTraits(getTraits()),
-            listener,
-            false);
+    List<Action> actions = new ArrayList<>();
+    if (head instanceof ChangeSCMHead) {
+      final ChangeSCMHead change = (ChangeSCMHead) head;
+      actions.add(new ObjectMetadataAction(
+        change.getName(),
+        change.getId(),
+        String.format("%s%d", getGerritBaseUrl(), change.getChangeNumber())));
+    }
 
     final ImmutableList.Builder<Action> resultBuilder = new ImmutableList.Builder<>();
     resultBuilder.addAll(super.retrieveActions(head, event, listener));
