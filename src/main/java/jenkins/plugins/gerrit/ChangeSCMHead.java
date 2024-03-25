@@ -14,6 +14,7 @@
 
 package jenkins.plugins.gerrit;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -47,16 +48,24 @@ public class ChangeSCMHead extends SCMHead implements ChangeRequestSCMHead2 {
     this.pendingCheckerUuids = pendingCheckerUuids;
   }
 
+  ChangeSCMHead(String branchName, String revision) {
+    super(branchName);
+    changeNumber  = parseIntPart(branchName, 1);
+    patchset = parseIntPart(branchName, 2);
+    rev = revision;
+    this.pendingCheckerUuids = Collections.emptySet();
+  }
+
   private static int parseChangeNumber(Map.Entry<String, ObjectId> ref) {
-    return parseIntPart(ref, 3);
+    return parseIntPart(ref.getKey(), 3);
   }
 
   private static int parsePatchset(Map.Entry<String, ObjectId> ref) {
-    return parseIntPart(ref, 4);
+    return parseIntPart(ref.getKey(), 4);
   }
 
-  private static int parseIntPart(Map.Entry<String, ObjectId> ref, int index) {
-    String[] changeParts = ref.getKey().split("/");
+  private static int parseIntPart(String s, int index) {
+    String[] changeParts = s.split("/");
     return Integer.parseInt(changeParts[index]);
   }
 
