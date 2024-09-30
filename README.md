@@ -183,6 +183,10 @@ Parameters:
   Additional message provided as explanation of the review feedback.
   Default: ''
 
+- ```notify```
+  Additional notify setting - i.e. `'NONE'`
+  Default: ''
+
 ### ```gerritComment```
 
 Add a review comment to the entire file or a single line.
@@ -219,7 +223,7 @@ pipeline {
     }
     post {
         success {
-            gerritReview labels: [Verified: 1]
+            gerritReview labels: [Verified: 1], notify: 'NONE'
             gerritCheck checks: ['example:checker': 'SUCCESSFUL']
         }
         unstable { gerritReview labels: [Verified: 0], message: 'Build is unstable' }
