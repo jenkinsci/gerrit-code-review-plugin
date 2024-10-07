@@ -8,9 +8,9 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gitiles.api.CommitJsonData;
 import com.google.gitiles.api.TreeJsonData;
 
-import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.codec.binary.Base64InputStream;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpHead;

@@ -25,7 +25,7 @@ import java.lang.reflect.Type;
 import java.net.URISyntaxException;
 import java.sql.Timestamp;
 
-import org.apache.commons.httpclient.HttpStatus;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URIBuilder;
