@@ -39,6 +39,8 @@ public class ChangeSCMHead extends SCMHead implements ChangeRequestSCMHead2 {
 
   private final Set<String> pendingCheckerUuids;
 
+  private boolean hasVerifiedVote = false;
+
   ChangeSCMHead(
       Map.Entry<String, ObjectId> ref, String branchName, Set<String> pendingCheckerUuids) {
     super(branchName);
@@ -48,12 +50,13 @@ public class ChangeSCMHead extends SCMHead implements ChangeRequestSCMHead2 {
     this.pendingCheckerUuids = pendingCheckerUuids;
   }
 
-  ChangeSCMHead(String branchName, String revision) {
+  ChangeSCMHead(String branchName, String revision, boolean hasVerifiedVote) {
     super(branchName);
     changeNumber  = parseIntPart(branchName, 1);
     patchset = parseIntPart(branchName, 2);
     rev = revision;
     this.pendingCheckerUuids = Collections.emptySet();
+    this.hasVerifiedVote = hasVerifiedVote;
   }
 
   private static int parseChangeNumber(Map.Entry<String, ObjectId> ref) {
@@ -109,6 +112,10 @@ public class ChangeSCMHead extends SCMHead implements ChangeRequestSCMHead2 {
 
   public Set<String> getPendingCheckerUuids() {
     return pendingCheckerUuids;
+  }
+
+  public boolean getHasVerifiedVote() {
+    return hasVerifiedVote;
   }
 
   @Nonnull

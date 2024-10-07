@@ -229,7 +229,14 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
           listener.getLogger().format("  Checking change %s%n", branchName);
 
           final String rev = change.currentRevision;
-          final ChangeSCMHead head = new ChangeSCMHead(branchName, rev);;
+          boolean hasVerifiedVote = Optional.ofNullable(change.labels.get("Verified"))
+            .map(label -> label.all)
+            .filter(list -> list.stream().anyMatch(approval -> Optional.ofNullable(approval.value)
+              .filter(v -> v != 0)
+              .isPresent()))
+            .isPresent();
+
+          final ChangeSCMHead head = new ChangeSCMHead(branchName, rev, hasVerifiedVote);;
           if (processBranch(request, head, new ChangeSCMRevision(head, rev), listener)) {
             listener.getLogger().format("Processed %d changes (query completed)%n", changesCount);
           }
@@ -874,7 +881,8 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     return gerritApi
         .changes()
         .query(URLEncoder.encode(query, StandardCharsets.UTF_8.name()))
-        .withOption(ListChangesOption.CURRENT_REVISION);
+        .withOption(ListChangesOption.CURRENT_REVISION)
+        .withOption(ListChangesOption.LABELS);
   }
 
   public GerritURI getGerritURI() throws IOException {
