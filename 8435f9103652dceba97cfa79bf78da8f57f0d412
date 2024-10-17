@@ -33,6 +33,24 @@
       "message": "I would suggest that the user would get more benefit out of this if they could specify any of the possible `NotifyHandling` values: https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#review-input",
       "revId": "8435f9103652dceba97cfa79bf78da8f57f0d412",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c36c7a5a_55780fdd",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritReviewStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2024-10-17T21:20:12Z",
+      "side": 1,
+      "message": "Makes sense. I agree.",
+      "parentUuid": "6f7a0273_360d6797",
+      "revId": "8435f9103652dceba97cfa79bf78da8f57f0d412",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
