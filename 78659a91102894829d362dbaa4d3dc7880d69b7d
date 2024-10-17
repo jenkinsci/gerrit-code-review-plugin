@@ -33,6 +33,24 @@
       "message": "Here is one related change: https://review.gerrithub.io/c/jenkinsci/gerrit-code-review-plugin/+/1202647\n\nBut the use case is a bit different. In my case, I want to override the default behavior for all pipelines.\n\nWith your implementation, I would not override it in case it\u0027s explicitly set by the pipeline.",
       "revId": "78659a91102894829d362dbaa4d3dc7880d69b7d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1edf4872_68d879fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038368
+      },
+      "writtenOn": "2024-10-17T21:13:53Z",
+      "side": 1,
+      "message": "It would make more sense to me as a user if the system properties set a default and the explicit pipeline definition could override that.",
+      "parentUuid": "5bac06fc_05dcc65f",
+      "revId": "78659a91102894829d362dbaa4d3dc7880d69b7d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
