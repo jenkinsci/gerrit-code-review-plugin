@@ -51,6 +51,24 @@
       "parentUuid": "6f7a0273_360d6797",
       "revId": "8435f9103652dceba97cfa79bf78da8f57f0d412",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db721694_aeb317fc",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritReviewStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2024-10-30T15:11:17Z",
+      "side": 1,
+      "message": "@john.soo@arista.com, would you like to implement this yourself in [your change](https://review.gerrithub.io/c/jenkinsci/gerrit-code-review-plugin/+/1201990)?",
+      "parentUuid": "c36c7a5a_55780fdd",
+      "revId": "8435f9103652dceba97cfa79bf78da8f57f0d412",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
