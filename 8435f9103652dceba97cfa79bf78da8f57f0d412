@@ -87,6 +87,24 @@
       "parentUuid": "db721694_aeb317fc",
       "revId": "8435f9103652dceba97cfa79bf78da8f57f0d412",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6157f292_81aff9af",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritReviewStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2024-10-30T21:07:46Z",
+      "side": 1,
+      "message": "Alright, not a problem.",
+      "parentUuid": "fe7ad4f1_bcad79dd",
+      "revId": "8435f9103652dceba97cfa79bf78da8f57f0d412",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
