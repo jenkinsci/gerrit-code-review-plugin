@@ -51,6 +51,24 @@
       "parentUuid": "11b32c47_646f1d4a",
       "revId": "795ec7c9faff78f19cd1346ab85bd9cb20b4673b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ddd69ed_0f30f811",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritReviewStep.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2024-12-13T17:45:34Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "96ee119c_4b659264",
+      "revId": "795ec7c9faff78f19cd1346ab85bd9cb20b4673b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
