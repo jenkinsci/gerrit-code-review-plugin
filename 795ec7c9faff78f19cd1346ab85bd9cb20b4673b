@@ -69,6 +69,24 @@
       "parentUuid": "96ee119c_4b659264",
       "revId": "795ec7c9faff78f19cd1346ab85bd9cb20b4673b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c472b6f_3af6eaab",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritReviewStep.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1038368
+      },
+      "writtenOn": "2024-12-13T17:47:56Z",
+      "side": 1,
+      "message": "I think what both Felipe and I would like to address is that the default notify is ALL so this plugin tends to send a lot of spam.",
+      "parentUuid": "5ddd69ed_0f30f811",
+      "revId": "795ec7c9faff78f19cd1346ab85bd9cb20b4673b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
