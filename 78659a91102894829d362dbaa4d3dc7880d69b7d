@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2f478c4f_1dbcb2aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-12-13T17:05:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cda9d58a_883daa3f",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 62
+      },
+      "revId": "78659a91102894829d362dbaa4d3dc7880d69b7d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "cffc9193_33975e9a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 9
