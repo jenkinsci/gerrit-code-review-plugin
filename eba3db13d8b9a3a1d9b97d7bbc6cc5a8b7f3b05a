@@ -16,6 +16,23 @@
       "message": "Keeping as WIP as I was unable to test it.\n\nRef https://review.gerrithub.io/c/jenkinsci/gerrit-code-review-plugin/+/1201990/comment/11b32c47_646f1d4a/",
       "revId": "eba3db13d8b9a3a1d9b97d7bbc6cc5a8b7f3b05a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0dc208b_c267eb50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2024-12-13T19:40:40Z",
+      "side": 1,
+      "message": "I\u0027m confident enough tests will pass.",
+      "revId": "eba3db13d8b9a3a1d9b97d7bbc6cc5a8b7f3b05a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
