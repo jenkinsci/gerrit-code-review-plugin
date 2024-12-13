@@ -105,6 +105,24 @@
       "parentUuid": "4c472b6f_3af6eaab",
       "revId": "795ec7c9faff78f19cd1346ab85bd9cb20b4673b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c8bc825_55e05cdf",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritReviewStep.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2024-12-13T18:42:58Z",
+      "side": 1,
+      "message": "This is specially worse for merge confidence as apparently not even pre-submit pipeline is running.",
+      "parentUuid": "0beb905f_f331c8a0",
+      "revId": "795ec7c9faff78f19cd1346ab85bd9cb20b4673b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
