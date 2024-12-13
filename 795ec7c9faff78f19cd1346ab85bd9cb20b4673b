@@ -16,6 +16,23 @@
       "message": "Thanks for the contribution !",
       "revId": "795ec7c9faff78f19cd1346ab85bd9cb20b4673b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11b32c47_646f1d4a",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritReviewStep.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2024-12-13T17:33:51Z",
+      "side": 1,
+      "message": "This has an issue.\n\nnotify option will only be taken into account if the vote is less than zero.\n\nThis doesn\u0027t make sense, if notify option is given, it should set notify no matter what.\n\nI\u0027ll push a change for it.",
+      "revId": "795ec7c9faff78f19cd1346ab85bd9cb20b4673b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
