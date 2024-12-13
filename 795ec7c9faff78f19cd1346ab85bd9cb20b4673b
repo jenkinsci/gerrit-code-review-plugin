@@ -87,6 +87,24 @@
       "parentUuid": "5ddd69ed_0f30f811",
       "revId": "795ec7c9faff78f19cd1346ab85bd9cb20b4673b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0beb905f_f331c8a0",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritReviewStep.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2024-12-13T18:34:23Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com, I spent a huge amount of time today and some other days ago trying to run tests for this project but I was frustratingly unable to (yes, I\u0027m trying with Java 8).\n\nI wanted to be able to confirm tests work before starting pushing changes.\n\nWould you mind trying to run tests (mvn test) in your environment to check if I\u0027m alone?\n\nMaybe some floating dependency broke it, and thus it would require to cleanup your ~/.m2 folder to trigger the issue.",
+      "parentUuid": "4c472b6f_3af6eaab",
+      "revId": "795ec7c9faff78f19cd1346ab85bd9cb20b4673b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
