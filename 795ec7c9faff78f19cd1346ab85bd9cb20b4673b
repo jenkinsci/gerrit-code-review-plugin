@@ -123,6 +123,24 @@
       "parentUuid": "0beb905f_f331c8a0",
       "revId": "795ec7c9faff78f19cd1346ab85bd9cb20b4673b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3afe32ad_038e3783",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritReviewStep.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-12-14T06:25:23Z",
+      "side": 1,
+      "message": "See my `mvn --version`\n\n```\nmvn --version\nApache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)\nMaven home: /usr/local/Cellar/maven/3.9.9/libexec\nJava version: 1.8.0_292, vendor: AdoptOpenJDK, runtime: /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/jre\nDefault locale: en_GB, platform encoding: UTF-8\nOS name: \"mac os x\", version: \"10.16\", arch: \"x86_64\", family: \"mac\"\n```\n\nAnd see the output of `mvn test`:\n\n```\n[INFO] Tests run: 90, Failures: 0, Errors: 0, Skipped: 0\n[INFO]\n[INFO] ------------------------------------------------------------------------\n[INFO] BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO] Total time:  01:31 min\n[INFO] Finished at: 2024-12-13T22:00:35Z\n[INFO] ------------------------------------------------------------------------\n```",
+      "parentUuid": "8c8bc825_55e05cdf",
+      "revId": "795ec7c9faff78f19cd1346ab85bd9cb20b4673b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
