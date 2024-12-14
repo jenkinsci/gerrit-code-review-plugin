@@ -141,6 +141,24 @@
       "parentUuid": "8c8bc825_55e05cdf",
       "revId": "795ec7c9faff78f19cd1346ab85bd9cb20b4673b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44d4cd1b_e34caf9f",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritReviewStep.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2024-12-14T17:18:55Z",
+      "side": 1,
+      "message": "Yeah, I\u0027m without luck then. What happen on my case is that Jenkins apparently does not start.\n\nHere is the issue that happens the most:\n\n```\ncom.urswolfer.gerrit.client.rest.http.HttpStatusException: Request not successful. Message: Not Found. Status-Code: 404. Content: .\n```",
+      "parentUuid": "3afe32ad_038e3783",
+      "revId": "795ec7c9faff78f19cd1346ab85bd9cb20b4673b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
