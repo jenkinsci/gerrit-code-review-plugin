@@ -67,6 +67,24 @@
       "message": "As a user I would expect that my setting was honored, regardless the vote. Can we change this to something more like:\n\n```java\nreviewInput.notify \u003d notify.isPresent() ? notify : Optional.of(NotifyHandling.OWNER);\n```",
       "revId": "eba3db13d8b9a3a1d9b97d7bbc6cc5a8b7f3b05a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7fcaa8e_0d261632",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritReviewStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-01T08:57:01Z",
+      "side": 1,
+      "message": "\u003e As a user I would expect that my setting was honored, regardless the vote. Can we change this to something more like:\n\u003e \n\u003e ```java\n\u003e reviewInput.notify \u003d notify.isPresent() ? notify : Optional.of(NotifyHandling.OWNER);\n\u003e ```\n\nThat sounds reasonable: use the notification setting if defined, falling back to `OWNER`.",
+      "parentUuid": "6e70d9af_a41a21d9",
+      "revId": "eba3db13d8b9a3a1d9b97d7bbc6cc5a8b7f3b05a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
