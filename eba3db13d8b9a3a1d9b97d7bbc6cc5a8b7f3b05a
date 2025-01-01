@@ -85,6 +85,24 @@
       "parentUuid": "6e70d9af_a41a21d9",
       "revId": "eba3db13d8b9a3a1d9b97d7bbc6cc5a8b7f3b05a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b85eed8_a6b2f36d",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritReviewStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2025-01-01T22:50:24Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment.\n\n\u003e As a user I would expect that my setting was honored, regardless the vote.\n\nThat\u0027s exactly what this change is doing already. See lines 89 and 90.\n\nCan you please clarify?",
+      "parentUuid": "a7fcaa8e_0d261632",
+      "revId": "eba3db13d8b9a3a1d9b97d7bbc6cc5a8b7f3b05a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
