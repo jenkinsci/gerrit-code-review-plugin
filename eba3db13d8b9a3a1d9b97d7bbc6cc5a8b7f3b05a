@@ -103,6 +103,24 @@
       "parentUuid": "a7fcaa8e_0d261632",
       "revId": "eba3db13d8b9a3a1d9b97d7bbc6cc5a8b7f3b05a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24e4f68a_2f27dcbd",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritReviewStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1038368
+      },
+      "writtenOn": "2025-01-06T20:26:11Z",
+      "side": 1,
+      "message": "Argh. I think I see what you are saying now, but am I alone in feeling this logic is very confusing?",
+      "parentUuid": "8b85eed8_a6b2f36d",
+      "revId": "eba3db13d8b9a3a1d9b97d7bbc6cc5a8b7f3b05a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
