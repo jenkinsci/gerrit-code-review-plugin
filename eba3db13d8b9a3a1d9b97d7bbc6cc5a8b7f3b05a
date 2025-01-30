@@ -139,6 +139,24 @@
       "parentUuid": "24e4f68a_2f27dcbd",
       "revId": "eba3db13d8b9a3a1d9b97d7bbc6cc5a8b7f3b05a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "039f23a2_6fe71c81",
+        "filename": "src/main/java/jenkins/plugins/gerrit/workflow/GerritReviewStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1038368
+      },
+      "writtenOn": "2025-01-30T22:10:10Z",
+      "side": 1,
+      "message": "I am happy with what you have, after you\u0027ve pointed it out.\n\nThough I am still curious about the intent of the existing behavior. I am all for removing the default notify `ALL` behavior and I think this should merge expeditiously.\n\nGentlest of bumps @luca.milanesio@gmail.com ?",
+      "parentUuid": "9307e703_4406765a",
+      "revId": "eba3db13d8b9a3a1d9b97d7bbc6cc5a8b7f3b05a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
