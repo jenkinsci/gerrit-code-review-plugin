@@ -339,7 +339,7 @@ public class GerritReviewStepTest {
                     + "    'GERRIT_PROJECT=%s',\n"
                     + "    'BRANCH_NAME=%s',\n"
                     + "  ]) {\n"
-                    + "    gerritReview labels: ['%s': %s, '%s': %s], message: '%s, notify: %s'\n"
+                    + "    gerritReview labels: ['%s': %s, '%s': %s], message: '%s', notify: '%s'\n"
                     + "  }\n"
                     + "}",
                 g.getClient().remoteAddress().getHostString(),
