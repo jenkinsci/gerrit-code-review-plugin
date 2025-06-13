@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd7d51b0_3a30aab7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2025-06-13T10:26:14Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com I added a unit test. In the longer term, I think we should cover the plugin with more end to end tests.",
+      "revId": "b76d4b02d3ff9f0fc5f69fd92f853fafb6842a33",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
