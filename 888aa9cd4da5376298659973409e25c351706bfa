@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "59e1c02d_6d4173d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2025-06-14T09:17:07Z",
+      "side": 1,
+      "message": "https://gerrithub.io/c/jenkinsci/gerrit-code-review-plugin/+/556616",
+      "parentUuid": "bb6e641f_a2628cf9",
+      "revId": "888aa9cd4da5376298659973409e25c351706bfa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "1843e6f8_3be85a5b",
