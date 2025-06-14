@@ -18,6 +18,23 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb6e641f_a2628cf9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2025-06-14T09:16:48Z",
+      "side": 1,
+      "message": "Superseded by I642021ebd77a4b9655fa7ee1f7f9416860d6b999",
+      "revId": "888aa9cd4da5376298659973409e25c351706bfa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "1843e6f8_3be85a5b",
