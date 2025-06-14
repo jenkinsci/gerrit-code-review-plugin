@@ -161,7 +161,7 @@ public class Checks extends AbstractEndpoint {
         .setPath(
             String.format(
                 "%schanges/%d/revisions/%d/checks/%s",
-                getPrefix(), changeNumber, patchSetNumber, suffixPath))
+                uriBuilder.getPath() + getPrefix(), changeNumber, patchSetNumber, suffixPath))
         .build();
   }
 }
