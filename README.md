@@ -277,11 +277,30 @@ Registry since April 2018 and has been used so far by hundreds of
 developers around the world that provided already very useful feedback
 and started contributing with pull-requests.
 
-### v0.4.10 - Released - TBC
+### v0.5.0 - Released - 19 June 2025
+
+#### New features
+
+- [Change 1205790](https://review.gerrithub.io/c/jenkinsci/gerrit-code-review-plugin/+/1205790)
+  Always honor notify option in gerritReview step
+
+  The `notify` option, when specified, overrides any automatic notification setting based on the score
+  value.
+
+- [JENKINS-67090](https://issues.jenkins.io/browse/JENKINS-67090)
+  New GERRIT_REVERTED_CHANGE_NUMBER environment variable with the reverted change number
+
+  When a Change in Gerrit is a revert performed on the UI, the build pipeline will have the original reverted change
+  number in the new environment variable `GERRIT_REVERTED_CHANGE_NUMBER`.
+
+- [Change 556616](https://review.gerrithub.io/c/jenkinsci/gerrit-code-review-plugin/+/556616)
+  New GERRIT_PATCHSET_KIND environment variable with the type of patchset uploaded
 
 #### Fixes
 
 - [SECURITY-2838](https://issues.jenkins.io/browse/SECURITY-2838) Remove all JEP-200 bypass for all classes
+
+- [JENKINS-62562](https://issues.jenkins.io/browse/JENKINS-62562) Fetch additional refspecs during change checkout
 
 ### v0.4.9 - Released - 22 January 2024
 
