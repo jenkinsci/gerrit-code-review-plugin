@@ -82,6 +82,6 @@ public class PendingChecks extends AbstractEndpoint {
       }
       uriBuilder.setParameter("query", queryString.toString());
     }
-    return uriBuilder.setPath(getPrefix() + PENDING_CHECKS_PATH).build();
+    return uriBuilder.setPath(uriBuilder.getPath() + getPrefix() + PENDING_CHECKS_PATH).build();
   }
 }
