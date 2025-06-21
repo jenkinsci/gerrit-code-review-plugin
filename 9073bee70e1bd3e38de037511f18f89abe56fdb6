@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2fc4186_42e6076a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013602
+      },
+      "writtenOn": "2025-06-21T15:25:10Z",
+      "side": 1,
+      "message": "This one can be abandoned.\nSuperseded by I8f753354f679f550e549e66c6d0d6e1df372e653 .",
+      "revId": "9073bee70e1bd3e38de037511f18f89abe56fdb6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
