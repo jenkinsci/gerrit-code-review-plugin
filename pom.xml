@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>4.51</version>
+    <version>5.17</version>
     <relativePath />
   </parent>
 
@@ -24,8 +24,7 @@
   <inceptionYear>2018</inceptionYear>
 
   <properties>
-    <java.level>8</java.level>
-    <jenkins.baseline>2.289</jenkins.baseline>
+    <jenkins.baseline>2.479</jenkins.baseline>
     <jenkins.version>${jenkins.baseline}.3</jenkins.version>
     <no-test-jar>false</no-test-jar>
     <concurrency>1C</concurrency>
@@ -144,7 +143,7 @@
       <dependency>
         <groupId>io.jenkins.tools.bom</groupId>
         <artifactId>bom-${jenkins.baseline}.x</artifactId>
-        <version>1500.ve4d05cd32975</version>
+        <version>4924.v6b_eb_a_79a_d9d0</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>
