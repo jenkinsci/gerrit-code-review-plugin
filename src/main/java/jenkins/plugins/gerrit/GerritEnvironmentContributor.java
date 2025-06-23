@@ -105,10 +105,11 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
       @NonNull Run r, @NonNull EnvVars envs, @NonNull TaskListener listener)
       throws IOException, InterruptedException {
     ItemGroup jobParent = r.getParent().getParent();
-    if (!(jobParent instanceof WorkflowMultiBranchProject multiBranchProject)) {
+    if (!(jobParent instanceof WorkflowMultiBranchProject)) {
       return;
     }
 
+    WorkflowMultiBranchProject multiBranchProject = (WorkflowMultiBranchProject) jobParent;
     List<BranchSource> sources = multiBranchProject.getSources();
     if (sources.isEmpty() || !(sources.get(0).getSource() instanceof GerritSCMSource)) {
       return;
@@ -152,14 +153,6 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
 
       envs.putAll(changeEnvs);
     }
-  }
-
-  private String booleanString(Boolean booleanValue) {
-    return Optional.ofNullable(booleanValue).orElse(Boolean.FALSE).toString();
-  }
-
-  private String nullToEmpty(String value) {
-    return Optional.ofNullable(value).orElse("");
   }
 
   private static String integerString(Integer integerValue) {

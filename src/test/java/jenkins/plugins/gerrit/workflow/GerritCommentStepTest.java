@@ -138,13 +138,7 @@ public class GerritCommentStepTest {
                     + "    gerritComment path: '%s', line: %s, message: '%s'\n"
                     + "  }\n"
                     + "}",
-                "localhost",
-                wireMock.httpsPort(),
-                projectName,
-                branch,
-                path,
-                line,
-                message),
+                "localhost", wireMock.httpsPort(), projectName, branch, path, line, message),
             true));
     return p;
   }

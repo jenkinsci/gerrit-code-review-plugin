@@ -94,12 +94,7 @@ public class GerritCheckStepTest {
                     + "    gerritCheck checks: [%s: '%s'], message: '%s'\n"
                     + "  }\n"
                     + "}",
-                "localhost",
-                wireMock.httpsPort(),
-                branch,
-                checkerUuid,
-                checkStatus,
-                message),
+                "localhost", wireMock.httpsPort(), branch, checkerUuid, checkStatus, message),
             true));
 
     WorkflowRun run = j.assertBuildStatus(Result.FAILURE, p.scheduleBuild2(0));
@@ -139,12 +134,7 @@ public class GerritCheckStepTest {
                     + "    gerritCheck checks: [%s: '%s'], message: '%s'\n"
                     + "  }\n"
                     + "}",
-                "localhost",
-                wireMock.httpsPort(),
-                branch,
-                checkerUuid,
-                checkStatus,
-                message),
+                "localhost", wireMock.httpsPort(), branch, checkerUuid, checkStatus, message),
             true));
 
     String expectedUrl = String.format("/a/changes/%s/revisions/%s/checks/", changeId, revision);
@@ -203,12 +193,7 @@ public class GerritCheckStepTest {
                     + "    gerritCheck checks: [%s: '%s'], url: '%s'\n"
                     + "  }\n"
                     + "}",
-                "localhost",
-                wireMock.httpsPort(),
-                branch,
-                checkerUuid,
-                checkStatus,
-                url),
+                "localhost", wireMock.httpsPort(), branch, checkerUuid, checkStatus, url),
             true));
 
     String expectedUrl = String.format("/a/changes/%s/revisions/%s/checks/", changeId, revision);
@@ -266,11 +251,7 @@ public class GerritCheckStepTest {
                     + "    gerritCheck checks: [%s: '%s']\n"
                     + "  }\n"
                     + "}",
-                "localhost",
-                wireMock.httpsPort(),
-                branch,
-                checkerUuid,
-                checkStatus),
+                "localhost", wireMock.httpsPort(), branch, checkerUuid, checkStatus),
             true));
 
     String expectedUrl = String.format("/a/changes/%s/revisions/%s/checks/", changeId, revision);

@@ -177,7 +177,8 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
     EXTENSIONS:
     for (GitSCMExtension extension : Util.fixNull(extensions)) {
       for (SCMSourceTraitDescriptor d : SCMSourceTrait.all()) {
-        if (d instanceof GitSCMExtensionTraitDescriptor descriptor) {
+        if (d instanceof GitSCMExtensionTraitDescriptor) {
+          GitSCMExtensionTraitDescriptor descriptor = (GitSCMExtensionTraitDescriptor) d;
           if (descriptor.getExtensionClass().isInstance(extension)) {
             try {
               SCMSourceTrait trait = descriptor.convertToTrait(extension);
@@ -445,7 +446,8 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
 
                   @Override
                   public boolean isMatch(SCMSource source) {
-                    if (source instanceof GerritSCMSource git) {
+                    if (source instanceof GerritSCMSource) {
+                      GerritSCMSource git = (GerritSCMSource) source;
                       GerritSCMSourceContext ctx =
                           new GerritSCMSourceContext(null, SCMHeadObserver.none())
                               .withTraits(git.getTraits());
@@ -471,7 +473,8 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
                   @NonNull
                   @Override
                   public Map<SCMHead, SCMRevision> heads(@NonNull SCMSource source) {
-                    if (source instanceof GerritSCMSource git) {
+                    if (source instanceof GerritSCMSource) {
+                      GerritSCMSource git = (GerritSCMSource) source;
                       GerritSCMSourceContext ctx =
                           new GerritSCMSourceContext(null, SCMHeadObserver.none())
                               .withTraits(git.getTraits());
@@ -508,7 +511,8 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
         } else {
           for (final SCMSourceOwner owner : SCMSourceOwners.all()) {
             for (SCMSource source : owner.getSCMSources()) {
-              if (source instanceof GerritSCMSource git) {
+              if (source instanceof GerritSCMSource) {
+                GerritSCMSource git = (GerritSCMSource) source;
                 GerritSCMSourceContext ctx =
                     new GerritSCMSourceContext(null, SCMHeadObserver.none())
                         .withTraits(git.getTraits());

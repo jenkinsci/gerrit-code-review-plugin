@@ -47,9 +47,10 @@ public class CheckInput {
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof CheckInput other)) {
+    if (!(o instanceof CheckInput)) {
       return false;
     }
+    CheckInput other = (CheckInput) o;
     return Objects.equals(other.checkerUuid, checkerUuid)
         && Objects.equals(other.state, state)
         && Objects.equals(other.message, message)

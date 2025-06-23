@@ -52,8 +52,7 @@ public class SSLNoVerifyCertificateManagerClientBuilderExtension
           },
           new SecureRandom());
 
-      acceptAnyX509Hostname =
-          (s, sslSession) -> true;
+      acceptAnyX509Hostname = (s, sslSession) -> true;
     } catch (Exception e) {
       System.err.println("Unable to initialize SSLContext for accepting any X.509 certificate");
       e.printStackTrace();

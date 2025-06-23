@@ -45,11 +45,7 @@ public class GerritChecksApiBuilder {
   public GerritChecksApiBuilder allowInsecureHttps() {
     try {
       SSLContext sslContext =
-          new SSLContextBuilder()
-              .loadTrustMaterial(
-                  null,
-                  (chain, authType) -> true)
-              .build();
+          new SSLContextBuilder().loadTrustMaterial(null, (chain, authType) -> true).build();
       SSLConnectionSocketFactory sslsf =
           new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier());
       clientBuilder.setSSLSocketFactory(sslsf);

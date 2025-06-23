@@ -30,14 +30,12 @@ import org.eclipse.jgit.transport.URIish;
 
 public class GerritSCMSourceRequest extends GitSCMSourceRequest {
 
-  private final boolean filterForPendingChecks;
-
   private final Map<String, HashSet<PendingChecksInfo>> patchsetWithPendingChecks;
 
   public GerritSCMSourceRequest(
       GerritSCMSource source, GerritSCMSourceContext context, TaskListener listener) {
     super(source, context, listener);
-    this.filterForPendingChecks = context.filterForPendingChecks();
+    boolean filterForPendingChecks = context.filterForPendingChecks();
     this.patchsetWithPendingChecks =
         filterForPendingChecks
             ? getChangesWithPendingChecks(source, context, listener)
@@ -59,16 +57,23 @@ public class GerritSCMSourceRequest extends GitSCMSourceRequest {
 
   private HashMap<String, HashSet<PendingChecksInfo>> getChangesWithPendingChecks(
       GerritSCMSource source, GerritSCMSourceContext context, TaskListener listener) {
-    HashMap<String, HashSet<PendingChecksInfo>> patchsetWithPendingChecks =
-        new HashMap<>();
+    HashMap<String, HashSet<PendingChecksInfo>> patchsetWithPendingChecks = new HashMap<>();
     List<PendingChecksInfo> pendingChecks = new ArrayList<>();
 
     try {
       GerritChecksApi gerritChecksApi = getGerritChecksApi(source, listener);
-      pendingChecks = switch (context.checksQueryOperator()) {
-        case ID -> gerritChecksApi.pendingChecks().checker(context.checksQueryString()).list();
-        case SCHEME -> gerritChecksApi.pendingChecks().scheme(context.checksQueryString()).list();
-      };
+      switch (context.checksQueryOperator()) {
+        case ID:
+          pendingChecks =
+              gerritChecksApi.pendingChecks().checker(context.checksQueryString()).list();
+          break;
+        case SCHEME:
+          pendingChecks =
+              gerritChecksApi.pendingChecks().scheme(context.checksQueryString()).list();
+          break;
+        default:
+          throw new IOException("Unknown query operator for querying pending checks.");
+      }
     } catch (URISyntaxException | IOException | RestApiException e) {
       listener.getLogger().println("Unable to query for pending checks: " + e);
     }

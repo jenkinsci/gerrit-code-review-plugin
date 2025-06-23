@@ -45,17 +45,16 @@ public class ChecksTest {
 
     String checksJsonResponse =
         String.format(
-            """
-                {
-                      "repository": "%s",
-                      "change_number": %d,
-                      "patch_set_id": %d,
-                      "checker_uuid": "%s",
-                      "state": "%s",
-                      "url": "%s",
-                      "created": "%s",
-                      "updated": "%s"
-                    }""",
+            "{\n"
+                + "      \"repository\": \"%s\",\n"
+                + "      \"change_number\": %d,\n"
+                + "      \"patch_set_id\": %d,\n"
+                + "      \"checker_uuid\": \"%s\",\n"
+                + "      \"state\": \"%s\",\n"
+                + "      \"url\": \"%s\",\n"
+                + "      \"created\": \"%s\",\n"
+                + "      \"updated\": \"%s\"\n"
+                + "    }",
             testRepo,
             changeNumber,
             patchSetId,

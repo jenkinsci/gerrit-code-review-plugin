@@ -167,12 +167,7 @@ public class GerritReviewStepTest {
                     + "    gerritReview label: '%s', score: %s, message: '%s'\n"
                     + "  }\n"
                     + "}",
-                "localhost",
-                wireMock.httpsPort(),
-                branch,
-                label,
-                score,
-                message),
+                "localhost", wireMock.httpsPort(), branch, label, score, message),
             true));
 
     WorkflowRun run = j.assertBuildStatus(Result.FAILURE, p.scheduleBuild2(0));
@@ -212,13 +207,7 @@ public class GerritReviewStepTest {
                     + "    gerritReview labels: ['%s': %s], message: '%s'\n"
                     + "  }\n"
                     + "}",
-                "localhost",
-                wireMock.httpsPort(),
-                projectName,
-                branch,
-                label,
-                score,
-                message),
+                "localhost", wireMock.httpsPort(), projectName, branch, label, score, message),
             true));
 
     ReviewInput reviewInput = new ReviewInput().label(label, score).message(message);

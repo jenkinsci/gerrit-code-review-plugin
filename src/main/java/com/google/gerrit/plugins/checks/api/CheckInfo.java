@@ -61,9 +61,10 @@ public class CheckInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof CheckInfo other)) {
+    if (!(o instanceof CheckInfo)) {
       return false;
     }
+    CheckInfo other = (CheckInfo) o;
     return Objects.equals(other.repository, repository)
         && Objects.equals(other.changeNumber, changeNumber)
         && Objects.equals(other.patchSetId, patchSetId)

@@ -61,8 +61,7 @@ public class GerritSCMNavigator extends SCMNavigator {
 
   @CheckForNull private String serverUrl;
   private boolean insecureHttps;
-  @CheckForNull
-  private String credentialsId;
+  @CheckForNull private String credentialsId;
   @NonNull private List<SCMTrait<? extends SCMTrait<?>>> traits;
 
   public GerritSCMNavigator() {

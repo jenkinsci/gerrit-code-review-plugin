@@ -26,8 +26,7 @@ public class GerritSCMSourceBuilder
   private final String id;
   private final GerritURI gerritURI;
   private final boolean insecureHttps;
-  @CheckForNull
-  private final String credentialsId;
+  @CheckForNull private final String credentialsId;
 
   public GerritSCMSourceBuilder(
       String id,

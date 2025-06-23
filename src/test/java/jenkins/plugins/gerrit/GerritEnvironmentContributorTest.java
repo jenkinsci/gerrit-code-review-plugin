@@ -14,7 +14,9 @@
 
 package jenkins.plugins.gerrit;
 
-import static com.google.common.truth.Truth.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasEntry;
 
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -129,24 +131,24 @@ public class GerritEnvironmentContributorTest {
             put("GERRIT_REVERTED_CHANGE_NUMBER", Integer.toString(TEST_REVERTED_CHANGE_NUMBER));
           }
         };
-    assertThat(changeEnvs).containsExactlyEntriesIn(expectedMap);
+    assertThat(changeEnvs, equalTo(expectedMap));
   }
 
   @Test
   public void testBuildEnvironmentForPrivateChange() {
     changeInfo.isPrivate = true;
     assertThat(
-            new ChangeInfoInvisibleAction(Optional.of(changeInfo), TEST_PATCHSET_NUMBER, gerritURI)
-                .getChangeEnvs())
-        .containsEntry("GERRIT_CHANGE_PRIVATE_STATE", "true");
+        new ChangeInfoInvisibleAction(Optional.of(changeInfo), TEST_PATCHSET_NUMBER, gerritURI)
+            .getChangeEnvs(),
+        hasEntry("GERRIT_CHANGE_PRIVATE_STATE", "true"));
   }
 
   @Test
   public void testBuildEnvironmentForWipChange() {
     changeInfo.workInProgress = true;
     assertThat(
-            new ChangeInfoInvisibleAction(Optional.of(changeInfo), TEST_PATCHSET_NUMBER, gerritURI)
-                .getChangeEnvs())
-        .containsEntry("GERRIT_CHANGE_WIP_STATE", "true");
+        new ChangeInfoInvisibleAction(Optional.of(changeInfo), TEST_PATCHSET_NUMBER, gerritURI)
+            .getChangeEnvs(),
+        hasEntry("GERRIT_CHANGE_WIP_STATE", "true"));
   }
 }

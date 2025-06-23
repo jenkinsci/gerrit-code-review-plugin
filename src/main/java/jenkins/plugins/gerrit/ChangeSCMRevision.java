@@ -7,8 +7,7 @@ import jenkins.scm.api.mixin.ChangeRequestSCMRevision;
 
 public class ChangeSCMRevision extends ChangeRequestSCMRevision<ChangeSCMHead> {
 
-  @Serial
-  private static final long serialVersionUID = 1L;
+  @Serial private static final long serialVersionUID = 1L;
   private final @NonNull String patchsetHash;
   private final boolean isFilteredByPendingChecks;
 
@@ -30,9 +29,10 @@ public class ChangeSCMRevision extends ChangeRequestSCMRevision<ChangeSCMHead> {
 
   @Override
   public boolean equivalent(ChangeRequestSCMRevision<?> o) {
-    if (!(o instanceof ChangeSCMRevision other)) {
+    if (!(o instanceof ChangeSCMRevision)) {
       return false;
     }
+    ChangeSCMRevision other = (ChangeSCMRevision) o;
 
     // Force a rebuild, if the job building this change already exists, but has a pending checks.
     // Only used, if the FilterChecksTrait is used.

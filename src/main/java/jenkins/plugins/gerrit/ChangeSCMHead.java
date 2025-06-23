@@ -29,8 +29,7 @@ public class ChangeSCMHead extends SCMHead implements ChangeRequestSCMHead2 {
 
   private static final Logger LOGGER = Logger.getLogger(ChangeSCMHead.class.getName());
 
-  @Serial
-  private static final long serialVersionUID = 1;
+  @Serial private static final long serialVersionUID = 1;
 
   private final int changeNumber;
 
