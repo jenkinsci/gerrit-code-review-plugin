@@ -20,12 +20,14 @@ import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.model.RootAction;
 import hudson.model.UnprotectedRootAction;
 import hudson.security.ACL;
 import hudson.security.ACLContext;
 import hudson.util.Secret;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -33,9 +35,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
-import javax.servlet.http.HttpServletRequest;
 import jenkins.model.Jenkins;
 import jenkins.scm.api.SCMSourceOwner;
 import org.acegisecurity.Authentication;
@@ -78,7 +77,7 @@ public class GerritWebHook implements UnprotectedRootAction {
 
   @SuppressWarnings({"unused", "deprecation"})
   public void doIndex() throws IOException {
-    HttpServletRequest req = Stapler.getCurrentRequest();
+    HttpServletRequest req = Stapler.getCurrentRequest2();
     String jobName = req.getParameter("jobName");
     boolean isJobNameNullOrEmpty = Strings.isNullOrEmpty(jobName);
     String apiKeyParam = req.getParameter("apiKey");
@@ -100,7 +99,7 @@ public class GerritWebHook implements UnprotectedRootAction {
                         .getAllItems(WorkflowMultiBranchProject.class)
                         .stream()
                         .filter(job -> isJobNameNullOrEmpty || job.getName().equals(jobName))
-                        .collect(Collectors.toList());
+                        .toList();
                 if (!isJobNameNullOrEmpty) {
                   if (jenkinsItems.isEmpty()) {
                     log.error("Job '{}' not found or not a multi-branch pipeline", jobName);
@@ -142,7 +141,7 @@ public class GerritWebHook implements UnprotectedRootAction {
       SCMSourceOwner scmJob,
       GerritSCMSource gerritSCMSource) {
     Secret gerritSCMSourceApiKey = gerritSCMSource.getApiKey();
-    log.debug("Checking match for SCM source: " + gerritSCMSource.getRemote());
+    log.debug("Checking match for SCM source: {}", gerritSCMSource.getRemote());
     if (!projectEvent.matches(gerritSCMSource.getRemote())) {
       log.warn(
           "Not triggering job {}: SCM source remote does not match the one specified in the project event",
@@ -177,11 +176,11 @@ public class GerritWebHook implements UnprotectedRootAction {
   }
 
   public static GerritWebHook get() {
-    return Jenkins.getInstance().getExtensionList(RootAction.class).get(GerritWebHook.class);
+    return Jenkins.get().getExtensionList(RootAction.class).get(GerritWebHook.class);
   }
 
-  @Nonnull
+  @NonNull
   public static Jenkins getJenkinsInstance() throws IllegalStateException {
-    return Jenkins.getInstance();
+    return Jenkins.get();
   }
 }

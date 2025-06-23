@@ -19,13 +19,13 @@ import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.model.TaskListener;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
-import javax.annotation.Nonnull;
 import jenkins.plugins.gerrit.GerritApiBuilder;
 import jenkins.plugins.gerrit.GerritChange;
 import jenkins.plugins.gerrit.GerritVersion;
@@ -58,7 +58,7 @@ public class GerritCommentStep extends Step {
     private final TaskListener listener;
     private final EnvVars envVars;
 
-    protected Execution(@Nonnull StepContext context) throws IOException, InterruptedException {
+    protected Execution(@NonNull StepContext context) throws IOException, InterruptedException {
       super(context);
 
       this.envVars = context.get(EnvVars.class);
@@ -115,7 +115,7 @@ public class GerritCommentStep extends Step {
       return "gerritComment";
     }
 
-    @Nonnull
+    @NonNull
     @Override
     public String getDisplayName() {
       return "Gerrit Review Comment";

@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import org.junit.Before;
 import org.junit.Rule;
@@ -68,12 +67,9 @@ public class PagedCodeProjectsRequestTest {
     List<String> collectedProjectIds =
         StreamSupport.stream(request.spliterator(), false)
             .map(projectInfo -> projectInfo.id)
-            .collect(Collectors.toList());
+            .toList();
     List<String> projectRepositoryIds =
-        g.getProjectRepository()
-            .stream()
-            .map(projectInfo -> projectInfo.id)
-            .collect(Collectors.toList());
+        g.getProjectRepository().stream().map(projectInfo -> projectInfo.id).toList();
 
     assertEquals(projectRepositoryIds, collectedProjectIds);
   }

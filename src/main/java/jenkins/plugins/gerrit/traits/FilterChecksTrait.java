@@ -14,9 +14,9 @@
 
 package jenkins.plugins.gerrit.traits;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.util.ListBoxModel;
-import javax.annotation.Nonnull;
 import jenkins.plugins.gerrit.GerritSCMSource;
 import jenkins.plugins.gerrit.GerritSCMSourceContext;
 import jenkins.plugins.gerrit.PendingChecksFilter;
@@ -77,7 +77,7 @@ public class FilterChecksTrait extends SCMSourceTrait {
 
   /** {@inheritDoc} */
   @Override
-  public boolean includeCategory(@Nonnull SCMHeadCategory category) {
+  public boolean includeCategory(@NonNull SCMHeadCategory category) {
     return category.isUncategorized();
   }
 

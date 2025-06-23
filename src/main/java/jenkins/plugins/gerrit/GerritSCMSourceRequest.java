@@ -30,18 +30,16 @@ import org.eclipse.jgit.transport.URIish;
 
 public class GerritSCMSourceRequest extends GitSCMSourceRequest {
 
-  private final boolean filterForPendingChecks;
-
   private final Map<String, HashSet<PendingChecksInfo>> patchsetWithPendingChecks;
 
   public GerritSCMSourceRequest(
       GerritSCMSource source, GerritSCMSourceContext context, TaskListener listener) {
     super(source, context, listener);
-    this.filterForPendingChecks = context.filterForPendingChecks();
+    boolean filterForPendingChecks = context.filterForPendingChecks();
     this.patchsetWithPendingChecks =
         filterForPendingChecks
             ? getChangesWithPendingChecks(source, context, listener)
-            : new HashMap<String, HashSet<PendingChecksInfo>>();
+            : new HashMap<>();
   }
 
   public Map<String, HashSet<PendingChecksInfo>> getPatchsetWithPendingChecks() {
@@ -59,9 +57,8 @@ public class GerritSCMSourceRequest extends GitSCMSourceRequest {
 
   private HashMap<String, HashSet<PendingChecksInfo>> getChangesWithPendingChecks(
       GerritSCMSource source, GerritSCMSourceContext context, TaskListener listener) {
-    HashMap<String, HashSet<PendingChecksInfo>> patchsetWithPendingChecks =
-        new HashMap<String, HashSet<PendingChecksInfo>>();
-    List<PendingChecksInfo> pendingChecks = new ArrayList<PendingChecksInfo>();
+    HashMap<String, HashSet<PendingChecksInfo>> patchsetWithPendingChecks = new HashMap<>();
+    List<PendingChecksInfo> pendingChecks = new ArrayList<>();
 
     try {
       GerritChecksApi gerritChecksApi = getGerritChecksApi(source, listener);
@@ -86,7 +83,7 @@ public class GerritSCMSourceRequest extends GitSCMSourceRequest {
         continue;
       }
       String ref = String.format("%d/%d", check.patchSet.changeNumber, check.patchSet.patchSetId);
-      HashSet<PendingChecksInfo> checks = new HashSet<PendingChecksInfo>();
+      HashSet<PendingChecksInfo> checks = new HashSet<>();
       if (patchsetWithPendingChecks.containsKey(ref)) {
         checks = patchsetWithPendingChecks.get(ref);
         checks.add(check);

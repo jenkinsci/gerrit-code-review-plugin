@@ -49,10 +49,7 @@ public class GerritVersion {
         return true;
       }
       int minorVersion = Integer.parseInt(versionSplit[1]);
-      if (minorVersion < 15) {
-        return true;
-      }
-      return false;
+      return minorVersion < 15;
     } catch (NumberFormatException e) {
       LOGGER.log(Level.SEVERE, "Unable to parse Gerrit version " + version, e);
       return false;
