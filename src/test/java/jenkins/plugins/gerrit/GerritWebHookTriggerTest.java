@@ -29,7 +29,7 @@ import hudson.model.Result;
 import hudson.util.Secret;
 import hudson.util.TestSecret;
 import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import jenkins.branch.BranchSource;
 import jenkins.plugins.git.GitSampleRepoRule;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;

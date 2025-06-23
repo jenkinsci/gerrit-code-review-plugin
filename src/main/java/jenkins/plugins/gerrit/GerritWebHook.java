@@ -20,6 +20,7 @@ import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.model.RootAction;
 import hudson.model.UnprotectedRootAction;
@@ -34,8 +35,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import jenkins.model.Jenkins;
 import jenkins.scm.api.SCMSourceOwner;
 import org.acegisecurity.Authentication;
@@ -78,7 +78,7 @@ public class GerritWebHook implements UnprotectedRootAction {
 
   @SuppressWarnings({"unused", "deprecation"})
   public void doIndex() throws IOException {
-    HttpServletRequest req = Stapler.getCurrentRequest();
+    HttpServletRequest req = Stapler.getCurrentRequest2();
     String jobName = req.getParameter("jobName");
     boolean isJobNameNullOrEmpty = Strings.isNullOrEmpty(jobName);
     String apiKeyParam = req.getParameter("apiKey");
@@ -180,7 +180,7 @@ public class GerritWebHook implements UnprotectedRootAction {
     return Jenkins.getInstance().getExtensionList(RootAction.class).get(GerritWebHook.class);
   }
 
-  @Nonnull
+  @NonNull
   public static Jenkins getJenkinsInstance() throws IllegalStateException {
     return Jenkins.getInstance();
   }

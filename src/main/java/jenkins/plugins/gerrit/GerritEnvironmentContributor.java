@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.model.EnvironmentContributor;
@@ -33,7 +34,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.annotation.Nonnull;
 import jenkins.branch.BranchSource;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
@@ -102,7 +102,7 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
 
   @Override
   public void buildEnvironmentFor(
-      @Nonnull Run r, @Nonnull EnvVars envs, @Nonnull TaskListener listener)
+      @NonNull Run r, @NonNull EnvVars envs, @NonNull TaskListener listener)
       throws IOException, InterruptedException {
     ItemGroup jobParent = r.getParent().getParent();
     if (!(jobParent instanceof WorkflowMultiBranchProject)) {

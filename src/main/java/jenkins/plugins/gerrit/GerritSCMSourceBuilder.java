@@ -14,9 +14,9 @@
 
 package jenkins.plugins.gerrit;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import java.net.URISyntaxException;
-import javax.annotation.CheckForNull;
 import jenkins.scm.api.trait.SCMSourceBuilder;
 import org.eclipse.jgit.transport.URIish;
 
@@ -26,7 +26,8 @@ public class GerritSCMSourceBuilder
   private final String id;
   private final GerritURI gerritURI;
   private final boolean insecureHttps;
-  @CheckForNull private final String credentialsId;
+  @CheckForNull
+  private final String credentialsId;
 
   public GerritSCMSourceBuilder(
       String id,

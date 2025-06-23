@@ -18,6 +18,9 @@ import com.cloudbees.plugins.credentials.CredentialsProvider;
 import com.cloudbees.plugins.credentials.common.StandardListBoxModel;
 import com.cloudbees.plugins.credentials.common.StandardUsernameCredentials;
 import com.cloudbees.plugins.credentials.domains.URIRequirementBuilder;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.Nullable;
 import hudson.Extension;
 import hudson.Util;
 import hudson.model.Descriptor;
@@ -42,9 +45,6 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import jenkins.model.Jenkins;
 import jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait;
 import jenkins.plugins.git.AbstractGitSCMSource;
@@ -272,7 +272,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
     return new GerritSCMSourceContext(null, SCMHeadObserver.none()).withTraits(traits).asRefSpecs();
   }
 
-  @Nonnull
+  @NonNull
   @Override
   public List<SCMSourceTrait> getTraits() {
     return traits;
@@ -411,7 +411,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
           new ChangeDiscoveryTrait(null), new RefSpecsSCMSourceTrait(REF_SPEC_DEFAULT));
     }
 
-    @Nonnull
+    @NonNull
     @Override
     protected SCMHeadCategory[] createCategories() {
       return new SCMHeadCategory[] {
@@ -445,11 +445,11 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
             SCMHeadEvent.fireNow(
                 new SCMHeadEvent<String>(SCMEvent.Type.UPDATED, branch, origin) {
                   @Override
-                  public boolean isMatch(@Nonnull SCMNavigator navigator) {
+                  public boolean isMatch(@NonNull SCMNavigator navigator) {
                     return false;
                   }
 
-                  @Nonnull
+                  @NonNull
                   @Override
                   public String getSourceName() {
                     // we will never be called here as do not match any navigator
@@ -482,9 +482,9 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
                     return false;
                   }
 
-                  @Nonnull
+                  @NonNull
                   @Override
-                  public Map<SCMHead, SCMRevision> heads(@Nonnull SCMSource source) {
+                  public Map<SCMHead, SCMRevision> heads(@NonNull SCMSource source) {
                     if (source instanceof GerritSCMSource) {
                       GerritSCMSource git = (GerritSCMSource) source;
                       GerritSCMSourceContext ctx =
@@ -515,7 +515,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
                   }
 
                   @Override
-                  public boolean isMatch(@Nonnull SCM scm) {
+                  public boolean isMatch(@NonNull SCM scm) {
                     return false; // TODO rewrite the legacy event system to fire through SCM API
                   }
                 });
@@ -548,7 +548,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
                   result.add(
                       new GitStatus.ResponseContributor() {
                         @Override
-                        public void addHeaders(StaplerRequest req, StaplerResponse rsp) {
+                        public void addHeaders(StaplerRequest2 req, StaplerResponse2 rsp) {
                           rsp.addHeader("Triggered", owner.getAbsoluteUrl());
                         }
 

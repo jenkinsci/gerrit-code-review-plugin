@@ -17,6 +17,7 @@ package jenkins.plugins.gerrit.workflow;
 import com.google.gerrit.plugins.checks.api.CheckInput;
 import com.google.gerrit.plugins.checks.api.CheckState;
 import com.google.gerrit.plugins.checks.client.GerritChecksApi;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.model.Run;
 import hudson.model.TaskListener;
@@ -26,7 +27,6 @@ import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nonnull;
 import jenkins.model.Jenkins;
 import jenkins.plugins.gerrit.GerritApiBuilder;
 import jenkins.plugins.gerrit.GerritChange;
@@ -165,7 +165,7 @@ public class GerritCheckStep extends Step {
       return "gerritCheck";
     }
 
-    @Nonnull
+    @NonNull
     @Override
     public String getDisplayName() {
       return "Gerrit Review Check";
