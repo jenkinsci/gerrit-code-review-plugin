@@ -25,13 +25,13 @@ import com.google.gerrit.plugins.checks.api.PendingChecksInfo;
 import com.google.gerrit.plugins.checks.client.GerritChecksApi;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
-import edu.umd.cs.findbugs.annotations.Nullable;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.EnvVars;
 import hudson.model.Action;
 import hudson.model.Actionable;
 import hudson.model.TaskListener;
 import hudson.plugins.git.Branch;
+import hudson.plugins.git.GitObject;
 import hudson.plugins.git.GitTool;
 import java.io.File;
 import java.io.IOException;
@@ -70,7 +70,8 @@ import jenkins.scm.api.SCMSourceCriteria;
 import jenkins.scm.api.SCMSourceEvent;
 import jenkins.scm.api.SCMSourceOwner;
 import jenkins.scm.api.metadata.ObjectMetadataAction;
-import jenkins.scm.api.trait.SCMSourceRequest;
+import jenkins.scm.api.trait.SCMSourceRequest.LazyRevisionLambda;
+import jenkins.scm.api.trait.SCMSourceRequest.Witness;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -122,27 +123,19 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       throws IOException, InterruptedException {
     return doRetrieve(
         head,
-        new Retriever<SCMRevision>() {
-          @Override
-          public SCMRevision run(
-              GitClient client,
-              GerritSCMSourceContext context,
-              String remoteName,
-              Changes.QueryRequest changeQuery)
-              throws IOException, InterruptedException {
+        (Retriever<SCMRevision>) (client, context, remoteName, changeQuery) -> {
 
-            if (head instanceof ChangeSCMHead) {
-              return new SCMRevisionImpl(head, ((ChangeSCMHead) head).getRev());
-            }
-
-            for (Branch b : client.getRemoteBranches()) {
-              String branchName = StringUtils.removeStart(b.getName(), remoteName + "/");
-              if (branchName.equals(head.getName())) {
-                return new SCMRevisionImpl(head, b.getSHA1String());
-              }
-            }
-            return null;
+          if (head instanceof ChangeSCMHead) {
+            return new SCMRevisionImpl(head, ((ChangeSCMHead) head).getRev());
           }
+
+          for (Branch b : client.getRemoteBranches()) {
+            String branchName = StringUtils.removeStart(b.getName(), remoteName + "/");
+            if (branchName.equals(head.getName())) {
+              return new SCMRevisionImpl(head, b.getSHA1String());
+            }
+          }
+          return null;
         },
         new GerritSCMSourceContext(null, SCMHeadObserver.none()).withTraits(getTraits()),
         listener,
@@ -160,7 +153,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       throws IOException, InterruptedException {
     doRetrieve(
         null,
-        new Retriever<Object>() {
+        new Retriever<>() {
           @SuppressWarnings("deprecation")
           @Override
           public Object run(
@@ -184,8 +177,8 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                         .stream()
                         .collect(
                             Collectors.toMap(
-                                (Branch branch) -> branch.getName(),
-                                (Branch branch) -> branch.getSHA1())));
+                                GitObject::getName,
+                                GitObject::getSHA1)));
               }
               if (context.wantTags()) {
                 // TODO
@@ -224,7 +217,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                     return;
                   }
                 } catch (Exception e) {
-                  listener.getLogger().format("Unable to process %s: %s", refKey, e.toString());
+                  listener.getLogger().format("Unable to process %s: %s", refKey, e);
                 }
               } else {
                 if (processBranchRequest(repository, walk, request, ref, listener)) {
@@ -252,33 +245,25 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       throws IOException, InterruptedException {
     return doRetrieve(
         null,
-        new Retriever<List<Action>>() {
-          @Override
-          public List<Action> run(
-              GitClient client,
-              GerritSCMSourceContext context,
-              String remoteName,
-              Changes.QueryRequest queryRequest)
-              throws IOException, InterruptedException {
-            Map<String, String> symrefs = client.getRemoteSymbolicReferences(getRemote(), null);
-            if (symrefs.containsKey(Constants.HEAD)) {
-              // Hurrah! The Server is Git 1.8.5 or newer and our client has symref reporting
-              String target = symrefs.get(Constants.HEAD);
-              if (target.startsWith(Constants.R_HEADS)) {
-                // shorten standard names
-                target = target.substring(Constants.R_HEADS.length());
-              }
-              List<Action> result = new ArrayList<>();
-              if (StringUtils.isNotBlank(target)) {
-                result.add(new GitRemoteHeadRefAction(getRemote(), target));
-              }
-              result.add(new GerritLogo());
-              return result;
+        (client, context, remoteName, queryRequest) -> {
+          Map<String, String> symrefs = client.getRemoteSymbolicReferences(getRemote(), null);
+          if (symrefs.containsKey(Constants.HEAD)) {
+            // Hurrah! The Server is Git 1.8.5 or newer and our client has symref reporting
+            String target = symrefs.get(Constants.HEAD);
+            if (target.startsWith(Constants.R_HEADS)) {
+              // shorten standard names
+              target = target.substring(Constants.R_HEADS.length());
             }
-
-            // Give up, there's no way to get the primary branch
-            return new ArrayList<>();
+            List<Action> result = new ArrayList<>();
+            if (StringUtils.isNotBlank(target)) {
+              result.add(new GitRemoteHeadRefAction(getRemote(), target));
+            }
+            result.add(new GerritLogo());
+            return result;
           }
+
+          // Give up, there's no way to get the primary branch
+          return new ArrayList<>();
         },
         new GerritSCMSourceContext(null, SCMHeadObserver.none()).withTraits(getTraits()),
         listener,
@@ -299,9 +284,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                 String remoteName,
                 Changes.QueryRequest changeQuery) -> {
               SCMSourceOwner owner = getOwner();
-              if (owner instanceof Actionable && head instanceof ChangeSCMHead) {
-                final Actionable actionableOwner = (Actionable) owner;
-                final ChangeSCMHead change = (ChangeSCMHead) head;
+              if (owner instanceof Actionable actionableOwner && head instanceof ChangeSCMHead change) {
                 String gerritBaseUrl = getGerritBaseUrl();
 
                 return actionableOwner
@@ -349,87 +332,67 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
             StringUtils.removeStart(ref.getKey(), Constants.R_HEADS), R_CHANGES);
     return (request.process(
         new SCMHead(branchName),
-        new SCMSourceRequest.IntermediateLambda<ObjectId>() {
-          @Nullable
-          @Override
-          public ObjectId create() throws IOException, InterruptedException {
-            listener.getLogger().println("  Checking branch " + branchName);
-            return ref.getValue();
-          }
+        () -> {
+          listener.getLogger().println("  Checking branch " + branchName);
+          return ref.getValue();
         },
-        new SCMSourceRequest.ProbeLambda<SCMHead, ObjectId>() {
-          @NonNull
-          @Override
-          public SCMSourceCriteria.Probe create(
-              @NonNull SCMHead head, @Nullable ObjectId revisionInfo)
-              throws IOException, InterruptedException {
-            RevCommit commit = walk.parseCommit(revisionInfo);
-            final long lastModified = TimeUnit.SECONDS.toMillis(commit.getCommitTime());
-            final RevTree tree = commit.getTree();
-            return new SCMProbe() {
-              @Override
-              public void close() throws IOException {
-                // no-op
-              }
-
-              @Override
-              public String name() {
-                return branchName;
-              }
-
-              @Override
-              public long lastModified() {
-                return lastModified;
-              }
-
-              @Override
-              @NonNull
-              @SuppressFBWarnings(
-                  value = "NP_LOAD_OF_KNOWN_NULL_VALUE",
-                  justification =
-                      "TreeWalk.forPath can return null, compiler "
-                          + "generated code for try with resources handles it")
-              public SCMProbeStat stat(@NonNull String path) throws IOException {
-                try (TreeWalk tw = TreeWalk.forPath(repository, path, tree)) {
-                  if (tw == null) {
-                    return SCMProbeStat.fromType(SCMFile.Type.NONEXISTENT);
-                  }
-                  FileMode fileMode = tw.getFileMode(0);
-                  if (fileMode == FileMode.MISSING) {
-                    return SCMProbeStat.fromType(SCMFile.Type.NONEXISTENT);
-                  }
-                  if (fileMode == FileMode.EXECUTABLE_FILE) {
-                    return SCMProbeStat.fromType(SCMFile.Type.REGULAR_FILE);
-                  }
-                  if (fileMode == FileMode.REGULAR_FILE) {
-                    return SCMProbeStat.fromType(SCMFile.Type.REGULAR_FILE);
-                  }
-                  if (fileMode == FileMode.SYMLINK) {
-                    return SCMProbeStat.fromType(SCMFile.Type.LINK);
-                  }
-                  if (fileMode == FileMode.TREE) {
-                    return SCMProbeStat.fromType(SCMFile.Type.DIRECTORY);
-                  }
-                  return SCMProbeStat.fromType(SCMFile.Type.OTHER);
-                }
-              }
-            };
-          }
-        },
-        new SCMSourceRequest.LazyRevisionLambda<SCMHead, SCMRevision, ObjectId>() {
-          @NonNull
-          @Override
-          public SCMRevision create(@NonNull SCMHead head, @Nullable ObjectId intermediate)
-              throws IOException, InterruptedException {
-            return new SCMRevisionImpl(head, ref.getValue().name());
-          }
-        },
-        new SCMSourceRequest.Witness() {
-          @Override
-          public void record(@NonNull SCMHead head, SCMRevision revision, boolean isMatch) {
-            if (isMatch) {
-              listener.getLogger().println(head.getName() + " meets the criteria");
+        (head, revisionInfo) -> {
+          RevCommit commit = walk.parseCommit(revisionInfo);
+          final long lastModified = TimeUnit.SECONDS.toMillis(commit.getCommitTime());
+          final RevTree tree = commit.getTree();
+          return new SCMProbe() {
+            @Override
+            public void close() throws IOException {
+              // no-op
             }
+
+            @Override
+            public String name() {
+              return branchName;
+            }
+
+            @Override
+            public long lastModified() {
+              return lastModified;
+            }
+
+            @Override
+            @NonNull
+            @SuppressFBWarnings(
+                value = "NP_LOAD_OF_KNOWN_NULL_VALUE",
+                justification =
+                    "TreeWalk.forPath can return null, compiler "
+                        + "generated code for try with resources handles it")
+            public SCMProbeStat stat(@NonNull String path) throws IOException {
+              try (TreeWalk tw = TreeWalk.forPath(repository, path, tree)) {
+                if (tw == null) {
+                  return SCMProbeStat.fromType(SCMFile.Type.NONEXISTENT);
+                }
+                FileMode fileMode = tw.getFileMode(0);
+                if (fileMode == FileMode.MISSING) {
+                  return SCMProbeStat.fromType(SCMFile.Type.NONEXISTENT);
+                }
+                if (fileMode == FileMode.EXECUTABLE_FILE) {
+                  return SCMProbeStat.fromType(SCMFile.Type.REGULAR_FILE);
+                }
+                if (fileMode == FileMode.REGULAR_FILE) {
+                  return SCMProbeStat.fromType(SCMFile.Type.REGULAR_FILE);
+                }
+                if (fileMode == FileMode.SYMLINK) {
+                  return SCMProbeStat.fromType(SCMFile.Type.LINK);
+                }
+                if (fileMode == FileMode.TREE) {
+                  return SCMProbeStat.fromType(SCMFile.Type.DIRECTORY);
+                }
+                return SCMProbeStat.fromType(SCMFile.Type.OTHER);
+              }
+            }
+          };
+        },
+        (LazyRevisionLambda<SCMHead, SCMRevision, Object>) (head, intermediate) -> new SCMRevisionImpl(head, ref.getValue().name()),
+        (head, revision, isMatch) -> {
+          if (isMatch) {
+            listener.getLogger().println(head.getName() + " meets the criteria");
           }
         }));
   }
@@ -446,90 +409,66 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     boolean succeeded =
         request.process(
             new ChangeSCMHead(ref, branchName, pendingCheckerUuids),
-            new SCMSourceRequest.IntermediateLambda<ObjectId>() {
-              @Nullable
-              @Override
-              public ObjectId create() throws IOException, InterruptedException {
-                return ref.getValue();
-              }
-            },
-            new SCMSourceRequest.ProbeLambda<ChangeSCMHead, ObjectId>() {
-              @NonNull
-              @Override
-              public SCMSourceCriteria.Probe create(
-                  @NonNull ChangeSCMHead head, @Nullable ObjectId revisionInfo)
-                  throws IOException, InterruptedException {
-                RevCommit commit = walk.parseCommit(revisionInfo);
-                final long lastModified = TimeUnit.SECONDS.toMillis(commit.getCommitTime());
-                final RevTree tree = commit.getTree();
-                return new SCMProbe() {
-                  @Override
-                  public void close() throws IOException {
-                    // no-op
-                  }
-
-                  @Override
-                  public String name() {
-                    return branchName;
-                  }
-
-                  @Override
-                  public long lastModified() {
-                    return lastModified;
-                  }
-
-                  @Override
-                  @NonNull
-                  @SuppressFBWarnings(
-                      value = "NP_LOAD_OF_KNOWN_NULL_VALUE",
-                      justification =
-                          "TreeWalk.forPath can return null, compiler "
-                              + "generated code for try with resources handles it")
-                  public SCMProbeStat stat(@NonNull String path) throws IOException {
-                    try (TreeWalk tw = TreeWalk.forPath(repository, path, tree)) {
-                      if (tw == null) {
-                        return SCMProbeStat.fromType(SCMFile.Type.NONEXISTENT);
-                      }
-                      FileMode fileMode = tw.getFileMode(0);
-                      if (fileMode == FileMode.MISSING) {
-                        return SCMProbeStat.fromType(SCMFile.Type.NONEXISTENT);
-                      }
-                      if (fileMode == FileMode.EXECUTABLE_FILE) {
-                        return SCMProbeStat.fromType(SCMFile.Type.REGULAR_FILE);
-                      }
-                      if (fileMode == FileMode.REGULAR_FILE) {
-                        return SCMProbeStat.fromType(SCMFile.Type.REGULAR_FILE);
-                      }
-                      if (fileMode == FileMode.SYMLINK) {
-                        return SCMProbeStat.fromType(SCMFile.Type.LINK);
-                      }
-                      if (fileMode == FileMode.TREE) {
-                        return SCMProbeStat.fromType(SCMFile.Type.DIRECTORY);
-                      }
-                      return SCMProbeStat.fromType(SCMFile.Type.OTHER);
-                    }
-                  }
-                };
-              }
-            },
-            new SCMSourceRequest.LazyRevisionLambda<ChangeSCMHead, SCMRevision, ObjectId>() {
-              @NonNull
-              @Override
-              public SCMRevision create(
-                  @NonNull ChangeSCMHead head, @Nullable ObjectId intermediate)
-                  throws IOException, InterruptedException {
-                return new ChangeSCMRevision(head, ref.getValue().toObjectId().name());
-              }
-            },
-            new SCMSourceRequest.Witness<ChangeSCMHead, SCMRevision>() {
-              @Override
-              public void record(
-                  @NonNull ChangeSCMHead head, SCMRevision revision, boolean isMatch) {
-                if (isMatch) {
-                  listener.getLogger().println("    Met criteria");
-                } else {
-                  listener.getLogger().println("    Does not meet criteria");
+            ref::getValue,
+            (head, revisionInfo) -> {
+              RevCommit commit = walk.parseCommit(revisionInfo);
+              final long lastModified = TimeUnit.SECONDS.toMillis(commit.getCommitTime());
+              final RevTree tree = commit.getTree();
+              return new SCMProbe() {
+                @Override
+                public void close() throws IOException {
+                  // no-op
                 }
+
+                @Override
+                public String name() {
+                  return branchName;
+                }
+
+                @Override
+                public long lastModified() {
+                  return lastModified;
+                }
+
+                @Override
+                @NonNull
+                @SuppressFBWarnings(
+                    value = "NP_LOAD_OF_KNOWN_NULL_VALUE",
+                    justification =
+                        "TreeWalk.forPath can return null, compiler "
+                            + "generated code for try with resources handles it")
+                public SCMProbeStat stat(@NonNull String path) throws IOException {
+                  try (TreeWalk tw = TreeWalk.forPath(repository, path, tree)) {
+                    if (tw == null) {
+                      return SCMProbeStat.fromType(SCMFile.Type.NONEXISTENT);
+                    }
+                    FileMode fileMode = tw.getFileMode(0);
+                    if (fileMode == FileMode.MISSING) {
+                      return SCMProbeStat.fromType(SCMFile.Type.NONEXISTENT);
+                    }
+                    if (fileMode == FileMode.EXECUTABLE_FILE) {
+                      return SCMProbeStat.fromType(SCMFile.Type.REGULAR_FILE);
+                    }
+                    if (fileMode == FileMode.REGULAR_FILE) {
+                      return SCMProbeStat.fromType(SCMFile.Type.REGULAR_FILE);
+                    }
+                    if (fileMode == FileMode.SYMLINK) {
+                      return SCMProbeStat.fromType(SCMFile.Type.LINK);
+                    }
+                    if (fileMode == FileMode.TREE) {
+                      return SCMProbeStat.fromType(SCMFile.Type.DIRECTORY);
+                    }
+                    return SCMProbeStat.fromType(SCMFile.Type.OTHER);
+                  }
+                }
+              };
+            },
+            (LazyRevisionLambda<ChangeSCMHead, SCMRevision, Object>) (head, intermediate) -> new ChangeSCMRevision(head, ref.getValue().toObjectId().name()),
+            (Witness<ChangeSCMHead, SCMRevision>) (head, revision, isMatch) -> {
+              if (isMatch) {
+                listener.getLogger().println("    Met criteria");
+              } else {
+                listener.getLogger().println("    Does not meet criteria");
               }
             });
 
@@ -546,7 +485,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
                 String.format(
                     "%s/%s", refParts[refParts.length - 2], refParts[refParts.length - 1]));
     if (pendingChecksInfos != null) {
-      Set<String> pendingCheckerUuids = new HashSet<String>();
+      Set<String> pendingCheckerUuids = new HashSet<>();
       for (PendingChecksInfo pendingChecksInfo : pendingChecksInfos) {
         if (pendingChecksInfo.pendingChecks != null) {
           pendingCheckerUuids.addAll(pendingChecksInfo.pendingChecks.keySet());
@@ -555,7 +494,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       return pendingCheckerUuids;
     }
 
-    return Collections.<String>emptySet();
+    return Collections.emptySet();
   }
 
   private Map<String, ObjectId> filterRemoteReferences(Map<String, ObjectId> gitRefs) {
@@ -659,7 +598,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
           .getLogger()
           .println(
               "Looking for open changes with query '"
-                  + URLDecoder.decode(changeQuery.getQuery(), StandardCharsets.UTF_8.name())
+                  + URLDecoder.decode(changeQuery.getQuery(), StandardCharsets.UTF_8)
                   + "' ...");
 
       List<RefSpec> fetchRefSpecs;
@@ -753,7 +692,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
             + (changeQueryFilter == null ? "" : " " + changeQueryFilter);
     return gerritApi
         .changes()
-        .query(URLEncoder.encode(query, StandardCharsets.UTF_8.name()))
+        .query(URLEncoder.encode(query, StandardCharsets.UTF_8))
         .withOption(ListChangesOption.CURRENT_REVISION);
   }
 

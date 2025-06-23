@@ -105,11 +105,10 @@ public class GerritEnvironmentContributor extends EnvironmentContributor {
       @NonNull Run r, @NonNull EnvVars envs, @NonNull TaskListener listener)
       throws IOException, InterruptedException {
     ItemGroup jobParent = r.getParent().getParent();
-    if (!(jobParent instanceof WorkflowMultiBranchProject)) {
+    if (!(jobParent instanceof WorkflowMultiBranchProject multiBranchProject)) {
       return;
     }
 
-    WorkflowMultiBranchProject multiBranchProject = (WorkflowMultiBranchProject) jobParent;
     List<BranchSource> sources = multiBranchProject.getSources();
     if (sources.isEmpty() || !(sources.get(0).getSource() instanceof GerritSCMSource)) {
       return;

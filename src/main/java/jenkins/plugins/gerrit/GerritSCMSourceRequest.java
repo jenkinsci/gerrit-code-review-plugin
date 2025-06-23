@@ -41,7 +41,7 @@ public class GerritSCMSourceRequest extends GitSCMSourceRequest {
     this.patchsetWithPendingChecks =
         filterForPendingChecks
             ? getChangesWithPendingChecks(source, context, listener)
-            : new HashMap<String, HashSet<PendingChecksInfo>>();
+            : new HashMap<>();
   }
 
   public Map<String, HashSet<PendingChecksInfo>> getPatchsetWithPendingChecks() {
@@ -60,23 +60,15 @@ public class GerritSCMSourceRequest extends GitSCMSourceRequest {
   private HashMap<String, HashSet<PendingChecksInfo>> getChangesWithPendingChecks(
       GerritSCMSource source, GerritSCMSourceContext context, TaskListener listener) {
     HashMap<String, HashSet<PendingChecksInfo>> patchsetWithPendingChecks =
-        new HashMap<String, HashSet<PendingChecksInfo>>();
-    List<PendingChecksInfo> pendingChecks = new ArrayList<PendingChecksInfo>();
+        new HashMap<>();
+    List<PendingChecksInfo> pendingChecks = new ArrayList<>();
 
     try {
       GerritChecksApi gerritChecksApi = getGerritChecksApi(source, listener);
-      switch (context.checksQueryOperator()) {
-        case ID:
-          pendingChecks =
-              gerritChecksApi.pendingChecks().checker(context.checksQueryString()).list();
-          break;
-        case SCHEME:
-          pendingChecks =
-              gerritChecksApi.pendingChecks().scheme(context.checksQueryString()).list();
-          break;
-        default:
-          throw new IOException("Unknown query operator for querying pending checks.");
-      }
+      pendingChecks = switch (context.checksQueryOperator()) {
+        case ID -> gerritChecksApi.pendingChecks().checker(context.checksQueryString()).list();
+        case SCHEME -> gerritChecksApi.pendingChecks().scheme(context.checksQueryString()).list();
+      };
     } catch (URISyntaxException | IOException | RestApiException e) {
       listener.getLogger().println("Unable to query for pending checks: " + e);
     }
@@ -86,7 +78,7 @@ public class GerritSCMSourceRequest extends GitSCMSourceRequest {
         continue;
       }
       String ref = String.format("%d/%d", check.patchSet.changeNumber, check.patchSet.patchSetId);
-      HashSet<PendingChecksInfo> checks = new HashSet<PendingChecksInfo>();
+      HashSet<PendingChecksInfo> checks = new HashSet<>();
       if (patchsetWithPendingChecks.containsKey(ref)) {
         checks = patchsetWithPendingChecks.get(ref);
         checks.add(check);

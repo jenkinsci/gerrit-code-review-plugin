@@ -61,7 +61,7 @@ public class GerritReviewStepTest {
     return Arrays.asList(
         new Object[][] {
           {"2.14", String.valueOf(changeNumber)},
-          {"2.16", String.format("%s~%s", projectName, String.valueOf(changeNumber))}
+          {"2.16", String.format("%s~%s", projectName, changeNumber)}
         });
   }
 
@@ -75,12 +75,13 @@ public class GerritReviewStepTest {
     WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "p");
     p.setDefinition(
         new CpsFlowDefinition(
-            "node {\n"
-                + "  withEnv([\n"
-                + "  ]) {\n"
-                + "    gerritReview label: 'Verified', score: -1, message: 'Does not work'\n"
-                + "  }\n"
-                + "}",
+            """
+                node {
+                  withEnv([
+                  ]) {
+                    gerritReview label: 'Verified', score: -1, message: 'Does not work'
+                  }
+                }""",
             true));
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
@@ -93,13 +94,14 @@ public class GerritReviewStepTest {
     WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "p");
     p.setDefinition(
         new CpsFlowDefinition(
-            "node {\n"
-                + "  withEnv([\n"
-                + "    'GERRIT_API_URL=http://host/a/project',\n"
-                + "  ]) {\n"
-                + "    gerritReview label: 'Verified', score: -1, message: 'Does not work'\n"
-                + "  }\n"
-                + "}",
+            """
+                node {
+                  withEnv([
+                    'GERRIT_API_URL=http://host/a/project',
+                  ]) {
+                    gerritReview label: 'Verified', score: -1, message: 'Does not work'
+                  }
+                }""",
             true));
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
@@ -112,14 +114,15 @@ public class GerritReviewStepTest {
     WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "p");
     p.setDefinition(
         new CpsFlowDefinition(
-            "node {\n"
-                + "  withEnv([\n"
-                + "    'GERRIT_API_URL=http://host/a/project',\n"
-                + "    'GERRIT_CREDENTIALS_ID=cid',\n"
-                + "  ]) {\n"
-                + "    gerritReview label: 'Verified', score: -1, message: 'Does not work'\n"
-                + "  }\n"
-                + "}",
+            """
+                node {
+                  withEnv([
+                    'GERRIT_API_URL=http://host/a/project',
+                    'GERRIT_CREDENTIALS_ID=cid',
+                  ]) {
+                    gerritReview label: 'Verified', score: -1, message: 'Does not work'
+                  }
+                }""",
             true));
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
@@ -146,16 +149,17 @@ public class GerritReviewStepTest {
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                ""
-                    + "node {\n"
-                    + "  withEnv([\n"
-                    + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
-                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
-                    + "    'BRANCH_NAME=%s',\n"
-                    + "  ]) {\n"
-                    + "    gerritReview label: '%s', score: %s, message: '%s'\n"
-                    + "  }\n"
-                    + "}",
+                """
+                    \
+                    node {
+                      withEnv([
+                        'GERRIT_API_URL=https://%s:%s/a/project',
+                        'GERRIT_CREDENTIALS_ID=cid',
+                        'BRANCH_NAME=%s',
+                      ]) {
+                        gerritReview label: '%s', score: %s, message: '%s'
+                      }
+                    }""",
                 g.getClient().remoteAddress().getHostString(),
                 g.getClient().remoteAddress().getPort(),
                 branch,
@@ -189,18 +193,19 @@ public class GerritReviewStepTest {
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                ""
-                    + "node {\n"
-                    + "  withEnv([\n"
-                    + "    'GERRIT_API_URL=https://%s:%s',\n"
-                    + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
-                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
-                    + "    'GERRIT_PROJECT=%s',\n"
-                    + "    'BRANCH_NAME=%s',\n"
-                    + "  ]) {\n"
-                    + "    gerritReview labels: ['%s': %s], message: '%s'\n"
-                    + "  }\n"
-                    + "}",
+                """
+                    \
+                    node {
+                      withEnv([
+                        'GERRIT_API_URL=https://%s:%s',
+                        'GERRIT_API_INSECURE_HTTPS=true',
+                        'GERRIT_CREDENTIALS_ID=cid',
+                        'GERRIT_PROJECT=%s',
+                        'BRANCH_NAME=%s',
+                      ]) {
+                        gerritReview labels: ['%s': %s], message: '%s'
+                      }
+                    }""",
                 g.getClient().remoteAddress().getHostString(),
                 g.getClient().remoteAddress().getPort(),
                 projectName,
@@ -256,18 +261,19 @@ public class GerritReviewStepTest {
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                ""
-                    + "node {\n"
-                    + "  withEnv([\n"
-                    + "    'GERRIT_API_URL=https://%s:%s',\n"
-                    + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
-                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
-                    + "    'GERRIT_PROJECT=%s',\n"
-                    + "    'BRANCH_NAME=%s',\n"
-                    + "  ]) {\n"
-                    + "    gerritReview labels: ['%s': %s, '%s': %s], message: '%s', notify: 'NONE'\n"
-                    + "  }\n"
-                    + "}",
+                """
+                    \
+                    node {
+                      withEnv([
+                        'GERRIT_API_URL=https://%s:%s',
+                        'GERRIT_API_INSECURE_HTTPS=true',
+                        'GERRIT_CREDENTIALS_ID=cid',
+                        'GERRIT_PROJECT=%s',
+                        'BRANCH_NAME=%s',
+                      ]) {
+                        gerritReview labels: ['%s': %s, '%s': %s], message: '%s', notify: 'NONE'
+                      }
+                    }""",
                 g.getClient().remoteAddress().getHostString(),
                 g.getClient().remoteAddress().getPort(),
                 projectName,
@@ -333,18 +339,19 @@ public class GerritReviewStepTest {
       p.setDefinition(
               new CpsFlowDefinition(
                       String.format(
-                              ""
-                              + "node {\n"
-                              + "  withEnv([\n"
-                              + "    'GERRIT_API_URL=https://%s:%s',\n"
-                              + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
-                              + "    'GERRIT_CREDENTIALS_ID=cid',\n"
-                              + "    'GERRIT_PROJECT=%s',\n"
-                              + "    'BRANCH_NAME=%s',\n"
-                              + "  ]) {\n"
-                              + "    gerritReview labels: ['%s': %s, '%s': %s], message: '%s'\n"
-                              + "  }\n"
-                              + "}",
+                          """
+                              \
+                              node {
+                                withEnv([
+                                  'GERRIT_API_URL=https://%s:%s',
+                                  'GERRIT_API_INSECURE_HTTPS=true',
+                                  'GERRIT_CREDENTIALS_ID=cid',
+                                  'GERRIT_PROJECT=%s',
+                                  'BRANCH_NAME=%s',
+                                ]) {
+                                  gerritReview labels: ['%s': %s, '%s': %s], message: '%s'
+                                }
+                              }""",
                               g.getClient().remoteAddress().getHostString(),
                               g.getClient().remoteAddress().getPort(),
                               projectName,

@@ -148,10 +148,10 @@ public class GerritSCMNavigator extends SCMNavigator {
       return null;
     }
     return CredentialsMatchers.firstOrNull(
-        CredentialsProvider.lookupCredentials(
+        CredentialsProvider.lookupCredentialsInItem(
             StandardUsernamePasswordCredentials.class,
             context,
-            ACL.SYSTEM,
+            ACL.SYSTEM2,
             URIRequirementBuilder.fromUri(serverUrl).build()),
         CredentialsMatchers.allOf(CredentialsMatchers.withId(credentialsId)));
   }
@@ -204,7 +204,7 @@ public class GerritSCMNavigator extends SCMNavigator {
         @AncestorInPath Item context,
         @QueryParameter String serverUrl,
         @QueryParameter String credentialsId) {
-      if (context == null && !Jenkins.getInstance().hasPermission(Jenkins.ADMINISTER)
+      if (context == null && !Jenkins.get().hasPermission(Jenkins.ADMINISTER)
           || context != null && !context.hasPermission(Item.EXTENDED_READ)) {
         return new StandardListBoxModel().includeCurrentValue(credentialsId);
       }
@@ -212,8 +212,8 @@ public class GerritSCMNavigator extends SCMNavigator {
           .includeEmptyValue()
           .includeMatchingAs(
               context instanceof Queue.Task
-                  ? Tasks.getAuthenticationOf((Queue.Task) context)
-                  : ACL.SYSTEM,
+                  ? Tasks.getAuthenticationOf2((Queue.Task) context)
+                  : ACL.SYSTEM2,
               context,
               StandardUsernameCredentials.class,
               URIRequirementBuilder.fromUri(serverUrl).build(),

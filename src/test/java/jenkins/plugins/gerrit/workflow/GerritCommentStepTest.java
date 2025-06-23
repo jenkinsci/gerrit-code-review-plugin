@@ -125,18 +125,19 @@ public class GerritCommentStepTest {
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                ""
-                    + "node {\n"
-                    + "  withEnv([\n"
-                    + "    'GERRIT_API_URL=https://%s:%s/',\n"
-                    + "    'GERRIT_PROJECT=%s',\n"
-                    + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
-                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
-                    + "    'BRANCH_NAME=%s',\n"
-                    + "  ]) {\n"
-                    + "    gerritComment path: '%s', line: %s, message: '%s'\n"
-                    + "  }\n"
-                    + "}",
+                """
+                    \
+                    node {
+                      withEnv([
+                        'GERRIT_API_URL=https://%s:%s/',
+                        'GERRIT_PROJECT=%s',
+                        'GERRIT_API_INSECURE_HTTPS=true',
+                        'GERRIT_CREDENTIALS_ID=cid',
+                        'BRANCH_NAME=%s',
+                      ]) {
+                        gerritComment path: '%s', line: %s, message: '%s'
+                      }
+                    }""",
                 g.getClient().remoteAddress().getHostString(),
                 g.getClient().remoteAddress().getPort(),
                 projectName,

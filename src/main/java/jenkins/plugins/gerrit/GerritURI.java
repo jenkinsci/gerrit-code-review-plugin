@@ -11,7 +11,7 @@ import org.eclipse.jgit.transport.URIish;
  */
 public class GerritURI {
 
-  private static enum Scheme {
+  private enum Scheme {
     HTTP,
     HTTPS,
     SSH

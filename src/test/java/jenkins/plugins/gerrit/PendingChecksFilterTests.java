@@ -53,11 +53,11 @@ public class PendingChecksFilterTests {
     context.withChecksQueryOperator(ChecksQueryOperator.ID);
     context.withChecksQueryString(checkerUuid);
 
-    pendingChecksInfos = new ArrayList<PendingChecksInfo>();
+    pendingChecksInfos = new ArrayList<>();
     pendingChecksInfos.add(getPendingChecksInfo("test", 11111, 1, CheckState.NOT_STARTED));
 
-    query = new HashMap<String, List<String>>();
-    query.put("query", Arrays.asList(new String[] {"checker:test:checker"}));
+    query = new HashMap<>();
+    query.put("query", Arrays.asList("checker:test:checker"));
 
     filter = new PendingChecksFilter();
   }
@@ -95,22 +95,22 @@ public class PendingChecksFilterTests {
 
   @Test
   public void testPendingChecksFilterExcludesNonPending() throws Exception {
-    HashMap<String, ObjectId> refs = new HashMap<String, ObjectId>();
+    HashMap<String, ObjectId> refs = new HashMap<>();
     refs.put("refs/changes/22/22222/2", ObjectId.zeroId());
 
     ChangeSCMHead head =
-        new ChangeSCMHead(refs.entrySet().iterator().next(), "master", new HashSet<String>());
+        new ChangeSCMHead(refs.entrySet().iterator().next(), "master", new HashSet<>());
 
     assertTrue(filter.isExcluded(request, head));
   }
 
   @Test
   public void testPendingChecksFilterIncludesPending() throws Exception {
-    HashMap<String, ObjectId> refs = new HashMap<String, ObjectId>();
+    HashMap<String, ObjectId> refs = new HashMap<>();
     refs.put("refs/changes/11/11111/1", ObjectId.zeroId());
 
     ChangeSCMHead head =
-        new ChangeSCMHead(refs.entrySet().iterator().next(), "master", new HashSet<String>());
+        new ChangeSCMHead(refs.entrySet().iterator().next(), "master", new HashSet<>());
 
     assertFalse(filter.isExcluded(request, head));
   }

@@ -25,7 +25,7 @@ public class GerritChangeTest {
 
   @Test
   public void testNone() throws Exception {
-    GerritChange change = new GerritChange(Collections.<String, String>emptyMap(), System.out);
+    GerritChange change = new GerritChange(Collections.emptyMap(), System.out);
     assertFalse(change.valid());
   }
 

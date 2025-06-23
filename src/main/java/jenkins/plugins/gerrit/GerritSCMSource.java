@@ -131,7 +131,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
           }
         }
         if (!templates.isEmpty()) {
-          return new RefSpecsSCMSourceTrait(templates.toArray(new String[templates.size()]));
+          return new RefSpecsSCMSourceTrait(templates.toArray(new String[0]));
         }
       }
     }
@@ -148,11 +148,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
   @DataBoundSetter
   public void setBrowser(GitRepositoryBrowser browser) {
     List<SCMSourceTrait> traits = new ArrayList<>(this.traits);
-    for (Iterator<SCMSourceTrait> iterator = traits.iterator(); iterator.hasNext(); ) {
-      if (iterator.next() instanceof GitBrowserSCMSourceTrait) {
-        iterator.remove();
-      }
-    }
+    traits.removeIf(scmSourceTrait -> scmSourceTrait instanceof GitBrowserSCMSourceTrait);
     if (browser != null) {
       traits.add(new GitBrowserSCMSourceTrait(browser));
     }
@@ -165,11 +161,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
   public void setGitTool(String gitTool) {
     List<SCMSourceTrait> traits = new ArrayList<>(this.traits);
     gitTool = Util.fixEmptyAndTrim(gitTool);
-    for (Iterator<SCMSourceTrait> iterator = traits.iterator(); iterator.hasNext(); ) {
-      if (iterator.next() instanceof GitToolSCMSourceTrait) {
-        iterator.remove();
-      }
-    }
+    traits.removeIf(scmSourceTrait -> scmSourceTrait instanceof GitToolSCMSourceTrait);
     if (gitTool != null) {
       traits.add(new GitToolSCMSourceTrait(gitTool));
     }
@@ -181,16 +173,11 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
   @DataBoundSetter
   public void setExtensions(@CheckForNull List<GitSCMExtension> extensions) {
     List<SCMSourceTrait> traits = new ArrayList<>(this.traits);
-    for (Iterator<SCMSourceTrait> iterator = traits.iterator(); iterator.hasNext(); ) {
-      if (iterator.next() instanceof GitSCMExtensionTrait) {
-        iterator.remove();
-      }
-    }
+    traits.removeIf(scmSourceTrait -> scmSourceTrait instanceof GitSCMExtensionTrait);
     EXTENSIONS:
     for (GitSCMExtension extension : Util.fixNull(extensions)) {
       for (SCMSourceTraitDescriptor d : SCMSourceTrait.all()) {
-        if (d instanceof GitSCMExtensionTraitDescriptor) {
-          GitSCMExtensionTraitDescriptor descriptor = (GitSCMExtensionTraitDescriptor) d;
+        if (d instanceof GitSCMExtensionTraitDescriptor descriptor) {
           if (descriptor.getExtensionClass().isInstance(extension)) {
             try {
               SCMSourceTrait trait = descriptor.convertToTrait(extension);
@@ -407,7 +394,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
 
     @Override
     public List<SCMSourceTrait> getTraitsDefaults() {
-      return Arrays.<SCMSourceTrait>asList(
+      return Arrays.asList(
           new ChangeDiscoveryTrait(null), new RefSpecsSCMSourceTrait(REF_SPEC_DEFAULT));
     }
 
@@ -431,8 +418,8 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
         @Nullable final String sha1,
         List<ParameterValue> buildParameters,
         String... branches) {
-      List<GitStatus.ResponseContributor> result = new ArrayList<GitStatus.ResponseContributor>();
-      final boolean notified[] = {false};
+      List<GitStatus.ResponseContributor> result = new ArrayList<>();
+      final boolean[] notified = {false};
       // run in high privilege to see all the projects anonymous users don't see.
       // this is safe because when we actually schedule a build, it's a build that can
       // happen at some random time anyway.
@@ -443,7 +430,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
           final URIish u = uri;
           for (final String branch : branches) {
             SCMHeadEvent.fireNow(
-                new SCMHeadEvent<String>(SCMEvent.Type.UPDATED, branch, origin) {
+                new SCMHeadEvent<>(SCMEvent.Type.UPDATED, branch, origin) {
                   @Override
                   public boolean isMatch(@NonNull SCMNavigator navigator) {
                     return false;
@@ -458,8 +445,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
 
                   @Override
                   public boolean isMatch(SCMSource source) {
-                    if (source instanceof GerritSCMSource) {
-                      GerritSCMSource git = (GerritSCMSource) source;
+                    if (source instanceof GerritSCMSource git) {
                       GerritSCMSourceContext ctx =
                           new GerritSCMSourceContext(null, SCMHeadObserver.none())
                               .withTraits(git.getTraits());
@@ -485,8 +471,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
                   @NonNull
                   @Override
                   public Map<SCMHead, SCMRevision> heads(@NonNull SCMSource source) {
-                    if (source instanceof GerritSCMSource) {
-                      GerritSCMSource git = (GerritSCMSource) source;
+                    if (source instanceof GerritSCMSource git) {
                       GerritSCMSourceContext ctx =
                           new GerritSCMSourceContext(null, SCMHeadObserver.none())
                               .withTraits(git.getTraits());
@@ -507,7 +492,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
                             return Collections.emptyMap();
                           }
                         }
-                        return Collections.<SCMHead, SCMRevision>singletonMap(
+                        return Collections.singletonMap(
                             head, sha1 != null ? new SCMRevisionImpl(head, sha1) : null);
                       }
                     }
@@ -523,8 +508,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
         } else {
           for (final SCMSourceOwner owner : SCMSourceOwners.all()) {
             for (SCMSource source : owner.getSCMSources()) {
-              if (source instanceof GerritSCMSource) {
-                GerritSCMSource git = (GerritSCMSource) source;
+              if (source instanceof GerritSCMSource git) {
                 GerritSCMSourceContext ctx =
                     new GerritSCMSourceContext(null, SCMHeadObserver.none())
                         .withTraits(git.getTraits());

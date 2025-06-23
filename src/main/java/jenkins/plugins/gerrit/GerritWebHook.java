@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 import jakarta.servlet.http.HttpServletRequest;
 import jenkins.model.Jenkins;
 import jenkins.scm.api.SCMSourceOwner;
@@ -100,7 +99,7 @@ public class GerritWebHook implements UnprotectedRootAction {
                         .getAllItems(WorkflowMultiBranchProject.class)
                         .stream()
                         .filter(job -> isJobNameNullOrEmpty || job.getName().equals(jobName))
-                        .collect(Collectors.toList());
+                        .toList();
                 if (!isJobNameNullOrEmpty) {
                   if (jenkinsItems.isEmpty()) {
                     log.error("Job '{}' not found or not a multi-branch pipeline", jobName);
@@ -142,7 +141,7 @@ public class GerritWebHook implements UnprotectedRootAction {
       SCMSourceOwner scmJob,
       GerritSCMSource gerritSCMSource) {
     Secret gerritSCMSourceApiKey = gerritSCMSource.getApiKey();
-    log.debug("Checking match for SCM source: " + gerritSCMSource.getRemote());
+    log.debug("Checking match for SCM source: {}", gerritSCMSource.getRemote());
     if (!projectEvent.matches(gerritSCMSource.getRemote())) {
       log.warn(
           "Not triggering job {}: SCM source remote does not match the one specified in the project event",
@@ -177,11 +176,11 @@ public class GerritWebHook implements UnprotectedRootAction {
   }
 
   public static GerritWebHook get() {
-    return Jenkins.getInstance().getExtensionList(RootAction.class).get(GerritWebHook.class);
+    return Jenkins.get().getExtensionList(RootAction.class).get(GerritWebHook.class);
   }
 
   @NonNull
   public static Jenkins getJenkinsInstance() throws IllegalStateException {
-    return Jenkins.getInstance();
+    return Jenkins.get();
   }
 }

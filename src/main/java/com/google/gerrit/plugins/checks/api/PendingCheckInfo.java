@@ -41,10 +41,9 @@ public class PendingCheckInfo {
 
   @Override
   public boolean equals(Object obj) {
-    if (!(obj instanceof PendingCheckInfo)) {
+    if (!(obj instanceof PendingCheckInfo o)) {
       return false;
     }
-    PendingCheckInfo o = (PendingCheckInfo) obj;
     return Objects.equals(state, o.state);
   }
 

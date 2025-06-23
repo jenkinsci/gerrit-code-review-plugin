@@ -33,10 +33,9 @@ public class RerunInput {
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof RerunInput)) {
+    if (!(o instanceof RerunInput other)) {
       return false;
     }
-    RerunInput other = (RerunInput) o;
     return Objects.equals(other.notify, notify)
         && Objects.equals(other.notifyDetails, notifyDetails);
   }

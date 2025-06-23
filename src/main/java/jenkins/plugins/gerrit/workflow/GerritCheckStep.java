@@ -125,7 +125,7 @@ public class GerritCheckStep extends Step {
 
   private String getConsoleLogUri(StepContext stepContext)
       throws IOException, InterruptedException {
-    String rootUrl = Jenkins.getInstance().getRootUrl();
+    String rootUrl = Jenkins.get().getRootUrl();
     if (rootUrl == null) {
       throw new NullPointerException("Jenkins URL has to be set in the Jenkins configuration.");
     }

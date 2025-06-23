@@ -71,7 +71,7 @@ public class GerritEnvironmentContributorTest {
             this.changeId = TEST_CHANGE_ID;
             this.id = TEST_CHANGE_ID_TRIPLET;
             this.revisions =
-                new HashMap<String, RevisionInfo>() {
+                new HashMap<>() {
                   {
                     put(
                         Integer.toString(TEST_PATCHSET_NUMBER),
@@ -97,7 +97,7 @@ public class GerritEnvironmentContributorTest {
         new ChangeInfoInvisibleAction(Optional.of(changeInfo), TEST_PATCHSET_NUMBER, gerritURI)
             .getChangeEnvs();
     Map<String, String> expectedMap =
-        new HashMap<String, String>() {
+        new HashMap<>() {
           {
             put("GERRIT_BRANCH", TEST_BRANCH);
             put("GERRIT_PATCHSET_UPLOADER_NAME", TEST_ACCOUNT_INFO_MATT_SMITH.name);

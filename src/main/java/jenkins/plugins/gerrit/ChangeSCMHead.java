@@ -15,6 +15,7 @@
 package jenkins.plugins.gerrit;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
+import java.io.Serial;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -28,6 +29,7 @@ public class ChangeSCMHead extends SCMHead implements ChangeRequestSCMHead2 {
 
   private static final Logger LOGGER = Logger.getLogger(ChangeSCMHead.class.getName());
 
+  @Serial
   private static final long serialVersionUID = 1;
 
   private final int changeNumber;

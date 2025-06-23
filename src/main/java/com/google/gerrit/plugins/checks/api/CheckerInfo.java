@@ -39,10 +39,9 @@ public class CheckerInfo {
 
   @Override
   public boolean equals(Object obj) {
-    if (!(obj instanceof CheckerInfo)) {
+    if (!(obj instanceof CheckerInfo o)) {
       return false;
     }
-    CheckerInfo o = (CheckerInfo) obj;
     return Objects.equals(uuid, o.uuid)
         && Objects.equals(name, o.name)
         && Objects.equals(description, o.description)

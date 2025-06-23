@@ -19,7 +19,7 @@ import static java.time.ZoneOffset.UTC;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.cloudbees.plugins.credentials.CredentialsProvider;
 import com.cloudbees.plugins.credentials.CredentialsScope;
@@ -78,16 +78,17 @@ public class GerritCheckStepTest {
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                ""
-                    + "node {\n"
-                    + "  withEnv([\n"
-                    + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
-                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
-                    + "    'BRANCH_NAME=%s',\n"
-                    + "  ]) {\n"
-                    + "    gerritCheck checks: [%s: '%s'], message: '%s'\n"
-                    + "  }\n"
-                    + "}",
+                """
+                    \
+                    node {
+                      withEnv([
+                        'GERRIT_API_URL=https://%s:%s/a/project',
+                        'GERRIT_CREDENTIALS_ID=cid',
+                        'BRANCH_NAME=%s',
+                      ]) {
+                        gerritCheck checks: [%s: '%s'], message: '%s'
+                      }
+                    }""",
                 g.getClient().remoteAddress().getHostString(),
                 g.getClient().remoteAddress().getPort(),
                 branch,
@@ -122,17 +123,18 @@ public class GerritCheckStepTest {
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                ""
-                    + "node {\n"
-                    + "  withEnv([\n"
-                    + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
-                    + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
-                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
-                    + "    'BRANCH_NAME=%s',\n"
-                    + "  ]) {\n"
-                    + "    gerritCheck checks: [%s: '%s'], message: '%s'\n"
-                    + "  }\n"
-                    + "}",
+                """
+                    \
+                    node {
+                      withEnv([
+                        'GERRIT_API_URL=https://%s:%s/a/project',
+                        'GERRIT_API_INSECURE_HTTPS=true',
+                        'GERRIT_CREDENTIALS_ID=cid',
+                        'BRANCH_NAME=%s',
+                      ]) {
+                        gerritCheck checks: [%s: '%s'], message: '%s'
+                      }
+                    }""",
                 g.getClient().remoteAddress().getHostString(),
                 g.getClient().remoteAddress().getPort(),
                 branch,
@@ -181,17 +183,18 @@ public class GerritCheckStepTest {
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                ""
-                    + "node {\n"
-                    + "  withEnv([\n"
-                    + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
-                    + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
-                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
-                    + "    'BRANCH_NAME=%s',\n"
-                    + "  ]) {\n"
-                    + "    gerritCheck checks: [%s: '%s'], url: '%s'\n"
-                    + "  }\n"
-                    + "}",
+                """
+                    \
+                    node {
+                      withEnv([
+                        'GERRIT_API_URL=https://%s:%s/a/project',
+                        'GERRIT_API_INSECURE_HTTPS=true',
+                        'GERRIT_CREDENTIALS_ID=cid',
+                        'BRANCH_NAME=%s',
+                      ]) {
+                        gerritCheck checks: [%s: '%s'], url: '%s'
+                      }
+                    }""",
                 g.getClient().remoteAddress().getHostString(),
                 g.getClient().remoteAddress().getPort(),
                 branch,
@@ -239,17 +242,18 @@ public class GerritCheckStepTest {
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                ""
-                    + "node {\n"
-                    + "  withEnv([\n"
-                    + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
-                    + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
-                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
-                    + "    'BRANCH_NAME=%s',\n"
-                    + "  ]) {\n"
-                    + "    gerritCheck checks: [%s: '%s']\n"
-                    + "  }\n"
-                    + "}",
+                """
+                    \
+                    node {
+                      withEnv([
+                        'GERRIT_API_URL=https://%s:%s/a/project',
+                        'GERRIT_API_INSECURE_HTTPS=true',
+                        'GERRIT_CREDENTIALS_ID=cid',
+                        'BRANCH_NAME=%s',
+                      ]) {
+                        gerritCheck checks: [%s: '%s']
+                      }
+                    }""",
                 g.getClient().remoteAddress().getHostString(),
                 g.getClient().remoteAddress().getPort(),
                 branch,
@@ -325,7 +329,7 @@ public class GerritCheckStepTest {
   }
 
   private static Matcher<String> matchesPattern(String pattern) {
-    return new TypeSafeMatcher<String>() {
+    return new TypeSafeMatcher<>() {
       @Override
       protected boolean matchesSafely(String s) {
         return s.matches(pattern);
