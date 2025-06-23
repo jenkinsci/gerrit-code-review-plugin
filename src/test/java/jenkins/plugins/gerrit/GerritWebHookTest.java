@@ -21,13 +21,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.google.gson.JsonParseException;
+import jakarta.servlet.ReadListener;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
-import jakarta.servlet.ReadListener;
-import jakarta.servlet.ServletInputStream;
-import jakarta.servlet.http.HttpServletRequest;
 import org.junit.Test;
 
 public class GerritWebHookTest {
@@ -47,7 +47,7 @@ public class GerritWebHookTest {
   }
 
   @Test
-  public void shouldIngoreNotInterestingEvents() throws Exception {
+  public void shouldIgnoreNotInterestingEvents() throws Exception {
     assertFalse(
         webHook
             .getBody(getInMemoryServletRequest("{\"type\": \"dont-care\"}".getBytes()))

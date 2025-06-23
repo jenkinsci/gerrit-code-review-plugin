@@ -14,11 +14,19 @@
 
 package jenkins.plugins.gerrit;
 
-import static java.util.Optional.ofNullable;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 
+import com.github.tomakehurst.wiremock.extension.ResponseTransformerV2;
+import com.github.tomakehurst.wiremock.http.QueryParameter;
+import com.github.tomakehurst.wiremock.http.Response;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.github.tomakehurst.wiremock.stubbing.ServeEvent;
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gson.Gson;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,22 +36,19 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
-import org.mockserver.junit.MockServerRule;
-import org.mockserver.model.HttpRequest;
-import org.mockserver.model.HttpResponse;
-import org.mockserver.model.JsonBody;
 
 public class GerritMockServerRule implements TestRule {
 
-  private final MockServerRule serverRule;
+  private final WireMockRule wireMock;
   private final Map<String, ProjectInfo> projectRepository = new LinkedHashMap<>();
 
   public GerritMockServerRule(Object target) {
-    this.serverRule = new MockServerRule(target);
+    this.wireMock =
+        new WireMockRule(wireMockConfig().dynamicPort().extensions(new QueryParamTransformer()));
   }
 
   public String getUrl() {
-    return "http://localhost:" + serverRule.getPort();
+    return "http://localhost:" + wireMock.port();
   }
 
   public void addProject(ProjectInfo projectInfo) {
@@ -56,7 +61,7 @@ public class GerritMockServerRule implements TestRule {
 
   @Override
   public Statement apply(Statement base, Description description) {
-    return serverRule.apply(
+    return wireMock.apply(
         new Statement() {
           @Override
           public void evaluate() throws Throwable {
@@ -69,44 +74,65 @@ public class GerritMockServerRule implements TestRule {
   }
 
   private void setupExpectations() {
-    serverRule
-        .getClient()
-        .when(HttpRequest.request("/projects/").withMethod("GET"))
-        .respond(
-            httpRequest -> {
-              int start =
-                  ofNullable(httpRequest.getFirstQueryStringParameter("S"))
-                      .filter(StringUtils::isNotBlank)
-                      .map(Integer::parseInt)
-                      .orElse(0);
-              int limit =
-                  ofNullable(httpRequest.getFirstQueryStringParameter("n"))
-                      .filter(StringUtils::isNotBlank)
-                      .map(Integer::parseInt)
-                      .orElse(projectRepository.size());
+    wireMock.stubFor(
+        get(urlPathEqualTo("/projects/"))
+            .willReturn(aResponse().withTransformers("query-param-transformer")));
+  }
 
-              if (start >= projectRepository.size()) {
-                return HttpResponse.response()
-                    .withStatusCode(200)
-                    .withBody(JsonBody.json(Collections.emptyMap()));
-              }
+  public class QueryParamTransformer implements ResponseTransformerV2 {
 
-              Map<String, ProjectInfo> projectSlice =
-                  new ArrayList<>(projectRepository.values())
-                      .subList(start, Math.min(start + limit, projectRepository.size()))
-                      .stream()
-                      .collect(
-                          Collectors.toMap(
-                              projectInfo -> projectInfo.id,
-                              Function.identity(),
-                              (u, v) -> {
-                                throw new IllegalStateException(
-                                    String.format("Duplicate key %s", u));
-                              },
-                              LinkedHashMap::new));
-              return HttpResponse.response()
-                  .withStatusCode(200)
-                  .withBody(JsonBody.json(projectSlice));
-            });
+    @Override
+    public String getName() {
+      return "query-param-transformer";
+    }
+
+    @Override
+    public Response transform(Response response, ServeEvent serveEvent) {
+      int start =
+          serveEvent
+              .getRequest()
+              .getQueryParams()
+              .getOrDefault("S", QueryParameter.queryParam("S"))
+              .getValues()
+              .stream()
+              .filter(StringUtils::isNotBlank)
+              .map(Integer::parseInt)
+              .findFirst()
+              .orElse(0);
+      int limit =
+          serveEvent
+              .getRequest()
+              .getQueryParams()
+              .getOrDefault("n", QueryParameter.queryParam("n"))
+              .getValues()
+              .stream()
+              .filter(StringUtils::isNotBlank)
+              .map(Integer::parseInt)
+              .findFirst()
+              .orElse(projectRepository.size());
+
+      if (start >= projectRepository.size()) {
+        return Response.response().status(200).body(new Gson().toJson(Map.of())).build();
+      }
+
+      Map<String, ProjectInfo> projectSlice =
+          new ArrayList<>(projectRepository.values())
+              .subList(start, Math.min(start + limit, projectRepository.size()))
+              .stream()
+              .collect(
+                  Collectors.toMap(
+                      projectInfo -> projectInfo.id,
+                      Function.identity(),
+                      (u, v) -> {
+                        throw new IllegalStateException(String.format("Duplicate key %s", u));
+                      },
+                      LinkedHashMap::new));
+      return Response.response().status(200).body(new Gson().toJson(projectSlice)).build();
+    }
+
+    @Override
+    public boolean applyGlobally() {
+      return false;
+    }
   }
 }

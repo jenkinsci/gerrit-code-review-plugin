@@ -14,18 +14,31 @@
 
 package jenkins.plugins.gerrit.workflow;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
+import static com.github.tomakehurst.wiremock.client.WireMock.exactly;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.ok;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.verify;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+
 import com.cloudbees.plugins.credentials.CredentialsProvider;
 import com.cloudbees.plugins.credentials.CredentialsScope;
 import com.cloudbees.plugins.credentials.domains.Domain;
 import com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import hudson.model.Result;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Map;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
@@ -35,15 +48,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.jvnet.hudson.test.JenkinsRule;
-import org.mockserver.junit.MockServerRule;
-import org.mockserver.model.HttpRequest;
-import org.mockserver.model.HttpResponse;
-import org.mockserver.model.JsonBody;
-import org.mockserver.verify.VerificationTimes;
 
 @RunWith(Parameterized.class)
 public class GerritReviewStepTest {
-  @Rule public MockServerRule g = new MockServerRule(this);
+  @Rule
+  public WireMockRule wireMock =
+      new WireMockRule(wireMockConfig().dynamicHttpsPort().httpDisabled(true));
+
   @Rule public JenkinsRule j = new JenkinsRule();
 
   private static final String projectName = "test-project";
@@ -75,13 +86,12 @@ public class GerritReviewStepTest {
     WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "p");
     p.setDefinition(
         new CpsFlowDefinition(
-            """
-                node {
-                  withEnv([
-                  ]) {
-                    gerritReview label: 'Verified', score: -1, message: 'Does not work'
-                  }
-                }""",
+            "node {\n"
+                + "  withEnv([\n"
+                + "  ]) {\n"
+                + "    gerritReview label: 'Verified', score: -1, message: 'Does not work'\n"
+                + "  }\n"
+                + "}",
             true));
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
@@ -94,14 +104,13 @@ public class GerritReviewStepTest {
     WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "p");
     p.setDefinition(
         new CpsFlowDefinition(
-            """
-                node {
-                  withEnv([
-                    'GERRIT_API_URL=http://host/a/project',
-                  ]) {
-                    gerritReview label: 'Verified', score: -1, message: 'Does not work'
-                  }
-                }""",
+            "node {\n"
+                + "  withEnv([\n"
+                + "    'GERRIT_API_URL=http://host/a/project',\n"
+                + "  ]) {\n"
+                + "    gerritReview label: 'Verified', score: -1, message: 'Does not work'\n"
+                + "  }\n"
+                + "}",
             true));
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
@@ -114,15 +123,14 @@ public class GerritReviewStepTest {
     WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "p");
     p.setDefinition(
         new CpsFlowDefinition(
-            """
-                node {
-                  withEnv([
-                    'GERRIT_API_URL=http://host/a/project',
-                    'GERRIT_CREDENTIALS_ID=cid',
-                  ]) {
-                    gerritReview label: 'Verified', score: -1, message: 'Does not work'
-                  }
-                }""",
+            "node {\n"
+                + "  withEnv([\n"
+                + "    'GERRIT_API_URL=http://host/a/project',\n"
+                + "    'GERRIT_CREDENTIALS_ID=cid',\n"
+                + "  ]) {\n"
+                + "    gerritReview label: 'Verified', score: -1, message: 'Does not work'\n"
+                + "  }\n"
+                + "}",
             true));
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
@@ -149,19 +157,18 @@ public class GerritReviewStepTest {
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                """
-                    \
-                    node {
-                      withEnv([
-                        'GERRIT_API_URL=https://%s:%s/a/project',
-                        'GERRIT_CREDENTIALS_ID=cid',
-                        'BRANCH_NAME=%s',
-                      ]) {
-                        gerritReview label: '%s', score: %s, message: '%s'
-                      }
-                    }""",
-                g.getClient().remoteAddress().getHostString(),
-                g.getClient().remoteAddress().getPort(),
+                ""
+                    + "node {\n"
+                    + "  withEnv([\n"
+                    + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
+                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
+                    + "    'BRANCH_NAME=%s',\n"
+                    + "  ]) {\n"
+                    + "    gerritReview label: '%s', score: %s, message: '%s'\n"
+                    + "  }\n"
+                    + "}",
+                "localhost",
+                wireMock.httpsPort(),
                 branch,
                 label,
                 score,
@@ -193,21 +200,20 @@ public class GerritReviewStepTest {
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                """
-                    \
-                    node {
-                      withEnv([
-                        'GERRIT_API_URL=https://%s:%s',
-                        'GERRIT_API_INSECURE_HTTPS=true',
-                        'GERRIT_CREDENTIALS_ID=cid',
-                        'GERRIT_PROJECT=%s',
-                        'BRANCH_NAME=%s',
-                      ]) {
-                        gerritReview labels: ['%s': %s], message: '%s'
-                      }
-                    }""",
-                g.getClient().remoteAddress().getHostString(),
-                g.getClient().remoteAddress().getPort(),
+                ""
+                    + "node {\n"
+                    + "  withEnv([\n"
+                    + "    'GERRIT_API_URL=https://%s:%s',\n"
+                    + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
+                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
+                    + "    'GERRIT_PROJECT=%s',\n"
+                    + "    'BRANCH_NAME=%s',\n"
+                    + "  ]) {\n"
+                    + "    gerritReview labels: ['%s': %s], message: '%s'\n"
+                    + "  }\n"
+                    + "}",
+                "localhost",
+                wireMock.httpsPort(),
                 projectName,
                 branch,
                 label,
@@ -215,29 +221,27 @@ public class GerritReviewStepTest {
                 message),
             true));
 
-    ReviewInput reviewInput = new ReviewInputForObjectMapper().label(label, score).message(message);
+    ReviewInput reviewInput = new ReviewInput().label(label, score).message(message);
     reviewInput.drafts = ReviewInput.DraftHandling.PUBLISH;
     reviewInput.tag = "autogenerated:jenkins";
     reviewInput.notify = NotifyHandling.OWNER;
-    g.getClient()
-        .when(
-            HttpRequest.request(
-                    String.format("/a/changes/%s/revisions/%s/review", changeId, revision))
-                .withMethod("POST")
-                .withBody(JsonBody.json(reviewInput)))
-        .respond(
-            HttpResponse.response()
-                .withStatusCode(200)
-                .withBody(JsonBody.json(Collections.emptyMap())));
+    stubFor(
+        post(urlEqualTo(String.format("/a/changes/%s/revisions/%s/review", changeId, revision)))
+            .withRequestBody(
+                equalToJson(
+                    new GsonBuilder()
+                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                        .create()
+                        .toJson(reviewInput)))
+            .willReturn(ok(new Gson().toJson(Map.of()))));
 
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
 
-    g.getClient()
-        .verify(
-            HttpRequest.request(
-                String.format("/a/changes/%s/revisions/%s/review", changeId, revision)),
-            VerificationTimes.once());
+    verify(
+        exactly(1),
+        postRequestedFor(
+            urlEqualTo(String.format("/a/changes/%s/revisions/%s/review", changeId, revision))));
   }
 
   @Test
@@ -261,21 +265,20 @@ public class GerritReviewStepTest {
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                """
-                    \
-                    node {
-                      withEnv([
-                        'GERRIT_API_URL=https://%s:%s',
-                        'GERRIT_API_INSECURE_HTTPS=true',
-                        'GERRIT_CREDENTIALS_ID=cid',
-                        'GERRIT_PROJECT=%s',
-                        'BRANCH_NAME=%s',
-                      ]) {
-                        gerritReview labels: ['%s': %s, '%s': %s], message: '%s', notify: 'NONE'
-                      }
-                    }""",
-                g.getClient().remoteAddress().getHostString(),
-                g.getClient().remoteAddress().getPort(),
+                ""
+                    + "node {\n"
+                    + "  withEnv([\n"
+                    + "    'GERRIT_API_URL=https://%s:%s',\n"
+                    + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
+                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
+                    + "    'GERRIT_PROJECT=%s',\n"
+                    + "    'BRANCH_NAME=%s',\n"
+                    + "  ]) {\n"
+                    + "    gerritReview labels: ['%s': %s, '%s': %s], message: '%s', notify: 'NONE'\n"
+                    + "  }\n"
+                    + "}",
+                "localhost",
+                wireMock.httpsPort(),
                 projectName,
                 branch,
                 label1,
@@ -286,37 +289,35 @@ public class GerritReviewStepTest {
             true));
 
     ReviewInput reviewInput =
-        new ReviewInputForObjectMapper()
-            .label(label1, score1)
-            .label(label2, score2)
-            .message(message);
+        new ReviewInput().label(label1, score1).label(label2, score2).message(message);
     reviewInput.drafts = ReviewInput.DraftHandling.PUBLISH;
     reviewInput.tag = "autogenerated:jenkins";
     reviewInput.notify = NotifyHandling.NONE;
-    g.getClient()
-        .when(
-            HttpRequest.request(
-                    String.format("/a/changes/%s/revisions/%s/review", changeId, revision))
-                .withMethod("POST")
-                .withBody(JsonBody.json(reviewInput)))
-        .respond(
-            HttpResponse.response()
-                .withStatusCode(200)
-                .withBody(JsonBody.json(Collections.emptyMap())));
+    stubFor(
+        post(urlEqualTo(String.format("/a/changes/%s/revisions/%s/review", changeId, revision)))
+            .withRequestBody(
+                equalToJson(
+                    new GsonBuilder()
+                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                        .create()
+                        .toJson(reviewInput),
+                    true,
+                    true))
+            .willReturn(ok(new Gson().toJson(Map.of()))));
 
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
 
-    g.getClient()
-        .verify(
-            HttpRequest.request(
-                String.format("/a/changes/%s/revisions/%s/review", changeId, revision)),
-            VerificationTimes.once());
+    verify(
+        exactly(1),
+        postRequestedFor(
+            urlEqualTo(String.format("/a/changes/%s/revisions/%s/review", changeId, revision))));
   }
 
   @Test
   public void gerritReviewStepInvokeNotifyPropTest() throws Exception {
-    // This test is exactly the same as gerritReviewStepInvokeLabelsTest, but with notify set to NONE
+    // This test is exactly the same as gerritReviewStepInvokeLabelsTest, but with notify set to
+    // NONE
     String genuineNotifyValue = System.getProperty("gerrit.notify");
     System.setProperty("gerrit.notify", "NONE"); // Changed
     try {
@@ -329,67 +330,61 @@ public class GerritReviewStepTest {
       String branch = String.format("%02d/%d/%d", changeNumber % 100, changeNumber, revision);
 
       UsernamePasswordCredentialsImpl c =
-              new UsernamePasswordCredentialsImpl(
-                      CredentialsScope.GLOBAL, "cid", "cid", "USERNAME", "PASSWORD");
+          new UsernamePasswordCredentialsImpl(
+              CredentialsScope.GLOBAL, "cid", "cid", "USERNAME", "PASSWORD");
       CredentialsProvider.lookupStores(j.jenkins)
-              .iterator()
-              .next()
-              .addCredentials(Domain.global(), c);
+          .iterator()
+          .next()
+          .addCredentials(Domain.global(), c);
       WorkflowJob p = j.jenkins.createProject(WorkflowJob.class, "p");
       p.setDefinition(
-              new CpsFlowDefinition(
-                      String.format(
-                          """
-                              \
-                              node {
-                                withEnv([
-                                  'GERRIT_API_URL=https://%s:%s',
-                                  'GERRIT_API_INSECURE_HTTPS=true',
-                                  'GERRIT_CREDENTIALS_ID=cid',
-                                  'GERRIT_PROJECT=%s',
-                                  'BRANCH_NAME=%s',
-                                ]) {
-                                  gerritReview labels: ['%s': %s, '%s': %s], message: '%s'
-                                }
-                              }""",
-                              g.getClient().remoteAddress().getHostString(),
-                              g.getClient().remoteAddress().getPort(),
-                              projectName,
-                              branch,
-                              label1,
-                              score1,
-                              label2,
-                              score2,
-                              message),
-                      true));
+          new CpsFlowDefinition(
+              String.format(
+                  ""
+                      + "node {\n"
+                      + "  withEnv([\n"
+                      + "    'GERRIT_API_URL=https://%s:%s',\n"
+                      + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
+                      + "    'GERRIT_CREDENTIALS_ID=cid',\n"
+                      + "    'GERRIT_PROJECT=%s',\n"
+                      + "    'BRANCH_NAME=%s',\n"
+                      + "  ]) {\n"
+                      + "    gerritReview labels: ['%s': %s, '%s': %s], message: '%s'\n"
+                      + "  }\n"
+                      + "}",
+                  "localhost",
+                  wireMock.httpsPort(),
+                  projectName,
+                  branch,
+                  label1,
+                  score1,
+                  label2,
+                  score2,
+                  message),
+              true));
 
       ReviewInput reviewInput =
-              new ReviewInputForObjectMapper()
-                      .label(label1, score1)
-                      .label(label2, score2)
-                      .message(message);
+          new ReviewInput().label(label1, score1).label(label2, score2).message(message);
       reviewInput.drafts = ReviewInput.DraftHandling.PUBLISH;
       reviewInput.tag = "autogenerated:jenkins";
       reviewInput.notify = NotifyHandling.NONE; // Changed
-      g.getClient()
-              .when(
-                      HttpRequest.request(
-                                      String.format("/a/changes/%s/revisions/%s/review", changeId, revision))
-                              .withMethod("POST")
-                              .withBody(JsonBody.json(reviewInput)))
-              .respond(
-                      HttpResponse.response()
-                              .withStatusCode(200)
-                              .withBody(JsonBody.json(Collections.emptyMap())));
+      stubFor(
+          post(urlEqualTo(String.format("/a/changes/%s/revisions/%s/review", changeId, revision)))
+              .withRequestBody(
+                  equalToJson(
+                      new GsonBuilder()
+                          .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                          .create()
+                          .toJson(reviewInput)))
+              .willReturn(ok(new Gson().toJson(Map.of()))));
 
       WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
       String log = JenkinsRule.getLog(run);
 
-      g.getClient()
-              .verify(
-                      HttpRequest.request(
-                              String.format("/a/changes/%s/revisions/%s/review", changeId, revision)),
-                      VerificationTimes.once());
+      verify(
+          exactly(1),
+          postRequestedFor(
+              urlEqualTo(String.format("/a/changes/%s/revisions/%s/review", changeId, revision))));
     } finally {
       if (genuineNotifyValue == null) {
         System.clearProperty("gerrit.notify");
@@ -400,14 +395,8 @@ public class GerritReviewStepTest {
   }
 
   private void setupServerVersion() {
-    g.getClient()
-        .when(HttpRequest.request("/a/config/server/version").withMethod("GET"))
-        .respond(
-            HttpResponse.response()
-                .withStatusCode(200)
-                .withBody(")]}'\n\"" + gerritVersion + "\""));
+    stubFor(
+        get(urlEqualTo("/a/config/server/version"))
+            .willReturn(ok(")]}'\n\"" + gerritVersion + "\"")));
   }
-
-  @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-  private static class ReviewInputForObjectMapper extends ReviewInput {}
 }

@@ -1,23 +1,29 @@
 package jenkins.plugins.gerrit;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.ok;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.junit.Assert.*;
 
 import com.cloudbees.plugins.credentials.CredentialsProvider;
 import com.cloudbees.plugins.credentials.CredentialsScope;
 import com.cloudbees.plugins.credentials.domains.Domain;
 import com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.github.tomakehurst.wiremock.matching.StringValuePattern;
 import com.google.gerrit.plugins.checks.api.CheckState;
 import com.google.gerrit.plugins.checks.api.CheckablePatchSetInfo;
 import com.google.gerrit.plugins.checks.api.PendingCheckInfo;
 import com.google.gerrit.plugins.checks.api.PendingChecksInfo;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.GsonBuilder;
 import hudson.util.StreamTaskListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import jenkins.plugins.gerrit.traits.FilterChecksTrait.ChecksQueryOperator;
 import jenkins.scm.api.SCMHeadObserver;
 import org.eclipse.jgit.lib.ObjectId;
@@ -26,15 +32,14 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
-import org.mockserver.junit.MockServerRule;
-import org.mockserver.model.HttpRequest;
-import org.mockserver.model.HttpResponse;
-import org.mockserver.model.JsonBody;
 
 @SuppressWarnings("deprecation")
 public class PendingChecksFilterTests {
 
-  @Rule public MockServerRule g = new MockServerRule(this);
+  @Rule
+  public WireMockRule wireMock =
+      new WireMockRule(wireMockConfig().dynamicHttpsPort().httpDisabled(true));
+
   @Rule public JenkinsRule j = new JenkinsRule();
 
   private static final String checkerUuid = "test:checker";
@@ -42,7 +47,7 @@ public class PendingChecksFilterTests {
   private static GerritSCMSourceContext context;
   private static PendingChecksFilter filter;
   private static ArrayList<PendingChecksInfo> pendingChecksInfos;
-  private static HashMap<String, List<String>> query;
+  private static HashMap<String, StringValuePattern> query;
 
   private GerritSCMSourceRequest request;
 
@@ -57,7 +62,7 @@ public class PendingChecksFilterTests {
     pendingChecksInfos.add(getPendingChecksInfo("test", 11111, 1, CheckState.NOT_STARTED));
 
     query = new HashMap<>();
-    query.put("query", Arrays.asList("checker:test:checker"));
+    query.put("query", equalTo("checker:test:checker"));
 
     filter = new PendingChecksFilter();
   }
@@ -72,22 +77,19 @@ public class PendingChecksFilterTests {
         .next()
         .addCredentials(Domain.global(), c);
 
-    g.getClient()
-        .when(
-            HttpRequest.request("/a/plugins/checks/checks.pending/")
-                .withQueryStringParameters(query)
-                .withMethod("GET"))
-        .respond(
-            HttpResponse.response()
-                .withStatusCode(200)
-                .withBody(JsonBody.json(pendingChecksInfos)));
+    stubFor(
+        get(urlPathEqualTo("/a/plugins/checks/checks.pending/"))
+            .withQueryParams(query)
+            .willReturn(
+                ok(
+                    new GsonBuilder()
+                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                        .create()
+                        .toJson(pendingChecksInfos))));
 
     GerritSCMSource source =
         new GerritSCMSource(
-            String.format(
-                "https://%s:%s/a/test",
-                g.getClient().remoteAddress().getHostName(),
-                g.getClient().remoteAddress().getPort()));
+            String.format("https://%s:%s/a/test", "localhost", wireMock.httpsPort()));
     source.setInsecureHttps(true);
     source.setCredentialsId("cid");
     request = context.newRequest(source, new StreamTaskListener());
@@ -117,22 +119,16 @@ public class PendingChecksFilterTests {
 
   private static PendingChecksInfo getPendingChecksInfo(
       String project, int changeNumber, int patchSetNumber, CheckState state) {
-    CheckablePatchSetInfo checkablePatchSet = new CheckablePatchSetInfoMapper();
+    CheckablePatchSetInfo checkablePatchSet = new CheckablePatchSetInfo();
     checkablePatchSet.repository = project;
     checkablePatchSet.changeNumber = changeNumber;
     checkablePatchSet.patchSetId = patchSetNumber;
 
-    PendingChecksInfo pendingChecksInfo = new PendingChecksInfoMapper();
+    PendingChecksInfo pendingChecksInfo = new PendingChecksInfo();
     pendingChecksInfo.patchSet = checkablePatchSet;
     pendingChecksInfo.pendingChecks = new HashMap<>();
     pendingChecksInfo.pendingChecks.put(checkerUuid, new PendingCheckInfo(state));
 
     return pendingChecksInfo;
   }
-
-  @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-  private static class PendingChecksInfoMapper extends PendingChecksInfo {}
-
-  @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-  private static class CheckablePatchSetInfoMapper extends CheckablePatchSetInfo {}
 }

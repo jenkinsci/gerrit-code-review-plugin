@@ -20,11 +20,8 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.plugins.checks.client.GerritChecksApi;
 import java.net.URISyntaxException;
 import org.junit.*;
-import org.mockserver.junit.MockServerRule;
 
 public class GerritApiBuilderTest {
-
-  @Rule public MockServerRule g = new MockServerRule(this);
 
   @Test
   public void testShouldReturnValidGerritApiWithoutCredentials() throws URISyntaxException {

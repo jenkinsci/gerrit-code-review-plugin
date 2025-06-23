@@ -14,13 +14,25 @@
 
 package jenkins.plugins.gerrit.workflow;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
+import static com.github.tomakehurst.wiremock.client.WireMock.exactly;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.ok;
+import static com.github.tomakehurst.wiremock.client.WireMock.put;
+import static com.github.tomakehurst.wiremock.client.WireMock.putRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.verify;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+
 import com.cloudbees.plugins.credentials.CredentialsProvider;
 import com.cloudbees.plugins.credentials.CredentialsScope;
 import com.cloudbees.plugins.credentials.domains.Domain;
 import com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.google.gerrit.extensions.api.changes.DraftInput;
-import java.io.IOException;
-import java.util.Collections;
+import com.google.gson.Gson;
+import java.util.Map;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
@@ -28,15 +40,13 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
-import org.mockserver.junit.MockServerRule;
-import org.mockserver.model.HttpRequest;
-import org.mockserver.model.HttpResponse;
-import org.mockserver.model.JsonBody;
-import org.mockserver.verify.VerificationTimes;
 
 public class GerritCommentStepTest {
 
-  @Rule public MockServerRule g = new MockServerRule(this);
+  @Rule
+  public WireMockRule wireMock =
+      new WireMockRule(wireMockConfig().dynamicHttpsPort().httpDisabled(true));
+
   @Rule public JenkinsRule j = new JenkinsRule();
 
   String projectName = "test-project";
@@ -86,34 +96,25 @@ public class GerritCommentStepTest {
   }
 
   private void verifyDrafts(String changeId) {
-    g.getClient()
-        .verify(
-            HttpRequest.request(
-                String.format("/a/changes/%s/revisions/%s/drafts", changeId, revision)),
-            VerificationTimes.once());
+    verify(
+        exactly(1),
+        putRequestedFor(
+            urlEqualTo(String.format("/a/changes/%s/revisions/%s/drafts", changeId, revision))));
   }
 
   private void setupServerVersion(String version) {
-    g.getClient()
-        .when(HttpRequest.request("/a/config/server/version").withMethod("GET"))
-        .respond(HttpResponse.response().withStatusCode(200).withBody(")]}'\n\"" + version + "\""));
+    stubFor(get("/a/config/server/version").willReturn(ok(")]}'\n\"" + version + "\"")));
   }
 
   private void setupDrafts(String changeId) {
-    g.getClient()
-        .when(
-            HttpRequest.request(
-                    String.format("/a/changes/%s/revisions/%s/drafts", changeId, revision))
-                .withMethod("PUT")
-                .withBody(JsonBody.json(draftInput)))
-        .respond(
-            HttpResponse.response()
-                .withStatusCode(200)
-                .withBody(JsonBody.json(Collections.emptyMap())));
+    stubFor(
+        put(String.format("/a/changes/%s/revisions/%s/drafts", changeId, revision))
+            .withRequestBody(equalToJson(new Gson().toJson(draftInput)))
+            .willReturn(ok(new Gson().toJson(Map.of()))));
   }
 
   private WorkflowJob createWorkflowJob(String path, int line, String message, String branch)
-      throws IOException {
+      throws Exception {
     UsernamePasswordCredentialsImpl c =
         new UsernamePasswordCredentialsImpl(
             CredentialsScope.GLOBAL, "cid", "cid", "USERNAME", "PASSWORD");
@@ -125,21 +126,20 @@ public class GerritCommentStepTest {
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                """
-                    \
-                    node {
-                      withEnv([
-                        'GERRIT_API_URL=https://%s:%s/',
-                        'GERRIT_PROJECT=%s',
-                        'GERRIT_API_INSECURE_HTTPS=true',
-                        'GERRIT_CREDENTIALS_ID=cid',
-                        'BRANCH_NAME=%s',
-                      ]) {
-                        gerritComment path: '%s', line: %s, message: '%s'
-                      }
-                    }""",
-                g.getClient().remoteAddress().getHostString(),
-                g.getClient().remoteAddress().getPort(),
+                ""
+                    + "node {\n"
+                    + "  withEnv([\n"
+                    + "    'GERRIT_API_URL=https://%s:%s/',\n"
+                    + "    'GERRIT_PROJECT=%s',\n"
+                    + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
+                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
+                    + "    'BRANCH_NAME=%s',\n"
+                    + "  ]) {\n"
+                    + "    gerritComment path: '%s', line: %s, message: '%s'\n"
+                    + "  }\n"
+                    + "}",
+                "localhost",
+                wireMock.httpsPort(),
                 projectName,
                 branch,
                 path,

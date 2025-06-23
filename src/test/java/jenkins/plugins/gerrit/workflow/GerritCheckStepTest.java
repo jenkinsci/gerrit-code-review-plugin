@@ -14,19 +14,29 @@
 
 package jenkins.plugins.gerrit.workflow;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
+import static com.github.tomakehurst.wiremock.client.WireMock.exactly;
+import static com.github.tomakehurst.wiremock.client.WireMock.findAll;
+import static com.github.tomakehurst.wiremock.client.WireMock.ok;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.verify;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.time.Instant.now;
 import static java.time.ZoneOffset.UTC;
 import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.cloudbees.plugins.credentials.CredentialsProvider;
 import com.cloudbees.plugins.credentials.CredentialsScope;
 import com.cloudbees.plugins.credentials.domains.Domain;
 import com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.google.gerrit.plugins.checks.api.CheckInput;
 import com.google.gerrit.plugins.checks.api.CheckState;
 import com.google.gson.Gson;
@@ -36,7 +46,6 @@ import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.util.Collections;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -46,16 +55,13 @@ import org.jenkinsci.plugins.workflow.job.WorkflowRun;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
-import org.mockserver.junit.MockServerRule;
-import org.mockserver.model.Format;
-import org.mockserver.model.HttpRequest;
-import org.mockserver.model.HttpResponse;
-import org.mockserver.model.JsonBody;
-import org.mockserver.verify.VerificationTimes;
 
 public class GerritCheckStepTest {
 
-  @Rule public MockServerRule g = new MockServerRule(this);
+  @Rule
+  public WireMockRule wireMock =
+      new WireMockRule(wireMockConfig().dynamicHttpsPort().httpDisabled(true));
+
   @Rule public JenkinsRule j = new JenkinsRule();
 
   @Test
@@ -78,19 +84,18 @@ public class GerritCheckStepTest {
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                """
-                    \
-                    node {
-                      withEnv([
-                        'GERRIT_API_URL=https://%s:%s/a/project',
-                        'GERRIT_CREDENTIALS_ID=cid',
-                        'BRANCH_NAME=%s',
-                      ]) {
-                        gerritCheck checks: [%s: '%s'], message: '%s'
-                      }
-                    }""",
-                g.getClient().remoteAddress().getHostString(),
-                g.getClient().remoteAddress().getPort(),
+                ""
+                    + "node {\n"
+                    + "  withEnv([\n"
+                    + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
+                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
+                    + "    'BRANCH_NAME=%s',\n"
+                    + "  ]) {\n"
+                    + "    gerritCheck checks: [%s: '%s'], message: '%s'\n"
+                    + "  }\n"
+                    + "}",
+                "localhost",
+                wireMock.httpsPort(),
                 branch,
                 checkerUuid,
                 checkStatus,
@@ -123,20 +128,19 @@ public class GerritCheckStepTest {
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                """
-                    \
-                    node {
-                      withEnv([
-                        'GERRIT_API_URL=https://%s:%s/a/project',
-                        'GERRIT_API_INSECURE_HTTPS=true',
-                        'GERRIT_CREDENTIALS_ID=cid',
-                        'BRANCH_NAME=%s',
-                      ]) {
-                        gerritCheck checks: [%s: '%s'], message: '%s'
-                      }
-                    }""",
-                g.getClient().remoteAddress().getHostString(),
-                g.getClient().remoteAddress().getPort(),
+                ""
+                    + "node {\n"
+                    + "  withEnv([\n"
+                    + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
+                    + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
+                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
+                    + "    'BRANCH_NAME=%s',\n"
+                    + "  ]) {\n"
+                    + "    gerritCheck checks: [%s: '%s'], message: '%s'\n"
+                    + "  }\n"
+                    + "}",
+                "localhost",
+                wireMock.httpsPort(),
                 branch,
                 checkerUuid,
                 checkStatus,
@@ -145,23 +149,28 @@ public class GerritCheckStepTest {
 
     String expectedUrl = String.format("/a/changes/%s/revisions/%s/checks/", changeId, revision);
 
-    CheckInput checkInput = new CheckInputForObjectMapper();
+    CheckInput checkInput = new CheckInput();
     checkInput.checkerUuid = checkerUuid;
     checkInput.state = CheckState.valueOf(checkStatus);
     checkInput.message = message;
     checkInput.url = j.getURL().toString() + p.getUrl() + "1/console";
-    g.getClient()
-        .when(
-            HttpRequest.request(expectedUrl).withMethod("POST").withBody(JsonBody.json(checkInput)))
-        .respond(
-            HttpResponse.response()
-                .withStatusCode(200)
-                .withBody(JsonBody.json(Collections.emptyMap())));
+    stubFor(
+        post(expectedUrl)
+            .withRequestBody(
+                equalToJson(
+                    new Gson()
+                        .newBuilder()
+                        .setFieldNamingStrategy(LOWER_CASE_WITH_UNDERSCORES)
+                        .create()
+                        .toJson(checkInput),
+                    true,
+                    true))
+            .willReturn(ok()));
 
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
 
-    g.getClient().verify(HttpRequest.request(expectedUrl), VerificationTimes.once());
+    verify(exactly(1), postRequestedFor(urlEqualTo(expectedUrl)));
   }
 
   @Test
@@ -183,20 +192,19 @@ public class GerritCheckStepTest {
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                """
-                    \
-                    node {
-                      withEnv([
-                        'GERRIT_API_URL=https://%s:%s/a/project',
-                        'GERRIT_API_INSECURE_HTTPS=true',
-                        'GERRIT_CREDENTIALS_ID=cid',
-                        'BRANCH_NAME=%s',
-                      ]) {
-                        gerritCheck checks: [%s: '%s'], url: '%s'
-                      }
-                    }""",
-                g.getClient().remoteAddress().getHostString(),
-                g.getClient().remoteAddress().getPort(),
+                ""
+                    + "node {\n"
+                    + "  withEnv([\n"
+                    + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
+                    + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
+                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
+                    + "    'BRANCH_NAME=%s',\n"
+                    + "  ]) {\n"
+                    + "    gerritCheck checks: [%s: '%s'], url: '%s'\n"
+                    + "  }\n"
+                    + "}",
+                "localhost",
+                wireMock.httpsPort(),
                 branch,
                 checkerUuid,
                 checkStatus,
@@ -205,22 +213,27 @@ public class GerritCheckStepTest {
 
     String expectedUrl = String.format("/a/changes/%s/revisions/%s/checks/", changeId, revision);
 
-    CheckInput checkInput = new CheckInputForObjectMapper();
+    CheckInput checkInput = new CheckInput();
     checkInput.checkerUuid = checkerUuid;
     checkInput.state = CheckState.valueOf(checkStatus);
     checkInput.url = url;
-    g.getClient()
-        .when(
-            HttpRequest.request(expectedUrl).withMethod("POST").withBody(JsonBody.json(checkInput)))
-        .respond(
-            HttpResponse.response()
-                .withStatusCode(200)
-                .withBody(JsonBody.json(Collections.emptyMap())));
+    stubFor(
+        post(expectedUrl)
+            .withRequestBody(
+                equalToJson(
+                    new Gson()
+                        .newBuilder()
+                        .setFieldNamingStrategy(LOWER_CASE_WITH_UNDERSCORES)
+                        .create()
+                        .toJson(checkInput),
+                    true,
+                    true))
+            .willReturn(ok()));
 
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
 
-    g.getClient().verify(HttpRequest.request(expectedUrl), VerificationTimes.once());
+    verify(exactly(1), postRequestedFor(urlEqualTo(expectedUrl)));
   }
 
   @Test
@@ -242,20 +255,19 @@ public class GerritCheckStepTest {
     p.setDefinition(
         new CpsFlowDefinition(
             String.format(
-                """
-                    \
-                    node {
-                      withEnv([
-                        'GERRIT_API_URL=https://%s:%s/a/project',
-                        'GERRIT_API_INSECURE_HTTPS=true',
-                        'GERRIT_CREDENTIALS_ID=cid',
-                        'BRANCH_NAME=%s',
-                      ]) {
-                        gerritCheck checks: [%s: '%s']
-                      }
-                    }""",
-                g.getClient().remoteAddress().getHostString(),
-                g.getClient().remoteAddress().getPort(),
+                ""
+                    + "node {\n"
+                    + "  withEnv([\n"
+                    + "    'GERRIT_API_URL=https://%s:%s/a/project',\n"
+                    + "    'GERRIT_API_INSECURE_HTTPS=true',\n"
+                    + "    'GERRIT_CREDENTIALS_ID=cid',\n"
+                    + "    'BRANCH_NAME=%s',\n"
+                    + "  ]) {\n"
+                    + "    gerritCheck checks: [%s: '%s']\n"
+                    + "  }\n"
+                    + "}",
+                "localhost",
+                wireMock.httpsPort(),
                 branch,
                 checkerUuid,
                 checkStatus),
@@ -263,17 +275,12 @@ public class GerritCheckStepTest {
 
     String expectedUrl = String.format("/a/changes/%s/revisions/%s/checks/", changeId, revision);
 
-    g.getClient()
-        .when(HttpRequest.request(expectedUrl).withMethod("POST"))
-        .respond(
-            HttpResponse.response()
-                .withStatusCode(200)
-                .withBody(JsonBody.json(Collections.emptyMap())));
+    stubFor(post(expectedUrl).willReturn(ok()));
 
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
 
-    g.getClient().verify(HttpRequest.request(expectedUrl), VerificationTimes.once());
+    verify(exactly(1), postRequestedFor(urlEqualTo(expectedUrl)));
     // It's very difficult to run verifications on the request body using verify(),
     // but we can extract and parse the requests as JSON
     String startedAt = requestBodyJson(expectedUrl).getAsJsonObject().get("started").getAsString();
@@ -315,17 +322,8 @@ public class GerritCheckStepTest {
   private JsonElement requestBodyJson(String requestUrl) {
     Gson gson = new Gson();
 
-    String request =
-        g.getClient().retrieveRecordedRequests(HttpRequest.request(requestUrl), Format.JSON);
-    JsonElement el = gson.fromJson(request, JsonElement.class);
-    String innerBody =
-        el.getAsJsonArray()
-            .get(0)
-            .getAsJsonObject()
-            .getAsJsonObject("body")
-            .get("string")
-            .getAsString();
-    return gson.fromJson(innerBody, JsonElement.class);
+    String request = findAll(postRequestedFor(urlEqualTo(requestUrl))).get(0).getBodyAsString();
+    return gson.fromJson(request, JsonElement.class);
   }
 
   private static Matcher<String> matchesPattern(String pattern) {
@@ -341,7 +339,4 @@ public class GerritCheckStepTest {
       }
     };
   }
-
-  @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-  private static class CheckInputForObjectMapper extends CheckInput {}
 }
