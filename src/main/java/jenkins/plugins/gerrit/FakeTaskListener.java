@@ -26,7 +26,7 @@ public class FakeTaskListener implements TaskListener {
 
   @Override
   public PrintStream getLogger() {
-    throw new UnsupportedOperationException();
+    return null;
   }
 
   @Override
@@ -37,21 +37,21 @@ public class FakeTaskListener implements TaskListener {
 
   @Override
   public PrintWriter error(String s) {
-    throw new UnsupportedOperationException();
+    return null;
   }
 
   @Override
   public PrintWriter error(String s, Object... objects) {
-    throw new UnsupportedOperationException();
+    return null;
   }
 
   @Override
   public PrintWriter fatalError(String s) {
-    throw new UnsupportedOperationException();
+    return null;
   }
 
   @Override
   public PrintWriter fatalError(String s, Object... objects) {
-    throw new UnsupportedOperationException();
+    return null;
   }
 }
