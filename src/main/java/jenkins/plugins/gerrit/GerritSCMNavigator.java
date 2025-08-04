@@ -34,7 +34,6 @@ import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -47,6 +46,7 @@ import jenkins.scm.api.SCMNavigator;
 import jenkins.scm.api.SCMNavigatorDescriptor;
 import jenkins.scm.api.SCMSourceObserver;
 import jenkins.scm.api.trait.SCMNavigatorRequest;
+import jenkins.scm.api.trait.SCMSourceTrait;
 import jenkins.scm.api.trait.SCMSourceTraitDescriptor;
 import jenkins.scm.api.trait.SCMTrait;
 import jenkins.scm.impl.form.NamedArrayList;
@@ -63,7 +63,7 @@ public class GerritSCMNavigator extends SCMNavigator {
   @CheckForNull private String serverUrl;
   private boolean insecureHttps;
   @CheckForNull private String credentialsId;
-  @Nonnull private List<SCMTrait<? extends SCMTrait<?>>> traits;
+  @Nonnull private List<? extends SCMTrait<?>> traits;
 
   public GerritSCMNavigator() {
     this(null, false, null, Collections.emptyList());
@@ -74,7 +74,7 @@ public class GerritSCMNavigator extends SCMNavigator {
       String serverUrl,
       boolean insecureHttps,
       String credentialsId,
-      List<SCMTrait<? extends SCMTrait<?>>> traits) {
+      List<? extends SCMTrait<?>> traits) {
     this.serverUrl = StringUtils.trimToNull(serverUrl);
     this.insecureHttps = insecureHttps;
     this.credentialsId = StringUtils.defaultIfBlank(credentialsId, null);
@@ -181,8 +181,7 @@ public class GerritSCMNavigator extends SCMNavigator {
 
     @Override
     public SCMNavigator newInstance(String name) {
-      return new GerritSCMNavigator(
-          null, false, null, new ArrayList<>(delegate.getTraitsDefaults()));
+      return new GerritSCMNavigator(null, false, null, delegate.getTraitsDefaults());
     }
 
     @NonNull
@@ -225,9 +224,8 @@ public class GerritSCMNavigator extends SCMNavigator {
       return delegate.getTraitsDescriptorLists();
     }
 
-    @Override
-    public List<SCMTrait<? extends SCMTrait<?>>> getTraitsDefaults() {
-      return new ArrayList<>(delegate.getTraitsDefaults());
+    public List<SCMSourceTrait> getTraitsDefaults() {
+      return delegate.getTraitsDefaults();
     }
   }
 
@@ -261,12 +259,12 @@ public class GerritSCMNavigator extends SCMNavigator {
   }
 
   @Nonnull
-  public List<SCMTrait<? extends SCMTrait<?>>> getTraits() {
+  public List<? extends SCMTrait<?>> getTraits() {
     return traits;
   }
 
   @DataBoundSetter
-  public void setTraits(List<SCMTrait<? extends SCMTrait<?>>> traits) {
+  public void setTraits(List<? extends SCMTrait<?>> traits) {
     this.traits =
         ofNullable(traits).map(Collections::unmodifiableList).orElseGet(Collections::emptyList);
   }
