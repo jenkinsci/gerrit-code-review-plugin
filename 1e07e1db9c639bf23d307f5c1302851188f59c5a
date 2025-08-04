@@ -16,6 +16,23 @@
       "message": "Thanks Réda.\nCan an owner please also Verified+1 and submit, cuz I don\u0027t have permissions.\n\nThanks!",
       "revId": "1e07e1db9c639bf23d307f5c1302851188f59c5a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2f39a4e_74c0bee7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2025-08-04T12:46:35Z",
+      "side": 1,
+      "message": "Thanks for fixing it up, Tony.",
+      "revId": "1e07e1db9c639bf23d307f5c1302851188f59c5a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
