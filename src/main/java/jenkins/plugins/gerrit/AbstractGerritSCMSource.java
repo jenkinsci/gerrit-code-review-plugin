@@ -33,7 +33,6 @@ import hudson.plugins.git.Branch;
 import hudson.plugins.git.GitTool;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -72,6 +71,7 @@ import jenkins.scm.api.SCMSourceEvent;
 import jenkins.scm.api.SCMSourceOwner;
 import jenkins.scm.api.metadata.ObjectMetadataAction;
 import jenkins.scm.api.trait.SCMSourceRequest;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -86,6 +86,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.jenkinsci.plugins.gitclient.FetchCommand;
 import org.jenkinsci.plugins.gitclient.Git;
 import org.jenkinsci.plugins.gitclient.GitClient;
+import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
 
 public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   public static final String R_CHANGES = "refs/changes/";
@@ -743,14 +744,39 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     return setupGerritApiBuilder(listener, remoteUri).buildChecksApi();
   }
 
+  @CheckForNull
+  private String getScriptPath() throws IOException {
+    SCMSourceOwner owner = getOwner();
+    if (!(owner instanceof WorkflowMultiBranchProject)) {
+      return null;
+    }
+
+    // Note: getScriptPath() is only available from workflow-multibranch plugin v2.15+
+    // If running on older versions, we must manually extract it from config.xml.
+    File configFile = ((WorkflowMultiBranchProject) owner).getConfigFile().getFile();
+    if (!configFile.exists()) {
+      return null; // Job has not been initialized yet
+    }
+
+    String xmlContent = FileUtils.readFileToString(configFile, StandardCharsets.UTF_8);
+    Pattern pattern = Pattern.compile("<scriptPath>\\s*(.+?)\\s*</scriptPath>");
+    Matcher matcher = pattern.matcher(xmlContent);
+
+    if (matcher.find()) {
+      return matcher.group(1).trim();
+    }
+    return null;
+  }
+
   private Changes.QueryRequest getOpenChanges(
-      GerritApi gerritApi, String project, String changeQueryFilter)
-      throws UnsupportedEncodingException {
+      GerritApi gerritApi, String project, String changeQueryFilter) throws IOException {
+    String scriptPath = getScriptPath();
     String query =
         "p:"
             + project
             + " status:open "
             + OPEN_CHANGES_FILTER
+            + (scriptPath == null ? "" : " -path:" + scriptPath)
             + (changeQueryFilter == null ? "" : " " + changeQueryFilter);
     return gerritApi
         .changes()
