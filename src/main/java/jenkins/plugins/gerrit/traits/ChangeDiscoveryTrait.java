@@ -28,11 +28,13 @@ import org.kohsuke.stapler.DataBoundConstructor;
 /** A {@link Discovery} trait that would discover all the Gerrit Changes */
 public class ChangeDiscoveryTrait extends SCMSourceTrait {
   private final String queryString;
+  private boolean discoverJenkinsfileChanges = true;
 
   /** Constructor for stapler. */
   @DataBoundConstructor
-  public ChangeDiscoveryTrait(String queryString) {
+  public ChangeDiscoveryTrait(String queryString, boolean discoverJenkinsfileChanges) {
     this.queryString = queryString;
+    this.discoverJenkinsfileChanges = discoverJenkinsfileChanges;
   }
 
   /**
@@ -44,6 +46,15 @@ public class ChangeDiscoveryTrait extends SCMSourceTrait {
     return queryString;
   }
 
+  /**
+   * Whether changes affecting Jenkinsfile should be discovered
+   *
+   * @return true, when they should be discovered, false otherwise
+   */
+  public boolean isDiscoverJenkinsfileChanges() {
+    return discoverJenkinsfileChanges;
+  }
+
   /** {@inheritDoc} */
   @Override
   protected void decorateContext(SCMSourceContext<?, ?> context) {
@@ -51,6 +62,7 @@ public class ChangeDiscoveryTrait extends SCMSourceTrait {
     ctx.wantBranches(true);
     ctx.withAuthority(new BranchSCMHeadAuthority());
     ctx.setChangeFilter(queryString);
+    ctx.discoverJenkinsfileChanges(discoverJenkinsfileChanges);
   }
 
   /** {@inheritDoc} */

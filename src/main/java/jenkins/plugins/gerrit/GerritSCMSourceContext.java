@@ -30,6 +30,7 @@ public class GerritSCMSourceContext
   @NonNull private boolean filterForPendingChecks = false;
   @NonNull private String checksQueryString = "";
   @NonNull private String changesQueryFilter = "";
+  @NonNull private boolean discoverJenkinsfileChanges = true;
 
   public GerritSCMSourceContext(SCMSourceCriteria criteria, SCMHeadObserver observer) {
     super(criteria, observer);
@@ -99,6 +100,28 @@ public class GerritSCMSourceContext
   @NonNull
   public final String checksQueryString() {
     return checksQueryString;
+  }
+
+  /**
+   * Defines whether changes involving Jenkinsfiles should be discovered
+   *
+   * @param discoverJenkinsfileChanges whether changes involving Jenkinsfiles should be discovered.
+   * @return {@code this} for method chaining.
+   */
+  @NonNull
+  public GerritSCMSourceContext discoverJenkinsfileChanges(boolean discoverJenkinsfileChanges) {
+    this.discoverJenkinsfileChanges = discoverJenkinsfileChanges;
+    return this;
+  }
+
+  /**
+   * Returns true, if changes involving Jenkinsfiles should be discovered
+   *
+   * @return boolean whether involving Jenkinsfiles should be discovered.
+   */
+  @NonNull
+  public final boolean discoverJenkinsfileChanges() {
+    return discoverJenkinsfileChanges;
   }
 
   @NonNull

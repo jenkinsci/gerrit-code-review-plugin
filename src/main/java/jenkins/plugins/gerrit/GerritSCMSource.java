@@ -407,7 +407,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
 
     public List<SCMSourceTrait> getTraitsDefaults() {
       return Arrays.<SCMSourceTrait>asList(
-          new ChangeDiscoveryTrait(null), new RefSpecsSCMSourceTrait(REF_SPEC_DEFAULT));
+          new ChangeDiscoveryTrait(null, true), new RefSpecsSCMSourceTrait(REF_SPEC_DEFAULT));
     }
 
     @Nonnull
