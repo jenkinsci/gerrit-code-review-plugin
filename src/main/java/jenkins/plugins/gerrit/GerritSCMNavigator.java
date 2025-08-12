@@ -24,6 +24,7 @@ import com.cloudbees.plugins.credentials.common.StandardUsernamePasswordCredenti
 import com.cloudbees.plugins.credentials.domains.URIRequirementBuilder;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.ProjectInfo;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.model.Item;
@@ -39,8 +40,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
 import jenkins.model.Jenkins;
 import jenkins.scm.api.SCMNavigator;
 import jenkins.scm.api.SCMNavigatorDescriptor;
@@ -63,7 +62,7 @@ public class GerritSCMNavigator extends SCMNavigator {
   @CheckForNull private String serverUrl;
   private boolean insecureHttps;
   @CheckForNull private String credentialsId;
-  @Nonnull private List<? extends SCMTrait<?>> traits;
+  @NonNull private List<SCMTrait<? extends SCMTrait<?>>> traits;
 
   public GerritSCMNavigator() {
     this(null, false, null, Collections.emptyList());
@@ -82,7 +81,7 @@ public class GerritSCMNavigator extends SCMNavigator {
         ofNullable(traits).map(Collections::unmodifiableList).orElseGet(Collections::emptyList);
   }
 
-  @Nonnull
+  @NonNull
   @Override
   protected String id() {
     Map<String, String> attributes = new LinkedHashMap<>();
@@ -97,7 +96,7 @@ public class GerritSCMNavigator extends SCMNavigator {
   }
 
   @Override
-  public void visitSources(@Nonnull SCMSourceObserver observer)
+  public void visitSources(@NonNull SCMSourceObserver observer)
       throws IOException, InterruptedException {
     GerritURI gerritURI;
     GerritApi gerritApi;
@@ -133,7 +132,7 @@ public class GerritSCMNavigator extends SCMNavigator {
     }
   }
 
-  private GerritApiBuilder createGerritApiBuilder(@Nonnull SCMSourceObserver observer)
+  private GerritApiBuilder createGerritApiBuilder(@NonNull SCMSourceObserver observer)
       throws URISyntaxException {
     return new GerritApiBuilder()
         .logger(observer.getListener().getLogger())
@@ -148,10 +147,10 @@ public class GerritSCMNavigator extends SCMNavigator {
       return null;
     }
     return CredentialsMatchers.firstOrNull(
-        CredentialsProvider.lookupCredentials(
+        CredentialsProvider.lookupCredentialsInItem(
             StandardUsernamePasswordCredentials.class,
             context,
-            ACL.SYSTEM,
+            ACL.SYSTEM2,
             URIRequirementBuilder.fromUri(serverUrl).build()),
         CredentialsMatchers.allOf(CredentialsMatchers.withId(credentialsId)));
   }
@@ -203,7 +202,7 @@ public class GerritSCMNavigator extends SCMNavigator {
         @AncestorInPath Item context,
         @QueryParameter String serverUrl,
         @QueryParameter String credentialsId) {
-      if (context == null && !Jenkins.getInstance().hasPermission(Jenkins.ADMINISTER)
+      if (context == null && !Jenkins.get().hasPermission(Jenkins.ADMINISTER)
           || context != null && !context.hasPermission(Item.EXTENDED_READ)) {
         return new StandardListBoxModel().includeCurrentValue(credentialsId);
       }
@@ -211,8 +210,8 @@ public class GerritSCMNavigator extends SCMNavigator {
           .includeEmptyValue()
           .includeMatchingAs(
               context instanceof Queue.Task
-                  ? Tasks.getAuthenticationOf((Queue.Task) context)
-                  : ACL.SYSTEM,
+                  ? Tasks.getAuthenticationOf2((Queue.Task) context)
+                  : ACL.SYSTEM2,
               context,
               StandardUsernameCredentials.class,
               URIRequirementBuilder.fromUri(serverUrl).build(),

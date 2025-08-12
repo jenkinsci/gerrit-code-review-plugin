@@ -14,10 +14,11 @@
 
 package jenkins.plugins.gerrit;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+import java.io.Serial;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
-import javax.annotation.Nonnull;
 import jenkins.scm.api.SCMHead;
 import jenkins.scm.api.mixin.ChangeRequestCheckoutStrategy;
 import jenkins.scm.api.mixin.ChangeRequestSCMHead2;
@@ -28,7 +29,7 @@ public class ChangeSCMHead extends SCMHead implements ChangeRequestSCMHead2 {
 
   private static final Logger LOGGER = Logger.getLogger(ChangeSCMHead.class.getName());
 
-  private static final long serialVersionUID = 1;
+  @Serial private static final long serialVersionUID = 1;
 
   private final int changeNumber;
 
@@ -67,20 +68,20 @@ public class ChangeSCMHead extends SCMHead implements ChangeRequestSCMHead2 {
   }
 
   /** {@inheritDoc} */
-  @Nonnull
+  @NonNull
   @Override
   public ChangeRequestCheckoutStrategy getCheckoutStrategy() {
     return ChangeRequestCheckoutStrategy.HEAD;
   }
 
-  @Nonnull
+  @NonNull
   @Override
   public String getOriginName() {
     return getName();
   }
 
   /** {@inheritDoc} */
-  @Nonnull
+  @NonNull
   @Override
   public String getId() {
     return "C-" + changeNumber + "/" + patchset;
@@ -102,7 +103,7 @@ public class ChangeSCMHead extends SCMHead implements ChangeRequestSCMHead2 {
     return pendingCheckerUuids;
   }
 
-  @Nonnull
+  @NonNull
   @Override
   public SCMHead getTarget() {
     return new SCMHead(getName());

@@ -29,13 +29,13 @@ public class ChangeSCMRevisionTest {
 
   @Before
   public void setup() {
-    refs = new HashMap<String, ObjectId>();
+    refs = new HashMap<>();
     refs.put("/refs/changes/11/11111/1", ObjectId.zeroId());
   }
 
   @Test
   public void testEquivalentReturnsFalseIfPendingChecks() {
-    HashSet<String> checkerUuids = new HashSet<String>();
+    HashSet<String> checkerUuids = new HashSet<>();
     checkerUuids.add("checker");
 
     ChangeSCMRevision revision =
@@ -46,7 +46,7 @@ public class ChangeSCMRevisionTest {
 
   @Test
   public void testEquivalentReturnsFalseIfNoPendingChecks() {
-    HashSet<String> checkerUuids = new HashSet<String>();
+    HashSet<String> checkerUuids = new HashSet<>();
 
     ChangeSCMRevision revision =
         new ChangeSCMRevision(

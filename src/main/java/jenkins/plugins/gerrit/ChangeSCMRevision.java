@@ -1,16 +1,17 @@
 package jenkins.plugins.gerrit;
 
-import javax.annotation.Nonnull;
+import edu.umd.cs.findbugs.annotations.NonNull;
+import java.io.Serial;
 import jenkins.plugins.git.AbstractGitSCMSource;
 import jenkins.scm.api.mixin.ChangeRequestSCMRevision;
 
 public class ChangeSCMRevision extends ChangeRequestSCMRevision<ChangeSCMHead> {
 
-  private static final long serialVersionUID = 1L;
-  private final @Nonnull String patchsetHash;
+  @Serial private static final long serialVersionUID = 1L;
+  private final @NonNull String patchsetHash;
   private final boolean isFilteredByPendingChecks;
 
-  ChangeSCMRevision(@Nonnull ChangeSCMHead head, @Nonnull String patchsetHash) {
+  ChangeSCMRevision(@NonNull ChangeSCMHead head, @NonNull String patchsetHash) {
     super(head, new AbstractGitSCMSource.SCMRevisionImpl(head.getTarget(), patchsetHash));
     this.patchsetHash = patchsetHash;
     this.isFilteredByPendingChecks = !head.getPendingCheckerUuids().isEmpty();
@@ -21,7 +22,7 @@ public class ChangeSCMRevision extends ChangeRequestSCMRevision<ChangeSCMHead> {
    *
    * @return The commit hash of the head of the pull request branch
    */
-  @Nonnull
+  @NonNull
   public String getPatchsetHash() {
     return patchsetHash;
   }
