@@ -19,6 +19,7 @@ import hudson.Extension;
 import jenkins.plugins.gerrit.GerritSCMSource;
 import jenkins.plugins.gerrit.GerritSCMSourceContext;
 import jenkins.plugins.git.GitSCMBuilder;
+import jenkins.plugins.git.traits.Messages;
 import jenkins.scm.api.*;
 import jenkins.scm.api.trait.*;
 import jenkins.scm.impl.trait.Discovery;
@@ -103,7 +104,7 @@ public class ChangeDiscoveryTrait extends SCMSourceTrait {
       /** {@inheritDoc} */
       @Override
       public String getDisplayName() {
-        return jenkins.plugins.gerrit.traits.Messages.BranchDiscoveryTrait_authorityDisplayName();
+        return Messages.BranchDiscoveryTrait_authorityDisplayName();
       }
 
       /** {@inheritDoc} */
