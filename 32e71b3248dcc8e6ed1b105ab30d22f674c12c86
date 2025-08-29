@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b82a952_1cd43cc3",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-08-29T20:58:47Z",
+      "side": 1,
+      "message": "I believe this should be a specific option to enable: not everyone would like to exclude changes to the Jenkinsfile from being validated.",
+      "range": {
+        "startLine": 779,
+        "startChar": 14,
+        "endLine": 779,
+        "endChar": 64
+      },
+      "revId": "32e71b3248dcc8e6ed1b105ab30d22f674c12c86",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
