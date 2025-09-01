@@ -69,6 +69,30 @@
       },
       "revId": "32e71b3248dcc8e6ed1b105ab30d22f674c12c86",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8236f26b_ee96e2c5",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-01T20:04:00Z",
+      "side": 1,
+      "message": "True, shall we just then add this use-case to the documentation?\n\nBest to document how to do it, rather than adding one extra configuration option. What do you think?",
+      "parentUuid": "3607b531_9961c0df",
+      "range": {
+        "startLine": 779,
+        "startChar": 14,
+        "endLine": 779,
+        "endChar": 64
+      },
+      "revId": "32e71b3248dcc8e6ed1b105ab30d22f674c12c86",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
