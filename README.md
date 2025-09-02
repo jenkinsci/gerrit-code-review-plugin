@@ -260,6 +260,21 @@ node {
 }
 ```
 
+### Gotchas
+
+#### Excluding Jenkinsfile Changes from Pipeline Execution
+
+By default, this plugin always selects the most specific `Jenkinsfile` available when discovering
+open changes, meaning that if a change adds or modifies a `Jenkinsfile`, that modified version will
+be used to define the pipeline for that very change. While this behavior ensures flexibility, it can
+be problematic: it allows unreviewed or unmerged pipeline logic to run, which may be incorrect,
+unstable, or intentionally/accidentally resource-intensive.
+
+To avoid executing untrusted `Jenkinsfile` changes, you can achieve the desired filtering behavior
+by setting the `path` operator in the open changes query. For example, using `-path:Jenkinsfile` in
+the query will exclude changes that touch the `Jenkinsfile` from being considered for automatic
+pipeline execution.
+
 ## Issues
 
 The issues are tracked on the [Jenkins Issues portal](https://issues.jenkins-ci.org/issues/?jql=project%20%3D%20JENKINS%20AND%20status%20in%20(Open%2C%20%22In%20Progress%22%2C%20Reopened)%20AND%20component%20%3D%20gerrit-code-review-plugin)
