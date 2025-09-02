@@ -117,6 +117,30 @@
       },
       "revId": "32e71b3248dcc8e6ed1b105ab30d22f674c12c86",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d6cebdd_6b84a313",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-09-02T10:08:34Z",
+      "side": 1,
+      "message": "Done at [1].\nI will abandon this change.\n\nhttps://review.gerrithub.io/c/jenkinsci/gerrit-code-review-plugin/+/1221802",
+      "parentUuid": "698dabc5_73cb3df2",
+      "range": {
+        "startLine": 779,
+        "startChar": 14,
+        "endLine": 779,
+        "endChar": 64
+      },
+      "revId": "32e71b3248dcc8e6ed1b105ab30d22f674c12c86",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
