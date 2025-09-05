@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f11ea2e1_461a3a5c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-05T14:22:58Z",
+      "side": 1,
+      "message": "SGTM, just a little remark on the docs.",
+      "revId": "ca889f09b9fbfa9b8670706cf43a2198a2d92a01",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dc8d06d_48930344",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-05T14:22:58Z",
+      "side": 1,
+      "message": "```suggestion\nunstable, intentionally/accidentally resource-intensive or even malicious.\n```",
+      "range": {
+        "startLine": 271,
+        "startChar": 10,
+        "endLine": 271,
+        "endChar": 58
+      },
+      "revId": "ca889f09b9fbfa9b8670706cf43a2198a2d92a01",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
