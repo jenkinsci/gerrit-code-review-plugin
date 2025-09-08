@@ -14,24 +14,26 @@
 
 package jenkins.plugins.gerrit;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.ok;
+import static com.github.tomakehurst.wiremock.client.WireMock.reset;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static org.junit.Assert.*;
 
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.google.gerrit.extensions.api.GerritApi;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockserver.junit.MockServerRule;
-import org.mockserver.model.HttpRequest;
-import org.mockserver.model.HttpResponse;
 
 public class GerritVersionTest {
 
-  @Rule public MockServerRule g = new MockServerRule(this);
+  @Rule public WireMockRule wireMock = new WireMockRule();
 
   @Test
   public void testisVersionBelow215() throws Exception {
     GerritApi gerritApi =
         new GerritApiBuilder()
-            .gerritApiUrl("http://localhost:" + g.getPort())
+            .gerritApiUrl("http://localhost:" + wireMock.port())
             .credentials(null, null)
             .build();
 
@@ -82,10 +84,7 @@ public class GerritVersionTest {
   }
 
   private void setGerritServerVersion(String version) {
-    g.getClient().reset();
-    g.getClient()
-        .when(HttpRequest.request("/config/server/version").withMethod("GET"))
-        .respond(
-            HttpResponse.response().withStatusCode(200).withBody(")]}'\n" + "\"" + version + "\""));
+    reset();
+    stubFor(get("/config/server/version").willReturn(ok(")]}'\n" + "\"" + version + "\"")));
   }
 }

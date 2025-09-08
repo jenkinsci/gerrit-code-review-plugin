@@ -22,22 +22,25 @@ import static org.mockito.Mockito.when;
 import com.cloudbees.hudson.plugins.folder.Folder;
 import com.google.common.net.HttpHeaders;
 import com.google.common.net.MediaType;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-import com.mashape.unirest.request.HttpRequestWithBody;
 import hudson.model.Result;
 import hudson.util.Secret;
 import hudson.util.TestSecret;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
 import jenkins.branch.BranchSource;
 import jenkins.plugins.git.GitSampleRepoRule;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 
 public class GerritWebHookTriggerTest {
+
   private Secret apiKeySecret = TestSecret.newTestSecret();
 
   @Rule public JenkinsRule j = new JenkinsRule();
@@ -191,39 +194,44 @@ public class GerritWebHookTriggerTest {
     return mp;
   }
 
-  private int httpStatusOfPostGerritEventBodyToWebhookURIWithApiKey() throws UnirestException {
+  private int httpStatusOfPostGerritEventBodyToWebhookURIWithApiKey() throws Exception {
     return httpStatusOfPostGerritEventBodyToWebhookURIWithApiKey(
         TestSecret.TEST_CLEARTEXT_SECRET, null);
   }
 
-  private int httpStatusOfPostGerritEventBodyToWebhookURIWithInvalidApiKey()
-      throws UnirestException {
+  private int httpStatusOfPostGerritEventBodyToWebhookURIWithInvalidApiKey() throws Exception {
     return httpStatusOfPostGerritEventBodyToWebhookURIWithApiKey("invalid-api-key", null);
   }
 
-  private int httpStatusOfPostGerritEventBodyToWebhookURIWithEmptyApiKey() throws UnirestException {
+  private int httpStatusOfPostGerritEventBodyToWebhookURIWithEmptyApiKey() throws Exception {
     return httpStatusOfPostGerritEventBodyToWebhookURIWithApiKey("", null);
   }
 
-  private int httpStatusOfPostGerritEventBodyToWebhookURIWithoutApiKey() throws UnirestException {
+  private int httpStatusOfPostGerritEventBodyToWebhookURIWithoutApiKey() throws Exception {
     return httpStatusOfPostGerritEventBodyToWebhookURIWithApiKey(null, null);
   }
 
   private int httpStatusOfPostGerritEventBodyToWebhookURIWithApiKey(String apiKey, String jobName)
-      throws UnirestException {
-    HttpRequestWithBody request =
-        Unirest.post(gerritPluginWebhookURI())
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.JSON_UTF_8.toString());
+      throws Exception {
+    HttpClient client = HttpClientBuilder.create().build();
+
+    HttpPost request = new HttpPost(gerritPluginWebhookURI());
+    request.setEntity(new StringEntity(gerritEventBody));
+    request.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.JSON_UTF_8.toString());
+
+    URIBuilder url = new URIBuilder(gerritPluginWebhookURI());
 
     if (apiKey != null) {
-      request = request.queryString("apiKey", apiKey);
+      url.addParameter("apiKey", apiKey);
     }
 
     if (jobName != null) {
-      request = request.queryString("jobName", jobName);
+      url.addParameter("jobName", jobName);
     }
 
-    return request.body(gerritEventBody).asString().getStatus();
+    request.setURI(url.build());
+
+    return client.execute(request).getStatusLine().getStatusCode();
   }
 
   private GerritSCMSource getGerritSCMSource() {

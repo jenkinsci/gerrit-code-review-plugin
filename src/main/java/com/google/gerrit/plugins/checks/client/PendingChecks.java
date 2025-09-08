@@ -33,7 +33,7 @@ import org.eclipse.jgit.transport.URIish;
 public class PendingChecks extends AbstractEndpoint {
   private static final String PENDING_CHECKS_PATH = "plugins/checks/checks.pending/";
 
-  private HashMap<String, String> queries = new HashMap<String, String>();
+  private HashMap<String, String> queries = new HashMap<>();
 
   public PendingChecks(URIish gerritBaseUrl, CloseableHttpClient client, boolean isAuthenticated)
       throws URISyntaxException {
@@ -75,9 +75,9 @@ public class PendingChecks extends AbstractEndpoint {
 
   private URI buildRequestUrl() throws URISyntaxException {
     if (!queries.isEmpty()) {
-      StringBuffer queryString = new StringBuffer();
+      StringBuilder queryString = new StringBuilder();
       for (Map.Entry<String, String> query : queries.entrySet()) {
-        String connector = queryString.length() > 0 ? "+" : "";
+        String connector = !queryString.isEmpty() ? "+" : "";
         queryString.append(String.format("%s%s:%s", connector, query.getKey(), query.getValue()));
       }
       uriBuilder.setParameter("query", queryString.toString());

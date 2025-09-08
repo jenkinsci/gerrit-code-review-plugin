@@ -18,6 +18,9 @@ import com.cloudbees.plugins.credentials.CredentialsProvider;
 import com.cloudbees.plugins.credentials.common.StandardListBoxModel;
 import com.cloudbees.plugins.credentials.common.StandardUsernameCredentials;
 import com.cloudbees.plugins.credentials.domains.URIRequirementBuilder;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.Nullable;
 import hudson.Extension;
 import hudson.Util;
 import hudson.model.Descriptor;
@@ -42,9 +45,6 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import jenkins.model.Jenkins;
 import jenkins.plugins.gerrit.traits.ChangeDiscoveryTrait;
 import jenkins.plugins.git.AbstractGitSCMSource;
@@ -131,7 +131,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
           }
         }
         if (!templates.isEmpty()) {
-          return new RefSpecsSCMSourceTrait(templates.toArray(new String[templates.size()]));
+          return new RefSpecsSCMSourceTrait(templates.toArray(new String[0]));
         }
       }
     }
@@ -148,11 +148,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
   @DataBoundSetter
   public void setBrowser(GitRepositoryBrowser browser) {
     List<SCMSourceTrait> traits = new ArrayList<>(this.traits);
-    for (Iterator<SCMSourceTrait> iterator = traits.iterator(); iterator.hasNext(); ) {
-      if (iterator.next() instanceof GitBrowserSCMSourceTrait) {
-        iterator.remove();
-      }
-    }
+    traits.removeIf(scmSourceTrait -> scmSourceTrait instanceof GitBrowserSCMSourceTrait);
     if (browser != null) {
       traits.add(new GitBrowserSCMSourceTrait(browser));
     }
@@ -165,11 +161,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
   public void setGitTool(String gitTool) {
     List<SCMSourceTrait> traits = new ArrayList<>(this.traits);
     gitTool = Util.fixEmptyAndTrim(gitTool);
-    for (Iterator<SCMSourceTrait> iterator = traits.iterator(); iterator.hasNext(); ) {
-      if (iterator.next() instanceof GitToolSCMSourceTrait) {
-        iterator.remove();
-      }
-    }
+    traits.removeIf(scmSourceTrait -> scmSourceTrait instanceof GitToolSCMSourceTrait);
     if (gitTool != null) {
       traits.add(new GitToolSCMSourceTrait(gitTool));
     }
@@ -181,11 +173,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
   @DataBoundSetter
   public void setExtensions(@CheckForNull List<GitSCMExtension> extensions) {
     List<SCMSourceTrait> traits = new ArrayList<>(this.traits);
-    for (Iterator<SCMSourceTrait> iterator = traits.iterator(); iterator.hasNext(); ) {
-      if (iterator.next() instanceof GitSCMExtensionTrait) {
-        iterator.remove();
-      }
-    }
+    traits.removeIf(scmSourceTrait -> scmSourceTrait instanceof GitSCMExtensionTrait);
     EXTENSIONS:
     for (GitSCMExtension extension : Util.fixNull(extensions)) {
       for (SCMSourceTraitDescriptor d : SCMSourceTrait.all()) {
@@ -272,7 +260,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
     return new GerritSCMSourceContext(null, SCMHeadObserver.none()).withTraits(traits).asRefSpecs();
   }
 
-  @Nonnull
+  @NonNull
   @Override
   public List<SCMSourceTrait> getTraits() {
     return traits;
@@ -406,11 +394,11 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
     }
 
     public List<SCMSourceTrait> getTraitsDefaults() {
-      return Arrays.<SCMSourceTrait>asList(
+      return Arrays.asList(
           new ChangeDiscoveryTrait(null), new RefSpecsSCMSourceTrait(REF_SPEC_DEFAULT));
     }
 
-    @Nonnull
+    @NonNull
     @Override
     protected SCMHeadCategory[] createCategories() {
       return new SCMHeadCategory[] {
@@ -430,8 +418,8 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
         @Nullable final String sha1,
         List<ParameterValue> buildParameters,
         String... branches) {
-      List<GitStatus.ResponseContributor> result = new ArrayList<GitStatus.ResponseContributor>();
-      final boolean notified[] = {false};
+      List<GitStatus.ResponseContributor> result = new ArrayList<>();
+      final boolean[] notified = {false};
       // run in high privilege to see all the projects anonymous users don't see.
       // this is safe because when we actually schedule a build, it's a build that can
       // happen at some random time anyway.
@@ -442,13 +430,13 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
           final URIish u = uri;
           for (final String branch : branches) {
             SCMHeadEvent.fireNow(
-                new SCMHeadEvent<String>(SCMEvent.Type.UPDATED, branch, origin) {
+                new SCMHeadEvent<>(SCMEvent.Type.UPDATED, branch, origin) {
                   @Override
-                  public boolean isMatch(@Nonnull SCMNavigator navigator) {
+                  public boolean isMatch(@NonNull SCMNavigator navigator) {
                     return false;
                   }
 
-                  @Nonnull
+                  @NonNull
                   @Override
                   public String getSourceName() {
                     // we will never be called here as do not match any navigator
@@ -481,9 +469,9 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
                     return false;
                   }
 
-                  @Nonnull
+                  @NonNull
                   @Override
-                  public Map<SCMHead, SCMRevision> heads(@Nonnull SCMSource source) {
+                  public Map<SCMHead, SCMRevision> heads(@NonNull SCMSource source) {
                     if (source instanceof GerritSCMSource) {
                       GerritSCMSource git = (GerritSCMSource) source;
                       GerritSCMSourceContext ctx =
@@ -506,7 +494,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
                             return Collections.emptyMap();
                           }
                         }
-                        return Collections.<SCMHead, SCMRevision>singletonMap(
+                        return Collections.singletonMap(
                             head, sha1 != null ? new SCMRevisionImpl(head, sha1) : null);
                       }
                     }
@@ -514,7 +502,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
                   }
 
                   @Override
-                  public boolean isMatch(@Nonnull SCM scm) {
+                  public boolean isMatch(@NonNull SCM scm) {
                     return false; // TODO rewrite the legacy event system to fire through SCM API
                   }
                 });
@@ -547,7 +535,7 @@ public class GerritSCMSource extends AbstractGerritSCMSource {
                   result.add(
                       new GitStatus.ResponseContributor() {
                         @Override
-                        public void addHeaders(StaplerRequest req, StaplerResponse rsp) {
+                        public void addHeaders(StaplerRequest2 req, StaplerResponse2 rsp) {
                           rsp.addHeader("Triggered", owner.getAbsoluteUrl());
                         }
 

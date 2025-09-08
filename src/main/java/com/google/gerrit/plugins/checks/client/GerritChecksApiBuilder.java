@@ -17,8 +17,6 @@ package com.google.gerrit.plugins.checks.client;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.net.ssl.SSLContext;
@@ -30,7 +28,6 @@ import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.ssl.SSLContextBuilder;
-import org.apache.http.ssl.TrustStrategy;
 import org.eclipse.jgit.transport.URIish;
 
 public class GerritChecksApiBuilder {
@@ -48,16 +45,7 @@ public class GerritChecksApiBuilder {
   public GerritChecksApiBuilder allowInsecureHttps() {
     try {
       SSLContext sslContext =
-          new SSLContextBuilder()
-              .loadTrustMaterial(
-                  null,
-                  new TrustStrategy() {
-                    public boolean isTrusted(final X509Certificate[] chain, String authType)
-                        throws CertificateException {
-                      return true;
-                    }
-                  })
-              .build();
+          new SSLContextBuilder().loadTrustMaterial(null, (chain, authType) -> true).build();
       SSLConnectionSocketFactory sslsf =
           new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier());
       clientBuilder.setSSLSocketFactory(sslsf);
