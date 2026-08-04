@@ -22,6 +22,7 @@ import java.security.cert.X509Certificate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.net.ssl.SSLContext;
+import jenkins.plugins.gerrit.GerritHttpClientConfig;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
@@ -41,8 +42,12 @@ public class GerritChecksApiBuilder {
   private boolean isAuthenticated = false;
 
   public GerritChecksApiBuilder(URIish gerritBaseURL) {
+    this(gerritBaseURL, HttpClientBuilder.create());
+  }
+
+  GerritChecksApiBuilder(URIish gerritBaseURL, HttpClientBuilder clientBuilder) {
     this.gerritBaseURL = gerritBaseURL;
-    clientBuilder = HttpClientBuilder.create();
+    this.clientBuilder = GerritHttpClientConfig.configure(clientBuilder);
   }
 
   public GerritChecksApiBuilder allowInsecureHttps() {
