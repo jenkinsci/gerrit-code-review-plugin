@@ -84,6 +84,21 @@ Apache HttpClient automatic retries and redirects are disabled. After an
 ambiguous transport failure, the plugin does not reissue a Review or Checks
 POST.
 
+### Terminal Checks reconciliation
+
+For terminal Checks states, the plugin freezes the finished timestamp, reads
+the current check, and makes one explicit client-level POST attempt. If a 408,
+5xx, transport, or response-parsing failure leaves the result ambiguous, it
+reads the check back and accepts only matching observable state: checker UUID,
+state, message, URL, and finished timestamp. A matching pre-write check is also
+treated as already complete.
+
+The Gerrit Checks API does not expose a compare-and-set precondition or an
+idempotency key. This reconciliation therefore prevents explicit replay within
+one logical publication attempt, but it does not fence concurrent writers on
+other Jenkins controllers, deduplicate a later invocation with a new timestamp,
+or confirm notification delivery.
+
 ### Using Multibranch Pipeline
 
 Create a new `Multibranch Pipeline` item.
