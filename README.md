@@ -97,6 +97,26 @@ already accepted. These synchronous non-blocking steps are also not resumable
 across a hard controller restart, so drain active Gerrit publications before a
 plugin restart or rerun them afterward as appropriate.
 
+### Terminal Checks reconciliation
+
+For terminal Checks states, the plugin freezes the publication payload and
+makes one explicit client-level POST attempt without a normal-path pre-read. A
+200, 201, or 204 response is definitive. If a 202, 408, 5xx, transport, or
+response-parsing failure leaves the result ambiguous, the plugin performs
+bounded GET-only polling and never sends a second POST for that logical call.
+
+Readback succeeds only when the observable checker UUID, state, supplied
+fields, and finished timestamp match. The comparison follows Gerrit's wire and
+storage behavior: timestamps are compared at millisecond precision;
+message/URL values are trimmed and empty values become absent; and omitted
+partial-update fields are not required to be null in the response.
+
+The Gerrit Checks API does not expose a compare-and-set precondition or an
+idempotency key. This reconciliation prevents explicit replay within one
+logical publication attempt, but it does not fence concurrent writers on other
+Jenkins controllers, deduplicate a later invocation with a new timestamp, or
+confirm notification delivery.
+
 ### Using Multibranch Pipeline
 
 Create a new `Multibranch Pipeline` item.
