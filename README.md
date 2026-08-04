@@ -62,6 +62,41 @@ will just work.
 
 ## Jenkins Setup
 
+### Gerrit HTTP timeouts
+
+Gerrit REST clients use bounded connection-pool, connection-establishment, and
+socket timeouts. Override the defaults with Java system properties on the
+Jenkins controller JVM:
+
+| System property | Default | Purpose |
+| --------------- | ------- | ------- |
+| `jenkins.plugins.gerrit.http.connectionRequestTimeoutMillis` | 30000 ms | Maximum wait to lease a connection from the HTTP connection pool |
+| `jenkins.plugins.gerrit.http.connectTimeoutMillis` | 10000 ms | Maximum wait to establish the network connection |
+| `jenkins.plugins.gerrit.http.socketTimeoutMillis` | 90000 ms | Maximum inactivity between socket reads; this is not a total request wall-clock deadline |
+
+Values must be positive integers. Invalid or non-positive values use the
+defaults, so raw JVM-property readback alone does not prove the effective
+configuration. Changing these properties requires a Jenkins controller
+restart.
+
+These settings bound connection-pool waits, connection establishment, and
+socket inactivity. They do not impose a DNS or total request wall-clock
+deadline; a peer that continues sending data can run longer. `gerritReview`,
+`gerritCheck`, and `gerritComment` run their REST work outside the Pipeline CPS
+VM thread so those waits do not stall Pipeline control.
+
+Apache HttpClient permits one automatic retry for safe/idempotent requests and
+for an entity request only when it determines the request was not sent. It does
+not replay a sent Review or Checks POST. Redirects are disabled because the
+bundled Gerrit client otherwise permits redirects for POST requests; configure
+the canonical Gerrit API URL rather than an HTTP-to-HTTPS, host, or SSO redirect.
+
+Stopping a Pipeline interrupts in-flight REST work and checks for interruption
+again before each mutating request. It cannot undo a request that Gerrit has
+already accepted. These synchronous non-blocking steps are also not resumable
+across a hard controller restart, so drain active Gerrit publications before a
+plugin restart or rerun them afterward as appropriate.
+
 ### Using Multibranch Pipeline
 
 Create a new `Multibranch Pipeline` item.

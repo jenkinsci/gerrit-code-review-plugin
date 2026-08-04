@@ -19,16 +19,20 @@ import com.google.gerrit.plugins.checks.api.PendingChecksInfo;
 import com.google.gerrit.plugins.checks.client.GerritChecksApi;
 import hudson.model.TaskListener;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jenkins.plugins.git.GitSCMSourceRequest;
 import org.eclipse.jgit.transport.URIish;
 
 public class GerritSCMSourceRequest extends GitSCMSourceRequest {
+  private static final Logger LOGGER = Logger.getLogger(GerritSCMSourceRequest.class.getName());
 
   private final boolean filterForPendingChecks;
 
@@ -36,11 +40,12 @@ public class GerritSCMSourceRequest extends GitSCMSourceRequest {
 
   public GerritSCMSourceRequest(
       GerritSCMSource source, GerritSCMSourceContext context, TaskListener listener) {
-    super(source, context, listener);
+    super(source, context, normalizeListener(listener));
+    TaskListener normalizedListener = normalizeListener(listener);
     this.filterForPendingChecks = context.filterForPendingChecks();
     this.patchsetWithPendingChecks =
         filterForPendingChecks
-            ? getChangesWithPendingChecks(source, context, listener)
+            ? getChangesWithPendingChecks(source, context, normalizedListener)
             : new HashMap<String, HashSet<PendingChecksInfo>>();
   }
 
@@ -64,21 +69,9 @@ public class GerritSCMSourceRequest extends GitSCMSourceRequest {
     List<PendingChecksInfo> pendingChecks = new ArrayList<PendingChecksInfo>();
 
     try {
-      GerritChecksApi gerritChecksApi = getGerritChecksApi(source, listener);
-      switch (context.checksQueryOperator()) {
-        case ID:
-          pendingChecks =
-              gerritChecksApi.pendingChecks().checker(context.checksQueryString()).list();
-          break;
-        case SCHEME:
-          pendingChecks =
-              gerritChecksApi.pendingChecks().scheme(context.checksQueryString()).list();
-          break;
-        default:
-          throw new IOException("Unknown query operator for querying pending checks.");
-      }
+      pendingChecks = queryPendingChecks(getGerritChecksApi(source, listener), context);
     } catch (URISyntaxException | IOException | RestApiException e) {
-      listener.getLogger().println("Unable to query for pending checks: " + e);
+      logPendingChecksFailure(listener, e);
     }
 
     for (PendingChecksInfo check : pendingChecks) {
@@ -97,5 +90,44 @@ public class GerritSCMSourceRequest extends GitSCMSourceRequest {
     }
 
     return patchsetWithPendingChecks;
+  }
+
+  static TaskListener normalizeListener(TaskListener listener) {
+    return listener == null ? TaskListener.NULL : listener;
+  }
+
+  static void logPendingChecksFailure(TaskListener listener, Exception failure) {
+    PrintStream logger = normalizeListener(listener).getLogger();
+    logger.println("Unable to query for pending checks: " + failure);
+    failure.printStackTrace(logger);
+  }
+
+  static List<PendingChecksInfo> queryPendingChecks(
+      GerritChecksApi gerritChecksApi, GerritSCMSourceContext context)
+      throws IOException, RestApiException, URISyntaxException {
+    Exception operationFailure = null;
+    try {
+      switch (context.checksQueryOperator()) {
+        case ID:
+          return gerritChecksApi.pendingChecks().checker(context.checksQueryString()).list();
+        case SCHEME:
+          return gerritChecksApi.pendingChecks().scheme(context.checksQueryString()).list();
+        default:
+          throw new IOException("Unknown query operator for querying pending checks.");
+      }
+    } catch (IOException | RestApiException | URISyntaxException | RuntimeException e) {
+      operationFailure = e;
+      throw e;
+    } finally {
+      try {
+        gerritChecksApi.close();
+      } catch (IOException | RuntimeException closeFailure) {
+        if (operationFailure != null) {
+          operationFailure.addSuppressed(closeFailure);
+        } else {
+          LOGGER.log(Level.WARNING, "Could not close Gerrit Checks HTTP client", closeFailure);
+        }
+      }
+    }
   }
 }
