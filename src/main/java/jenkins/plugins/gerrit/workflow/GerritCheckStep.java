@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.Timestamp;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.Nonnull;
@@ -34,7 +35,7 @@ import org.jenkinsci.plugins.workflow.steps.Step;
 import org.jenkinsci.plugins.workflow.steps.StepContext;
 import org.jenkinsci.plugins.workflow.steps.StepDescriptor;
 import org.jenkinsci.plugins.workflow.steps.StepExecution;
-import org.jenkinsci.plugins.workflow.steps.SynchronousStepExecution;
+import org.jenkinsci.plugins.workflow.steps.SynchronousNonBlockingStepExecution;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 
@@ -46,19 +47,27 @@ public class GerritCheckStep extends Step {
   @DataBoundConstructor
   public GerritCheckStep() {}
 
-  public class Execution extends SynchronousStepExecution<Void> {
-    private final TaskListener listener;
+  public static class Execution extends SynchronousNonBlockingStepExecution<Void> {
+    private static final long serialVersionUID = 1L;
+
+    private final Map<String, String> checks;
+    private final String message;
+    private final String url;
     private final String consoleLogUri;
 
-    protected Execution(StepContext context)
+    protected Execution(StepContext context, Map<String, String> checks, String message, String url)
         throws IOException, InterruptedException, URISyntaxException {
       super(context);
-      this.listener = getContext().get(TaskListener.class);
+      this.checks =
+          checks == null ? null : Collections.unmodifiableMap(new LinkedHashMap<>(checks));
+      this.message = message;
+      this.url = url;
       this.consoleLogUri = getConsoleLogUri(context);
     }
 
     @Override
     protected Void run() throws Exception {
+      TaskListener listener = getContext().get(TaskListener.class);
       GerritChecksApi gerritChecksApi =
           new GerritApiBuilder().stepContext(getContext()).requireAuthentication().buildChecksApi();
       if (gerritChecksApi == null) {
@@ -79,6 +88,7 @@ public class GerritCheckStep extends Step {
             input.message = message;
             input.url = url != null ? url : consoleLogUri;
             input = setCheckTimestamps(input, input.state);
+            GerritStepInterruption.checkBeforeMutation();
             gerritChecksApi
                 .checks()
                 .change(change.getChangeId())
@@ -120,10 +130,10 @@ public class GerritCheckStep extends Step {
 
   @Override
   public StepExecution start(StepContext stepContext) throws Exception {
-    return new Execution(stepContext);
+    return new Execution(stepContext, checks, message, url);
   }
 
-  private String getConsoleLogUri(StepContext stepContext)
+  private static String getConsoleLogUri(StepContext stepContext)
       throws IOException, InterruptedException {
     String rootUrl = Jenkins.getInstance().getRootUrl();
     if (rootUrl == null) {
@@ -132,7 +142,7 @@ public class GerritCheckStep extends Step {
     return rootUrl + stepContext.get(Run.class).getUrl() + "console";
   }
 
-  private CheckInput setCheckTimestamps(CheckInput input, CheckState state) {
+  private static CheckInput setCheckTimestamps(CheckInput input, CheckState state) {
     Timestamp now = new Timestamp(System.currentTimeMillis());
     switch (state) {
       case RUNNING:
