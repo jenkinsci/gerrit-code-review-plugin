@@ -62,6 +62,28 @@ will just work.
 
 ## Jenkins Setup
 
+### Gerrit HTTP timeouts
+
+Gerrit REST clients use bounded connection-pool, connection-establishment, and
+socket timeouts. Override the defaults with Java system properties on the
+Jenkins controller JVM:
+
+| System property | Default | Purpose |
+| --------------- | ------- | ------- |
+| `jenkins.plugins.gerrit.http.connectionRequestTimeoutMillis` | 30000 ms | Maximum wait to lease a connection from the HTTP connection pool |
+| `jenkins.plugins.gerrit.http.connectTimeoutMillis` | 10000 ms | Maximum wait to establish the network connection |
+| `jenkins.plugins.gerrit.http.socketTimeoutMillis` | 60000 ms | Maximum inactivity between socket reads; this is not a total request wall-clock deadline |
+
+Values must be positive integers. Invalid or non-positive values use the
+defaults. Changing these controller JVM properties requires a Jenkins
+controller restart. After restart, read back the running controller's effective
+JVM arguments or system properties to verify that the intended values are
+active before relying on them operationally.
+
+Apache HttpClient automatic retries and redirects are disabled. After an
+ambiguous transport failure, the plugin does not reissue a Review or Checks
+POST.
+
 ### Using Multibranch Pipeline
 
 Create a new `Multibranch Pipeline` item.

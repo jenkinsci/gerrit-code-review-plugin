@@ -25,10 +25,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jenkins.plugins.git.GitSCMSourceRequest;
 import org.eclipse.jgit.transport.URIish;
 
 public class GerritSCMSourceRequest extends GitSCMSourceRequest {
+  private static final Logger LOGGER = Logger.getLogger(GerritSCMSourceRequest.class.getName());
 
   private final boolean filterForPendingChecks;
 
@@ -64,19 +67,7 @@ public class GerritSCMSourceRequest extends GitSCMSourceRequest {
     List<PendingChecksInfo> pendingChecks = new ArrayList<PendingChecksInfo>();
 
     try {
-      GerritChecksApi gerritChecksApi = getGerritChecksApi(source, listener);
-      switch (context.checksQueryOperator()) {
-        case ID:
-          pendingChecks =
-              gerritChecksApi.pendingChecks().checker(context.checksQueryString()).list();
-          break;
-        case SCHEME:
-          pendingChecks =
-              gerritChecksApi.pendingChecks().scheme(context.checksQueryString()).list();
-          break;
-        default:
-          throw new IOException("Unknown query operator for querying pending checks.");
-      }
+      pendingChecks = queryPendingChecks(getGerritChecksApi(source, listener), context);
     } catch (URISyntaxException | IOException | RestApiException e) {
       listener.getLogger().println("Unable to query for pending checks: " + e);
     }
@@ -97,5 +88,34 @@ public class GerritSCMSourceRequest extends GitSCMSourceRequest {
     }
 
     return patchsetWithPendingChecks;
+  }
+
+  static List<PendingChecksInfo> queryPendingChecks(
+      GerritChecksApi gerritChecksApi, GerritSCMSourceContext context)
+      throws IOException, RestApiException, URISyntaxException {
+    Exception operationFailure = null;
+    try {
+      switch (context.checksQueryOperator()) {
+        case ID:
+          return gerritChecksApi.pendingChecks().checker(context.checksQueryString()).list();
+        case SCHEME:
+          return gerritChecksApi.pendingChecks().scheme(context.checksQueryString()).list();
+        default:
+          throw new IOException("Unknown query operator for querying pending checks.");
+      }
+    } catch (IOException | RestApiException | URISyntaxException | RuntimeException e) {
+      operationFailure = e;
+      throw e;
+    } finally {
+      try {
+        gerritChecksApi.close();
+      } catch (IOException closeFailure) {
+        if (operationFailure != null) {
+          operationFailure.addSuppressed(closeFailure);
+        } else {
+          LOGGER.log(Level.WARNING, "Could not close Gerrit Checks HTTP client", closeFailure);
+        }
+      }
+    }
   }
 }
