@@ -14,12 +14,13 @@
 
 package com.google.gerrit.plugins.checks.client;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.eclipse.jgit.transport.URIish;
 
-public class GerritChecksApi {
+public class GerritChecksApi implements Closeable {
 
   private URIish gerritBaseUrl;
   private CloseableHttpClient client;
@@ -44,6 +45,7 @@ public class GerritChecksApi {
     return new PendingChecks(gerritBaseUrl, client, isAuthenticated);
   }
 
+  @Override
   public void close() throws IOException {
     client.close();
   }

@@ -18,11 +18,10 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.DraftInput;
+import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import hudson.EnvVars;
 import hudson.Extension;
 import hudson.model.TaskListener;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
 import javax.annotation.Nonnull;
@@ -54,19 +53,23 @@ public class GerritCommentStep extends Step {
     this.line = line;
   }
 
-  public class Execution extends SynchronousStepExecution<Void> {
-    private final TaskListener listener;
-    private final EnvVars envVars;
+  public static class Execution extends SynchronousNonBlockingStepExecution<Void> {
+    private static final long serialVersionUID = 1L;
 
-    protected Execution(@Nonnull StepContext context) throws IOException, InterruptedException {
+    private final String path;
+    private final int line;
+    private final String message;
+
+    protected Execution(@Nonnull StepContext context, String path, int line, String message) {
       super(context);
-
-      this.envVars = context.get(EnvVars.class);
-      this.listener = getContext().get(TaskListener.class);
+      this.path = path;
+      this.line = line;
+      this.message = message;
     }
 
     @Override
     protected Void run() throws Exception {
+      TaskListener listener = getContext().get(TaskListener.class);
       GerritApi gerritApi =
           new GerritApiBuilder().stepContext(getContext()).requireAuthentication().build();
       if (gerritApi == null) {
@@ -84,13 +87,16 @@ public class GerritCommentStep extends Step {
         draftInput.path = path;
         draftInput.line = line;
         draftInput.message = message;
-        getChangeApi(gerritApi, change).revision(change.getRevision()).createDraft(draftInput);
+        RevisionApi revisionApi = getChangeApi(gerritApi, change).revision(change.getRevision());
+        GerritStepInterruption.checkBeforeMutation();
+        revisionApi.createDraft(draftInput);
       }
       return null;
     }
   }
 
-  private ChangeApi getChangeApi(GerritApi gerritApi, GerritChange change) throws RestApiException {
+  private static ChangeApi getChangeApi(GerritApi gerritApi, GerritChange change)
+      throws RestApiException {
     Changes changesApi = gerritApi.changes();
     return GerritVersion.isVersionBelow215(gerritApi)
         ? changesApi.id(change.getChangeId())
@@ -99,7 +105,7 @@ public class GerritCommentStep extends Step {
 
   @Override
   public StepExecution start(StepContext stepContext) throws Exception {
-    return new GerritCommentStep.Execution(stepContext);
+    return new Execution(stepContext, path, line, message);
   }
 
   @Extension
