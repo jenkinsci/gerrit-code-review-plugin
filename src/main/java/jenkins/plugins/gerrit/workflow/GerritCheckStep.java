@@ -16,6 +16,7 @@ package jenkins.plugins.gerrit.workflow;
 
 import com.google.gerrit.plugins.checks.api.CheckInput;
 import com.google.gerrit.plugins.checks.api.CheckState;
+import com.google.gerrit.plugins.checks.client.Checks;
 import com.google.gerrit.plugins.checks.client.GerritChecksApi;
 import hudson.Extension;
 import hudson.model.Run;
@@ -83,19 +84,26 @@ public class GerritCheckStep extends Step {
                   "Gerrit review change %d/%d checks %s (%s)%n",
                   change.getChangeId(), change.getRevision(), checks, message);
           if (checks != null) {
+            Timestamp publicationTimestamp = new Timestamp(System.currentTimeMillis());
             for (Map.Entry<String, String> check : checks.entrySet()) {
               CheckInput input = new CheckInput();
               input.checkerUuid = check.getKey();
               input.state = CheckState.valueOf(check.getValue());
               input.message = message;
               input.url = url != null ? url : consoleLogUri;
-              input = setCheckTimestamps(input, input.state);
-              GerritStepInterruption.checkBeforeMutation();
-              gerritChecksApi
-                  .checks()
-                  .change(change.getChangeId())
-                  .patchSet(change.getRevision())
-                  .update(input);
+              input = setCheckTimestamps(input, input.state, publicationTimestamp);
+              Checks checksApi =
+                  gerritChecksApi
+                      .checks()
+                      .change(change.getChangeId())
+                      .patchSet(change.getRevision());
+              if (input.state.isInProgress()) {
+                GerritStepInterruption.checkBeforeMutation();
+                checksApi.update(input);
+              } else {
+                GerritStepInterruption.checkBeforeMutation();
+                checksApi.updateTerminal(input);
+              }
             }
           }
         }
@@ -160,18 +168,18 @@ public class GerritCheckStep extends Step {
     return rootUrl + stepContext.get(Run.class).getUrl() + "console";
   }
 
-  private static CheckInput setCheckTimestamps(CheckInput input, CheckState state) {
-    Timestamp now = new Timestamp(System.currentTimeMillis());
+  private static CheckInput setCheckTimestamps(
+      CheckInput input, CheckState state, Timestamp publicationTimestamp) {
     switch (state) {
       case RUNNING:
-        input.started = now;
+        input.started = publicationTimestamp;
         break;
       case SUCCESSFUL:
       case FAILED:
-        input.finished = now;
+      case NOT_RELEVANT:
+        input.finished = publicationTimestamp;
         break;
       case NOT_STARTED:
-      case NOT_RELEVANT:
       case SCHEDULED:
       default:
         break;
