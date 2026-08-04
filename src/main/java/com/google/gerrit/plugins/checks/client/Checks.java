@@ -23,17 +23,21 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.http.HttpStatus;
-import org.apache.http.ParseException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.eclipse.jgit.transport.URIish;
 
 public class Checks extends AbstractEndpoint {
+  private static final Logger LOGGER = Logger.getLogger(Checks.class.getName());
 
   private int changeNumber;
   private int patchSetNumber;
@@ -62,17 +66,30 @@ public class Checks extends AbstractEndpoint {
   }
 
   public CheckInfo get(String checkerUuid) throws RestApiException {
+    return get(checkerUuid, false);
+  }
+
+  /** Returns the check, or {@code null} when Gerrit reports that it does not exist. */
+  public CheckInfo getIfPresent(String checkerUuid) throws RestApiException {
+    return get(checkerUuid, true);
+  }
+
+  private CheckInfo get(String checkerUuid, boolean allowMissing) throws RestApiException {
     try {
       HttpGet request = new HttpGet(buildRequestUrl(checkerUuid));
       try (CloseableHttpResponse response = client.execute(request)) {
-        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+        int statusCode = response.getStatusLine().getStatusCode();
+        if (statusCode == HttpStatus.SC_OK) {
           return JsonBodyParser.parseResponse(
               EntityUtils.toString(response.getEntity()), new TypeToken<CheckInfo>() {}.getType());
         }
-        throw new RestApiException(
-            String.format(
-                "Request failed with status: %d", response.getStatusLine().getStatusCode()));
+        if (allowMissing && statusCode == HttpStatus.SC_NOT_FOUND) {
+          return null;
+        }
+        throw new RestApiException(String.format("Request failed with status: %d", statusCode));
       }
+    } catch (RestApiException e) {
+      throw e;
     } catch (Exception e) {
       throw new RestApiException("Failed to get check info: ", e);
     }
@@ -124,31 +141,144 @@ public class Checks extends AbstractEndpoint {
   public CheckInfo update(CheckInput input) throws RestApiException {
     try {
       return performCreateOrUpdate(input);
+    } catch (AmbiguousCheckUpdateException e) {
+      throw e;
     } catch (Exception e) {
       throw new RestApiException("Could not update check", e);
     }
   }
 
-  private CheckInfo performCreateOrUpdate(CheckInput input)
-      throws RestApiException, URISyntaxException, ParseException, IOException {
-    HttpPost request = new HttpPost(buildRequestUrl());
-    String inputString =
-        JsonBodyParser.createRequestBody(input, new TypeToken<CheckInput>() {}.getType());
-    request.setEntity(new StringEntity(inputString));
-    request.setHeader("Content-type", "application/json");
+  /**
+   * Publishes one terminal check update with read-before and read-after reconciliation.
+   *
+   * <p>The Checks endpoint has no compare-and-set or idempotency-key contract. Consequently this
+   * method never issues another POST after an ambiguous outcome and does not provide generation
+   * fencing across Jenkins controllers or other writers. The caller must supply one frozen payload,
+   * including its finished timestamp, for the complete logical call.
+   */
+  public CheckInfo updateTerminal(CheckInput input) throws RestApiException {
+    if (input == null || input.state == null || input.state.isInProgress()) {
+      throw new IllegalArgumentException("updateTerminal requires a terminal check state");
+    }
+    if (input.finished == null) {
+      throw new IllegalArgumentException("updateTerminal requires a frozen finished timestamp");
+    }
+
+    try {
+      CheckInfo existing = getIfPresent(input.checkerUuid);
+      if (matchesForPreWriteNoOp(existing, input)) {
+        return existing;
+      }
+    } catch (RestApiException e) {
+      // A failed optimization must not prevent the one intended POST.
+      LOGGER.log(Level.FINE, "Could not read check before terminal update", e);
+    }
+
+    try {
+      return update(input);
+    } catch (AmbiguousCheckUpdateException ambiguousFailure) {
+      final CheckInfo observed;
+      try {
+        observed = getIfPresent(input.checkerUuid);
+      } catch (RestApiException readFailure) {
+        RestApiException unreconciled =
+            new RestApiException(
+                "Terminal check POST failed ambiguously and readback could not reconcile it",
+                ambiguousFailure);
+        unreconciled.addSuppressed(readFailure);
+        throw unreconciled;
+      }
+      if (matchesAfterAmbiguousWrite(observed, input)) {
+        return observed;
+      }
+      throw new RestApiException(
+          "Terminal check POST failed ambiguously and readback did not match the frozen payload",
+          ambiguousFailure);
+    }
+  }
+
+  private CheckInfo performCreateOrUpdate(CheckInput input) throws RestApiException {
+    final HttpPost request;
+    final String inputString;
+    try {
+      request = new HttpPost(buildRequestUrl());
+      inputString =
+          JsonBodyParser.createRequestBody(input, new TypeToken<CheckInput>() {}.getType());
+      request.setEntity(new StringEntity(inputString, ContentType.APPLICATION_JSON));
+    } catch (Exception e) {
+      throw new RestApiException("Could not prepare check POST", e);
+    }
 
     try (CloseableHttpResponse response = client.execute(request)) {
-      if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-        return JsonBodyParser.parseResponse(
-            EntityUtils.toString(response.getEntity()), new TypeToken<CheckInfo>() {}.getType());
+      int statusCode = response.getStatusLine().getStatusCode();
+      if (isSuccessful(statusCode)) {
+        if (response.getEntity() == null) {
+          return null;
+        }
+        try {
+          return JsonBodyParser.parseResponse(
+              EntityUtils.toString(response.getEntity()), new TypeToken<CheckInfo>() {}.getType());
+        } catch (RuntimeException | IOException e) {
+          throw new AmbiguousCheckUpdateException(
+              "Check POST succeeded but its response could not be parsed", e);
+        }
+      }
+      if (isAmbiguousStatus(statusCode)) {
+        throw new AmbiguousCheckUpdateException(
+            String.format(
+                "Check POST returned ambiguous status %d (%s)",
+                statusCode, EntityUtils.toString(response.getEntity())),
+            null);
       }
       throw new RestApiException(
           String.format(
               "POST %s with body '%s' returned status %d (%s)",
               request.getURI(),
               inputString,
-              response.getStatusLine().getStatusCode(),
+              statusCode,
               EntityUtils.toString(response.getEntity())));
+    } catch (RestApiException e) {
+      throw e;
+    } catch (IOException | RuntimeException e) {
+      throw new AmbiguousCheckUpdateException(
+          "Check POST transport failed without a definitive server result", e);
+    }
+  }
+
+  private static boolean matchesForPreWriteNoOp(CheckInfo existing, CheckInput desired) {
+    return matchesAfterAmbiguousWrite(existing, desired);
+  }
+
+  private static boolean matchesAfterAmbiguousWrite(CheckInfo existing, CheckInput desired) {
+    // Requests use milliseconds; Gerrit's response may express the same instant with 3-9 digits.
+    return matchesStateMessageAndUrl(existing, desired)
+        && existing.finished != null
+        && existing.finished.getTime() == desired.finished.getTime();
+  }
+
+  private static boolean matchesStateMessageAndUrl(CheckInfo existing, CheckInput desired) {
+    return existing != null
+        && Objects.equals(existing.checkerUuid, desired.checkerUuid)
+        && Objects.equals(existing.state, desired.state)
+        && Objects.equals(existing.message, desired.message)
+        && Objects.equals(existing.url, desired.url);
+  }
+
+  private static boolean isSuccessful(int statusCode) {
+    return statusCode >= HttpStatus.SC_OK && statusCode < HttpStatus.SC_MULTIPLE_CHOICES;
+  }
+
+  private static boolean isAmbiguousStatus(int statusCode) {
+    return statusCode == HttpStatus.SC_REQUEST_TIMEOUT
+        || (statusCode >= HttpStatus.SC_INTERNAL_SERVER_ERROR && statusCode < 600);
+  }
+
+  /** Indicates that Gerrit may have applied a POST before the client observed a failure. */
+  public static class AmbiguousCheckUpdateException extends RestApiException {
+    private static final long serialVersionUID = 1L;
+
+    AmbiguousCheckUpdateException(String message, Throwable cause) {
+      super(message, cause);
     }
   }
 
