@@ -62,6 +62,21 @@ will just work.
 
 ## Jenkins Setup
 
+### Gerrit HTTP timeouts
+
+Gerrit REST clients use bounded connection-pool, connection, and socket
+timeouts. The defaults can be changed with Java system properties on the
+Jenkins controller:
+
+| System property | Default | Purpose |
+| --------------- | ------- | ------- |
+| `jenkins.plugins.gerrit.http.connectionRequestTimeoutMillis` | 30000 ms | Wait for a connection from the pool |
+| `jenkins.plugins.gerrit.http.connectTimeoutMillis` | 10000 ms | Establish a network connection |
+| `jenkins.plugins.gerrit.http.socketTimeoutMillis` | 90000 ms | Wait between socket reads |
+
+Values must be positive integers. Invalid values use the defaults. The socket
+timeout limits inactivity rather than total request duration.
+
 ### Using Multibranch Pipeline
 
 Create a new `Multibranch Pipeline` item.
