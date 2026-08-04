@@ -77,6 +77,17 @@ Jenkins controller:
 Values must be positive integers. Invalid values use the defaults. The socket
 timeout limits inactivity rather than total request duration.
 
+### Terminal Checks updates
+
+After an ambiguous terminal Checks response, the plugin performs bounded
+GET-only polling to determine whether Gerrit applied the update. It does not
+send a second POST during reconciliation. The readback must match the checker,
+state, supplied fields, and finished timestamp.
+
+The Checks API does not provide an idempotency key or compare-and-set
+precondition. This behavior does not deduplicate separate invocations or
+arbitrate concurrent writers.
+
 ### Using Multibranch Pipeline
 
 Create a new `Multibranch Pipeline` item.

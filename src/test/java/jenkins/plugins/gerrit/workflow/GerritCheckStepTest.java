@@ -103,7 +103,7 @@ public class GerritCheckStepTest {
   }
 
   @Test
-  public void gerritCheckStepInvokeTest() throws Exception {
+  public void terminalCheckAcceptsCreatedResponse() throws Exception {
     int changeId = 4321;
     int revision = 1;
     String checkerUuid = "checker";
@@ -151,10 +151,11 @@ public class GerritCheckStepTest {
     g.getClient()
         .when(
             HttpRequest.request(expectedUrl).withMethod("POST").withBody(JsonBody.json(checkInput)))
-        .respond(
-            HttpResponse.response()
-                .withStatusCode(200)
-                .withBody(JsonBody.json(Collections.emptyMap())));
+        .callback(
+            request ->
+                HttpResponse.response()
+                    .withStatusCode(201)
+                    .withBody(request.getBodyAsString()));
 
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
@@ -209,10 +210,11 @@ public class GerritCheckStepTest {
     g.getClient()
         .when(
             HttpRequest.request(expectedUrl).withMethod("POST").withBody(JsonBody.json(checkInput)))
-        .respond(
-            HttpResponse.response()
-                .withStatusCode(200)
-                .withBody(JsonBody.json(Collections.emptyMap())));
+        .callback(
+            request ->
+                HttpResponse.response()
+                    .withStatusCode(200)
+                    .withBody(request.getBodyAsString()));
 
     WorkflowRun run = j.assertBuildStatusSuccess(p.scheduleBuild2(0));
     String log = JenkinsRule.getLog(run);
