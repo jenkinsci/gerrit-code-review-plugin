@@ -16,6 +16,7 @@ package jenkins.plugins.gerrit.workflow;
 
 import com.google.gerrit.plugins.checks.api.CheckInput;
 import com.google.gerrit.plugins.checks.api.CheckState;
+import com.google.gerrit.plugins.checks.client.Checks;
 import com.google.gerrit.plugins.checks.client.GerritChecksApi;
 import hudson.Extension;
 import hudson.model.Run;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.Timestamp;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.Nonnull;
@@ -34,7 +36,7 @@ import org.jenkinsci.plugins.workflow.steps.Step;
 import org.jenkinsci.plugins.workflow.steps.StepContext;
 import org.jenkinsci.plugins.workflow.steps.StepDescriptor;
 import org.jenkinsci.plugins.workflow.steps.StepExecution;
-import org.jenkinsci.plugins.workflow.steps.SynchronousStepExecution;
+import org.jenkinsci.plugins.workflow.steps.SynchronousNonBlockingStepExecution;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 
@@ -46,19 +48,27 @@ public class GerritCheckStep extends Step {
   @DataBoundConstructor
   public GerritCheckStep() {}
 
-  public class Execution extends SynchronousStepExecution<Void> {
-    private final TaskListener listener;
+  public static class Execution extends SynchronousNonBlockingStepExecution<Void> {
+    private static final long serialVersionUID = 1L;
+
+    private final Map<String, String> checks;
+    private final String message;
+    private final String url;
     private final String consoleLogUri;
 
-    protected Execution(StepContext context)
+    protected Execution(StepContext context, Map<String, String> checks, String message, String url)
         throws IOException, InterruptedException, URISyntaxException {
       super(context);
-      this.listener = getContext().get(TaskListener.class);
+      this.checks =
+          checks == null ? null : Collections.unmodifiableMap(new LinkedHashMap<>(checks));
+      this.message = message;
+      this.url = url;
       this.consoleLogUri = getConsoleLogUri(context);
     }
 
     @Override
     protected Void run() throws Exception {
+      TaskListener listener = getContext().get(TaskListener.class);
       GerritChecksApi gerritChecksApi =
           new GerritApiBuilder().stepContext(getContext()).requireAuthentication().buildChecksApi();
       if (gerritChecksApi == null) {
@@ -73,17 +83,24 @@ public class GerritCheckStep extends Step {
                 change.getChangeId(), change.getRevision(), checks, message);
         if (checks != null) {
           for (Map.Entry<String, String> check : checks.entrySet()) {
+            Timestamp publicationTimestamp = new Timestamp(System.currentTimeMillis());
             CheckInput input = new CheckInput();
             input.checkerUuid = check.getKey();
             input.state = CheckState.valueOf(check.getValue());
             input.message = message;
             input.url = url != null ? url : consoleLogUri;
-            input = setCheckTimestamps(input, input.state);
-            gerritChecksApi
-                .checks()
-                .change(change.getChangeId())
-                .patchSet(change.getRevision())
-                .update(input);
+            input = setCheckTimestamps(input, input.state, publicationTimestamp);
+            Checks checksApi =
+                gerritChecksApi
+                    .checks()
+                    .change(change.getChangeId())
+                    .patchSet(change.getRevision());
+            GerritStepInterruption.checkBeforeMutation();
+            if (input.state.isInProgress()) {
+              checksApi.update(input);
+            } else {
+              checksApi.updateTerminal(input);
+            }
           }
         }
       }
@@ -120,10 +137,10 @@ public class GerritCheckStep extends Step {
 
   @Override
   public StepExecution start(StepContext stepContext) throws Exception {
-    return new Execution(stepContext);
+    return new Execution(stepContext, checks, message, url);
   }
 
-  private String getConsoleLogUri(StepContext stepContext)
+  private static String getConsoleLogUri(StepContext stepContext)
       throws IOException, InterruptedException {
     String rootUrl = Jenkins.getInstance().getRootUrl();
     if (rootUrl == null) {
@@ -132,18 +149,18 @@ public class GerritCheckStep extends Step {
     return rootUrl + stepContext.get(Run.class).getUrl() + "console";
   }
 
-  private CheckInput setCheckTimestamps(CheckInput input, CheckState state) {
-    Timestamp now = new Timestamp(System.currentTimeMillis());
+  private static CheckInput setCheckTimestamps(
+      CheckInput input, CheckState state, Timestamp publicationTimestamp) {
     switch (state) {
       case RUNNING:
-        input.started = now;
+        input.started = publicationTimestamp;
         break;
       case SUCCESSFUL:
       case FAILED:
-        input.finished = now;
+      case NOT_RELEVANT:
+        input.finished = publicationTimestamp;
         break;
       case NOT_STARTED:
-      case NOT_RELEVANT:
       case SCHEDULED:
       default:
         break;
