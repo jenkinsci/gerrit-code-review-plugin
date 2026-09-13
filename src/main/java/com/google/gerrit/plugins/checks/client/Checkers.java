@@ -103,7 +103,9 @@ public class Checkers extends AbstractEndpoint {
 
   private URI buildRequestUrl(String suffixPath) throws URISyntaxException {
     return uriBuilder
-        .setPath(String.format("%splugins/checks/checkers/%s", getPrefix(), suffixPath))
+        .setPath(
+            String.format(
+                "%splugins/checks/checkers/%s", uriBuilder.getPath() + getPrefix(), suffixPath))
         .build();
   }
 }
