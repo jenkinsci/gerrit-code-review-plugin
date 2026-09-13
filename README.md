@@ -292,6 +292,13 @@ Registry since April 2018 and has been used so far by hundreds of
 developers around the world that provided already very useful feedback
 and started contributing with pull-requests.
 
+### v0.6.0 - Released - 13 September 2026
+
+#### Fixes
+
+- [JENKINS-76528](https://issues.jenkins.io/browse/JENKINS-76528) ClassNotFoundException: org.apache.commons.lang.StringUtils
+   in gerrit-code-review / AbstractGerritSCMSource
+
 ### v0.5.0 - Released - 19 June 2025
 
 #### New features
@@ -613,16 +620,5 @@ feedback can be different from the one used for fetching the changes.
 The challenge of this release is how to automatically discover the
 upstream Gerrit node purely based on the fetch URL.
 
-### v0.6 - Planned
-
-##### Highlights
-
 Introduction of the Git/SSH protocol support and use for review
 feedback.
-
-### v0.5 - Planned
-
-##### Highlights
-
-Support for BlueOcean, including change description, hyperlink and owner
-visible from Jenkins UI.
