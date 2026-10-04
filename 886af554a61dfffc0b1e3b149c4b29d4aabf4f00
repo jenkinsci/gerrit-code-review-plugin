@@ -22,6 +22,30 @@
       },
       "revId": "886af554a61dfffc0b1e3b149c4b29d4aabf4f00",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "261e56fb_b4742416",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-04T13:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50892292_3af7aeeb",
+      "range": {
+        "startLine": 598,
+        "startChar": 29,
+        "endLine": 598,
+        "endChar": 95
+      },
+      "revId": "886af554a61dfffc0b1e3b149c4b29d4aabf4f00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
