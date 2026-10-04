@@ -13,11 +13,17 @@
 // limitations under the License.
 package jenkins.plugins.gerrit;
 
+import static org.junit.Assert.assertEquals;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import jenkins.plugins.git.GitSCMBuilder;
 import jenkins.scm.api.SCMHead;
 import jenkins.scm.impl.mock.MockSCMRevision;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class AbstractGerritSCMSourceTest {
@@ -34,9 +40,46 @@ public class AbstractGerritSCMSourceTest {
     gerritSCMSource.decorate(gitSCMBuilder);
 
     List<String> refSpecs = gitSCMBuilder.refSpecs();
-    Assert.assertEquals(2, refSpecs.size());
-    Assert.assertEquals("foo", refSpecs.get(0));
-    Assert.assertEquals("refs/changes/52/47452/3:refs/remotes/origin/52/47452/3", refSpecs.get(1));
+    assertEquals(2, refSpecs.size());
+    assertEquals("foo", refSpecs.get(0));
+    assertEquals("refs/changes/52/47452/3:refs/remotes/origin/52/47452/3", refSpecs.get(1));
+  }
+
+  @Test
+  public void shouldGetExcludedFilesFromContext() {
+    assertEquals(Collections.emptySet(), AbstractGerritSCMSource.excludedFiles("status:open"));
+    assertEquals(
+        Sets.newHashSet("foo", "bar", "^foobar.*$"),
+        AbstractGerritSCMSource.excludedFiles("-file:foo -file:\"bar\" -file:^foobar.*$"));
+  }
+
+  @Test
+  public void shouldGetExcludedPathsFromContext() {
+    assertEquals(Collections.emptySet(), AbstractGerritSCMSource.excludedPaths("status:open"));
+    assertEquals(
+        Sets.newHashSet("foo", "bar", "^foobar.*$"),
+        AbstractGerritSCMSource.excludedPaths("-path:foo -path:\"bar\" -path:^foobar.*$"));
+  }
+
+  @Test
+  public void shouldFilterExcludedFilesAndPathsByName() {
+    Stream<String> filesStream =
+        Stream.of("path/to/dir/foo", "bar", "path/another/dir/bar", "another/file");
+    Stream<String> filteredFiles =
+        AbstractGerritSCMSource.filterMatchingExcludedFilesAndPaths(
+            Sets.newHashSet("foo"), Sets.newHashSet("bar"), filesStream);
+    assertEquals(
+        Lists.newArrayList("path/to/dir/foo", "bar"), filteredFiles.collect(Collectors.toList()));
+  }
+
+  @Test
+  public void shouldFilterExcludedFilesAndPathsByRegex() {
+    Stream<String> filesStream = Stream.of("path/to/file", "foobar", "another/text");
+    Stream<String> filteredFiles =
+        AbstractGerritSCMSource.filterMatchingExcludedFilesAndPaths(
+            Sets.newHashSet("^.*/file$"), Sets.newHashSet("^.*bar.*$"), filesStream);
+    assertEquals(
+        Lists.newArrayList("path/to/file", "foobar"), filteredFiles.collect(Collectors.toList()));
   }
 
   private static class MyGerritSCMSource extends AbstractGerritSCMSource {
