@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50892292_3af7aeeb",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-04T11:24:03Z",
+      "side": 1,
+      "message": "This triggers a backend REST API to update the details for *each and every change* discovered, including those that should not be built because they have no pending checks.\n\nWe should:\n\n1. Fetch the information from the initial query of the open changes, requesting their target ref name\n2. Implement this check *ONLY* for the changes that have pending checks",
+      "range": {
+        "startLine": 598,
+        "startChar": 29,
+        "endLine": 598,
+        "endChar": 95
+      },
+      "revId": "886af554a61dfffc0b1e3b149c4b29d4aabf4f00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
