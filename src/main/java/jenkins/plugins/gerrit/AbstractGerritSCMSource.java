@@ -73,6 +73,8 @@ import jenkins.scm.api.SCMSourceOwner;
 import jenkins.scm.api.metadata.ObjectMetadataAction;
 import jenkins.scm.api.trait.SCMSourceRequest;
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -83,6 +85,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.jenkinsci.plugins.gitclient.FetchCommand;
 import org.jenkinsci.plugins.gitclient.Git;
 import org.jenkinsci.plugins.gitclient.GitClient;
@@ -93,6 +96,8 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       System.getProperty("gerrit.open.changes.filter", "-age:24w");
   private static final String ORIGIN_REF_PREFIX = "origin/";
   private static final Pattern changePattern = Pattern.compile("(\\d\\d)/(\\d+)/(\\d+)");
+  private static final Pattern excludedFilePattern = Pattern.compile(".*-file:([^ ]*).*");
+  private static final Pattern excludedPathPattern = Pattern.compile(".*-path:([^ ]*).*");
   private transient ProjectChanges projectChanges;
 
   public interface Retriever<T> {
@@ -123,31 +128,39 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       throws IOException, InterruptedException {
     return doRetrieve(
         head,
-        new Retriever<SCMRevision>() {
-          @Override
-          public SCMRevision run(
-              GitClient client,
-              GerritSCMSourceContext context,
-              String remoteName,
-              Changes.QueryRequest changeQuery)
-              throws IOException, InterruptedException {
-
-            if (head instanceof ChangeSCMHead) {
-              return new SCMRevisionImpl(head, ((ChangeSCMHead) head).getRev());
-            }
-
-            for (Branch b : client.getRemoteBranches()) {
-              String branchName = StringUtils.removeStart(b.getName(), remoteName + "/");
-              if (branchName.equals(head.getName())) {
-                return new SCMRevisionImpl(head, b.getSHA1String());
-              }
-            }
-            return null;
-          }
-        },
+        new HeadRetriever(head),
         new GerritSCMSourceContext(null, SCMHeadObserver.none()).withTraits(getTraits()),
         listener,
         false);
+  }
+
+  private static class HeadRetriever implements Retriever<SCMRevision> {
+    private final SCMHead head;
+
+    HeadRetriever(SCMHead head) {
+      this.head = head;
+    }
+
+    @Override
+    public SCMRevision run(
+        GitClient client,
+        GerritSCMSourceContext context,
+        String remoteName,
+        QueryRequest changeQuery)
+        throws IOException, InterruptedException {
+
+      if (head instanceof ChangeSCMHead) {
+        return new SCMRevisionImpl(head, ((ChangeSCMHead) head).getRev());
+      }
+
+      for (Branch b : client.getRemoteBranches()) {
+        String branchName = StringUtils.removeStart(b.getName(), remoteName + "/");
+        if (branchName.equals(head.getName())) {
+          return new SCMRevisionImpl(head, b.getSHA1String());
+        }
+      }
+      return null;
+    }
   }
 
   /** {@inheritDoc} */
@@ -159,90 +172,106 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
       @CheckForNull SCMHeadEvent<?> event,
       @Nonnull final TaskListener listener)
       throws IOException, InterruptedException {
+    listener.getLogger().println("Discovering branches and changes ...");
     doRetrieve(
         null,
-        new Retriever<Object>() {
-          @SuppressWarnings("deprecation")
-          @Override
-          public Object run(
-              GitClient client,
-              GerritSCMSourceContext context,
-              String remoteName,
-              Changes.QueryRequest changeQuery)
-              throws IOException, InterruptedException {
-            final Repository repository = client.getRepository();
-            try (RevWalk walk = new RevWalk(repository);
-                GerritSCMSourceRequest request =
-                    context.newRequest(AbstractGerritSCMSource.this, listener)) {
-              if (context.wantBranches()) {
-                discoverBranches(
-                    repository,
-                    walk,
-                    context,
-                    request,
-                    client
-                        .getRemoteBranches()
-                        .stream()
-                        .collect(
-                            Collectors.toMap(
-                                (Branch branch) -> branch.getName(),
-                                (Branch branch) -> branch.getSHA1())));
-              }
-              if (context.wantTags()) {
-                // TODO
-              }
-            }
-            return null;
-          }
-
-          private void discoverBranches(
-              final Repository repository,
-              final RevWalk walk,
-              GerritSCMSourceContext context,
-              GerritSCMSourceRequest request,
-              final Map<String, ObjectId> remoteReferences)
-              throws IOException, InterruptedException {
-
-            listener.getLogger().println("Checking " + remoteReferences.size() + " branches ...");
-            Map<String, ObjectId> filteredRefs = filterRemoteReferences(remoteReferences);
-            listener.getLogger().println("Filtered " + filteredRefs.size() + " branches ...");
-            walk.setRetainBody(false);
-            int branchesCount = 0;
-            int changesCount = 0;
-
-            for (final Map.Entry<String, ObjectId> ref : filteredRefs.entrySet()) {
-              String refKey = ref.getKey();
-              if (!refKey.startsWith(Constants.R_HEADS) && !refKey.startsWith(R_CHANGES)) {
-                continue;
-              }
-
-              if (refKey.startsWith(R_CHANGES)) {
-                try {
-                  if (processChangeRequest(repository, walk, request, ref, listener)) {
-                    listener
-                        .getLogger()
-                        .format("Processed %d changes (query complete)%n", changesCount);
-                    return;
-                  }
-                } catch (Exception e) {
-                  listener.getLogger().format("Unable to process %s: %s", refKey, e.toString());
-                }
-              } else {
-                if (processBranchRequest(repository, walk, request, ref, listener)) {
-                  listener
-                      .getLogger()
-                      .format("Processed %d branches (query complete)%n", branchesCount);
-                  return;
-                }
-              }
-            }
-            listener.getLogger().format("Processed %d branches%n", branchesCount);
-            listener.getLogger().format("Processed %d changes%n", changesCount);
-          }
-        },
+        new BranchesAndChangesDiscoveryRetriever(listener),
         new GerritSCMSourceContext(criteria, observer).withTraits(getTraits()),
         listener,
         true);
+  }
+
+  private class BranchesAndChangesDiscoveryRetriever implements Retriever<Object> {
+    private final TaskListener listener;
+
+    BranchesAndChangesDiscoveryRetriever(@Nonnull final TaskListener listener) {
+      this.listener = listener;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public Object run(
+        GitClient client,
+        GerritSCMSourceContext context,
+        String remoteName,
+        Changes.QueryRequest changeQuery)
+        throws IOException, InterruptedException {
+      final Repository repository = client.getRepository();
+      try (RevWalk walk = new RevWalk(repository);
+          GerritSCMSourceRequest request =
+              context.newRequest(AbstractGerritSCMSource.this, listener)) {
+        if (context.wantBranches()) {
+          discoverBranches(
+              repository,
+              walk,
+              context,
+              request,
+              client
+                  .getRemoteBranches()
+                  .stream()
+                  .collect(
+                      Collectors.toMap(
+                          (Branch branch) -> branch.getName(),
+                          (Branch branch) -> branch.getSHA1())));
+        }
+        if (context.wantTags()) {
+          // TODO
+        }
+      }
+      return null;
+    }
+
+    private void discoverBranches(
+        final Repository repository,
+        final RevWalk walk,
+        GerritSCMSourceContext context,
+        GerritSCMSourceRequest request,
+        final Map<String, ObjectId> remoteReferences)
+        throws IOException, InterruptedException {
+
+      String excludedFile = excludedFile(context);
+      String excludedPath = excludedPath(context);
+      listener
+          .getLogger()
+          .println(
+              "Checking "
+                  + remoteReferences.size()
+                  + " branches "
+                  + (excludedFile != null ? "excludedFile=" + excludedFile : " ")
+                  + (excludedPath != null ? " excludedPath=" + excludedPath : ""));
+      Map<String, ObjectId> filteredRefs =
+          filterRemoteReferences(
+              repository, walk, remoteReferences, excludedFile, excludedPath, listener);
+      listener.getLogger().println("Filtered " + filteredRefs.size() + " branches ...");
+      walk.setRetainBody(false);
+      int branchesCount = 0;
+      int changesCount = 0;
+
+      for (final Map.Entry<String, ObjectId> ref : filteredRefs.entrySet()) {
+        String refKey = ref.getKey();
+        if (!refKey.startsWith(Constants.R_HEADS) && !refKey.startsWith(R_CHANGES)) {
+          continue;
+        }
+
+        if (refKey.startsWith(R_CHANGES)) {
+          try {
+            if (processChangeRequest(repository, walk, request, ref, listener)) {
+              listener.getLogger().format("Processed %d changes (query complete)%n", changesCount);
+              return;
+            }
+          } catch (Exception e) {
+            listener.getLogger().format("Unable to process %s: %s", refKey, e.toString());
+          }
+        } else {
+          if (processBranchRequest(repository, walk, request, ref, listener)) {
+            listener.getLogger().format("Processed %d branches (query complete)%n", branchesCount);
+            return;
+          }
+        }
+      }
+      listener.getLogger().format("Processed %d branches%n", branchesCount);
+      listener.getLogger().format("Processed %d changes%n", changesCount);
+    }
   }
 
   /** {@inheritDoc} */
@@ -251,39 +280,46 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   protected List<Action> retrieveActions(
       @CheckForNull SCMSourceEvent event, @Nonnull TaskListener listener)
       throws IOException, InterruptedException {
-    return doRetrieve(
-        null,
-        new Retriever<List<Action>>() {
-          @Override
-          public List<Action> run(
-              GitClient client,
-              GerritSCMSourceContext context,
-              String remoteName,
-              Changes.QueryRequest queryRequest)
-              throws IOException, InterruptedException {
-            Map<String, String> symrefs = client.getRemoteSymbolicReferences(getRemote(), null);
-            if (symrefs.containsKey(Constants.HEAD)) {
-              // Hurrah! The Server is Git 1.8.5 or newer and our client has symref reporting
-              String target = symrefs.get(Constants.HEAD);
-              if (target.startsWith(Constants.R_HEADS)) {
-                // shorten standard names
-                target = target.substring(Constants.R_HEADS.length());
-              }
-              List<Action> result = new ArrayList<>();
-              if (StringUtils.isNotBlank(target)) {
-                result.add(new GitRemoteHeadRefAction(getRemote(), target));
-              }
-              result.add(new GerritLogo());
-              return result;
-            }
+    listener.getLogger().println("Retrieving actions ...");
+    List<Action> actions =
+        doRetrieve(
+            null,
+            new ActionsRetriever(),
+            new GerritSCMSourceContext(null, SCMHeadObserver.none()).withTraits(getTraits()),
+            listener,
+            false);
+    listener.getLogger().println("Retrieved actions: " + actions);
+    return actions;
+  }
 
-            // Give up, there's no way to get the primary branch
-            return new ArrayList<>();
-          }
-        },
-        new GerritSCMSourceContext(null, SCMHeadObserver.none()).withTraits(getTraits()),
-        listener,
-        false);
+  private class ActionsRetriever implements Retriever<List<Action>> {
+
+    @Override
+    public List<Action> run(
+        GitClient client,
+        GerritSCMSourceContext context,
+        String remoteName,
+        Changes.QueryRequest queryRequest)
+        throws IOException, InterruptedException {
+      Map<String, String> symrefs = client.getRemoteSymbolicReferences(getRemote(), null);
+      if (symrefs.containsKey(Constants.HEAD)) {
+        // Hurrah! The Server is Git 1.8.5 or newer and our client has symref reporting
+        String target = symrefs.get(Constants.HEAD);
+        if (target.startsWith(Constants.R_HEADS)) {
+          // shorten standard names
+          target = target.substring(Constants.R_HEADS.length());
+        }
+        List<Action> result = new ArrayList<>();
+        if (StringUtils.isNotBlank(target)) {
+          result.add(new GitRemoteHeadRefAction(getRemote(), target));
+        }
+        result.add(new GerritLogo());
+        return result;
+      }
+
+      // Give up, there's no way to get the primary branch
+      return new ArrayList<>();
+    }
   }
 
   /** {@inheritDoc} */
@@ -292,42 +328,60 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
   protected List<Action> retrieveActions(
       @NonNull SCMHead head, @CheckForNull SCMHeadEvent event, @NonNull TaskListener listener)
       throws IOException, InterruptedException {
+    listener.getLogger().println("Retrieving actions for head " + head + "...");
     final List<Action> actions =
         doRetrieve(
             head,
-            (GitClient client,
-                GerritSCMSourceContext context,
-                String remoteName,
-                Changes.QueryRequest changeQuery) -> {
-              SCMSourceOwner owner = getOwner();
-              if (owner instanceof Actionable && head instanceof ChangeSCMHead) {
-                final Actionable actionableOwner = (Actionable) owner;
-                final ChangeSCMHead change = (ChangeSCMHead) head;
-                String gerritBaseUrl = getGerritBaseUrl();
-
-                return actionableOwner
-                    .getActions(GitRemoteHeadRefAction.class)
-                    .stream()
-                    .filter(action -> action.getRemote().equals(getRemote()))
-                    .map(
-                        action ->
-                            new ObjectMetadataAction(
-                                change.getName(),
-                                change.getId(),
-                                String.format("%s%d", gerritBaseUrl, change.getChangeNumber())))
-                    .collect(Collectors.toList());
-              } else {
-                return Collections.emptyList();
-              }
-            },
+            new ActionsHeadRetriever(head),
             new GerritSCMSourceContext(null, SCMHeadObserver.none()).withTraits(getTraits()),
             listener,
             false);
+
+    listener.getLogger().println("Retrieved actions: " + actions);
 
     final ImmutableList.Builder<Action> resultBuilder = new ImmutableList.Builder<>();
     resultBuilder.addAll(super.retrieveActions(head, event, listener));
     resultBuilder.addAll(actions);
     return resultBuilder.build();
+  }
+
+  class ActionsHeadRetriever implements Retriever<List<Action>> {
+
+    private final SCMHead head;
+
+    ActionsHeadRetriever(SCMHead head) {
+      this.head = head;
+    }
+
+    @Override
+    public List<Action> run(
+        GitClient client,
+        GerritSCMSourceContext context,
+        String remoteName,
+        Changes.QueryRequest changeQuery)
+        throws IOException, InterruptedException {
+
+      SCMSourceOwner owner = getOwner();
+      if (owner instanceof Actionable && head instanceof ChangeSCMHead) {
+        final Actionable actionableOwner = (Actionable) owner;
+        final ChangeSCMHead change = (ChangeSCMHead) head;
+        String gerritBaseUrl = getGerritBaseUrl();
+
+        return actionableOwner
+            .getActions(GitRemoteHeadRefAction.class)
+            .stream()
+            .filter(action -> action.getRemote().equals(getRemote()))
+            .map(
+                action ->
+                    new ObjectMetadataAction(
+                        change.getName(),
+                        change.getId(),
+                        String.format("%s%d", gerritBaseUrl, change.getChangeNumber())))
+            .collect(Collectors.toList());
+      } else {
+        return Collections.emptyList();
+      }
+    }
   }
 
   private String getGerritBaseUrl() throws IOException {
@@ -559,9 +613,23 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     return Collections.<String>emptySet();
   }
 
-  private Map<String, ObjectId> filterRemoteReferences(Map<String, ObjectId> gitRefs) {
+  private Map<String, ObjectId> filterRemoteReferences(
+      Repository repo,
+      RevWalk walk,
+      Map<String, ObjectId> gitRefs,
+      String excludedFile,
+      String excludedPath,
+      TaskListener listener)
+      throws IOException {
     Map<Integer, Integer> changes = new HashMap<>();
     Map<String, ObjectId> filteredRefs = new HashMap<>();
+
+    GerritURI gerritURI = getGerritURI();
+    GerritApi gerritApi = createGerritApi(listener, gerritURI);
+    String projectName = getGerritURI().getProject();
+    if (gerritApi == null) {
+      throw new IllegalStateException("Invalid gerrit configuration");
+    }
 
     for (Map.Entry<String, ObjectId> gitRef : gitRefs.entrySet()) {
       Matcher changeMatcher = getChangeRefMatcher(gitRef.getKey());
@@ -569,13 +637,76 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
         try {
           Integer changeNum = Integer.parseInt(changeMatcher.group(2));
           Integer patchSet = Integer.parseInt(changeMatcher.group(3));
+          String targetRef = gerritApi.changes().id(projectName + "~" + changeNum).get().branch;
+
+          String patchSetRemoteRefName = getRemoteChangeRefName(changeNum, patchSet);
+          String targetRemoteRefName = getRemoteRefName(targetRef);
+
+          ObjectId patchSetRemoteObjectId = gitRefs.get(patchSetRemoteRefName);
+          ObjectId targetRemoteObjectId = gitRefs.get(targetRemoteRefName);
+
+          if (patchSetRemoteObjectId == null || targetRemoteObjectId == null) {
+            listener
+                .getLogger()
+                .println(
+                    "Skipping Change "
+                        + changeNum
+                        + "/"
+                        + patchSet
+                        + " because remote ref "
+                        + patchSetRemoteRefName
+                        + " or "
+                        + targetRemoteRefName
+                        + " not found in advertised object ids"
+                        + "(patchSetRemoteObjectId="
+                        + patchSetRemoteObjectId
+                        + ", targetRemoteObjectId="
+                        + targetRemoteObjectId
+                        + ")");
+            continue;
+          }
+
+          if (excludedFile != null || excludedPath != null) {
+            listener
+                .getLogger()
+                .println(
+                    "Checking Change "
+                        + changeNum
+                        + "/"
+                        + patchSet
+                        + " against its target "
+                        + targetRef);
+            List<String> diffWithExcludedFiles =
+                getChangeDiffWithExcludedFiles(
+                    repo,
+                    walk,
+                    targetRemoteObjectId,
+                    patchSetRemoteObjectId,
+                    excludedFile,
+                    excludedPath);
+            if (!diffWithExcludedFiles.isEmpty()) {
+              listener
+                  .getLogger()
+                  .println(
+                      "Skipping Change "
+                          + changeNum
+                          + "/"
+                          + patchSet
+                          + " because includes indirect modifications to "
+                          + diffWithExcludedFiles
+                          + " which are excluded by query: "
+                          + (excludedFile != null ? "excludedFile=" + excludedFile : " ")
+                          + (excludedPath != null ? "excludedPath=" + excludedPath : ""));
+              continue;
+            }
+          }
 
           Integer latestPatchSet = changes.get(changeNum);
           if (latestPatchSet == null || latestPatchSet < patchSet) {
             changes.put(changeNum, patchSet);
           }
-        } catch (NumberFormatException e) {
-          // change or patch-set are not numbers => ignore refs
+        } catch (NumberFormatException | IOException | RestApiException e) {
+          // change or patch-set are not numbers or are invalid => ignore refs
         }
       } else {
         filteredRefs.put(gitRef.getKey().replace("origin", "refs/heads"), gitRef.getValue());
@@ -585,14 +716,54 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
     for (Map.Entry<Integer, Integer> change : changes.entrySet()) {
       Integer changeNum = change.getKey();
       Integer patchSet = change.getValue();
-      String refName =
-          String.format("%s%02d/%d/%d", R_CHANGES, changeNum % 100, changeNum, patchSet);
-      String originName = String.format("origin/%02d/%d/%d", changeNum % 100, changeNum, patchSet);
+      String refName = getChangeRefName(changeNum, patchSet);
+
+      String originName = getRemoteChangeRefName(changeNum, patchSet);
       ObjectId changeObjectId = gitRefs.get(originName);
       filteredRefs.put(refName, changeObjectId);
     }
 
     return filteredRefs;
+  }
+
+  private static String getRemoteRefName(String refname) {
+    return String.format("origin/%s", refname);
+  }
+
+  private static String getRemoteChangeRefName(Integer changeNum, Integer patchSet) {
+    return String.format("origin/%02d/%d/%d", changeNum % 100, changeNum, patchSet);
+  }
+
+  private static String getChangeRefName(Integer changeNum, Integer patchSet) {
+    return String.format("%s%02d/%d/%d", R_CHANGES, changeNum % 100, changeNum, patchSet);
+  }
+
+  private List<String> getChangeDiffWithExcludedFiles(
+      Repository repo,
+      RevWalk revWalk,
+      ObjectId headVersion,
+      ObjectId patchSetVersion,
+      String excludedFile,
+      String excludedPath)
+      throws IOException {
+    RevCommit oldCommit = revWalk.parseCommit(headVersion);
+    RevCommit newCommit = revWalk.parseCommit(patchSetVersion);
+
+    try (DiffFormatter diffFormatter = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
+      diffFormatter.setRepository(repo);
+      diffFormatter.setDiffComparator(RawTextComparator.DEFAULT);
+      diffFormatter.setDetectRenames(true);
+      return diffFormatter
+          .scan(oldCommit.getTree(), newCommit.getTree())
+          .stream()
+          .flatMap(entry -> Stream.of(entry.getOldPath(), entry.getNewPath()))
+          .filter(
+              file ->
+                  file.equals(excludedFile)
+                      || file.equals(excludedPath)
+                      || (excludedFile != null && file.endsWith("/" + excludedFile)))
+          .collect(Collectors.toList());
+    }
   }
 
   private static Matcher getChangeRefMatcher(String gitRef) {
@@ -654,8 +825,9 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
         throw new IllegalStateException("Invalid gerrit configuration");
       }
 
+      String changeQueryFilter = context.changesQueryFilter();
       Changes.QueryRequest changeQuery =
-          getOpenChanges(gerritApi, gerritURI.getProject(), context.changesQueryFilter());
+          getOpenChanges(gerritApi, gerritURI.getProject(), changeQueryFilter);
       listener
           .getLogger()
           .println(
@@ -688,10 +860,30 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
         fetch.from(remoteURI, fetchRefSpecs).execute();
       }
 
+      listener.getLogger().println("Running retriever " + retriever + " on " + changeQuery);
+
       return retriever.run(client, context, remoteName, changeQuery);
     } finally {
       cacheLock.unlock();
     }
+  }
+
+  private static <C extends GerritSCMSourceContext> String excludedFile(C context) {
+    Matcher matcher = excludedFilePattern.matcher(context.changesQueryFilter());
+    if (matcher.matches()) {
+      return matcher.group(1);
+    }
+
+    return null;
+  }
+
+  private static <C extends GerritSCMSourceContext> String excludedPath(C context) {
+    Matcher matcher = excludedPathPattern.matcher(context.changesQueryFilter());
+    if (matcher.matches()) {
+      return matcher.group(1);
+    }
+
+    return null;
   }
 
   private Stream<RefSpec> changeQueryToRefSpecs(QueryRequest changeQuery) throws RestApiException {
