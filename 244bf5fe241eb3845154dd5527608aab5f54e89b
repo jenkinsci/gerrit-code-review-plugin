@@ -95,6 +95,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a66b5fb9_5c8748fb",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-05T15:15:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed30ccb1_914dd9e5",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 223,
+        "endChar": 42
+      },
+      "revId": "244bf5fe241eb3845154dd5527608aab5f54e89b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d35ffe55_e7d9ff3a",
@@ -118,6 +142,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c49ef3de_5c9fabb4",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-05T15:15:54Z",
+      "side": 1,
+      "message": "Regex aren\u0027t supported at the moment.\nThis is mainly intended for preventing the validation of the pipeline files, which is working with this change.\n\nIt could be extended further in a follow-up change.",
+      "parentUuid": "d35ffe55_e7d9ff3a",
+      "range": {
+        "startLine": 704,
+        "startChar": 0,
+        "endLine": 705,
+        "endChar": 50
+      },
+      "revId": "244bf5fe241eb3845154dd5527608aab5f54e89b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57f62afc_11463612",
@@ -131,6 +179,30 @@
       "writtenOn": "2026-10-05T13:02:43Z",
       "side": 1,
       "message": "I am not sure this is going to work.\n\nTake for example, `-file:src`.\n\nAs per the docs, in Gerrit, this would mean: \"exclude a change if it touches a path component named `src`\".\n\nSo, for example:\n\n```\nsrc/Main.java\nsrc/main/java/App.java\nplugins/foo/src/test/java/AppTest.java\n```\n\nSo imagine we have set the exclusion filter to be `-file:src` and we have a chain of changes like this:\n\n```\nTarget branch\n  └─ Change A: modifies src/main/java/App.java\n       └─ Change B: modifies README.md\n```\n\nHere, when we do `file.endsWith(\"/\" + excludedFile)` we will return `false` because it does not end with \"/src\", so we won\u0027t notice that Change A should have been excluded.",
+      "range": {
+        "startLine": 706,
+        "startChar": 50,
+        "endLine": 706,
+        "endChar": 83
+      },
+      "revId": "244bf5fe241eb3845154dd5527608aab5f54e89b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02bef15b_cfb4b685",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-05T15:15:54Z",
+      "side": 1,
+      "message": "True, I also need to check if the path component is at the beginning or in the middle. Done.",
+      "parentUuid": "57f62afc_11463612",
       "range": {
         "startLine": 706,
         "startChar": 50,
