@@ -234,6 +234,30 @@
       },
       "revId": "244bf5fe241eb3845154dd5527608aab5f54e89b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3044e99e_dd66a903",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-05T15:24:24Z",
+      "side": 1,
+      "message": "No, the above scenario doesn\u0027t make sense to me. You cannot define two pipeline files, but just one.\n\nWith regard to the quotes, you have a point; they are indeed redundant but present. \n\nDone.",
+      "parentUuid": "7bc71007_401e7745",
+      "range": {
+        "startLine": 819,
+        "startChar": 0,
+        "endLine": 835,
+        "endChar": 3
+      },
+      "revId": "244bf5fe241eb3845154dd5527608aab5f54e89b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
