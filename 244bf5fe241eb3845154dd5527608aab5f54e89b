@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "675d2bf7_0d94884a",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-10-05T13:02:43Z",
+      "side": 1,
+      "message": "We should consider aliases here as well, for example `file` could be shortened to `f`.\n\n```\nfile:\u0027NAME\u0027, f:\u0027NAME\u0027\n```",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 90
+      },
+      "revId": "244bf5fe241eb3845154dd5527608aab5f54e89b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d608a8c2_55992719",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-10-05T13:02:43Z",
+      "side": 1,
+      "message": "These are passed in reverse.\n`filterRemoteReferences` expects `excludedFile` first, then `excludedPath`.\nWe should swap these.",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 223,
+        "endChar": 42
+      },
+      "revId": "244bf5fe241eb3845154dd5527608aab5f54e89b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d35ffe55_e7d9ff3a",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-10-05T13:02:43Z",
+      "side": 1,
+      "message": "`excluded{Path,File}` are the result of calling `excludedPath():L828` and `excludedFile():L819`.\n\n`excludedPath`, for instance, would extract the text after `-path`\n\n```\nPattern.compile(\".*-path:([^ ]*).*\")\n```\n\nSo it would return: `^Jenkinsfile$`\n\nHere we compare that text literally in `file.equals(excludedPath)`, so it will be something like:\n\n```\n\"Jenkinsfile\".equals(\"^Jenkinsfile$\")\n```\n\nWhich is going to be `false`.\n\nThe same thing is true for the `file` path.",
+      "range": {
+        "startLine": 704,
+        "startChar": 0,
+        "endLine": 705,
+        "endChar": 50
+      },
+      "revId": "244bf5fe241eb3845154dd5527608aab5f54e89b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57f62afc_11463612",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-10-05T13:02:43Z",
+      "side": 1,
+      "message": "I am not sure this is going to work.\n\nTake for example, `-file:src`.\n\nAs per the docs, in Gerrit, this would mean: \"exclude a change if it touches a path component named `src`\".\n\nSo, for example:\n\n```\nsrc/Main.java\nsrc/main/java/App.java\nplugins/foo/src/test/java/AppTest.java\n```\n\nSo imagine we have set the exclusion filter to be `-file:src` and we have a chain of changes like this:\n\n```\nTarget branch\n  └─ Change A: modifies src/main/java/App.java\n       └─ Change B: modifies README.md\n```\n\nHere, when we do `file.endsWith(\"/\" + excludedFile)` we will return `false` because it does not end with \"/src\", so we won\u0027t notice that Change A should have been excluded.",
+      "range": {
+        "startLine": 706,
+        "startChar": 50,
+        "endLine": 706,
+        "endChar": 83
+      },
+      "revId": "244bf5fe241eb3845154dd5527608aab5f54e89b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bc71007_401e7745",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-10-05T13:02:43Z",
+      "side": 1,
+      "message": "I think these extractors are a bit fragile.\nFor example, the administrator might configure:\n\n1. `-path:Jenkinsfile -path:ci/pipeline`\n\nSince `excludedPathPattern` is greedy, it would capture only `ci/pipeline`\n\n2. -path:\"Jenkinsfile\"\n\nWill extract `\"Jenkinsfile\"`, including quotes.\n\nCan we cover some scenarios in `AbstractGerritSCMSourceTest`, to understand how these (and other cases) would behave?",
+      "range": {
+        "startLine": 819,
+        "startChar": 0,
+        "endLine": 835,
+        "endChar": 3
+      },
+      "revId": "244bf5fe241eb3845154dd5527608aab5f54e89b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
