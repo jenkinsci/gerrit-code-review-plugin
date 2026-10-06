@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2f031d00_4d59112e",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-10-06T07:53:59Z",
+      "side": 1,
+      "message": "I don\u0027t see where this is handled. I see we are now looking at `(file|path)`, but the the `f` alias.",
+      "parentUuid": "193d7b85_df7854d4",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 90
+      },
+      "revId": "244bf5fe241eb3845154dd5527608aab5f54e89b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d608a8c2_55992719",
         "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
         "patchSetId": 7
@@ -156,6 +180,30 @@
       "side": 1,
       "message": "Regex aren\u0027t supported at the moment.\nThis is mainly intended for preventing the validation of the pipeline files, which is working with this change.\n\nIt could be extended further in a follow-up change.",
       "parentUuid": "d35ffe55_e7d9ff3a",
+      "range": {
+        "startLine": 704,
+        "startChar": 0,
+        "endLine": 705,
+        "endChar": 50
+      },
+      "revId": "244bf5fe241eb3845154dd5527608aab5f54e89b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5019c673_f49b26e2",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-10-06T07:53:59Z",
+      "side": 1,
+      "message": "\u003e Regex aren\u0027t supported at the moment.\n\nWe don\u0027t handle regexes in this security fix, but the code accepts any Gerrit query string, including regex, so they can be inserted.\n\nWhen they do, we silently compare the operand literally, build the change anyway, and open a security bypass.\n\nIf regexes are unsupported, should we reject them rather than let the change through anyway?",
+      "parentUuid": "c49ef3de_5c9fabb4",
       "range": {
         "startLine": 704,
         "startChar": 0,

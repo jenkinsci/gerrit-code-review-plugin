@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1df09d58_f88d79e2",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-10-06T07:53:59Z",
+      "side": 1,
+      "message": "Why is the `file` pattern matching both `file` and `path`, rather than just `file`?\n\nif we set `-path:README.md`, it will match both `EXCLUDED_FILE_PATTERN` and `EXCLUDED_PATH_PATTERN`, and `hasPathComponent` will incorrectly exclude `docs/README.md`, no?",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 56
+      },
+      "revId": "176710da147815a0a4aeb671338eead31ee9eb67",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
