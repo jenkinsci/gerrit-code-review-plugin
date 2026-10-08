@@ -240,6 +240,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "58432524_2d5b55d1",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-08T08:00:11Z",
+      "side": 1,
+      "message": "\u003e \u003e Regex aren\u0027t supported at the moment.\n\u003e \n\u003e We don\u0027t handle regexes in this security fix, but the code accepts any Gerrit query string, including regex, so they can be inserted.\n\nGotcha, this change is for preventing the automatic execution of changes that include the pipeline. Jenkins doesn\u0027t allow having multiple pipeline files; however, I see the point if you have a *included* file in the current pipeline, then you may want to exclude that too.\n\nLet me address this in the next PS.",
+      "parentUuid": "5019c673_f49b26e2",
+      "range": {
+        "startLine": 704,
+        "startChar": 0,
+        "endLine": 705,
+        "endChar": 50
+      },
+      "revId": "244bf5fe241eb3845154dd5527608aab5f54e89b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "57f62afc_11463612",
         "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
         "patchSetId": 7
