@@ -292,6 +292,13 @@ Registry since April 2018 and has been used so far by hundreds of
 developers around the world that provided already very useful feedback
 and started contributing with pull-requests.
 
+### v0.7.0 - Released -  9 October 2026
+
+#### Security Fixes
+
+- [Issue 568458159](https://issues.gerritcodereview.com/issues/568458159)
+  Block attempts to execute excluded Jenkinsfile using _trojan_ follow-up changes in a chain.
+
 ### v0.6.0 - Released - 13 September 2026
 
 #### Fixes
