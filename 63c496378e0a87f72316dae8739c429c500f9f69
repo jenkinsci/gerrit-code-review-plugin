@@ -16,6 +16,24 @@
       "message": "nit: all other retriever classes are `private`.\n\n```suggestion\n  private class ActionsHeadRetriever implements Retriever\u003cList\u003cAction\u003e\u003e {\n```",
       "revId": "63c496378e0a87f72316dae8739c429c500f9f69",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c5042a0_46f2a017",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-09T11:04:06Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "31d4d57c_81c89ef0",
+      "revId": "63c496378e0a87f72316dae8739c429c500f9f69",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
