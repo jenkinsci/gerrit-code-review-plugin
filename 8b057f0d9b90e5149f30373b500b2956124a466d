@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a03e972_de9bdfbf",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-09T10:44:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4470736_db7c6ab3",
+      "range": {
+        "startLine": 626,
+        "startChar": 0,
+        "endLine": 626,
+        "endChar": 63
+      },
+      "revId": "8b057f0d9b90e5149f30373b500b2956124a466d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97ba5415_17312a81",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-10-09T09:51:29Z",
       "side": 1,
       "message": "Mmm, this is a `Stream` object; it would just print a reference, I believe.\nShould we just log the excluded file: `excludedFile.get()` instead?",
+      "range": {
+        "startLine": 642,
+        "startChar": 22,
+        "endLine": 642,
+        "endChar": 43
+      },
+      "revId": "8b057f0d9b90e5149f30373b500b2956124a466d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c89e717_6cd76106",
+        "filename": "src/main/java/jenkins/plugins/gerrit/AbstractGerritSCMSource.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-09T10:44:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97ba5415_17312a81",
       "range": {
         "startLine": 642,
         "startChar": 22,
