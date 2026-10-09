@@ -651,7 +651,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
             listener
                 .getLogger()
                 .printf(
-                    "Skipping Change %d / Patch-Set %d because remote ref %s or %s was not found in advertised object ids (patchSetRemoteObjectId=%s, targetRemoteObjectId=%s)\n",
+                    "Skipping Change %d / Patch-Set %d because remote ref %s or %s was not found in advertised object ids (patchSetRemoteObjectId=%s, targetRemoteObjectId=%s)%n",
                     changeNum,
                     patchSet,
                     patchSetRemoteRefName,
@@ -675,7 +675,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
               listener
                   .getLogger()
                   .printf(
-                      "Skipping Change %d / Patch-Set %d because includes indirect modifications to %s which are excluded by query: %s%s\n",
+                      "Skipping Change %d / Patch-Set %d because includes indirect modifications to %s which are excluded by query: %s%s%n",
                       changeNum,
                       patchSet,
                       diffWithExcludedFiles,
@@ -693,7 +693,7 @@ public abstract class AbstractGerritSCMSource extends AbstractGitSCMSource {
           listener
               .getLogger()
               .printf(
-                  "Unable to check refs %s because of an error trying to filter the refs: %s\n",
+                  "Unable to check refs %s because of an error trying to filter the refs: %s%n",
                   gitRefs.keySet(), e.getMessage());
         }
       } else {
