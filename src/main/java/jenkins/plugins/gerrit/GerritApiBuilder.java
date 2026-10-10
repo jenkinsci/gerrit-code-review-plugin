@@ -100,6 +100,8 @@ public class GerritApiBuilder {
       if (Boolean.TRUE.equals(insecureHttps)) {
         extensions.add(SSLNoVerifyCertificateManagerClientBuilderExtension.INSTANCE);
       }
+      // Keep the bounded RequestConfig authoritative over every other extension.
+      extensions.add(GerritHttpClientConfig.INSTANCE);
       gerritApi =
           new GerritRestApiFactory()
               .create(

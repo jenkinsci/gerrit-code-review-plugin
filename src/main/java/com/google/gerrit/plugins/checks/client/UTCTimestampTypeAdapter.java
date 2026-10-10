@@ -9,32 +9,37 @@ import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
+import java.time.temporal.ChronoField;
 import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * Format {@link java.sql.Timestamp} objects to JSON string representation compatible with the
  * Gerrit API.
  */
 class UTCTimestampTypeAdapter extends TypeAdapter<Timestamp> {
-  private final DateFormat utcDateFormat;
+  private static final DateTimeFormatter UTC_MILLISECOND_FORMAT =
+      DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss.SSS", Locale.US).withZone(UTC);
+  private static final DateTimeFormatter UTC_RESPONSE_FORMAT =
+      new DateTimeFormatterBuilder()
+          .appendPattern("uuuu-MM-dd HH:mm:ss")
+          .appendFraction(ChronoField.NANO_OF_SECOND, 3, 9, true)
+          .toFormatter(Locale.US)
+          .withResolverStyle(ResolverStyle.STRICT);
 
-  public UTCTimestampTypeAdapter() {
-    super();
-    utcDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.US);
-    utcDateFormat.setTimeZone(TimeZone.getTimeZone(UTC));
-  }
+  public UTCTimestampTypeAdapter() {}
 
   @Override
   public void write(JsonWriter out, Timestamp date) throws IOException {
     if (date == null) {
       out.nullValue();
     } else {
-      out.value(utcDateFormat.format(date));
+      // Keep the established request contract: Gerrit accepts millisecond-width fractions.
+      out.value(UTC_MILLISECOND_FORMAT.format(date.toInstant()));
     }
   }
 
@@ -46,10 +51,11 @@ class UTCTimestampTypeAdapter extends TypeAdapter<Timestamp> {
     }
 
     try {
-      Calendar utcCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-      utcCalendar.setTimeInMillis(utcDateFormat.parse(in.nextString()).getTime());
-      return Timestamp.from(utcCalendar.toInstant());
-    } catch (ParseException e) {
+      // Gerrit pads millisecond precision to nine fractional digits. Parse the field as a fraction
+      // of one second; SimpleDateFormat would incorrectly treat all digits as milliseconds.
+      LocalDateTime value = LocalDateTime.parse(in.nextString(), UTC_RESPONSE_FORMAT);
+      return Timestamp.from(value.toInstant(UTC));
+    } catch (DateTimeParseException e) {
       throw new JsonParseException(e);
     }
   }
