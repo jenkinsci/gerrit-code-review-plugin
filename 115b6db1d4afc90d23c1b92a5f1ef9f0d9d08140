@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dd63e5c_bfc7d521",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039883
+      },
+      "writtenOn": "2026-10-13T11:47:21Z",
+      "side": 1,
+      "message": "I cherry-picked this change onto the master branch and tested it on our internal server, and it makes “Scan Multibranch Pipeline” about 4x faster.\n\nSince this change is quite small compared to the others in this chain, would it be possible to break it out on top of master and submit it separately, so we can benefit from the performance improvement?",
+      "revId": "115b6db1d4afc90d23c1b92a5f1ef9f0d9d08140",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
